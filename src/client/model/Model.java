@@ -1,4 +1,6 @@
 package client.model;
 
-public interface Model {
+import util.UnnamedPropertyChangeSubject;
+
+public interface Model extends UnnamedPropertyChangeSubject {
 }
