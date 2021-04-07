@@ -1,8 +1,11 @@
 package client.viewmodel;
 
 import client.model.Model;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import server.model.Address;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -17,10 +20,11 @@ public class RegisterViewModel implements PropertyChangeListener {
     private StringProperty confirmPassword;
     private StringProperty street;
     private StringProperty number;
-    private StringProperty zipCode;
+    private IntegerProperty zipCode;
     private StringProperty city;
     private StringProperty phone;
     private StringProperty email;
+    private StringProperty error;
     
     public RegisterViewModel(Model model) {
         this.model = model;
@@ -32,10 +36,11 @@ public class RegisterViewModel implements PropertyChangeListener {
         confirmPassword = new SimpleStringProperty();
         street = new SimpleStringProperty();
         number = new SimpleStringProperty();
-        zipCode = new SimpleStringProperty();
+        zipCode = new SimpleIntegerProperty();
         city = new SimpleStringProperty();
         phone = new SimpleStringProperty();
         email = new SimpleStringProperty();
+        error = new SimpleStringProperty();
         model.addListener(this);
     }
     
@@ -75,7 +80,7 @@ public class RegisterViewModel implements PropertyChangeListener {
         return number;
     }
     
-    public StringProperty getZipCodeProperty() {
+    public IntegerProperty getZipCodeProperty() {
         return zipCode;
     }
     
@@ -91,8 +96,13 @@ public class RegisterViewModel implements PropertyChangeListener {
         return email;
     }
     
-    public void register() {
+    public StringProperty getErrorProperty() {
+        return error;
+    }
     
+    public void register() {
+        Address address = new Address(street.get(), number.get(), zipCode.get(), city.get());
+        model.register(cpr.get(), password.get(), firstName.get(), middleName.get(), lastName.get(), address, phone.get(), email.get());
     }
     
     @Override

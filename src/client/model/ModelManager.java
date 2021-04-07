@@ -34,10 +34,4 @@ public class ModelManager implements Model
     patients.add(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email));
   }
 
-  @Override public void register(String cpr, String password, String firstName, String lastName, Address address, String phone, String email)
-  {
-    // TODO check for CPR
-    patients.add(new Patient(cpr, password, firstName, lastName, address, phone, email));
-  }
-
 }
