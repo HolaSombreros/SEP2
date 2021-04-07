@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -28,8 +29,14 @@
       </HBox>
       <AnchorPane prefHeight="385.0" prefWidth="400.0">
          <children>
-            <JFXTextField fx:id="usernameField" focusColor="#11c0fa" layoutX="107.0" layoutY="79.0" prefHeight="25.0" prefWidth="187.0" promptText="Username" />
-            <JFXPasswordField fx:id="passwordField" focusColor="#11c0fa" layoutX="107.0" layoutY="145.0" prefHeight="25.0" prefWidth="187.0" promptText="Password" />
+            <JFXTextField fx:id="usernameField" focusColor="#11c0fa" layoutX="107.0" layoutY="79.0" prefHeight="25.0" prefWidth="187.0" promptText="Username">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></JFXTextField>
+            <JFXPasswordField fx:id="passwordField" focusColor="#11c0fa" layoutX="107.0" layoutY="145.0" prefHeight="25.0" prefWidth="187.0" promptText="Password">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></JFXPasswordField>
             <Label alignment="CENTER" layoutX="107.0" layoutY="268.0" prefHeight="17.0" prefWidth="187.0" text="Don't have an account?" textFill="#11c0fa">
                <font>
                   <Font size="14.0" />
@@ -39,8 +46,14 @@
                <font>
                   <Font name="Cambria" size="14.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Label>
-            <ChoiceBox fx:id="loginChoice" accessibleRole="BUTTON" accessibleText="Log in " layoutX="136.0" layoutY="208.0" onMouseClicked="#login" prefHeight="25.0" prefWidth="129.0" style="-fx-background-color: #11c0fa; -fx-background-radius: 10px;" />
+            <ChoiceBox fx:id="loginChoice" accessibleRole="BUTTON" accessibleText="Log in " layoutX="136.0" layoutY="208.0" onMouseClicked="#login" prefHeight="25.0" prefWidth="129.0" style="-fx-background-color: #11c0fa; -fx-background-radius: 10px;">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></ChoiceBox>
             <Label fx:id="errorLabel" alignment="CENTER" layoutX="59.0" layoutY="332.0" prefHeight="20.0" prefWidth="298.0" text="ErrorLabel" textFill="#ff1c1c">
                <font>
                   <Font size="14.0" />
