@@ -27,6 +27,5 @@ public class RegisterViewController extends ViewController {
     
     @FXML
     private void login() {
-    
     }
 }

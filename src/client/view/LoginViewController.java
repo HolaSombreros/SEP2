@@ -33,7 +33,8 @@ public class LoginViewController extends ViewController {
         viewModel.reset();
     }
 
-    public void register(MouseEvent mouseEvent) {
+    public void register() {
+        getViewHandler().openView(View.REGISTER);
     }
 
     public void login(MouseEvent mouseEvent) {
