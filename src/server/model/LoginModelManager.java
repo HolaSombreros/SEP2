@@ -6,25 +6,25 @@ import java.sql.*;
 
 public class LoginModelManager implements LoginModel
 {
-    private UsersList usersLoggedIn;
+    private UsersList usersRegistered;
     private PropertyChangeSupport property;
 
     public LoginModelManager(){
         property = new PropertyChangeSupport(this);
-        usersLoggedIn = new UsersList();
+        usersRegistered = new UsersList();
     }
 
     @Override
     public void login(Patient user)
     {
         ServerMessage message;
-        if(usersLoggedIn.getUsersList().contains(user)){
-            message = new ServerMessage("error", null, null,"Username already exists");
+        if(!usersRegistered.getUsersList().contains(user)){
+            message = new ServerMessage("error", null, null,"Not registered in the system");
             property.firePropertyChange("error", null, message);
 
         }
         else{
-            usersLoggedIn.addUser(user);
+            usersRegistered.addUser(user);
             message = new ServerMessage("login", user.getCpr(), user.getPassword(), "Successfully connected to the server");
             property.firePropertyChange("login",null, message);
         }
@@ -41,7 +41,7 @@ public class LoginModelManager implements LoginModel
     @Override
     public UsersList getOnlineUsers()
     {
-        return usersLoggedIn;
+        return usersRegistered;
     }
 
     @Override
