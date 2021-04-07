@@ -26,17 +26,6 @@ public class Patient
     setEmail(email);
   }
 
-  public Patient(String cpr, String password, String firstName, String lastName, Address address, String phone, String email)
-  {
-    setCpr(cpr);
-    setPassword(password);
-    setFirstName(firstName);
-    setLastName(lastName);
-    setAddress(address);
-    setPhone(phone);
-    setEmail(email);
-  }
-
   public String getCpr()
   {
     return cpr;

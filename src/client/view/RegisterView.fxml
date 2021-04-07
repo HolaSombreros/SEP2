@@ -31,7 +31,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="firstNameInputField" promptText="*">
+                  <TextField fx:id="firstNameInputField" promptText="*" onAction="#onEnter">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -47,7 +47,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="middleNameInputField">
+                  <TextField fx:id="middleNameInputField" onAction="#onEnter">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -63,7 +63,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="lastNameInputField" promptText="*">
+                  <TextField fx:id="lastNameInputField" promptText="*" onAction="#onEnter">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -79,7 +79,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="cprInputField" promptText="*">
+                  <TextField fx:id="cprInputField" promptText="*" onAction="#onEnter">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -95,7 +95,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="passwordInputField" promptText="* (at least 6 characters)">
+                  <TextField fx:id="passwordInputField" promptText="* (at least 6 characters)" onAction="#onEnter">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -111,7 +111,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="confirmPasswordInputField" promptText="*">
+                  <TextField fx:id="confirmPasswordInputField" promptText="*" onAction="#onEnter">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -134,7 +134,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="steetInputField" promptText="*">
+                  <TextField fx:id="steetInputField" promptText="*" onAction="#onEnter">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -154,7 +154,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField fx:id="numberInputField" maxWidth="80.0" promptText="*">
+                              <TextField fx:id="numberInputField" maxWidth="80.0" promptText="*" onAction="#onEnter">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -171,7 +171,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField fx:id="zipCodeInputField" maxWidth="155.0" promptText="*">
+                              <TextField fx:id="zipCodeInputField" maxWidth="155.0" promptText="*" onAction="#onEnter">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -191,7 +191,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="cityInputField" promptText="*">
+                  <TextField fx:id="cityInputField" promptText="*" onAction="#onEnter">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -207,7 +207,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="phoneInputField" promptText="*">
+                  <TextField fx:id="phoneInputField" promptText="*" onAction="#onEnter">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -223,7 +223,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="emailInputField" promptText="*">
+                  <TextField fx:id="emailInputField" promptText="*" onAction="#onEnter">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -238,13 +238,20 @@
             </VBox>
          </children>
       </HBox>
-      <VBox alignment="CENTER_LEFT" />
+      <Label fx:id="errorLabel" style="-fx-font-weight: bold; -fx-text-fill: red;" text="Error label">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </Label>
       <Button minHeight="40.0" minWidth="205.0" mnemonicParsing="false" onAction="#register" text="Register">
          <font>
             <Font size="14.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="10.0" top="20.0" />
+            <Insets bottom="10.0" top="10.0" />
          </VBox.margin>
          <cursor>
             <Cursor fx:constant="HAND" />

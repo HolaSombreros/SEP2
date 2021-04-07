@@ -1,8 +1,12 @@
 package client.view;
 
 import client.viewmodel.RegisterViewModel;
+import javafx.beans.binding.Bindings;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import util.IntStringConverter;
 
 public class RegisterViewController extends ViewController {
     private RegisterViewModel viewModel;
@@ -19,6 +23,7 @@ public class RegisterViewController extends ViewController {
     @FXML private TextField cityInputField;
     @FXML private TextField phoneInputField;
     @FXML private TextField emailInputField;
+    @FXML private Label errorLabel;
     
     public RegisterViewController() {
     
@@ -35,10 +40,11 @@ public class RegisterViewController extends ViewController {
         confirmPasswordInputField.textProperty().bindBidirectional(viewModel.getConfirmPasswordProperty());
         steetInputField.textProperty().bindBidirectional(viewModel.getStreetProperty());
         numberInputField.textProperty().bindBidirectional(viewModel.getNumberProperty());
-        zipCodeInputField.textProperty().bindBidirectional(viewModel.getZipCodeProperty());
+        Bindings.bindBidirectional(zipCodeInputField.textProperty(), viewModel.getZipCodeProperty(), new IntStringConverter());
         cityInputField.textProperty().bindBidirectional(viewModel.getCityProperty());
         phoneInputField.textProperty().bindBidirectional(viewModel.getPhoneProperty());
         emailInputField.textProperty().bindBidirectional(viewModel.getEmailProperty());
+        errorLabel.textProperty().bind(viewModel.getErrorProperty());
     }
     
     @Override
@@ -54,5 +60,45 @@ public class RegisterViewController extends ViewController {
     @FXML
     private void login() {
         getViewHandler().openView(View.LOGIN);
+    }
+    
+    @FXML
+    private void onEnter(Event event) {
+        if (event.getSource() == firstNameInputField) {
+            middleNameInputField.requestFocus();
+        }
+        else if (event.getSource() == middleNameInputField) {
+            lastNameInputField.requestFocus();
+        }
+        else if (event.getSource() == lastNameInputField) {
+            cprInputField.requestFocus();
+        }
+        else if (event.getSource() == cprInputField) {
+            passwordInputField.requestFocus();
+        }
+        else if (event.getSource() == passwordInputField) {
+            confirmPasswordInputField.requestFocus();
+        }
+        else if (event.getSource() == confirmPasswordInputField) {
+            steetInputField.requestFocus();
+        }
+        else if (event.getSource() == steetInputField) {
+            numberInputField.requestFocus();
+        }
+        else if (event.getSource() == numberInputField) {
+            zipCodeInputField.requestFocus();
+        }
+        else if (event.getSource() == zipCodeInputField) {
+            cityInputField.requestFocus();
+        }
+        else if (event.getSource() == cityInputField) {
+            phoneInputField.requestFocus();
+        }
+        else if (event.getSource() == phoneInputField) {
+            emailInputField.requestFocus();
+        }
+        else if (event.getSource() == emailInputField) {
+            register();
+        }
     }
 }
