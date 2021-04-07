@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="client.view.LoginViewController"
-            prefHeight="400.0" prefWidth="600.0">
 
-</AnchorPane>
+<VBox alignment="TOP_CENTER" prefHeight="450.0" prefWidth="400.0"
+      style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="client.view.LoginViewController">
+   <children>
+      <Label alignment="CENTER" prefHeight="40.0" prefWidth="143.0" text="LOGIN" textFill="WHITE">
+         <font>
+            <Font name="Constantia Bold" size="30.0" />
+         </font>
+         <VBox.margin>
+            <Insets top="25.0" />
+         </VBox.margin>
+      </Label>
+      <HBox prefHeight="10.0" prefWidth="400.0">
+         <children>
+            <VBox prefHeight="20.0" prefWidth="129.0" />
+            <VBox prefHeight="10.0" prefWidth="136.0" style="-fx-background-color: #11c0fa; -fx-background-radius: 25px;" />
+         </children>
+      </HBox>
+      <AnchorPane prefHeight="385.0" prefWidth="400.0">
+         <children>
+            <JFXTextField fx:id="usernameField" focusColor="#11c0fa" layoutX="107.0" layoutY="79.0" prefHeight="25.0" prefWidth="187.0" promptText="Username" />
+            <JFXPasswordField fx:id="passwordField" focusColor="#11c0fa" layoutX="107.0" layoutY="145.0" prefHeight="25.0" prefWidth="187.0" promptText="Password" />
+            <Label alignment="CENTER" layoutX="107.0" layoutY="268.0" prefHeight="17.0" prefWidth="187.0" text="Don't have an account?" textFill="#11c0fa">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="159.0" layoutY="288.0" onMouseClicked="#register" text="Register now!" textFill="#11c0fa" underline="true">
+               <font>
+                  <Font name="Cambria" size="14.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="loginChoice" accessibleRole="BUTTON" accessibleText="Log in " layoutX="136.0" layoutY="208.0" onMouseClicked="#login" prefHeight="25.0" prefWidth="129.0" style="-fx-background-color: #11c0fa; -fx-background-radius: 10px;" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
