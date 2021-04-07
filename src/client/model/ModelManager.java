@@ -1,4 +1,4 @@
 package client.model;
 
-public class ModelManager implements Model{
+public class ModelManager implements Model {
 }

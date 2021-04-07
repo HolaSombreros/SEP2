@@ -8,27 +8,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class ViewCreator {
-
-    private Map<View, ViewController> viewControllerMap;
-
+    private Map<View, ViewController> viewControllers;
+    
     public ViewCreator() {
-        viewControllerMap = new HashMap<>();
+        viewControllers = new HashMap<>();
     }
-
+    
     public ViewController getViewController(View view) {
-        ViewController controller = viewControllerMap.get(view);
+        ViewController controller = viewControllers.get(view);
         if (controller == null) {
             controller = loadFromFXML(view.getFxmlFile());
-            viewControllerMap.put(view, controller);
+            viewControllers.put(view, controller);
         }
         else {
-            viewControllerMap.get(view).reset();
+            viewControllers.get(view).reset();
         }
         return controller;
     }
-
+    
     protected abstract void initViewController(ViewController controller, Region root);
-
+    
     private ViewController loadFromFXML(String fxmlFile) {
         ViewController viewController = null;
         try {
@@ -44,5 +43,4 @@ public abstract class ViewCreator {
         }
         return viewController;
     }
-
 }
