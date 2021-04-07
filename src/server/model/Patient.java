@@ -33,6 +33,8 @@ public class Patient
 
   public void setCpr(String cpr)
   {
+    if (cpr == null || cpr.equals(""))
+      throw new IllegalArgumentException("Please enter your CPR");
     if (cpr.contains("-"))
       cpr = cpr.replace("-", "");
     if (cpr.length() != 10)
@@ -55,6 +57,8 @@ public class Patient
 
   public void setPassword(String password)
   {
+    if (password == null || password.equals(""))
+      throw new IllegalArgumentException("Please enter a password between 6 and 20 characters");
     if (password.length()<6)
       throw new IllegalArgumentException("The password must contain at least 6 characters");
     if (password.length()>20)
@@ -92,8 +96,12 @@ public class Patient
   public void setLastName(String lastName)
   {
     if (lastName == null || lastName.equals(""))
-      throw new IllegalArgumentException("Please enter your first name");
+      throw new IllegalArgumentException("Please enter your last name");
     this.lastName = lastName;
+  }
+  
+  public String getFullName() {
+    return middleName == null ? firstName + " " + lastName : firstName + " " + middleName + " " + lastName;
   }
 
   public Address getAddress()
@@ -113,6 +121,8 @@ public class Patient
 
   public void setPhone(String phone)
   {
+    if (phone == null || phone.equals(""))
+      throw new IllegalArgumentException("Please enter your phone number");
     try
     {
       long number = Long.parseLong(phone.replace("+", ""));
@@ -131,12 +141,13 @@ public class Patient
 
   public void setEmail(String email)
   {
+    if (email == null || email.equals(""))
+      throw new IllegalArgumentException("Please enter your email address");
     String emailValidation = "^[A-Za-z0-9+_.-]+@(?:[a-zA-Z0-9-]+.)+[a-zA-Z]{2,6}$";
     Pattern pattern = Pattern.compile(emailValidation);
     Matcher matcher = pattern.matcher(email);
-    System.out.println(email);
-     if (!matcher.matches())
-    throw new IllegalArgumentException("The email is not valid");
+    if (!matcher.matches())
+      throw new IllegalArgumentException("The email is not valid");
      this.email = email;
   }
 

@@ -17,7 +17,6 @@ public class RegisterViewModel implements PropertyChangeListener {
     private StringProperty lastName;
     private StringProperty cpr;
     private StringProperty password;
-    private StringProperty confirmPassword;
     private StringProperty street;
     private StringProperty number;
     private IntegerProperty zipCode;
@@ -33,7 +32,6 @@ public class RegisterViewModel implements PropertyChangeListener {
         lastName = new SimpleStringProperty();
         cpr = new SimpleStringProperty();
         password = new SimpleStringProperty();
-        confirmPassword = new SimpleStringProperty();
         street = new SimpleStringProperty();
         number = new SimpleStringProperty();
         zipCode = new SimpleIntegerProperty();
@@ -45,7 +43,18 @@ public class RegisterViewModel implements PropertyChangeListener {
     }
     
     public void reset() {
-    
+        firstName.set("");
+        middleName.set("");
+        lastName.set("");
+        cpr.set("");
+        password.set("");
+        street.set("");
+        number.set("");
+        zipCode.setValue(null);
+        city.set("");
+        phone.set("");
+        email.set("");
+        error.set("");
     }
     
     public StringProperty getFirstNameProperty() {
@@ -66,10 +75,6 @@ public class RegisterViewModel implements PropertyChangeListener {
     
     public StringProperty getPasswordProperty() {
         return password;
-    }
-    
-    public StringProperty getConfirmPasswordProperty() {
-        return confirmPassword;
     }
     
     public StringProperty getStreetProperty() {
@@ -101,8 +106,14 @@ public class RegisterViewModel implements PropertyChangeListener {
     }
     
     public void register() {
-        Address address = new Address(street.get(), number.get(), zipCode.get(), city.get());
-        model.register(cpr.get(), password.get(), firstName.get(), middleName.get(), lastName.get(), address, phone.get(), email.get());
+        try {
+            Address address = new Address(street.get(), number.get(), zipCode.get(), city.get());
+            model.register(cpr.get(), password.get(), firstName.get(), middleName.get(), lastName.get(), address, phone.get(), email.get());
+            error.set("");
+        }
+        catch (Exception e) {
+            error.set(e.getMessage());
+        }
     }
     
     @Override
