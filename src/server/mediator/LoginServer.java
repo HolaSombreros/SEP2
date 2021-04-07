@@ -4,6 +4,7 @@ import server.model.*;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
 
 public class LoginServer extends UnicastRemoteObject implements LoginModel
 {
@@ -28,6 +29,12 @@ public class LoginServer extends UnicastRemoteObject implements LoginModel
 
     @Override
     public UsersList getOnlineUsers() throws RemoteException
+    {
+        return null;
+    }
+
+    @Override
+    public Patient readByCpr(String cpr) throws RemoteException, SQLException
     {
         return null;
     }
