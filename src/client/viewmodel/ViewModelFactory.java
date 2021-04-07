@@ -4,7 +4,7 @@ import client.model.Model;
 
 public class ViewModelFactory {
     private RegisterViewModel registerViewModel;
-        private LoginViewModel loginViewModel;
+    private LoginViewModel loginViewModel;
     
     public ViewModelFactory(Model model) {
         registerViewModel = new RegisterViewModel(model);

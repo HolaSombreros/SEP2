@@ -18,19 +18,19 @@ public class LoginViewModel {
         errorProperty = new SimpleStringProperty("");
     }
 
-    public void clear(){
+    public void reset(){
         errorProperty.setValue("");
     }
 
-    public StringProperty usernameProperty() {
+    public StringProperty getUsernameProperty() {
         return usernameProperty;
     }
 
-    public StringProperty passwordProperty() {
+    public StringProperty getPasswordProperty() {
         return passwordProperty;
     }
 
-    public StringProperty errorProperty() {
+    public StringProperty getErrorProperty() {
         return errorProperty;
     }
 }

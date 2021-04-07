@@ -10,10 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox alignment="TOP_CENTER" prefHeight="450.0" prefWidth="400.0"
-      style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="client.view.LoginViewController">
+<VBox alignment="TOP_CENTER" prefHeight="450.0" prefWidth="400.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.LoginViewController">
    <children>
       <Label alignment="CENTER" prefHeight="40.0" prefWidth="143.0" text="LOGIN" textFill="WHITE">
          <font>
@@ -44,6 +41,11 @@
                </font>
             </Label>
             <ChoiceBox fx:id="loginChoice" accessibleRole="BUTTON" accessibleText="Log in " layoutX="136.0" layoutY="208.0" onMouseClicked="#login" prefHeight="25.0" prefWidth="129.0" style="-fx-background-color: #11c0fa; -fx-background-radius: 10px;" />
+            <Label fx:id="errorLabel" alignment="CENTER" layoutX="59.0" layoutY="332.0" prefHeight="20.0" prefWidth="298.0" text="ErrorLabel" textFill="#ff1c1c">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>
