@@ -14,7 +14,7 @@ public class LoginModelManager implements LoginModel
     }
 
     @Override
-    public void login(User user)
+    public void login(Patient user)
     {
         ServerMessage message;
         if(users.getUsersList().contains(user)){
@@ -23,7 +23,7 @@ public class LoginModelManager implements LoginModel
         }
         else{
             users.addUser(user);
-            message = new ServerMessage("login", user.getUsername(), user.getPassword(), "Successfully connected to the server");
+            message = new ServerMessage("login", user.getCpr(), user.getPassword(), "Successfully connected to the server");
             property.firePropertyChange("login",null, message);
         }
     }
