@@ -15,16 +15,22 @@ public class LoginViewModel {
 
     public LoginViewModel(Model model) {
         this.model = model;
-        usernameProperty = new SimpleStringProperty();
-        passwordProperty = new SimpleStringProperty();
+        usernameProperty = new SimpleStringProperty("");
+        passwordProperty = new SimpleStringProperty("");
         errorProperty = new SimpleStringProperty("");
     }
 
     public boolean login(){
+        if(usernameProperty.get().equals("") || passwordProperty.get().equals("")) {
+            errorProperty.setValue("Please enter a valid Cpr or Password");
+            return false;
+        }
         if(model.getPatientByCpr(usernameProperty.toString().trim()) instanceof Nurse || model.getPatientByCpr(usernameProperty.toString().trim()) instanceof Administrator)
             return true;
-        else
+        else{
+            errorProperty.setValue("Successfully logged in as a Patient");
             return false;
+        }
     }
 
     public void reset(){
