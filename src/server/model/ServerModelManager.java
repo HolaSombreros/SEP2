@@ -23,12 +23,21 @@ public class ServerModelManager implements ServerModel
         if(!usersList.getUsersList().contains(user)){
             message = new ServerMessage("error", null, null,"Not registered in the system");
             property.firePropertyChange("error", null, message);
-
         }
         else{
+            if(user instanceof Nurse){
+                message = new ServerMessage("loginNurse", user.getCpr(),user.getPassword(),"Successfully connected to the server");
+                property.firePropertyChange("loginNurse", null, message);
+            }
+            else if(user instanceof Administrator){
+                message = new ServerMessage("loginAdministrator", user.getCpr(),user.getPassword(),"Successfully connected to the server");
+                property.firePropertyChange("loginAdministrator", null, message);
+            }
+            else if(user instanceof Patient){
+                message = new ServerMessage("login", user.getCpr(), user.getPassword(), "Successfully connected to the server");
+                property.firePropertyChange("login",null, message);
+            }
             usersList.addUser(user);
-            message = new ServerMessage("login", user.getCpr(), user.getPassword(), "Successfully connected to the server");
-            property.firePropertyChange("login",null, message);
         }
         // TODO: LOGIN based on DBS
     }
