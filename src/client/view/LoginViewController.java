@@ -24,7 +24,7 @@ public class LoginViewController extends ViewController {
         viewModel = getViewModelFactory().getLoginViewModel();
         usernameField.textProperty().bindBidirectional(viewModel.getUsernameProperty());
         passwordField.textProperty().bindBidirectional(viewModel.getPasswordProperty());
-        errorLabel.textProperty().bindBidirectional(viewModel.getErrorProperty());
+        errorLabel.textProperty().bind(viewModel.getErrorProperty());
     }
 
     @Override
@@ -37,10 +37,9 @@ public class LoginViewController extends ViewController {
     }
 
     public void login() {
-        if(viewModel.login())
+        if (viewModel.login())
             getViewHandler().openView(View.LOGINCHOICE);
-        else
-            errorLabel.setText("Successfully logged in as a Patient");
+       //TODO: else open view for Patient
 
     }
 }
