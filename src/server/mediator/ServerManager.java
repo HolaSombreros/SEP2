@@ -46,4 +46,9 @@ public class ServerManager extends UnicastRemoteObject implements ServerModel
     {
         return null;
     }
+
+    @Override public void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email)
+    {
+
+    }
 }
