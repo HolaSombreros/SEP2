@@ -29,6 +29,8 @@ public class LoginViewModel {
 
     public void reset(){
         errorProperty.setValue("");
+        usernameProperty.setValue("");
+        passwordProperty.setValue("");
     }
 
     public StringProperty getUsernameProperty() {

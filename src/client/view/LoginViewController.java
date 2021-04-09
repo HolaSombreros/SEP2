@@ -41,5 +41,6 @@ public class LoginViewController extends ViewController {
             getViewHandler().openView(View.LOGINCHOICE);
         else
             errorLabel.setText("Successfully logged in as a Patient");
+
     }
 }
