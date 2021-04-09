@@ -12,6 +12,6 @@ public interface ServerModel extends Remote
     void sendServerMessage(ServerMessage message) throws RemoteException;
     UsersList getRegisteredUsers() throws RemoteException;
     Patient readByCpr(String cpr) throws  RemoteException, SQLException;
-    ArrayList<Patient> loadFromDatabasePatients() throws RemoteException, SQLException;
+    UsersList loadFromDatabasePatients() throws RemoteException, SQLException;
 
 }

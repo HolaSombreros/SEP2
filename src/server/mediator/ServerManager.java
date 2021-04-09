@@ -42,7 +42,7 @@ public class ServerManager extends UnicastRemoteObject implements ServerModel
     }
 
     @Override
-    public ArrayList<Patient> loadFromDatabasePatients() throws RemoteException, SQLException
+    public UsersList loadFromDatabasePatients() throws RemoteException, SQLException
     {
         return null;
     }

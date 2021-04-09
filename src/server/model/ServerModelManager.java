@@ -3,7 +3,6 @@ package server.model;
 import java.beans.PropertyChangeSupport;
 import java.rmi.RemoteException;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class ServerModelManager implements ServerModel
 {
@@ -73,7 +72,7 @@ public class ServerModelManager implements ServerModel
     }
 
     @Override
-    public ArrayList<Patient> loadFromDatabasePatients() throws RemoteException, SQLException
+    public UsersList loadFromDatabasePatients() throws RemoteException, SQLException
     {
         try(Connection connection = getConnection()){
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM Users");
@@ -88,10 +87,10 @@ public class ServerModelManager implements ServerModel
                 String phone = resultSet.getString("phone");
                 String email = resultSet.getString("email");
                 usersRegistered.getUsersList().add( new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email));
-                return usersRegistered.getUsersList();
+                return usersRegistered;
             }
             else{
-                throw new IllegalStateException("No existing registered Patient with this CPR");
+                throw new IllegalStateException("Not loaded from DBS");
             }
         }
     }
