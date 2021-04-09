@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public interface Model extends UnnamedPropertyChangeSubject {
   void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email);
+  void login(String cpr, String password);
   ArrayList<Patient> getPatients();
   Patient getPatientByCpr(String CPR);
 }
