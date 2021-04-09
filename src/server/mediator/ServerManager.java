@@ -5,11 +5,12 @@ import server.model.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-public class LoginServer extends UnicastRemoteObject implements LoginModel
+public class ServerManager extends UnicastRemoteObject implements ServerModel
 {
 
-    public LoginServer() throws RemoteException
+    public ServerManager() throws RemoteException
     {
         super();
 
@@ -27,14 +28,21 @@ public class LoginServer extends UnicastRemoteObject implements LoginModel
 
     }
 
+
     @Override
-    public UsersList getOnlineUsers() throws RemoteException
+    public UsersList getRegisteredUsers() throws RemoteException
     {
         return null;
     }
 
     @Override
     public Patient readByCpr(String cpr) throws RemoteException, SQLException
+    {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Patient> loadFromDatabasePatients() throws RemoteException, SQLException
     {
         return null;
     }

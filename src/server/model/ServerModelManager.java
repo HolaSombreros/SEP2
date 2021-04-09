@@ -3,13 +3,14 @@ package server.model;
 import java.beans.PropertyChangeSupport;
 import java.rmi.RemoteException;
 import java.sql.*;
+import java.util.ArrayList;
 
-public class LoginModelManager implements LoginModel
+public class ServerModelManager implements ServerModel
 {
     private UsersList usersRegistered;
     private PropertyChangeSupport property;
 
-    public LoginModelManager(){
+    public ServerModelManager(){
         property = new PropertyChangeSupport(this);
         usersRegistered = new UsersList();
     }
@@ -39,7 +40,7 @@ public class LoginModelManager implements LoginModel
     }
 
     @Override
-    public UsersList getOnlineUsers()
+    public UsersList getRegisteredUsers()
     {
         return usersRegistered;
     }
@@ -70,6 +71,31 @@ public class LoginModelManager implements LoginModel
         }
 
     }
+
+    @Override
+    public ArrayList<Patient> loadFromDatabasePatients() throws RemoteException, SQLException
+    {
+        try(Connection connection = getConnection()){
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Users");
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()){
+                String cprResult =resultSet.getString("cpr");
+                String password = resultSet.getString("password");
+                String firstName = resultSet.getString("firstName");
+                String lastName = resultSet.getString("lastName");
+                String middleName = resultSet.getString("middleName");
+                Address address = resultSet.getObject("address", Address.class); //TODO: Address is going to be split up in the DBS :(
+                String phone = resultSet.getString("phone");
+                String email = resultSet.getString("email");
+                usersRegistered.getUsersList().add( new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email));
+                return usersRegistered.getUsersList();
+            }
+            else{
+                throw new IllegalStateException("No existing registered Patient with this CPR");
+            }
+        }
+    }
+
     private Connection getConnection() throws SQLException{
         return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres?currentSchema=jdbc", "postgres", "admin");
 
