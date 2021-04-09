@@ -56,13 +56,13 @@ public class Address
 
   public String getCity()
   {
-    if (city == null || city.equals(""))
-      throw new IllegalArgumentException("Please enter the city");
     return city;
   }
 
   public void setCity(String city)
   {
+    if (city == null || city.equals(""))
+      throw new IllegalArgumentException("Please enter the city");
     this.city = city;
   }
 

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="630.0" prefWidth="600.0" userData="Register an account" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.RegisterViewController">
+<VBox alignment="CENTER" prefHeight="600.0" prefWidth="600.0" userData="Register an account" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.RegisterViewController">
    <children>
       <Label text="Register">
          <font>
@@ -31,7 +31,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="firstNameInputField" promptText="*">
+                  <TextField fx:id="firstNameInputField" onAction="#onEnter" promptText="*">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -47,7 +47,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="middleNameInputField">
+                  <TextField fx:id="middleNameInputField" onAction="#onEnter">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -63,7 +63,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="lastNameInputField" promptText="*">
+                  <TextField fx:id="lastNameInputField" onAction="#onEnter" promptText="*">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -79,7 +79,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="cprInputField" promptText="*">
+                  <TextField fx:id="cprInputField" onAction="#onEnter" promptText="*">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -95,28 +95,12 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="passwordInputField" promptText="* (at least 6 characters)">
+                  <TextField fx:id="passwordInputField" onAction="#onEnter" promptText="* (at least 6 characters)">
                      <font>
                         <Font size="14.0" />
                      </font>
                      <VBox.margin>
                         <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <Label style="-fx-font-weight: bold;" text="Confirm Password">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="5.0" />
-                     </VBox.margin>
-                  </Label>
-                  <TextField fx:id="confirmPasswordInputField" promptText="*">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets />
                      </VBox.margin>
                   </TextField>
                </children>
@@ -134,7 +118,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="steetInputField" promptText="*">
+                  <TextField fx:id="steetInputField" onAction="#onEnter" promptText="*">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -154,7 +138,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField fx:id="numberInputField" maxWidth="80.0" promptText="*">
+                              <TextField fx:id="numberInputField" maxWidth="80.0" onAction="#onEnter" promptText="*">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -171,7 +155,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField fx:id="zipCodeInputField" maxWidth="155.0" promptText="*">
+                              <TextField fx:id="zipCodeInputField" maxWidth="155.0" onAction="#onEnter" promptText="*">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -191,7 +175,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="cityInputField" promptText="*">
+                  <TextField fx:id="cityInputField" onAction="#onEnter" promptText="*">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -207,7 +191,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="phoneInputField" promptText="*">
+                  <TextField fx:id="phoneInputField" onAction="#onEnter" promptText="*">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -223,7 +207,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="emailInputField" promptText="*">
+                  <TextField fx:id="emailInputField" onAction="#onEnter" promptText="*">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -238,13 +222,20 @@
             </VBox>
          </children>
       </HBox>
-      <VBox alignment="CENTER_LEFT" />
+      <Label fx:id="errorLabel" style="-fx-font-weight: bold; -fx-text-fill: red;" text="Error label">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </Label>
       <Button minHeight="40.0" minWidth="205.0" mnemonicParsing="false" onAction="#register" text="Register">
          <font>
             <Font size="14.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="10.0" top="20.0" />
+            <Insets bottom="10.0" top="10.0" />
          </VBox.margin>
          <cursor>
             <Cursor fx:constant="HAND" />

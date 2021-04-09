@@ -10,12 +10,6 @@ public class Nurse extends Patient
     setEmployeeId(employeeId);
   }
 
-  public Nurse(String cpr, String password, String firstName, String lastName, Address address, String phone, String email, String employeeId)
-  {
-    super(cpr, password, firstName, lastName, address, phone, email);
-    setEmployeeId(employeeId);
-  }
-
   public String getEmployeeId()
   {
     return employeeId;
