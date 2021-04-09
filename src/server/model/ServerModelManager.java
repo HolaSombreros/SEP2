@@ -95,6 +95,13 @@ public class ServerModelManager implements ServerModel
         }
     }
 
+    @Override public void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email)
+    {
+        //TODO check for CRP
+        usersRegistered.addUser(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email));
+        System.out.println("Registered patient!");
+    }
+
     private Connection getConnection() throws SQLException{
         return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres?currentSchema=jdbc", "postgres", "admin");
 

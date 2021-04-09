@@ -13,5 +13,5 @@ public interface ServerModel extends Remote
     UsersList getRegisteredUsers() throws RemoteException;
     Patient readByCpr(String cpr) throws  RemoteException, SQLException;
     UsersList loadFromDatabasePatients() throws RemoteException, SQLException;
-
+    void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email);
 }

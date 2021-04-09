@@ -28,11 +28,4 @@ public class ModelManager implements Model
     property.removePropertyChangeListener(listener);
   }
 
-  @Override public void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email)
-  {
-    //TODO check for CRP
-    patients.add(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email));
-    System.out.println("Registered patient!");
-  }
-
 }
