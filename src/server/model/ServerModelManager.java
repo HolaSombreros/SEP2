@@ -38,7 +38,6 @@ public class ServerModelManager implements ServerModel
                 message = new ServerMessage("login", user.getCpr(), user.getPassword(), successConnection);
                 property.firePropertyChange("loginPatient",null, message);
             }
-            usersList.addUser(user);
         }
         // TODO: LOGIN based on DBS
     }
