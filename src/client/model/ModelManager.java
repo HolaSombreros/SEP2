@@ -1,5 +1,6 @@
 package client.model;
 
+
 import server.model.Address;
 import server.model.Patient;
 
@@ -20,9 +21,22 @@ public class ModelManager implements Model
 
   @Override public void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email)
   {
-    //TODO check for CRP
+    //TODO check for CPR
     patients.add(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email));
     System.out.println("Registered patient!");
+  }
+
+  @Override
+  public ArrayList<Patient> getPatients() {
+    return patients;
+  }
+
+  @Override
+  public Patient getPatientByCpr(String CPR) {
+    for(Patient patient : patients)
+      if(patient.getCpr().equals(CPR))
+        return patient;
+    return null;
   }
 
   @Override public void addListener(PropertyChangeListener listener)
