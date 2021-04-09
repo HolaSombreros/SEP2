@@ -25,23 +25,51 @@ class PatientTest {
     }
     
     @Test
-    void setCprInvalidLength1() {
+    void setCprTooLong1() {
         assertThrows(IllegalArgumentException.class, () -> {
             patient1.setCpr("1805941-1234");
         });
     }
     
     @Test
-    void setCprInvalidLength2() {
+    void setCprTooLong2() {
         assertThrows(IllegalArgumentException.class, () -> {
             patient1.setCpr("180594-12345");
         });
     }
     
     @Test
-    void setCprInvalidLength3() {
+    void setCprTooLong3() {
         assertThrows(IllegalArgumentException.class, () -> {
             patient1.setCpr("1805941234567");
+        });
+    }
+    
+    @Test
+    void setCprTooShort1() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            patient1.setCpr("180594-123");
+        });
+    }
+    
+    @Test
+    void setCprTooShort2() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            patient1.setCpr("18059-1234");
+        });
+    }
+    
+    @Test
+    void setCprInvalidDay() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            patient1.setCpr("320594-1234");
+        });
+    }
+    
+    @Test
+    void setCprInvalidMonth() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            patient1.setCpr("181394-1234");
         });
     }
     
@@ -60,30 +88,44 @@ class PatientTest {
     }
     
     @Test
-    void setPasswordInvalidLength1() {
+    void setPasswordTooShort() {
         assertThrows(IllegalArgumentException.class, () -> {
             patient1.setPassword("1234");
         });
     }
     
     @Test
-    void setPasswordInvalidLength2() {
+    void setPasswordTooLong() {
         assertThrows(IllegalArgumentException.class, () -> {
             patient1.setPassword("123456789012345678901234567890");
         });
     }
     
     @Test
-    void setPasswordNull() {
+    void setInvalidEmail1() {
         assertThrows(IllegalArgumentException.class, () -> {
-            patient1.setPassword(null);
+            patient1.setEmail("123@com.d");
         });
     }
     
     @Test
-    void setPasswordEmpty() {
+    void setInvalidEmail2() {
         assertThrows(IllegalArgumentException.class, () -> {
-            patient1.setPassword("");
+            patient1.setEmail(" @asd.com");
+        });
+    }
+    
+    @Test
+    void setInvalidEmail3() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            patient1.setEmail("asd@ .com");
+        });
+    }
+    
+    @Test
+    void setInvalidEmail4() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            patient1.setEmail("d@d.c");
         });
     }
 }
