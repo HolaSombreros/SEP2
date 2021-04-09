@@ -28,25 +28,6 @@ public class ServerManager extends UnicastRemoteObject implements ServerModel
 
     }
 
-
-    @Override
-    public UsersList getRegisteredUsers() throws RemoteException
-    {
-        return null;
-    }
-
-    @Override
-    public Patient readByCpr(String cpr) throws RemoteException, SQLException
-    {
-        return null;
-    }
-
-    @Override
-    public UsersList loadFromDatabasePatients() throws RemoteException, SQLException
-    {
-        return null;
-    }
-
     @Override public void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email)
     {
 
