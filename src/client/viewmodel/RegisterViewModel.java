@@ -7,17 +7,13 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import server.model.Address;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-public class RegisterViewModel implements PropertyChangeListener {
+public class RegisterViewModel {
     private Model model;
     private StringProperty firstName;
     private StringProperty middleName;
     private StringProperty lastName;
     private StringProperty cpr;
     private StringProperty password;
-    private StringProperty confirmPassword;
     private StringProperty street;
     private StringProperty number;
     private IntegerProperty zipCode;
@@ -33,7 +29,6 @@ public class RegisterViewModel implements PropertyChangeListener {
         lastName = new SimpleStringProperty();
         cpr = new SimpleStringProperty();
         password = new SimpleStringProperty();
-        confirmPassword = new SimpleStringProperty();
         street = new SimpleStringProperty();
         number = new SimpleStringProperty();
         zipCode = new SimpleIntegerProperty();
@@ -41,11 +36,21 @@ public class RegisterViewModel implements PropertyChangeListener {
         phone = new SimpleStringProperty();
         email = new SimpleStringProperty();
         error = new SimpleStringProperty();
-        model.addListener(this);
     }
     
     public void reset() {
-    
+        firstName.set("");
+        middleName.set("");
+        lastName.set("");
+        cpr.set("");
+        password.set("");
+        street.set("");
+        number.set("");
+        zipCode.setValue(null);
+        city.set("");
+        phone.set("");
+        email.set("");
+        error.set("");
     }
     
     public StringProperty getFirstNameProperty() {
@@ -66,10 +71,6 @@ public class RegisterViewModel implements PropertyChangeListener {
     
     public StringProperty getPasswordProperty() {
         return password;
-    }
-    
-    public StringProperty getConfirmPasswordProperty() {
-        return confirmPassword;
     }
     
     public StringProperty getStreetProperty() {
@@ -100,13 +101,16 @@ public class RegisterViewModel implements PropertyChangeListener {
         return error;
     }
     
-    public void register() {
-        Address address = new Address(street.get(), number.get(), zipCode.get(), city.get());
-        model.register(cpr.get(), password.get(), firstName.get(), middleName.get(), lastName.get(), address, phone.get(), email.get());
-    }
-    
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-    
+    public boolean register() {
+        try {
+            Address address = new Address(street.get(), number.get(), zipCode.get(), city.get());
+            model.register(cpr.get(), password.get(), firstName.get(), middleName.get(), lastName.get(), address, phone.get(), email.get());
+            error.set("");
+            return true;
+        }
+        catch (Exception e) {
+            error.set(e.getMessage());
+            return false;
+        }
     }
 }

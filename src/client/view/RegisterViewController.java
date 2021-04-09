@@ -16,8 +16,7 @@ public class RegisterViewController extends ViewController {
     @FXML private TextField lastNameInputField;
     @FXML private TextField cprInputField;
     @FXML private TextField passwordInputField;
-    @FXML private TextField confirmPasswordInputField;
-    @FXML private TextField steetInputField;
+    @FXML private TextField streetInputField;
     @FXML private TextField numberInputField;
     @FXML private TextField zipCodeInputField;
     @FXML private TextField cityInputField;
@@ -37,8 +36,7 @@ public class RegisterViewController extends ViewController {
         lastNameInputField.textProperty().bindBidirectional(viewModel.getLastNameProperty());
         cprInputField.textProperty().bindBidirectional(viewModel.getCPRProperty());
         passwordInputField.textProperty().bindBidirectional(viewModel.getPasswordProperty());
-        confirmPasswordInputField.textProperty().bindBidirectional(viewModel.getConfirmPasswordProperty());
-        steetInputField.textProperty().bindBidirectional(viewModel.getStreetProperty());
+        streetInputField.textProperty().bindBidirectional(viewModel.getStreetProperty());
         numberInputField.textProperty().bindBidirectional(viewModel.getNumberProperty());
         Bindings.bindBidirectional(zipCodeInputField.textProperty(), viewModel.getZipCodeProperty(), new IntStringConverter());
         cityInputField.textProperty().bindBidirectional(viewModel.getCityProperty());
@@ -54,7 +52,9 @@ public class RegisterViewController extends ViewController {
     
     @FXML
     private void register() {
-        viewModel.register();
+        if (viewModel.register()) {
+            login();
+        }
     }
     
     @FXML
@@ -77,12 +77,9 @@ public class RegisterViewController extends ViewController {
             passwordInputField.requestFocus();
         }
         else if (event.getSource() == passwordInputField) {
-            confirmPasswordInputField.requestFocus();
+            streetInputField.requestFocus();
         }
-        else if (event.getSource() == confirmPasswordInputField) {
-            steetInputField.requestFocus();
-        }
-        else if (event.getSource() == steetInputField) {
+        else if (event.getSource() == streetInputField) {
             numberInputField.requestFocus();
         }
         else if (event.getSource() == numberInputField) {

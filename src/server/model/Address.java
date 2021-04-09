@@ -47,8 +47,6 @@ public class Address
 
   public void setZipcode(int zipcode)
   {
-    if (zipcode <= 0)
-      throw new IllegalArgumentException("The zipcode can not be zero or negative");
     if (zipcode<1000 || zipcode>9999)
       throw new IllegalArgumentException("Invalid zipcode");
     this.zipcode = zipcode;
@@ -56,13 +54,13 @@ public class Address
 
   public String getCity()
   {
-    if (city == null || city.equals(""))
-      throw new IllegalArgumentException("Please enter the city");
     return city;
   }
 
   public void setCity(String city)
   {
+    if (city == null || city.equals(""))
+      throw new IllegalArgumentException("Please enter the city");
     this.city = city;
   }
 

@@ -4,11 +4,13 @@ import server.model.*;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
-public class LoginServer extends UnicastRemoteObject implements LoginModel
+public class ServerManager extends UnicastRemoteObject implements ServerModel
 {
 
-    public LoginServer() throws RemoteException
+    public ServerManager() throws RemoteException
     {
         super();
 
@@ -26,9 +28,8 @@ public class LoginServer extends UnicastRemoteObject implements LoginModel
 
     }
 
-    @Override
-    public UsersList getOnlineUsers() throws RemoteException
+    @Override public void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email)
     {
-        return null;
+
     }
 }
