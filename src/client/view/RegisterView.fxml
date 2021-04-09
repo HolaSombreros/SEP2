@@ -118,7 +118,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="steetInputField" onAction="#onEnter" promptText="*">
+                  <TextField fx:id="streetInputField" onAction="#onEnter" promptText="*">
                      <font>
                         <Font size="14.0" />
                      </font>

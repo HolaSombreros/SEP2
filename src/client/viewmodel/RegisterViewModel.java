@@ -7,10 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import server.model.Address;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-public class RegisterViewModel implements PropertyChangeListener {
+public class RegisterViewModel {
     private Model model;
     private StringProperty firstName;
     private StringProperty middleName;
@@ -39,7 +36,6 @@ public class RegisterViewModel implements PropertyChangeListener {
         phone = new SimpleStringProperty();
         email = new SimpleStringProperty();
         error = new SimpleStringProperty();
-        model.addListener(this);
     }
     
     public void reset() {
@@ -105,19 +101,16 @@ public class RegisterViewModel implements PropertyChangeListener {
         return error;
     }
     
-    public void register() {
+    public boolean register() {
         try {
             Address address = new Address(street.get(), number.get(), zipCode.get(), city.get());
             model.register(cpr.get(), password.get(), firstName.get(), middleName.get(), lastName.get(), address, phone.get(), email.get());
             error.set("");
+            return true;
         }
         catch (Exception e) {
             error.set(e.getMessage());
+            return false;
         }
-    }
-    
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-    
     }
 }
