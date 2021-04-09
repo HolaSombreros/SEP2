@@ -4,6 +4,7 @@ package client.view;
 import client.viewmodel.LoginViewModel;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -36,6 +37,15 @@ public class LoginViewController extends ViewController {
         getViewHandler().openView(View.REGISTER);
     }
 
+    @FXML
+    private void onEnter(Event event) {
+        if(event.getSource() == usernameField){
+            passwordField.requestFocus();
+        }
+        if(event.getSource() == passwordField){
+            login();
+        }
+    }
     public void login() {
         if (viewModel.login())
             getViewHandler().openView(View.LOGINCHOICE);
