@@ -20,22 +20,23 @@ public class ServerModelManager implements ServerModel
     public void login(Patient user)
     {
         ServerMessage message;
+        String successConnection = "Successfully connected to the server";
         if(!usersList.getUsersList().contains(user)){
             message = new ServerMessage("error", null, null,"Not registered in the system");
             property.firePropertyChange("error", null, message);
         }
         else{
             if(user instanceof Nurse){
-                message = new ServerMessage("loginNurse", user.getCpr(),user.getPassword(),"Successfully connected to the server");
+                message = new ServerMessage("loginNurse", user.getCpr(),user.getPassword(),successConnection);
                 property.firePropertyChange("loginNurse", null, message);
             }
             else if(user instanceof Administrator){
-                message = new ServerMessage("loginAdministrator", user.getCpr(),user.getPassword(),"Successfully connected to the server");
+                message = new ServerMessage("loginAdministrator", user.getCpr(),user.getPassword(),successConnection);
                 property.firePropertyChange("loginAdministrator", null, message);
             }
-            else if(user instanceof Patient){
-                message = new ServerMessage("login", user.getCpr(), user.getPassword(), "Successfully connected to the server");
-                property.firePropertyChange("login",null, message);
+            else{
+                message = new ServerMessage("login", user.getCpr(), user.getPassword(), successConnection);
+                property.firePropertyChange("loginPatient",null, message);
             }
             usersList.addUser(user);
         }
