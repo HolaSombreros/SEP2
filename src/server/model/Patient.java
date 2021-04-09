@@ -121,7 +121,8 @@ public class Patient
 
   public void setPhone(String phone)
   {
-    if (phone == null || phone.equals(""))
+    phone = phone.replace(" ","");
+    if (phone.equals(""))
       throw new IllegalArgumentException("Please enter your phone number");
     try
     {

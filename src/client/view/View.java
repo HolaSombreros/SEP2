@@ -2,7 +2,8 @@ package client.view;
 
 public enum View {
     REGISTER("RegisterView.fxml"),
-    LOGIN("LoginView.fxml");
+    LOGIN("LoginView.fxml"),
+    LOGINCHOICE("LoginChoiceView.fxml");
     
     private String fxmlFile;
     

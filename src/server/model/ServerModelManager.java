@@ -41,7 +41,8 @@ public class ServerModelManager implements ServerModel
 
     @Override public void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email)
     {
-        //TODO check for CRP
+        if (usersList.getUserByCpr(cpr)!=null)
+          throw new IllegalArgumentException("The CPR is already registered into the system");
         usersList.addUser(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email));
         System.out.println("Registered patient!");
     }

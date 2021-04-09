@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 
 public class LoginViewController extends ViewController {
 
@@ -37,6 +36,10 @@ public class LoginViewController extends ViewController {
         getViewHandler().openView(View.REGISTER);
     }
 
-    public void login(MouseEvent mouseEvent) {
+    public void login() {
+        if(viewModel.login())
+            getViewHandler().openView(View.LOGINCHOICE);
+        else
+            errorLabel.setText("Successfully logged in as a Patient");
     }
 }
