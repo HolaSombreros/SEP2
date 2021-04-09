@@ -18,6 +18,13 @@ public class ModelManager implements Model
     patients = new ArrayList<>();
   }
 
+  @Override public void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email)
+  {
+    //TODO check for CRP
+    patients.add(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email));
+    System.out.println("Registered patient!");
+  }
+
   @Override public void addListener(PropertyChangeListener listener)
   {
     property.addPropertyChangeListener(listener);
@@ -26,13 +33,6 @@ public class ModelManager implements Model
   @Override public void removeListener(PropertyChangeListener listener)
   {
     property.removePropertyChangeListener(listener);
-  }
-
-  @Override public void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email)
-  {
-    //TODO check for CRP
-    patients.add(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email));
-    System.out.println("Registered patient!");
   }
 
 }

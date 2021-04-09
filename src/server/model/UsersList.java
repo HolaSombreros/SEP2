@@ -4,25 +4,34 @@ import java.util.ArrayList;
 
 public class UsersList
 {
-    private ArrayList<User> usersList;
+    private ArrayList<Patient> usersList;
 
     public UsersList(){
         this.usersList = new ArrayList<>();
     }
-    public ArrayList<User> getUsersList(){
+    public ArrayList<Patient> getUsersList(){
         return usersList;
     }
-    public void addUser(User user){
+    public void addUser(Patient user){
         usersList.add(user);
     }
-    public User getUserByUsername(String username){
-        for(User user: usersList){
-            if(user.getUsername().equals(username)){
+    public Patient getUserByCpr(String cpr){
+        for(Patient user: usersList){
+            if(user.getCpr().equals(cpr)){
                 return user;
             }
         }
         return null;
     }
+    /*public ArrayList<Patient> getPatientByName(String name){
+        ArrayList<Patient> patients = new ArrayList<>();
+        for(Patient patient : usersList){
+            if(patient.getFullName().contains(name)){
+                patients.add(patient);
+            }
+        }
+        return patients;
+    }*/
     public int size(){
         return size();
     }
@@ -43,7 +52,7 @@ public class UsersList
     }
     public String toString(){
         String totalUsers = "";
-        for(User user: usersList){
+        for(Patient user: usersList){
             totalUsers += user + " ";
         }
         return totalUsers;
