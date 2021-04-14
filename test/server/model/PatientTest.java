@@ -11,7 +11,7 @@ class PatientTest {
     
     @BeforeEach
     void setUp() {
-        patient1 = new Patient("220202-1234", "abcdefgh", "Ib", null, "Nielsen", new Address("Vejlevej", "12A", 8700, "Horsens"), "+4512123434", "email@address.com", false);
+        patient1 = new Patient("121256-1234", "password", "Test", null, "Person", new Address("Street", "1", 8700, "Horsens"), "12345678", "email@address.com", false);
     }
     
     @AfterEach
@@ -88,6 +88,20 @@ class PatientTest {
     }
     
     @Test
+    void setPasswordNull() {
+        assertThrows(IllegalArgumentException.class, () -> {
+           patient1.setPassword(null);
+        });
+    }
+    
+    @Test
+    void setPasswordEmpty() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            patient1.setPassword("");
+        });
+    }
+    
+    @Test
     void setPasswordTooShort() {
         assertThrows(IllegalArgumentException.class, () -> {
             patient1.setPassword("1234");
@@ -98,6 +112,20 @@ class PatientTest {
     void setPasswordTooLong() {
         assertThrows(IllegalArgumentException.class, () -> {
             patient1.setPassword("123456789012345678901234567890");
+        });
+    }
+    
+    @Test
+    void setEmailNull() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            patient1.setEmail(null);
+        });
+    }
+    
+    @Test
+    void setEmailEmpty() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            patient1.setEmail("");
         });
     }
     
@@ -126,6 +154,41 @@ class PatientTest {
     void setInvalidEmail4() {
         assertThrows(IllegalArgumentException.class, () -> {
             patient1.setEmail("d@d.c");
+        });
+    }
+    
+    @Test
+    void setInvalidEmail5() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            patient1.setEmail("dd.c");
+        });
+    }
+    
+    @Test
+    void setInvalidEmail6() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            patient1.setEmail("dd@c");
+        });
+    }
+    
+    @Test
+    void setPhoneNull() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            patient1.setPhone(null);
+        });
+    }
+    
+    @Test
+    void setPhoneEmpty() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            patient1.setPhone("");
+        });
+    }
+    
+    @Test
+    void setPhoneWithLetters() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            patient1.setPhone("1234567a");
         });
     }
 }
