@@ -59,6 +59,7 @@ public class Date
   {
     if (day < 1 || day > numberOfDaysInMonth())
       throw new IllegalArgumentException("Invalid day");
+    this.day = day;
   }
 
   public int getYear()
