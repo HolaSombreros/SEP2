@@ -21,6 +21,11 @@ public class Address
     return street;
   }
 
+  /**
+   * Throws exception if the street is null or empty
+   *
+   * @param street
+   */
   public void setStreet(String street)
   {
     if (street == null || street.equals(""))
@@ -33,6 +38,11 @@ public class Address
     return number;
   }
 
+  /**
+   * Throws exception if the number is null or empty
+   *
+   * @param number
+   */
   public void setNumber(String number)
   {
     if (number == null || number.equals(""))
@@ -45,9 +55,14 @@ public class Address
     return zipcode;
   }
 
+  /**
+   * Throws exception if the zipcode is invalid
+   *
+   * @param zipcode between 1000 and 9999
+   */
   public void setZipcode(int zipcode)
   {
-    if (zipcode<1000 || zipcode>9999)
+    if (zipcode < 1000 || zipcode > 9999)
       throw new IllegalArgumentException("Invalid zipcode");
     this.zipcode = zipcode;
   }
@@ -57,11 +72,21 @@ public class Address
     return city;
   }
 
+  /**
+   * Throws exception if the city is null or empty
+   *
+   * @param city
+   */
   public void setCity(String city)
   {
     if (city == null || city.equals(""))
       throw new IllegalArgumentException("Please enter the city");
     this.city = city;
+  }
+
+  public Address copy()
+  {
+    return new Address(street, number, zipcode, city);
   }
 
   public boolean equals(Object obj)

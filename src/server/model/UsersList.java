@@ -28,7 +28,8 @@ public class UsersList
         }
         return null;
     }
-    /*public ArrayList<Patient> getPatientByName(String name){
+
+    public ArrayList<Patient> getPatientByName(String name){
         ArrayList<Patient> patients = new ArrayList<>();
         for(Patient patient : usersList){
             if(patient.getFullName().contains(name)){
@@ -36,9 +37,10 @@ public class UsersList
             }
         }
         return patients;
-    }*/
+    }
+
     public int size(){
-        return size();
+        return usersList.size();
     }
 
     public boolean equals(Object obj){

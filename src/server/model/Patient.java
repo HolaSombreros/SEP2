@@ -34,7 +34,7 @@ public class Patient
   }
 
   /**
-   * @param cpr
+   * @param cpr ignores "-"
    * sets the cpr to a given value
    * if the given String is empty of invalid throws an exception
    * */
@@ -83,6 +83,10 @@ public class Patient
     return firstName;
   }
 
+  /**
+   * Throws exception if the string is null or empty
+   * @param firstName
+   */
   public void setFirstName(String firstName)
   {
     if (firstName == null || firstName.equals(""))
@@ -105,6 +109,10 @@ public class Patient
     return lastName;
   }
 
+  /**
+   * Throws exception if the string is null or empty
+   * @param lastName
+   */
   public void setLastName(String lastName)
   {
     if (lastName == null || lastName.equals(""))
@@ -123,7 +131,7 @@ public class Patient
 
   public void setAddress(Address address)
   {
-    this.address = address;
+    this.address = address.copy();
   }
 
   public String getPhone()
@@ -131,7 +139,7 @@ public class Patient
     return phone;
   }
   /**
-   * @param phone
+   * @param phone ignores "+" or " "
    * sets the phone number to a given value
    * if the given String is empty or invalid throws an exception
    * */
@@ -155,6 +163,7 @@ public class Patient
   {
     return email;
   }
+
   /**
    * @param email
    * sets the email to a given value
