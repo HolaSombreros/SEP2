@@ -42,6 +42,10 @@ public class UsersList
     public int size(){
         return usersList.size();
     }
+    
+    public boolean contains(Patient patient) {
+        return usersList.contains(patient);
+    }
 
     public boolean equals(Object obj){
         if(!(obj instanceof UsersList))

@@ -1,9 +1,10 @@
 package server.model;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Patient
+public class Patient implements Serializable
 {
   private String cpr;
   private String password;
