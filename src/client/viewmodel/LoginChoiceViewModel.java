@@ -18,6 +18,7 @@ public class LoginChoiceViewModel {
         roleProperty.set("");
     }
 
+    //TODO: implement viewState and link rolePropery to it
     public StringProperty roleProperty() {
         return roleProperty;
     }
