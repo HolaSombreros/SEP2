@@ -14,8 +14,9 @@ public class Patient implements Serializable
   private Address address;
   private String phone;
   private String email;
+  private boolean validForVaccine;
 
-  public Patient(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email)
+  public Patient(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email,boolean validForVaccine)
   {
     setCpr(cpr);
     setPassword(password);
@@ -25,6 +26,7 @@ public class Patient implements Serializable
     setAddress(address);
     setPhone(phone);
     setEmail(email);
+    setValidForVaccine(validForVaccine);
   }
 
   public String getCpr()
@@ -32,6 +34,11 @@ public class Patient implements Serializable
     return cpr;
   }
 
+  /**
+   * @param cpr ignores "-"
+   * sets the cpr to a given value
+   * if the given String is empty of invalid throws an exception
+   * */
   public void setCpr(String cpr)
   {
     if (cpr == null || cpr.equals(""))
@@ -56,6 +63,11 @@ public class Patient implements Serializable
     return password;
   }
 
+  /**
+   * @param password
+   * sets the password to a given value
+   * if the given String is empty or invalid throws an exception
+   * */
   public void setPassword(String password)
   {
     if (password == null || password.equals(""))
@@ -72,6 +84,10 @@ public class Patient implements Serializable
     return firstName;
   }
 
+  /**
+   * Throws exception if the string is null or empty
+   * @param firstName
+   */
   public void setFirstName(String firstName)
   {
     if (firstName == null || firstName.equals(""))
@@ -94,6 +110,10 @@ public class Patient implements Serializable
     return lastName;
   }
 
+  /**
+   * Throws exception if the string is null or empty
+   * @param lastName
+   */
   public void setLastName(String lastName)
   {
     if (lastName == null || lastName.equals(""))
@@ -112,14 +132,18 @@ public class Patient implements Serializable
 
   public void setAddress(Address address)
   {
-    this.address = address;
+    this.address = address.copy();
   }
 
   public String getPhone()
   {
     return phone;
   }
-
+  /**
+   * @param phone ignores "+" or " "
+   * sets the phone number to a given value
+   * if the given String is empty or invalid throws an exception
+   * */
   public void setPhone(String phone)
   {
     phone = phone.replace(" ","");
@@ -141,6 +165,11 @@ public class Patient implements Serializable
     return email;
   }
 
+  /**
+   * @param email
+   * sets the email to a given value
+   * if the given String is empty or invalid throws an exception
+   * */
   public void setEmail(String email)
   {
     if (email == null || email.equals(""))
@@ -153,12 +182,22 @@ public class Patient implements Serializable
      this.email = email;
   }
 
+  public boolean isValidForVaccine()
+  {
+    return validForVaccine;
+  }
+
+  public void setValidForVaccine(boolean validForVaccine)
+  {
+    this.validForVaccine = validForVaccine;
+  }
+
   public String toString()
   {
     if (middleName == null)
       return cpr + " " + password + ":" + firstName + " " + lastName + " " + address.toString() + " " + phone + " " + email;
     else
-      return cpr + " " + password + ":" + firstName + " " + lastName + " " + lastName + " " + address.toString() + " " + phone + " " + email;
+      return cpr + " " + password + ":" + firstName + " " + middleName + " " + lastName + " " + address.toString() + " " + phone + " " + email;
   }
 
   public boolean equals(Object obj)

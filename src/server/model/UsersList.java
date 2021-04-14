@@ -15,6 +15,11 @@ public class UsersList
     public void addUser(Patient user){
         usersList.add(user);
     }
+
+    /**
+     * @param cpr
+     * @return Patient object that contains the given cpr
+     * */
     public Patient getUserByCpr(String cpr){
         for(Patient user: usersList){
             if(user.getCpr().equals(cpr)){
@@ -23,7 +28,8 @@ public class UsersList
         }
         return null;
     }
-    /*public ArrayList<Patient> getPatientByName(String name){
+
+    public ArrayList<Patient> getPatientByName(String name){
         ArrayList<Patient> patients = new ArrayList<>();
         for(Patient patient : usersList){
             if(patient.getFullName().contains(name)){
@@ -31,9 +37,10 @@ public class UsersList
             }
         }
         return patients;
-    }*/
+    }
+
     public int size(){
-        return size();
+        return usersList.size();
     }
     
     public boolean contains(Patient patient) {
