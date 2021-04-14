@@ -1,45 +1,36 @@
 package server.model;
 
 import server.mediator.DatabaseManager;
+import utility.observer.listener.GeneralListener;
+import utility.observer.subject.PropertyChangeAction;
+import utility.observer.subject.PropertyChangeProxy;
 
-import java.beans.PropertyChangeSupport;
+
 
 public class ServerModelManager implements ServerModel
 {
     //private DatabaseManager databaseManager;
     private UsersList usersList;
-    private PropertyChangeSupport property;
+    private PropertyChangeAction<Patient, ServerMessage> property;
 
     public ServerModelManager(){
-        property = new PropertyChangeSupport(this);
+        property = new PropertyChangeProxy<>(this);
         //databaseManager = new DatabaseManager();
         usersList = new UsersList();
     }
    //mocked login
     @Override
-    public void login(Patient user)
+    public Patient login(String cpr, String password)
     {
-        ServerMessage message;
-        String successConnection = "Successfully connected to the server";
-        if(!usersList.getUsersList().contains(user)){
-            message = new ServerMessage("error", null, null,"Not registered in the system");
-            property.firePropertyChange("error", null, message);
-        }
-        else{
-            if(user instanceof Nurse){
-                message = new ServerMessage("loginNurse", user.getCpr(),user.getPassword(),successConnection);
-                property.firePropertyChange("loginNurse", null, message);
-            }
-            else if(user instanceof Administrator){
-                message = new ServerMessage("loginAdministrator", user.getCpr(),user.getPassword(),successConnection);
-                property.firePropertyChange("loginAdministrator", null, message);
-            }
-            else{
-                message = new ServerMessage("login", user.getCpr(), user.getPassword(), successConnection);
-                property.firePropertyChange("loginPatient",null, message);
+        for(Patient patient : usersList.getUsersList()){
+            if(patient.getCpr().equals(cpr)){
+                if(patient.getPassword().equals(password)){
+                    System.out.println("Logged in as a: " + patient.getCpr());
+                    return patient;
+                }
             }
         }
-        // TODO: LOGIN based on DBS
+        return null;
     }
 
     @Override
@@ -48,12 +39,31 @@ public class ServerModelManager implements ServerModel
         property.firePropertyChange("message", null, message);
     }
 
-    @Override public void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email)
+    @Override public Patient register(Patient patient)
     {
-        if (usersList.getUserByCpr(cpr)!=null)
-          throw new IllegalArgumentException("The CPR is already registered into the system");
-        usersList.addUser(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email));
-        System.out.println("Registered patient!");
+        if (usersList.contains(patient)) {
+            return null;
+        }
+        usersList.addUser(patient);
+        System.out.println("Registered patient: " + patient.getCpr());
+        return patient;
     }
 
+    @Override
+    public void close()
+    {
+        property.close();
+    }
+
+    @Override
+    public boolean addListener(GeneralListener<Patient, ServerMessage> listener, String... propertyNames)
+    {
+        return property.addListener(listener, propertyNames);
+    }
+
+    @Override
+    public boolean removeListener(GeneralListener<Patient, ServerMessage> listener, String... propertyNames)
+    {
+        return property.removeListener(listener, propertyNames);
+    }
 }

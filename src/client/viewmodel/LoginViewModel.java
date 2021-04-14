@@ -25,12 +25,13 @@ public class LoginViewModel {
             errorProperty.setValue("Please enter a valid Cpr or Password");
             return false;
         }
-        if(model.getPatientByCpr(usernameProperty.toString().trim()) instanceof Nurse || model.getPatientByCpr(usernameProperty.toString().trim()) instanceof Administrator)
+       /* if(model.getPatientByCpr(usernameProperty.toString().trim()) instanceof Nurse || model.getPatientByCpr(usernameProperty.toString().trim()) instanceof Administrator)
             return true;
         else{
             errorProperty.setValue("Successfully logged in as a Patient");
             return false;
-        }
+        }*/
+        return false;
     }
 
     public void reset(){
