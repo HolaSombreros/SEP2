@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="300.0" prefWidth="450.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.LoginChoiceViewController">
+   <children>
+      <Label alignment="CENTER" layoutX="171.0" layoutY="28.0" prefHeight="30.0" prefWidth="109.0" text="LOGIN" textFill="#f2f2f2">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label layoutX="168.0" layoutY="73.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="10.0" prefWidth="120.0" style="-fx-background-color: #11c0fa; -fx-background-radius: 15px;" />
+      <Label layoutX="136.0" layoutY="125.0" text="Login as " textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="roleLabel" layoutX="213.0" layoutY="125.0" prefHeight="25.0" prefWidth="120.0" text="&lt;Special Role&gt;" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="137.0" layoutY="174.0" onAction="#loginPatient" prefHeight="35.0" prefWidth="60.0" style="-fx-background-color: #11c0fa; -fx-background-radius: 10px;" text="No" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="255.0" layoutY="174.0" onAction="#loginSpecialRole" prefHeight="35.0" prefWidth="60.0" style="-fx-background-color: #11c0fa; -fx-background-radius: 10px;" text="Yes" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

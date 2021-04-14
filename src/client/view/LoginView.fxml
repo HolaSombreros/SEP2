@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #212121;" userData="Login" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.LoginViewController">
+   <children>
+      <Label alignment="CENTER" prefHeight="40.0" prefWidth="143.0" text="LOGIN" textFill="WHITE">
+         <font>
+            <Font name="Constantia Bold" size="30.0" />
+         </font>
+         <VBox.margin>
+            <Insets top="25.0" />
+         </VBox.margin>
+      </Label>
+      <HBox prefHeight="10.0" prefWidth="400.0">
+         <children>
+            <VBox prefHeight="20.0" prefWidth="129.0" />
+            <VBox prefHeight="10.0" prefWidth="136.0" style="-fx-background-color: #11c0fa; -fx-background-radius: 25px;" />
+         </children>
+      </HBox>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="385.0" prefWidth="400.0">
+         <children>
+            <JFXTextField fx:id="usernameField" focusColor="#11c0fa" layoutX="107.0" layoutY="79.0" onAction="#onEnter" prefHeight="25.0" prefWidth="187.0" promptText="CPR" style="-fx-text-fill: white;" unFocusColor="#393939">
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor></JFXTextField>
+            <JFXPasswordField fx:id="passwordField" focusColor="#11c0fa" layoutX="107.0" layoutY="145.0" onAction="#onEnter" prefHeight="25.0" prefWidth="187.0" promptText="Password" style="-fx-text-fill: white;" unFocusColor="#393939">
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+               <effect>
+                  <ColorAdjust />
+               </effect></JFXPasswordField>
+            <Label alignment="CENTER" layoutX="107.0" layoutY="276.0" prefHeight="17.0" prefWidth="187.0" text="Don't have an account?" textFill="#11c0fa">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="159.0" layoutY="296.0" onMouseClicked="#register" text="Register now!" textFill="#11c0fa" underline="true">
+               <font>
+                  <Font name="Cambria" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="errorLabel" alignment="CENTER" layoutX="58.0" layoutY="338.0" prefHeight="20.0" prefWidth="298.0" text="ErrorLabel" textFill="#ff1c1c">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <JFXButton layoutX="159.0" layoutY="217.0" onAction="#login" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: #11c0fa; -fx-background-radius: 10px;" text="Login" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
