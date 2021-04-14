@@ -33,6 +33,11 @@ public class Patient
     return cpr;
   }
 
+  /**
+   * @param cpr
+   * sets the cpr to a given value
+   * if the given String is empty of invalid throws an exception
+   * */
   public void setCpr(String cpr)
   {
     if (cpr == null || cpr.equals(""))
@@ -57,6 +62,11 @@ public class Patient
     return password;
   }
 
+  /**
+   * @param password
+   * sets the password to a given value
+   * if the given String is empty or invalid throws an exception
+   * */
   public void setPassword(String password)
   {
     if (password == null || password.equals(""))
@@ -120,7 +130,11 @@ public class Patient
   {
     return phone;
   }
-
+  /**
+   * @param phone
+   * sets the phone number to a given value
+   * if the given String is empty or invalid throws an exception
+   * */
   public void setPhone(String phone)
   {
     phone = phone.replace(" ","");
@@ -141,7 +155,11 @@ public class Patient
   {
     return email;
   }
-
+  /**
+   * @param email
+   * sets the email to a given value
+   * if the given String is empty or invalid throws an exception
+   * */
   public void setEmail(String email)
   {
     if (email == null || email.equals(""))

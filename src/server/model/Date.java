@@ -13,10 +13,16 @@ public class Date {
         this.day = day;
     }
 
+    /**
+     * Sets the date to the current date
+     * */
     public Date(){
         today();
     }
 
+    /**
+     * @return Date object storing the current date
+     * */
     private static Date today(){
         GregorianCalendar currentDate = new GregorianCalendar();
         int currentDay = currentDate.get(GregorianCalendar.DATE);

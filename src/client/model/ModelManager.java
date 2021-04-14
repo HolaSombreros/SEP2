@@ -18,6 +18,17 @@ public class ModelManager implements Model
     patients = new UsersList();
   }
 
+  /**
+   * @param cpr
+   * @param address
+   * @param email
+   * @param firstName
+   * @param lastName
+   * @param middleName
+   * @param password
+   * @param phone
+   *
+   * */
   @Override public void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email)
   {
     // TODO: Communicate with server
