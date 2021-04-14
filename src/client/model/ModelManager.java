@@ -24,8 +24,11 @@ public class ModelManager implements Model, LocalListener<Patient, ServerMessage
     @Override
     public void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email) {
         try {
-            Patient patient = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, true);
-            client.register(patient);
+            Patient patient = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, false);
+            Patient patient1 = client.register(patient);
+            if(patient1 == null){
+                throw new IllegalArgumentException("CPR already exists in the system");
+            }
         }
         catch (RemoteException e) {
             e.printStackTrace();

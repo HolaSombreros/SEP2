@@ -206,10 +206,13 @@ public class Patient implements Serializable
       return false;
 
     Patient other = (Patient) obj;
-    if (middleName == null)
+    if (middleName == null && other.middleName == null){
       return cpr.equals(other.cpr) && password.equals(other.password) && firstName.equals(other.firstName) && lastName.equals(other.lastName) && address.equals(other.address)
-          && phone.equals(other.phone) && email.equals(other.email);
-    else
+              && phone.equals(other.phone) && email.equals(other.email);
+    }
+    if((middleName == null && other.middleName != null) || (middleName != null && other.middleName == null)){
+      return false;
+    }
       return cpr.equals(other.cpr) && password.equals(other.password) && firstName.equals(other.firstName) && middleName.equals(other.middleName) && lastName.equals(other.lastName)
           && address.equals(other.address) && phone.equals(other.phone) && email.equals(other.email);
   }
