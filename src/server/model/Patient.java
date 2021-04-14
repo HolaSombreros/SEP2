@@ -13,6 +13,7 @@ public class Patient
   private Address address;
   private String phone;
   private String email;
+  private boolean validForVaccine;
 
   public Patient(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email)
   {
@@ -24,6 +25,7 @@ public class Patient
     setAddress(address);
     setPhone(phone);
     setEmail(email);
+    setValidForVaccine(false);
   }
 
   public String getCpr()
@@ -152,12 +154,22 @@ public class Patient
      this.email = email;
   }
 
+  public boolean isValidForVaccine()
+  {
+    return validForVaccine;
+  }
+
+  public void setValidForVaccine(boolean validForVaccine)
+  {
+    this.validForVaccine = validForVaccine;
+  }
+
   public String toString()
   {
     if (middleName == null)
       return cpr + " " + password + ":" + firstName + " " + lastName + " " + address.toString() + " " + phone + " " + email;
     else
-      return cpr + " " + password + ":" + firstName + " " + lastName + " " + lastName + " " + address.toString() + " " + phone + " " + email;
+      return cpr + " " + password + ":" + firstName + " " + middleName + " " + lastName + " " + address.toString() + " " + phone + " " + email;
   }
 
   public boolean equals(Object obj)
