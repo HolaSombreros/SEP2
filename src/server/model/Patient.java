@@ -150,6 +150,9 @@ public class Patient implements Serializable
    * */
   public void setPhone(String phone)
   {
+    if (phone == null) {
+      throw new IllegalArgumentException("Please enter your phone number");
+    }
     phone = phone.replace(" ","");
     if (phone.equals(""))
       throw new IllegalArgumentException("Please enter your phone number");
