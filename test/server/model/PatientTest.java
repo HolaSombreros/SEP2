@@ -11,7 +11,7 @@ class PatientTest {
     
     @BeforeEach
     void setUp() {
-        patient1 = new Patient("220202-1234", "abcdefgh", "Ib", null, "Nielsen", new Address("Vejlevej", "12A", 8700, "Horsens"), "+4512123434", "email@address.com");
+        patient1 = new Patient("220202-1234", "abcdefgh", "Ib", null, "Nielsen", new Address("Vejlevej", "12A", 8700, "Horsens"), "+4512123434", "email@address.com", false);
     }
     
     @AfterEach
