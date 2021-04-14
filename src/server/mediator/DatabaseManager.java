@@ -18,7 +18,7 @@ public class DatabaseManager
 
   public Connection getConnection() throws SQLException
   {
-    return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres?currentSchema=jdbc", "postgres", "admin");
+    return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep2", "sep2admin", "admin");
   }
 
   public UsersList getRegisteredUsers()
@@ -39,10 +39,14 @@ public class DatabaseManager
         String firstName = resultSet.getString("firstName");
         String lastName = resultSet.getString("lastName");
         String middleName = resultSet.getString("middleName");
-        Address address = resultSet.getObject("address", Address.class); //TODO: Address is going to be split up in the DBS :(
+        String street = resultSet.getString("street");
+        String number = resultSet.getString("number");
+        int zipcode = resultSet.getInt("zip_code");
+        Address address = new Address(street,number,zipcode,null); //TODO: Get city from database (new method)
         String phone = resultSet.getString("phone");
         String email = resultSet.getString("email");
-        registeredUsers.getUsersList().add(new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email));
+        boolean validForVaccination = resultSet.getBoolean("valid_for_vaccine");
+        registeredUsers.getUsersList().add(new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email,validForVaccination));
         return registeredUsers;
       }
       else
@@ -67,10 +71,14 @@ public class DatabaseManager
         String firstName = resultSet.getString("firstName");
         String lastName = resultSet.getString("lastName");
         String middleName = resultSet.getString("middleName");
-        Address address = resultSet.getObject("address", Address.class); //TODO: Address is going to be split up in the DBS :(
+        String street = resultSet.getString("street");
+        String number = resultSet.getString("number");
+        int zipcode = resultSet.getInt("zip_code");
+        Address address = new Address(street,number,zipcode,null); //TODO: Get city from database (new method)
         String phone = resultSet.getString("phone");
         String email = resultSet.getString("email");
-        patient = new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email);
+        boolean validForVaccination = resultSet.getBoolean("valid_for_vaccine");
+        patient = new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email,validForVaccination);
         return patient;
       }
       else

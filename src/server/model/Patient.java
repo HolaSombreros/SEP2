@@ -15,7 +15,7 @@ public class Patient
   private String email;
   private boolean validForVaccine;
 
-  public Patient(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email)
+  public Patient(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email,boolean validForVaccine)
   {
     setCpr(cpr);
     setPassword(password);
@@ -25,7 +25,7 @@ public class Patient
     setAddress(address);
     setPhone(phone);
     setEmail(email);
-    setValidForVaccine(false);
+    setValidForVaccine(validForVaccine);
   }
 
   public String getCpr()
