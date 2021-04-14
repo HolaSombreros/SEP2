@@ -6,11 +6,12 @@ public class ViewModelFactory {
     private RegisterViewModel registerViewModel;
     private LoginViewModel loginViewModel;
     private LoginChoiceViewModel loginChoiceViewModel;
+
     
-    public ViewModelFactory(Model model) {
+    public ViewModelFactory(Model model,ViewState viewState) {
         registerViewModel = new RegisterViewModel(model);
-        loginViewModel = new LoginViewModel(model);
-        loginChoiceViewModel = new LoginChoiceViewModel(model);
+        loginViewModel = new LoginViewModel(model,viewState);
+        loginChoiceViewModel = new LoginChoiceViewModel(model,viewState);
     }
     
     public RegisterViewModel getRegisterViewModel() {

@@ -13,9 +13,11 @@ public class LoginViewModel {
     private StringProperty passwordProperty;
     private StringProperty errorProperty;
     private Model model;
+    private ViewState viewState;
 
-    public LoginViewModel(Model model) {
+    public LoginViewModel(Model model,ViewState viewState) {
         this.model = model;
+        this.viewState = viewState;
         usernameProperty = new SimpleStringProperty("");
         passwordProperty = new SimpleStringProperty("");
         errorProperty = new SimpleStringProperty("");
@@ -33,6 +35,7 @@ public class LoginViewModel {
         }
         else {
             // TODO: Change the return type of this, perhaps to 0 for false, 1 for patient, 2 for admin/nurse so we can differentiate between 3 things in the viewcontroller
+            viewState.setPatient(loggedIn);
             if (loggedIn instanceof Administrator ||
                 loggedIn instanceof Nurse) {
                 // Account is a Admin / Nurse
