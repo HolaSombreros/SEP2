@@ -7,5 +7,5 @@ import utility.observer.subject.LocalSubject;
 
 public interface Model extends LocalSubject<Patient, ServerMessage> {
   void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email);
-  void login(String cpr, String password);
+  Patient login(String cpr, String password);
 }

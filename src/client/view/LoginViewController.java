@@ -47,9 +47,18 @@ public class LoginViewController extends ViewController {
         }
     }
     public void login() {
-        if (viewModel.login())
-            getViewHandler().openView(View.LOGINCHOICE);
-       //TODO: else open view for Patient
-
+        switch (viewModel.login()) {
+            case 0:
+                // Could not log in - nothing happens
+                break;
+            case 1:
+                // Account is 'Patient' only
+                getViewHandler().openView(View.REGISTER);
+                break;
+            case 2:
+                // Account is either Admin or Nurse
+                getViewHandler().openView(View.LOGINCHOICE);
+                break;
+        }
     }
 }

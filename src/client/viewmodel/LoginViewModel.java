@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import server.model.Administrator;
 import server.model.Nurse;
+import server.model.Patient;
 
 public class LoginViewModel {
 
@@ -20,18 +21,28 @@ public class LoginViewModel {
         errorProperty = new SimpleStringProperty("");
     }
 
-    public boolean login(){
+    public int login(){
         if(usernameProperty.get().equals("") || passwordProperty.get().equals("")) {
             errorProperty.setValue("Please enter a valid Cpr or Password");
-            return false;
+            return 0;
         }
-       /* if(model.getPatientByCpr(usernameProperty.toString().trim()) instanceof Nurse || model.getPatientByCpr(usernameProperty.toString().trim()) instanceof Administrator)
-            return true;
-        else{
-            errorProperty.setValue("Successfully logged in as a Patient");
-            return false;
-        }*/
-        return false;
+        Patient loggedIn = model.login(usernameProperty.get(), passwordProperty.get());
+        if (loggedIn == null) {
+            errorProperty.set("CPR and password do not match");
+            return 0;
+        }
+        else {
+            // TODO: Change the return type of this, perhaps to 0 for false, 1 for patient, 2 for admin/nurse so we can differentiate between 3 things in the viewcontroller
+            if (loggedIn instanceof Administrator ||
+                loggedIn instanceof Nurse) {
+                // Account is a Admin / Nurse
+                return 2;
+            }
+            else {
+                // Account is only a Patient
+                return 1;
+            }
+        }
     }
 
     public void reset(){

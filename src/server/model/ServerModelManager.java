@@ -17,6 +17,15 @@ public class ServerModelManager implements ServerModel
         property = new PropertyChangeProxy<>(this);
         //databaseManager = new DatabaseManager();
         usersList = new UsersList();
+        usersList.addUser(new Patient("1234560000", "testpassword", "Test", null, "Person",
+            new Address("TestStreet", "0", 8700, "Horsens"
+        ), "12345678", "test@email.com"));
+        usersList.addUser(new Nurse("1234561111", "testpassword", "Test", null, "Person",
+            new Address("TestStreet", "0", 8700, "Horsens"
+            ), "12345678", "test@email.com", "emp1"));
+        usersList.addUser(new Administrator("1234562222", "testpassword", "Test", null, "Person",
+            new Address("TestStreet", "0", 8700, "Horsens"
+            ), "12345678", "test@email.com", "emp2"));
     }
    //mocked login
     @Override

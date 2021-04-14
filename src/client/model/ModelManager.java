@@ -33,13 +33,14 @@ public class ModelManager implements Model, LocalListener<Patient, ServerMessage
     }
     
     @Override
-    public void login(String cpr, String password) {
+    public Patient login(String cpr, String password) {
         try {
-            client.login(cpr, password);
+            return client.login(cpr, password);
         }
         catch (RemoteException e) {
             e.printStackTrace();
         }
+        return null;
     }
     
     @Override
