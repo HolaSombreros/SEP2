@@ -17,13 +17,13 @@ public class ServerModelManager implements ServerModel
         property = new PropertyChangeProxy<>(this);
         //databaseManager = new DatabaseManager();
         usersList = new UsersList();
-        usersList.addUser(new Patient("1234560000", "testpassword", "Test", null, "Person",
+        usersList.addUser(new Patient("1204560000", "testpassword", "Test", null, "Person",
             new Address("TestStreet", "0", 8700, "Horsens"
         ), "12345678", "test@email.com", false));
-        usersList.addUser(new Nurse("1234561111", "testpassword", "Test", null, "Person",
+        usersList.addUser(new Nurse("1205561111", "testpassword", "Test", null, "Person",
             new Address("TestStreet", "0", 8700, "Horsens"
             ), "12345678", "test@email.com", "emp1"));
-        usersList.addUser(new Administrator("1234562222", "testpassword", "Test", null, "Person",
+        usersList.addUser(new Administrator("1211562222", "testpassword", "Test", null, "Person",
             new Address("TestStreet", "0", 8700, "Horsens"
             ), "12345678", "test@email.com", "emp2"));
     }
