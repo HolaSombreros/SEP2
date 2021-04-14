@@ -19,7 +19,7 @@ public class ServerModelManager implements ServerModel
         usersList = new UsersList();
         usersList.addUser(new Patient("1234560000", "testpassword", "Test", null, "Person",
             new Address("TestStreet", "0", 8700, "Horsens"
-        ), "12345678", "test@email.com"));
+        ), "12345678", "test@email.com", false));
         usersList.addUser(new Nurse("1234561111", "testpassword", "Test", null, "Person",
             new Address("TestStreet", "0", 8700, "Horsens"
             ), "12345678", "test@email.com", "emp1"));

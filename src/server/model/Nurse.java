@@ -8,7 +8,7 @@ public class Nurse extends Patient implements Serializable
 
   public Nurse(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email, String employeeId)
   {
-    super(cpr, password, firstName, middleName, lastName, address, phone, email);
+    super(cpr, password, firstName, middleName, lastName, address, phone, email, false);
     setEmployeeId(employeeId);
   }
 
