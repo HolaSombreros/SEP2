@@ -27,7 +27,7 @@ public class ModelManager implements Model
    * @param middleName
    * @param password
    * @param phone
-   *
+   * sends a newly created Patient object to the server
    * */
   @Override public void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email)
   {
@@ -35,7 +35,13 @@ public class ModelManager implements Model
     patients.getUsersList().add(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email));
     System.out.println("Registered patient!");
   }
-  
+
+  /**
+   * @param password
+   * @param cpr
+   * checks in the server if a Patient object with the given cpr and password exist
+   * if it doesn't exist throws an exception
+   * */
   @Override
   public void login(String cpr, String password) {
       // TODO: Communicate with server
