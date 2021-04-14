@@ -44,7 +44,12 @@ public class UsersList
     }
     
     public boolean contains(Patient patient) {
-        return usersList.contains(patient);
+        for(Patient patient1 :usersList){
+            if(patient.getCpr().equals(patient1.getCpr())){
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean equals(Object obj){
