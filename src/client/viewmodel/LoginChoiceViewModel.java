@@ -26,9 +26,9 @@ public class LoginChoiceViewModel {
     public void getRoleState(){
         System.out.println(viewState.getPatient());
         if(viewState.getPatient() instanceof Nurse)
-            roleProperty.set(" Nurse");
+            roleProperty.set("Nurse");
         if(viewState.getPatient() instanceof Administrator)
-            roleProperty.set(" Administrator");
+            roleProperty.set("Administrator");
     }
 
     public StringProperty roleProperty() {
