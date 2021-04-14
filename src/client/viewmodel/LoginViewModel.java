@@ -9,7 +9,7 @@ import server.model.Patient;
 
 public class LoginViewModel {
 
-    private StringProperty usernameProperty;
+    private StringProperty cprProperty;
     private StringProperty passwordProperty;
     private StringProperty errorProperty;
     private Model model;
@@ -18,17 +18,17 @@ public class LoginViewModel {
     public LoginViewModel(Model model,ViewState viewState) {
         this.model = model;
         this.viewState = viewState;
-        usernameProperty = new SimpleStringProperty("");
+        cprProperty = new SimpleStringProperty("");
         passwordProperty = new SimpleStringProperty("");
         errorProperty = new SimpleStringProperty("");
     }
 
     public int login(){
-        if(usernameProperty.get().equals("") || passwordProperty.get().equals("")) {
+        if(cprProperty.get().equals("") || passwordProperty.get().equals("")) {
             errorProperty.setValue("Please enter a valid Cpr or Password");
             return 0;
         }
-        Patient loggedIn = model.login(usernameProperty.get(), passwordProperty.get());
+        Patient loggedIn = model.login(cprProperty.get(), passwordProperty.get());
         if (loggedIn == null) {
             errorProperty.set("CPR and password do not match");
             return 0;
@@ -50,12 +50,12 @@ public class LoginViewModel {
 
     public void reset(){
         errorProperty.setValue("");
-        usernameProperty.setValue("");
+        cprProperty.setValue("");
         passwordProperty.setValue("");
     }
 
-    public StringProperty getUsernameProperty() {
-        return usernameProperty;
+    public StringProperty getCprProperty() {
+        return cprProperty;
     }
 
     public StringProperty getPasswordProperty() {

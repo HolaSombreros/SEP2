@@ -23,7 +23,7 @@ public class LoginChoiceViewModel {
     }
 
 
-    public void getRoleState(){
+    public void updateRoleProperty(){
         System.out.println(viewState.getPatient());
         if(viewState.getPatient() instanceof Nurse)
             roleProperty.set("Nurse");
