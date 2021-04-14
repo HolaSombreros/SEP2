@@ -49,7 +49,11 @@ public class Patient implements Serializable
       throw new IllegalArgumentException("Invalid CPR");
     try
     {
-      Long.parseLong(cpr);
+      long valid = Long.parseLong(cpr);
+      int day = (int) valid/100000000;
+      int month = (int) valid/1000000%100;
+      int year = (int) valid/10000%100;
+      new Date(day,month,year);
     }
     catch (Exception e)
     {
@@ -120,7 +124,7 @@ public class Patient implements Serializable
       throw new IllegalArgumentException("Please enter your last name");
     this.lastName = lastName;
   }
-  
+
   public String getFullName() {
     return middleName == null ? firstName + " " + lastName : firstName + " " + middleName + " " + lastName;
   }
