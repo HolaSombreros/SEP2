@@ -1,8 +1,6 @@
 package server.model;
 
-import java.io.Serializable;
-
-public class Nurse extends Patient implements Serializable
+public class Nurse extends Patient
 {
   private String employeeId;
 

@@ -13,12 +13,6 @@ public class Time
     setSecond(second);
   }
 
-  public Time(int hour, int minute)
-  {
-    setHour(hour);
-    setMinute(minute);
-  }
-
   public Time(int seconds)
   {
     setTimeInSeconds(seconds);
@@ -78,7 +72,7 @@ public class Time
     second = seconds;
   }
 
-  public int TimeInSeconds()
+  public int timeInSeconds()
   {
     return hour * 3600 + minute * 60 + second;
   }
