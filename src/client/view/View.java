@@ -3,7 +3,8 @@ package client.view;
 public enum View {
     REGISTER("RegisterView.fxml"),
     LOGIN("LoginView.fxml"),
-    LOGINCHOICE("LoginChoiceView.fxml");
+    LOGINCHOICE("LoginChoiceView.fxml"),
+    APPOINTMENTLIST("AppointmentList.fxml");
     
     private String fxmlFile;
     
