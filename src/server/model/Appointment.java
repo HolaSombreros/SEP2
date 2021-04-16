@@ -30,7 +30,7 @@ public abstract class Appointment {
     
         @Override
         public String toString() {
-            return type;
+            return status;
         }
     }
     

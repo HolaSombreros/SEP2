@@ -1,7 +1,7 @@
 package client.view;
 
+import client.viewmodel.AppointmentListViewModel;
 import client.viewmodel.AppointmentTableViewModel;
-import client.viewmodel.AppointmentViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -12,14 +12,14 @@ import javafx.scene.control.TableView;
 
 public class AppointmentListViewController extends ViewController
 {
-    @FXML private TableView<AppointmentViewModel> appointmentTable;
-    @FXML private TableColumn<AppointmentViewModel, String> dateColumn;
-    @FXML private TableColumn<AppointmentViewModel, String > resultColumn;
-    @FXML private TableColumn<AppointmentViewModel, String> timeColumn;
-    @FXML private TableColumn<AppointmentViewModel, String> typeColumn;
+    @FXML private TableView<AppointmentTableViewModel> appointmentTable;
+    @FXML private TableColumn<AppointmentTableViewModel, String> dateColumn;
+    @FXML private TableColumn<AppointmentTableViewModel, String > resultColumn;
+    @FXML private TableColumn<AppointmentTableViewModel, String> timeColumn;
+    @FXML private TableColumn<AppointmentTableViewModel, String> typeColumn;
     @FXML private Label errorLabel;
 
-    private AppointmentTableViewModel viewModel;
+    private AppointmentListViewModel viewModel;
 
     public AppointmentListViewController(){
 
@@ -35,10 +35,10 @@ public class AppointmentListViewController extends ViewController
         errorLabel.textProperty().bind(viewModel.getErrorProperty());
         appointmentTable.setItems(viewModel.getAppointments());
     }
-    @FXML public void seeDetails(ActionEvent event){
+    @FXML private void seeDetails(){
 
     }
-    @FXML public void backButton(ActionEvent event){
+    @FXML private void backButton(){
         //TODO: go back to the main page
     }
 

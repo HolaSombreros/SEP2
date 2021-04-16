@@ -16,11 +16,11 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class RemoteModelManager implements RemoteModel, LocalListener<Patient, ServerMessage>
+public class RemoteModelManager implements RemoteModel, LocalListener<User, ServerMessage>
 {
 
     private ServerModel serverModel;
-    private PropertyChangeAction<Patient, ServerMessage> property;
+    private PropertyChangeAction<User, ServerMessage> property;
 
     public RemoteModelManager(ServerModel serverModel) throws RemoteException, MalformedURLException
     {
@@ -51,15 +51,15 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Patient, S
     }
 
     @Override
-    public Patient login(String cpr, String password) throws RemoteException
+    public User login(String cpr, String password) throws RemoteException
     {
         return serverModel.login(cpr, password);
     }
 
     @Override
-    public Patient register(Patient patient) throws RemoteException
+    public User register(User user) throws RemoteException
     {
-        return serverModel.register(patient);
+        return serverModel.register(user);
     }
 
     @Override
@@ -71,20 +71,20 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Patient, S
     }
 
     @Override
-    public boolean addListener(GeneralListener<Patient, ServerMessage> listener, String... propertyNames) throws RemoteException
+    public void propertyChange(ObserverEvent<User, ServerMessage> event)
+    {
+        property.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
+    }
+
+    @Override
+    public boolean addListener(GeneralListener<User, ServerMessage> listener, String... propertyNames) throws RemoteException
     {
         return property.addListener(listener, propertyNames);
     }
 
     @Override
-    public boolean removeListener(GeneralListener<Patient, ServerMessage> listener, String... propertyNames) throws RemoteException
+    public boolean removeListener(GeneralListener<User, ServerMessage> listener, String... propertyNames) throws RemoteException
     {
         return property.removeListener(listener, propertyNames);
-    }
-
-    @Override
-    public void propertyChange(ObserverEvent<Patient, ServerMessage> event)
-    {
-        property.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
     }
 }
