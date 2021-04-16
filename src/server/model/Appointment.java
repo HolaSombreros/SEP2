@@ -2,14 +2,36 @@ package server.model;
 
 public abstract class Appointment {
     public enum Type {
-        TEST,
-        VACCINE;
+        TEST("Test"),
+        VACCINE("Vaccine");
+        
+        private String type;
+        
+        Type(String type) {
+            this.type = type;
+        }
+        
+        @Override
+        public String toString() {
+            return type;
+        }
     }
     
     public enum Status {
-        PREVIOUS,
-        UPCOMING,
-        CANCELLED;
+        PREVIOUS("Previous"),
+        UPCOMING("Upcoming"),
+        CANCELLED("Cancelled");
+    
+        private String status;
+    
+        Status(String status) {
+            this.status = status;
+        }
+    
+        @Override
+        public String toString() {
+            return type;
+        }
     }
     
     private Date date;
