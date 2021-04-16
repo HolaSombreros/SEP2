@@ -6,9 +6,17 @@ import server.model.User;
 public class ViewState {
 
     private User user;
+    private Appointment selectedAppointment;
 
     public ViewState() {
         user = null;
+        selectedAppointment = null;
+    }
+    public Appointment getSelectedAppointment(){
+        return selectedAppointment;
+    }
+    public void setSelectedAppointment(Appointment appointment){
+        this.selectedAppointment = appointment;
     }
 
     public User getUser() {
