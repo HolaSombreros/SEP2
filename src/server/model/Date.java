@@ -1,5 +1,6 @@
 package server.model;
 
+import java.time.LocalDate;
 import java.util.GregorianCalendar;
 
 public class Date
@@ -32,6 +33,13 @@ public class Date
     int currentYear = currentDate.get(GregorianCalendar.YEAR);
     Date today = new Date(currentDay, currentMonth, currentYear);
     return today;
+  }
+  
+  public Date(LocalDate date) {
+    if (date == null) {
+      throw new IllegalArgumentException("Please input a date");
+    }
+    set(date.getDayOfMonth(), date.getMonthValue(), date.getYear());
   }
 
   public void set(int day, int month, int year)

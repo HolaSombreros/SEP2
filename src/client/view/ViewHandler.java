@@ -18,7 +18,7 @@ public class ViewHandler extends ViewCreator {
     public void start(Stage stage) {
         this.stage = stage;
         scene = new Scene(new Region());
-        openView(View.LOGIN);
+        openView(View.ADDAPPOINTMENT);
     }
     
     public void openView(View view) {

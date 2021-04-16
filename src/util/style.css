@@ -1,0 +1,7 @@
+.header {
+  -fx-font-size: 20px;
+}
+
+.error {
+  -fx-font-weight: bold;
+}

@@ -15,7 +15,7 @@ public class ViewModelFactory {
         loginViewModel = new LoginViewModel(model,viewState);
         loginChoiceViewModel = new LoginChoiceViewModel(model,viewState);
         appointmentTableViewModel = new AppointmentTableViewModel(model, viewState);
-        addAppointmentViewModel = new AddAppointmentViewModel(model);
+        addAppointmentViewModel = new AddAppointmentViewModel(model, viewState);
     }
     
     public RegisterViewModel getRegisterViewModel() {

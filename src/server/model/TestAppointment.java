@@ -2,10 +2,21 @@ package server.model;
 
 public class TestAppointment extends Appointment {
     public enum Result {
-        NEGATIVE,
-        POSITIVE,
-        INCONCLUSIVE,
-        NORESULTSAVAILABLE;
+        NEGATIVE("Negative"),
+        POSITIVE("Positive"),
+        INCONCLUSIVE("Inconclusive"),
+        NORESULTSAVAILABLE("No results available");
+        
+        private String result;
+    
+        Result(String result) {
+            this.result = result;
+        }
+    
+        @Override
+        public String toString() {
+            return result;
+        }
     }
     
     private Result result;
