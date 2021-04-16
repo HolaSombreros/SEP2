@@ -97,10 +97,14 @@ public class AddAppointmentViewModel {
                     appointment = new VaccineAppointment(new Date(date.get()), timeInterval.get(), type.get(), viewState.getUser());
                     break;
             }
-            model.addAppointment(viewState.getUser(), appointment);
-            errorFill.set(Color.GREEN);
-            error.set("Appointment at " + date.get() + " successfully created!");
-            resetInputs();
+            if (model.addAppointment(appointment) != null) {
+                errorFill.set(Color.GREEN);
+                error.set("Appointment at " + date.get() + " successfully created!");
+                resetInputs();
+            }
+            else {
+                throw new IllegalStateException("You are not a patient");
+            }
         }
         catch (Exception e) {
             errorFill.set(Color.RED);

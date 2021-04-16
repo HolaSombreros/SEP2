@@ -48,13 +48,15 @@ public class ModelManager implements Model, LocalListener<User, ServerMessage> {
     }
 
     @Override
-    public Appointment addAppointment(User user, Appointment appointment)
+    public Appointment addAppointment(Appointment appointment)
     {
-        try{
-            if(appointment == null || user == null){
-                throw new IllegalArgumentException("User or appointment cannot be null");
+        try {
+            if(appointment == null){
+                throw new IllegalArgumentException("Please input an appoint to add");
             }
-            return client.addAppointment(user, appointment);
+            // TODO: Fire new appointment event
+            property.firePropertyChange("new", null, null);
+            return client.addAppointment(appointment);
         }
         catch (RemoteException e){
             e.printStackTrace();

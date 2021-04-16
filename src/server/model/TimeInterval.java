@@ -1,6 +1,8 @@
 package server.model;
 
-public class TimeInterval {
+import java.io.Serializable;
+
+public class TimeInterval implements Serializable {
     private Time from;
     private Time to;
     private User nurse;

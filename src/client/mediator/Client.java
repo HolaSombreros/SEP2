@@ -40,9 +40,9 @@ public class Client implements LocalClientModel, RemoteListener<User, ServerMess
     }
 
     @Override
-    public Appointment addAppointment(User user,Appointment appointment) throws RemoteException
+    public Appointment addAppointment(Appointment appointment) throws RemoteException
     {
-        return server.addAppointment(user, appointment);
+        return server.addAppointment(appointment);
     }
 
     @Override

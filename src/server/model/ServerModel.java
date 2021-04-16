@@ -10,6 +10,6 @@ public interface ServerModel extends LocalSubject<User, ServerMessage>
     void sendServerMessage(ServerMessage message);
     User register(User user);
     void close();
-    Appointment addAppointment(User user, Appointment appointment);
+    Appointment addAppointment(Appointment appointment);
     AppointmentList getAppointmentsByUser(User user);
 }

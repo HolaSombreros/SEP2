@@ -1,6 +1,8 @@
 package server.model;
 
-public abstract class Appointment {
+import java.io.Serializable;
+
+public abstract class Appointment implements Serializable {
     public enum Type {
         TEST("Test"),
         VACCINE("Vaccine");

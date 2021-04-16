@@ -34,6 +34,9 @@ public class AppointmentListViewController extends ViewController
         typeColumn.setCellValueFactory(cellData -> cellData.getValue().typePropertyProperty());
         errorLabel.textProperty().bind(viewModel.getErrorProperty());
         appointmentTable.setItems(viewModel.getAppointments());
+        
+        // TODO: maybe?
+        reset();
     }
     @FXML private void seeDetails(){
 

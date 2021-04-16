@@ -1,9 +1,10 @@
 package server.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppointmentList
+public class AppointmentList implements Serializable
 {
     private List<Appointment> appointments;
 
@@ -19,14 +20,14 @@ public class AppointmentList
         appointments.add(appointment);
     }
 
-    public List<Appointment> getAppointmentsByUser(User user) {
-        List<Appointment> appointments1 = new ArrayList<>();
+    public AppointmentList getAppointmentListByUser(User user) {
+        AppointmentList list = new AppointmentList();
         for (Appointment appointment : appointments) {
             if (user.equals(appointment.getPatient())) {
-                 appointments1.add(appointment);
+                 list.add(appointment);
             }
         }
-        return appointments1;
+        return list;
     }
 
 

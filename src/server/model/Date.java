@@ -1,9 +1,10 @@
 package server.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.GregorianCalendar;
 
-public class Date
+public class Date implements Serializable
 {
   private int year;
   private int month;

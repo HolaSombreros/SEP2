@@ -31,7 +31,7 @@ public class AddAppointmentViewController extends ViewController {
     
     @Override
     public void reset() {
-    
+        viewModel.reset();
     }
     
     @FXML

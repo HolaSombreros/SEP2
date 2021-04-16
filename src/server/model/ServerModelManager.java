@@ -6,29 +6,30 @@ import utility.observer.subject.PropertyChangeProxy;
 
 public class ServerModelManager implements ServerModel
 {
-    //private DatabaseManager databaseManager;
     private UserList userList;
+    private AppointmentList appointmentList;
+    
     private PropertyChangeAction<User, ServerMessage> property;
 
     public ServerModelManager(){
         property = new PropertyChangeProxy<>(this);
-        //databaseManager = new DatabaseManager();
         userList = new UserList();
+        appointmentList = new AppointmentList();
+        addDummyData();
+    }
+    
+    private void addDummyData() {
         userList.addUser(new Patient("1204560000", "testpassword", "Test", "Person",
             new Address("TestStreet", "0", 8700, "Horsens"
-        ), "12345678", "test@email.com", false));
+            ), "12345678", "test@email.com", false));
         userList.addUser(new Nurse("1205561111", "testpassword", "Test", "Person",
             new Address("TestStreet", "0", 8700, "Horsens"
             ), "12345678", "test@email.com", "emp1"));
         userList.addUser(new Administrator("1211562222", "testpassword", "Test",  "Person",
             new Address("TestStreet", "0", 8700, "Horsens"
             ), "12345678", "test@email.com", "emp2"));
-       Patient user = (Patient) userList.getUserByCpr("1204560000");
-       Nurse nurse = (Nurse) userList.getUserByCpr("1205561111");
-       user.addAppointment(new TestAppointment(new Date(15, 8, 2021), new TimeInterval(new Time(10, 0, 0), new Time(10, 10, 0),nurse),Appointment.Type.TEST,user));
-
     }
-   //mocked login
+    
     @Override
     public User login(String cpr, String password)
     {
@@ -66,12 +67,12 @@ public class ServerModelManager implements ServerModel
     }
 
     @Override
-    public Appointment addAppointment(User user, Appointment appointment)
+    public Appointment addAppointment(Appointment appointment)
     {
-        if(user.getType().equals("Patient")){
-            Patient patient = (Patient) user;
-            patient.addAppointment(appointment);
-            System.out.println("Appointment added " +appointment); //TODO: Remove when done
+        if(appointment.getPatient().getType().equals("Patient")){
+            appointmentList.add(appointment);
+            //TODO: Remove SOUT when done
+            System.out.println("Appointment added for " + appointment.getPatient().getCpr());
             return appointment;
         }
         return null;
@@ -80,11 +81,11 @@ public class ServerModelManager implements ServerModel
     @Override
     public AppointmentList getAppointmentsByUser(User user)
     {
+        AppointmentList list = new AppointmentList();
         if(user.getType().equals("Patient")){
-            Patient patient = (Patient) user;
-            return (AppointmentList) patient.getAppointments().getAppointmentList();
+            return appointmentList.getAppointmentListByUser(user);
         }
-        return null;
+        return list;
     }
 
     @Override

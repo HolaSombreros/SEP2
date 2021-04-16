@@ -63,9 +63,9 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Serv
     }
 
     @Override
-    public Appointment addAppointment(User user, Appointment appointment) throws RemoteException
+    public Appointment addAppointment(Appointment appointment) throws RemoteException
     {
-        return serverModel.addAppointment(user, appointment);
+        return serverModel.addAppointment(appointment);
     }
 
     @Override
