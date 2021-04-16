@@ -3,8 +3,6 @@ package client.viewmodel;
 import client.model.Model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import server.model.Administrator;
-import server.model.Nurse;
 import server.model.Patient;
 
 public class LoginViewModel {
@@ -36,8 +34,8 @@ public class LoginViewModel {
         else {
             // TODO: Change the return type of this, perhaps to 0 for false, 1 for patient, 2 for admin/nurse so we can differentiate between 3 things in the viewcontroller
             viewState.setPatient(loggedIn);
-            if (loggedIn instanceof Administrator ||
-                loggedIn instanceof Nurse) {
+            if (loggedIn.getType().equals("Administrator") ||
+                loggedIn.getType().equals("Nurse")) {
                 // Account is a Admin / Nurse
                 return 2;
             }

@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Patient implements Serializable
-{
+public class Patient extends User implements Serializable {
   private String cpr;
   private String password;
   private String firstName;
@@ -187,6 +186,8 @@ public class Patient implements Serializable
     return validForVaccine;
   }
 
+
+
   public void setValidForVaccine(boolean validForVaccine)
   {
     this.validForVaccine = validForVaccine;
@@ -215,5 +216,10 @@ public class Patient implements Serializable
     }
       return cpr.equals(other.cpr) && password.equals(other.password) && firstName.equals(other.firstName) && middleName.equals(other.middleName) && lastName.equals(other.lastName)
           && address.equals(other.address) && phone.equals(other.phone) && email.equals(other.email);
+  }
+
+  @Override
+  public String getType() {
+    return "Patient";
   }
 }

@@ -22,6 +22,11 @@ public class Nurse extends Patient implements Serializable
     this.employeeId = employeeId;
   }
 
+  @Override
+  public String getType() {
+    return "Nurse";
+  }
+
   public String toString()
   {
     return employeeId + " " + super.toString();

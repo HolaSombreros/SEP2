@@ -22,6 +22,11 @@ public class Administrator extends Patient implements Serializable
     this.employeeId = employeeId;
   }
 
+  @Override
+  public String getType() {
+    return "Administrator";
+  }
+
   public String toString()
   {
     return employeeId + " " + super.toString();
