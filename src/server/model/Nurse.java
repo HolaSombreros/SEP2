@@ -20,6 +20,11 @@ public class Nurse extends Patient
     this.employeeId = employeeId;
   }
 
+  @Override
+  public String getType() {
+    return "Nurse";
+  }
+
   public String toString()
   {
     return employeeId + " " + super.toString();

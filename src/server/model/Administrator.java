@@ -20,6 +20,11 @@ public class Administrator extends Patient
     this.employeeId = employeeId;
   }
 
+  @Override
+  public String getType() {
+    return "Administrator";
+  }
+
   public String toString()
   {
     return employeeId + " " + super.toString();

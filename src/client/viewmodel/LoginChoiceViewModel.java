@@ -3,8 +3,6 @@ package client.viewmodel;
 import client.model.Model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import server.model.Administrator;
-import server.model.Nurse;
 
 public class LoginChoiceViewModel {
 
@@ -23,12 +21,12 @@ public class LoginChoiceViewModel {
     }
 
 
-    public void getRoleState(){
-        System.out.println(viewState.getPatient());
-        if(viewState.getPatient() instanceof Nurse)
-            roleProperty.set("Nurse");
-        if(viewState.getPatient() instanceof Administrator)
-            roleProperty.set("Administrator");
+    public void updateRoleProperty(){
+        System.out.println(viewState.getUser());
+        if(viewState.getUser().getType().equals("Nurse"))
+            roleProperty.set(viewState.getUser().getType());
+        if(viewState.getUser().getType().equals("Administrator"))
+            roleProperty.set(viewState.getUser().getType());
     }
 
     public StringProperty roleProperty() {

@@ -23,7 +23,7 @@ public class LoginViewController extends ViewController {
     @Override
     protected void init() {
         viewModel = getViewModelFactory().getLoginViewModel();
-        usernameField.textProperty().bindBidirectional(viewModel.getUsernameProperty());
+        usernameField.textProperty().bindBidirectional(viewModel.getCprProperty());
         passwordField.textProperty().bindBidirectional(viewModel.getPasswordProperty());
         errorLabel.textProperty().bind(viewModel.getErrorProperty());
     }
