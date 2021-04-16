@@ -22,7 +22,7 @@ public class AppointmentListViewModel implements LocalListener<Appointment, Appo
         this.viewState = viewState;
         this.appointments = FXCollections.observableArrayList();
         this.errorProperty = new SimpleStringProperty();
-
+        model.getAppointmentsByUser(viewState.getUser());
     }
     public ObservableList<AppointmentTableViewModel> getAppointments(){
         return appointments;

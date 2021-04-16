@@ -4,6 +4,7 @@ import client.model.Model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import server.model.Patient;
+import server.model.User;
 
 public class LoginViewModel {
 
@@ -26,7 +27,7 @@ public class LoginViewModel {
             errorProperty.setValue("Please enter a valid Cpr or Password");
             return 0;
         }
-        Patient loggedIn = model.login(cprProperty.get(), passwordProperty.get());
+        User loggedIn = model.login(cprProperty.get(), passwordProperty.get());
         if (loggedIn == null) {
             errorProperty.set("CPR and password do not match");
             return 0;

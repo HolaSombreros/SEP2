@@ -14,15 +14,19 @@ public class ServerModelManager implements ServerModel
         property = new PropertyChangeProxy<>(this);
         //databaseManager = new DatabaseManager();
         userList = new UserList();
-        userList.addUser(new Patient("1204560000", "testpassword", "Test", null, "Person",
+        userList.addUser(new Patient("1204560000", "testpassword", "Test", "Person",
             new Address("TestStreet", "0", 8700, "Horsens"
         ), "12345678", "test@email.com", false));
-        userList.addUser(new Nurse("1205561111", "testpassword", "Test", null, "Person",
+        userList.addUser(new Nurse("1205561111", "testpassword", "Test", "Person",
             new Address("TestStreet", "0", 8700, "Horsens"
             ), "12345678", "test@email.com", "emp1"));
-        userList.addUser(new Administrator("1211562222", "testpassword", "Test", null, "Person",
+        userList.addUser(new Administrator("1211562222", "testpassword", "Test",  "Person",
             new Address("TestStreet", "0", 8700, "Horsens"
             ), "12345678", "test@email.com", "emp2"));
+       Patient user = (Patient) userList.getUserByCpr("1204560000");
+       Nurse nurse = (Nurse) userList.getUserByCpr("1205561111");
+       user.addAppointment(new TestAppointment(new Date(15, 8, 2021), new TimeInterval(new Time(10, 0, 0), new Time(10, 10, 0),nurse),Appointment.Type.TEST,user));
+
     }
    //mocked login
     @Override
@@ -62,8 +66,24 @@ public class ServerModelManager implements ServerModel
     }
 
     @Override
-    public Appointment addAppointment(Appointment appointment)
+    public Appointment addAppointment(User user, Appointment appointment)
     {
+        if(user.getType().equals("Patient")){
+            Patient patient = (Patient) user;
+            patient.addAppointment(appointment);
+            System.out.println("Appointment added " +appointment); //TODO: Remove when done
+            return appointment;
+        }
+        return null;
+    }
+
+    @Override
+    public AppointmentList getAppointmentsByUser(User user)
+    {
+        if(user.getType().equals("Patient")){
+            Patient patient = (Patient) user;
+            return (AppointmentList) patient.getAppointments().getAppointmentList();
+        }
         return null;
     }
 

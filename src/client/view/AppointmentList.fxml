@@ -50,7 +50,7 @@
             </VBox>
             <VBox alignment="BOTTOM_CENTER" prefHeight="54.0" prefWidth="383.0">
                <children>
-                  <Button alignment="CENTER" cancelButton="true" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#backButton" prefHeight="25.0" prefWidth="72.0" text="Back" />
+                  <Button alignment="CENTER" cancelButton="true" contentDisplay="CENTER" mnemonicParsing="false" onAction="#backButton" prefHeight="25.0" prefWidth="72.0" text="Back" />
                </children>
             </VBox>
          </children>

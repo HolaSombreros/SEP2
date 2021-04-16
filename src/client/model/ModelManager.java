@@ -48,6 +48,36 @@ public class ModelManager implements Model, LocalListener<User, ServerMessage> {
     }
 
     @Override
+    public Appointment addAppointment(User user, Appointment appointment)
+    {
+        try{
+            if(appointment == null || user == null){
+                throw new IllegalArgumentException("User or appointment cannot be null");
+            }
+            return client.addAppointment(user, appointment);
+        }
+        catch (RemoteException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public AppointmentList getAppointmentsByUser(User user)
+    {
+        try{
+            /*if(user == null){
+                throw new IllegalArgumentException("No user");
+            }*/
+            return client.getAppointmentsByUser(user);
+        }
+        catch (RemoteException e){
+            e.printStackTrace();
+        }
+      return null;
+    }
+
+    @Override
     public void propertyChange(ObserverEvent<User, ServerMessage> event)
     {
         property.firePropertyChange(event);

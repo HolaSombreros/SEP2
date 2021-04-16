@@ -97,7 +97,7 @@ public class AddAppointmentViewModel {
                     appointment = new VaccineAppointment(new Date(date.get()), timeInterval.get(), type.get(), viewState.getUser());
                     break;
             }
-            model.addAppointment(appointment);
+            model.addAppointment(viewState.getUser(), appointment);
             errorFill.set(Color.GREEN);
             error.set("Appointment at " + date.get() + " successfully created!");
             resetInputs();

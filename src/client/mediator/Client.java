@@ -1,8 +1,6 @@
 package client.mediator;
 
-import server.model.Patient;
-import server.model.ServerMessage;
-import server.model.User;
+import server.model.*;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.RemoteListener;
@@ -40,7 +38,19 @@ public class Client implements LocalClientModel, RemoteListener<User, ServerMess
     public User register(User user) throws RemoteException {
         return server.register(user);
     }
-    
+
+    @Override
+    public Appointment addAppointment(User user,Appointment appointment) throws RemoteException
+    {
+        return server.addAppointment(user, appointment);
+    }
+
+    @Override
+    public AppointmentList getAppointmentsByUser(User user) throws RemoteException
+    {
+        return server.getAppointmentsByUser(user);
+    }
+
     @Override
     public void close() {
         try {
