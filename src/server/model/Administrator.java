@@ -1,5 +1,6 @@
 package server.model;
 
+<<<<<<< HEAD
 public class Administrator extends Staff {
     public Administrator(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email, String employeeId) {
         super(cpr, password, firstName, middleName, lastName, address, phone, email, employeeId);
@@ -22,4 +23,44 @@ public class Administrator extends Staff {
     public String toString() {
         return super.toString();
     }
+=======
+public class Administrator extends Patient
+{
+  private String employeeId;
+
+  public Administrator(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email, String employeeId)
+  {
+    super(cpr, password, firstName, middleName, lastName, address, phone, email, false);
+    setEmployeeId(employeeId);
+  }
+
+  public String getEmployeeId()
+  {
+    return employeeId;
+  }
+
+  public void setEmployeeId(String employeeId)
+  {
+    this.employeeId = employeeId;
+  }
+
+  @Override
+  public String getType() {
+    return "Administrator";
+  }
+
+  public String toString()
+  {
+    return employeeId + " " + super.toString();
+  }
+
+  public boolean equals(Object obj)
+  {
+    if (!(obj instanceof Administrator))
+      return false;
+
+    Administrator other = (Administrator) obj;
+    return super.equals(other) && employeeId.equals(other.employeeId);
+  }
+>>>>>>> 49716242953791944fab9e71353315587a46135b
 }
