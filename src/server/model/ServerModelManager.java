@@ -4,13 +4,11 @@ import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
 
-
-
 public class ServerModelManager implements ServerModel
 {
     //private DatabaseManager databaseManager;
     private UserList userList;
-    private PropertyChangeAction<Patient, ServerMessage> property;
+    private PropertyChangeAction<User, ServerMessage> property;
 
     public ServerModelManager(){
         property = new PropertyChangeProxy<>(this);
@@ -28,13 +26,13 @@ public class ServerModelManager implements ServerModel
     }
    //mocked login
     @Override
-    public Patient login(String cpr, String password)
+    public User login(String cpr, String password)
     {
         for(User user : userList.getUsersList()){
             if(user.getCpr().equals(cpr)){
                 if(user.getPassword().equals(password)){
                     System.out.println("Logged in as a: " + user.getCpr());
-                    return (Patient) user;
+                    return user;
                 }
             }
         }
@@ -47,14 +45,14 @@ public class ServerModelManager implements ServerModel
         property.firePropertyChange("message", null, message);
     }
 
-    @Override public Patient register(Patient patient)
+    @Override public User register(User user)
     {
-        if (userList.contains(patient)) {
+        if (userList.contains(user)) {
             return null;
         }
-        userList.addUser(patient);
-        System.out.println("Registered patient: " + patient.getCpr());
-        return patient;
+        userList.addUser(user);
+        System.out.println("Registered patient: " + user.getCpr());
+        return user;
     }
 
     @Override
@@ -64,13 +62,19 @@ public class ServerModelManager implements ServerModel
     }
 
     @Override
-    public boolean addListener(GeneralListener<Patient, ServerMessage> listener, String... propertyNames)
+    public Appointment addAppointment(Appointment appointment)
+    {
+        return null;
+    }
+
+    @Override
+    public boolean addListener(GeneralListener<User, ServerMessage> listener, String... propertyNames)
     {
         return property.addListener(listener, propertyNames);
     }
 
     @Override
-    public boolean removeListener(GeneralListener<Patient, ServerMessage> listener, String... propertyNames)
+    public boolean removeListener(GeneralListener<User, ServerMessage> listener, String... propertyNames)
     {
         return property.removeListener(listener, propertyNames);
     }

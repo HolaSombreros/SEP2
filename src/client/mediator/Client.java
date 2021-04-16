@@ -2,6 +2,7 @@ package client.mediator;
 
 import server.model.Patient;
 import server.model.ServerMessage;
+import server.model.User;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.RemoteListener;
@@ -14,9 +15,9 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import server.mediator.RemoteModel;
 
-public class Client implements LocalClientModel, RemoteListener<Patient, ServerMessage> {
+public class Client implements LocalClientModel, RemoteListener<User, ServerMessage> {
     private RemoteModel server;
-    private PropertyChangeAction<Patient, ServerMessage> property;
+    private PropertyChangeAction<User, ServerMessage> property;
     
     public Client() {
         try {
@@ -31,13 +32,13 @@ public class Client implements LocalClientModel, RemoteListener<Patient, ServerM
     }
     
     @Override
-    public Patient login(String cpr, String password) throws RemoteException {
+    public User login(String cpr, String password) throws RemoteException {
         return server.login(cpr, password);
     }
-    
+
     @Override
-    public Patient register(Patient patient) throws RemoteException {
-        return server.register(patient);
+    public User register(User user) throws RemoteException {
+        return server.register(user);
     }
     
     @Override
@@ -50,19 +51,22 @@ public class Client implements LocalClientModel, RemoteListener<Patient, ServerM
             e.printStackTrace();
         }
     }
-    
+
     @Override
-    public void propertyChange(ObserverEvent<Patient, ServerMessage> event) throws RemoteException {
+    public void propertyChange(ObserverEvent<User, ServerMessage> event) throws RemoteException
+    {
         property.firePropertyChange(event);
     }
-    
+
     @Override
-    public boolean addListener(GeneralListener<Patient, ServerMessage> listener, String... propertyNames) {
+    public boolean addListener(GeneralListener<User, ServerMessage> listener, String... propertyNames)
+    {
         return property.addListener(listener, propertyNames);
     }
-    
+
     @Override
-    public boolean removeListener(GeneralListener<Patient, ServerMessage> listener, String... propertyNames) {
+    public boolean removeListener(GeneralListener<User, ServerMessage> listener, String... propertyNames)
+    {
         return property.removeListener(listener, propertyNames);
     }
 }

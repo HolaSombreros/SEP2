@@ -1,6 +1,7 @@
 package client.viewmodel;
 
 
+import server.model.Appointment;
 import server.model.User;
 
 public class ViewState {

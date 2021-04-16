@@ -1,35 +1,40 @@
 package client.viewmodel;
 
-import client.model.Model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import server.model.Appointment;
 
-
-public class AppointmentTableViewModel implements LocalListener<Appointment, String>
+public class AppointmentTableViewModel
 {
-    private ObservableList<AppointmentViewModel> appointments;
-    private ViewState viewState;
-    private Model model;
-    private StringProperty errorProperty;
+    private StringProperty dateProperty;
+    private StringProperty timeProperty;
+    private StringProperty typeProperty;
+    private StringProperty resultProperty;
 
-    public AppointmentTableViewModel(Model model, ViewState viewState){
-        this.model = model;
-        this.viewState = viewState;
-        this.appointments = FXCollections.observableArrayList();
-        this.errorProperty = new SimpleStringProperty();
+    public AppointmentTableViewModel(Appointment appointment){
+        dateProperty = new SimpleStringProperty(appointment.getDate().toString());
+        timeProperty = new SimpleStringProperty(appointment.getTimeInterval().toString());
+        typeProperty = new SimpleStringProperty(appointment.getType().toString());
+        resultProperty = new SimpleStringProperty(appointment.getStatus().toString());
 
     }
-    public ObservableList<AppointmentViewModel> getAppointments(){
-        return appointments;
-    }
-    public void reset(){
-        appointments.clear();
-    }
-    public StringProperty  getErrorProperty(){
-        return errorProperty;
+    public StringProperty datePropertyProperty()
+    {
+        return dateProperty;
     }
 
+    public StringProperty timePropertyProperty()
+    {
+        return timeProperty;
+    }
 
+    public StringProperty typePropertyProperty()
+    {
+        return typeProperty;
+    }
+
+    public StringProperty resultPropertyProperty()
+    {
+        return resultProperty;
+    }
 }

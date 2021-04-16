@@ -6,7 +6,7 @@ public class ViewModelFactory {
     private RegisterViewModel registerViewModel;
     private LoginViewModel loginViewModel;
     private LoginChoiceViewModel loginChoiceViewModel;
-    private AppointmentTableViewModel appointmentTableViewModel;
+    private AppointmentListViewModel appointmentListViewModel;
     private AddAppointmentViewModel addAppointmentViewModel;
 
     
@@ -14,7 +14,7 @@ public class ViewModelFactory {
         registerViewModel = new RegisterViewModel(model);
         loginViewModel = new LoginViewModel(model,viewState);
         loginChoiceViewModel = new LoginChoiceViewModel(model,viewState);
-        appointmentTableViewModel = new AppointmentTableViewModel(model, viewState);
+        appointmentListViewModel = new AppointmentListViewModel(model, viewState);
         addAppointmentViewModel = new AddAppointmentViewModel(model, viewState);
     }
     
@@ -29,8 +29,8 @@ public class ViewModelFactory {
     public LoginChoiceViewModel getLoginChoiceViewModel() {
         return loginChoiceViewModel;
     }
-    public AppointmentTableViewModel getAppointmentListViewModel(){
-        return appointmentTableViewModel;
+    public AppointmentListViewModel getAppointmentListViewModel(){
+        return appointmentListViewModel;
     }
 
     public AddAppointmentViewModel getAddAppointmentViewModel()

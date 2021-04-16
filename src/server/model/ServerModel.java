@@ -8,10 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-public interface ServerModel extends LocalSubject<Patient, ServerMessage>
+public interface ServerModel extends LocalSubject<User, ServerMessage>
 {
-    Patient login(String cpr, String password);
+    User login(String cpr, String password);
     void sendServerMessage(ServerMessage message);
-    Patient register(Patient patient);
+    User register(User user);
     void close();
+    Appointment addAppointment(Appointment appointment);
 }
