@@ -1,23 +1,26 @@
 package server.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AppointmentTimeFrame implements Serializable {
-    private List<Appointment> appointments;
+    private AppointmentList appointmentList;
     private Date date;
     private TimeInterval timeInterval;
-    private static final int maxAppointmentCount = 3;
+    public static final int maxAppointmentCount = 3;
     
     public AppointmentTimeFrame(Date date, TimeInterval timeInterval) {
-        this.appointments = new ArrayList<>();
+        this.appointmentList = new AppointmentList();
         this.date = date.copy();
         this.timeInterval = timeInterval;
     }
     
+    public int getMaxAppointmentCount() {
+        return maxAppointmentCount;
+    }
+    
     public List<Appointment> getAppointmentList() {
-        return appointments;
+        return appointmentList.getAppointments();
     }
     
     public Date getDate() {
@@ -32,14 +35,14 @@ public class AppointmentTimeFrame implements Serializable {
         if (size() >= maxAppointmentCount) {
             throw new IllegalStateException("This time interval is unavailable");
         }
-        appointments.add(appointment);
+        appointmentList.add(appointment);
     }
     
     public Appointment getAppointmentById(int id) {
         if (id < 1) {
             throw new IllegalArgumentException("Please enter an id higher than 0");
         }
-        for (Appointment appointment : appointments) {
+        for (Appointment appointment : appointmentList.getAppointments()) {
             if (appointment.getId() == id) {
                 return appointment;
             }
@@ -52,7 +55,7 @@ public class AppointmentTimeFrame implements Serializable {
             throw new IllegalArgumentException("The user cannot be null");
         }
         AppointmentList appointments = new AppointmentList();
-        for (Appointment appointment : this.appointments) {
+        for (Appointment appointment : appointmentList.getAppointments()) {
             if (user.getCpr().equals(appointment.getPatient().getCpr())) {
                 appointments.add(appointment);
             }
@@ -61,18 +64,13 @@ public class AppointmentTimeFrame implements Serializable {
     }
     
     public int size() {
-        return appointments.size();
-    }
-    
-    @Override
-    public boolean equals(Object obj) {
-        return false;
+        return appointmentList.size();
     }
     
     @Override
     public String toString() {
         String result = "";
-        for (Appointment appointment : appointments) {
+        for (Appointment appointment : appointmentList.getAppointments()) {
             result += appointment + " ";
         }
         return result;

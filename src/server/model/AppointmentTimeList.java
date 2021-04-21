@@ -14,10 +14,15 @@ public class AppointmentTimeList {
         appointmentTimeFrames.add(appointmentTimeFrame);
     }
     
-    public void add(Appointment appointment, TimeInterval timeInterval) {
+    public void add(Appointment appointment, Date date, TimeInterval timeInterval) {
+        // is there a timeframe on a certain date?
+        // is there a timeinterval in that timeframe?
+        // add the appointment there
+        
+        
         for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
-            if (appointmentTimeFrame.getTimeInterval().equals(timeInterval)) {
-                System.out.println("Added appointment");
+            if (appointmentTimeFrame.getDate().equals(date) &&
+                appointmentTimeFrame.getTimeInterval().equals(timeInterval)) {
                 appointmentTimeFrame.add(appointment);
             }
         }
@@ -38,10 +43,13 @@ public class AppointmentTimeList {
         return null;
     }
     
-    public TimeIntervalList getAvailableTimeIntervals() {
+    public TimeIntervalList getAvailableTimeIntervals(Date date) {
         TimeIntervalList list = new TimeIntervalList();
         for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
-            list.add(appointmentTimeFrame.getTimeInterval());
+            if (appointmentTimeFrame.getDate().equals(date) &&
+                appointmentTimeFrame.size() < appointmentTimeFrame.getMaxAppointmentCount()) {
+                list.add(appointmentTimeFrame.getTimeInterval());
+            }
         }
         return list;
     }

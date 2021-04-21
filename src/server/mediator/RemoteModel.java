@@ -10,6 +10,6 @@ public interface RemoteModel extends RemoteSubject<User, Appointment>
     User login(String cpr, String password) throws RemoteException;
     void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, User patient) throws RemoteException;
     AppointmentList getAppointmentsByUser(User patient) throws RemoteException;
-    TimeIntervalList getAvailableTimeIntervals() throws RemoteException;
+    TimeIntervalList getAvailableTimeIntervals(Date date) throws RemoteException;
     Appointment getAppointmentById(int id) throws RemoteException;
 }

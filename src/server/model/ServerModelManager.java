@@ -27,10 +27,11 @@ public class ServerModelManager implements ServerModel {
     }
     
     private void addDummyTimeIntervals() {
-        // from 8:00 -> 8:20  'til  15:00 -> 15:20
+        // from 8:00 -> 8:20  'til  15:00 -> 15:20 on current day
         for (int i = 8; i < 16; i++) {
             appointmentTimeList.add(new AppointmentTimeFrame(Date.today(), new TimeInterval(new Time(i, 0), new Time(i, 20))));
         }
+        appointmentTimeList.add(new AppointmentTimeFrame(new Date(22, 4, 2021), new TimeInterval(new Time(8, 0), new Time(12, 20))));
     }
     
     @Override
@@ -104,7 +105,7 @@ public class ServerModelManager implements ServerModel {
                     throw new IllegalStateException("Appointment type '" + type + "' is invalid");
             }
             
-            appointmentTimeList.add(appointment, timeInterval);
+            appointmentTimeList.add(appointment, date, timeInterval);
         }
         else {
             throw new IllegalStateException("Please log in as a patient and try again");
@@ -125,8 +126,8 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
-    public TimeIntervalList getAvailableTimeIntervals() {
-        return appointmentTimeList.getAvailableTimeIntervals();
+    public TimeIntervalList getAvailableTimeIntervals(Date date) {
+        return appointmentTimeList.getAvailableTimeIntervals(date);
     }
     
     @Override

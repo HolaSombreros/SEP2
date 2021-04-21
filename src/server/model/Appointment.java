@@ -46,6 +46,15 @@ public abstract class Appointment implements Serializable {
     private TimeInterval timeInterval;
     
     public Appointment(Date date, TimeInterval timeInterval, Type type, User patient, User nurse) {
+        if (timeInterval == null) {
+            throw new IllegalArgumentException("Please select a time interval");
+        }
+        if (patient == null) {
+            throw new IllegalArgumentException("Please select a patient");
+        }
+        if (nurse == null) {
+            throw new IllegalArgumentException("Please select a nurse");
+        }
         id = idCounter;
         this.type = type;
         this.status = Status.UPCOMING;
@@ -60,6 +69,10 @@ public abstract class Appointment implements Serializable {
         return id;
     }
     
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public Type getType() {
         return type;
     }
@@ -68,8 +81,16 @@ public abstract class Appointment implements Serializable {
         return status;
     }
     
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+    
     public User getPatient() {
         return patient;
+    }
+    
+    public User getNurse() {
+        return nurse;
     }
     
     public Date getDate() {
