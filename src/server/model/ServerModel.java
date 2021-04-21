@@ -10,6 +10,6 @@ public interface ServerModel extends LocalSubject<User, Appointment>
     void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, User patient);
     AppointmentList getAppointmentsByUser(User user);
     Appointment getAppointmentById(int id);
-    TimeIntervalList getAvailableTimeIntervals();
+    TimeIntervalList getAvailableTimeIntervals(Date date);
     void close();
 }

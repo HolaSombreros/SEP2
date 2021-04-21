@@ -23,7 +23,6 @@ public class AppointmentTimeList {
         for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
             if (appointmentTimeFrame.getDate().equals(date) &&
                 appointmentTimeFrame.getTimeInterval().equals(timeInterval)) {
-                
                 appointmentTimeFrame.add(appointment);
             }
         }
@@ -44,10 +43,13 @@ public class AppointmentTimeList {
         return null;
     }
     
-    public TimeIntervalList getAvailableTimeIntervals() {
+    public TimeIntervalList getAvailableTimeIntervals(Date date) {
         TimeIntervalList list = new TimeIntervalList();
         for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
-            list.add(appointmentTimeFrame.getTimeInterval());
+            if (appointmentTimeFrame.getDate().equals(date) &&
+                appointmentTimeFrame.size() < appointmentTimeFrame.getMaxAppointmentCount()) {
+                list.add(appointmentTimeFrame.getTimeInterval());
+            }
         }
         return list;
     }

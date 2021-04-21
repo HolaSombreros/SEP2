@@ -47,8 +47,8 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     }
     
     @Override
-    public TimeIntervalList getAvailableTimeIntervals() {
-        return client.getAvailableTimeIntervals();
+    public TimeIntervalList getAvailableTimeIntervals(Date date) {
+        return client.getAvailableTimeIntervals(date);
     }
     
     @Override

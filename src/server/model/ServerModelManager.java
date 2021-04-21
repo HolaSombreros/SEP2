@@ -31,6 +31,7 @@ public class ServerModelManager implements ServerModel {
         for (int i = 8; i < 16; i++) {
             appointmentTimeList.add(new AppointmentTimeFrame(Date.today(), new TimeInterval(new Time(i, 0), new Time(i, 20))));
         }
+        appointmentTimeList.add(new AppointmentTimeFrame(new Date(22, 4, 2021), new TimeInterval(new Time(8, 0), new Time(12, 20))));
     }
     
     @Override
@@ -125,8 +126,8 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
-    public TimeIntervalList getAvailableTimeIntervals() {
-        return appointmentTimeList.getAvailableTimeIntervals();
+    public TimeIntervalList getAvailableTimeIntervals(Date date) {
+        return appointmentTimeList.getAvailableTimeIntervals(date);
     }
     
     @Override

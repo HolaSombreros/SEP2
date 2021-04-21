@@ -20,6 +20,9 @@ public class AddAppointmentViewController extends ViewController {
     protected void init() {
         viewModel = getViewModelFactory().getAddAppointmentViewModel();
         dateDatePicker.valueProperty().bindBidirectional(viewModel.getDateProperty());
+        dateDatePicker.valueProperty().addListener((obs, oldVal, newVal) -> {
+            viewModel.loadTimeIntervals();
+        });
         timeIntervalChoiceBox.valueProperty().bindBidirectional(viewModel.getTimeIntervalProperty());
         timeIntervalChoiceBox.setItems(viewModel.getAvailableTimeIntervals());
         typeChoiceBox.valueProperty().bindBidirectional(viewModel.getTypeProperty());

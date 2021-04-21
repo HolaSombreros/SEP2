@@ -49,8 +49,8 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     }
     
     @Override
-    public TimeIntervalList getAvailableTimeIntervals() throws RemoteException {
-        return serverModel.getAvailableTimeIntervals();
+    public TimeIntervalList getAvailableTimeIntervals(Date date) throws RemoteException {
+        return serverModel.getAvailableTimeIntervals(date);
     }
     
     @Override

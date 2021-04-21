@@ -71,9 +71,9 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
     }
     
     @Override
-    public TimeIntervalList getAvailableTimeIntervals() {
+    public TimeIntervalList getAvailableTimeIntervals(Date date) {
         try {
-            return server.getAvailableTimeIntervals();
+            return server.getAvailableTimeIntervals(date);
         }
         catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);

@@ -33,7 +33,6 @@ public class AddAppointmentViewModel {
         timeIntervals = FXCollections.observableArrayList();
         timeInterval = new SimpleObjectProperty<>();
         loadTypes();
-        loadTimeIntervals();
         error = new SimpleStringProperty();
         errorFill = new SimpleObjectProperty<>(Color.RED);
     }
@@ -44,14 +43,19 @@ public class AddAppointmentViewModel {
         type.set(types.get(0));
     }
     
-    private void loadTimeIntervals() {
+    public void loadTimeIntervals() {
         timeIntervals.clear();
-        timeIntervals.addAll(model.getAvailableTimeIntervals().getTimeIntervals());
-        if (timeIntervals.size() > 0) {
-            timeInterval.set(timeIntervals.get(0));
-        }
-        else {
-            timeInterval.set(null);
+        if (date.get() != null) {
+            timeIntervals.addAll(model.getAvailableTimeIntervals(new Date(date.get())).getTimeIntervals());
+            if (timeIntervals.size() > 0) {
+                timeInterval.set(timeIntervals.get(0));
+                error.set("");
+            }
+            else {
+                timeInterval.set(null);
+                errorFill.set(Color.RED);
+                error.set("No time intervals available this day");
+            }
         }
     }
     
@@ -63,7 +67,7 @@ public class AddAppointmentViewModel {
     private void resetInputs() {
         date.set(null);
         loadTypes();
-        loadTimeIntervals();
+        timeIntervals.clear();
     }
     
     public ObjectProperty<LocalDate> getDateProperty() {
