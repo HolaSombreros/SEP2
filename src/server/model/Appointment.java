@@ -79,7 +79,11 @@ public abstract class Appointment implements Serializable {
     public User getPatient() {
         return patient;
     }
-    
+
+    public User getNurse() {
+        return nurse;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Appointment)) {

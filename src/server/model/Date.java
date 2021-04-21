@@ -133,6 +133,9 @@ public class Date implements Serializable
     return day == other.day && month == other.month && year == other.year;
   }
 
+  public String getDateSQL(){
+    return year + "-" + month + "-" +day;
+  }
   @Override public String toString()
   {
     return String.format("%02d-%02d-%d", day, month, year);
