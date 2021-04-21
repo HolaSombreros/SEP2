@@ -11,91 +11,91 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
-public class RemoteModelManager implements RemoteModel, LocalListener<User, ServerMessage>
-{
-
+public class RemoteModelManager implements RemoteModel, LocalListener<User, Appointment> {
+    
     private ServerModel serverModel;
-    private PropertyChangeAction<User, ServerMessage> property;
-
-    public RemoteModelManager(ServerModel serverModel) throws RemoteException, MalformedURLException
-    {
+    private PropertyChangeAction<User, Appointment> property;
+    
+    public RemoteModelManager(ServerModel serverModel) throws RemoteException, MalformedURLException {
         this.serverModel = serverModel;
-        this.property = new PropertyChangeProxy<>(this, true);
-        //this.serverModel.addListener(this);
+        property = new PropertyChangeProxy<>(this, true);
+        serverModel.addListener(this);
         startRegistry();
         startServer();
-
     }
-    private void startRegistry() throws RemoteException
-    {
-        try
-        {
-            Registry registry = LocateRegistry.createRegistry(1099);
+    
+    @Override
+    public User login(String cpr, String password) throws RemoteException {
+        return serverModel.login(cpr, password);
+    }
+    
+    @Override
+    public void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city)
+        throws RemoteException {
+        serverModel.register(cpr, password, firstName, middleName, lastName, phone, email, street, number, zip, city);
+    }
+    
+    @Override
+    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, User patient,User nurse) throws RemoteException {
+        serverModel.addAppointment(date, timeInterval, type, patient,nurse);
+    }
+    
+    @Override
+    public AppointmentTimeList getAppointmentsByUser(User patient) throws RemoteException {
+        return serverModel.getAppointmentsByUser(patient);
+    }
+    
+    @Override
+    public TimeIntervalList getAvailableTimeIntervals() throws RemoteException {
+        return serverModel.getAvailableTimeIntervals();
+    }
+    
+    @Override
+    public Appointment getAppointmentById(int id) throws RemoteException {
+        return serverModel.getAppointmentById(id);
+    }
+    
+    private void startRegistry() throws RemoteException {
+        try {
+            LocateRegistry.createRegistry(1099);
             System.out.println("Registry started...");
         }
-        catch (java.rmi.server.ExportException e)
-        {
-            System.out.println("Registry did not start "+ e.getMessage());
+        catch (ExportException e) {
+            System.out.println("Registry already started - " + e.getMessage());
         }
     }
-    private void startServer() throws RemoteException, MalformedURLException
-    {
+    
+    private void startServer() throws RemoteException, MalformedURLException {
         UnicastRemoteObject.exportObject(this, 0);
         Naming.rebind("AppointmentSystem", this);
         System.out.println("Server started...");
     }
-
-    @Override
-    public User login(String cpr, String password) throws RemoteException
-    {
-        return serverModel.login(cpr, password);
-    }
-
-    @Override
-    public User register(User user) throws RemoteException
-    {
-        return serverModel.register(user);
-    }
-
-    @Override
-    public Appointment addAppointment(Appointment appointment) throws RemoteException
-    {
-        return serverModel.addAppointment(appointment);
-    }
-
-    @Override
-    public AppointmentList getAppointmentsByUser(User user) throws RemoteException {
-        return serverModel.getAppointmentsByUser(user);
-    }
-
-    @Override
-    public void close()
-    {
+    
+    public void close() {
         property.close();
-        try { UnicastRemoteObject.unexportObject(this, true); }
-        catch (Exception e) {}
+        try {
+            UnicastRemoteObject.unexportObject(this, true);
+        }
+        catch (Exception e) {
+            // Do nothing
+        }
     }
-
+    
     @Override
-    public void propertyChange(ObserverEvent<User, ServerMessage> event)
-    {
+    public void propertyChange(ObserverEvent<User, Appointment> event) {
         property.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
     }
-
+    
     @Override
-    public boolean addListener(GeneralListener<User, ServerMessage> listener, String... propertyNames) throws RemoteException
-    {
+    public boolean addListener(GeneralListener<User, Appointment> listener, String... propertyNames) throws RemoteException {
         return property.addListener(listener, propertyNames);
     }
-
+    
     @Override
-    public boolean removeListener(GeneralListener<User, ServerMessage> listener, String... propertyNames) throws RemoteException
-    {
+    public boolean removeListener(GeneralListener<User, Appointment> listener, String... propertyNames) throws RemoteException {
         return property.removeListener(listener, propertyNames);
     }
 }

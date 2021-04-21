@@ -45,7 +45,14 @@ public class AddAppointmentViewModel {
     }
     
     private void loadTimeIntervals() {
-        // TODO: Get available time intervals from the server
+        timeIntervals.clear();
+        timeIntervals.addAll(model.getAvailableTimeIntervals().getTimeIntervals());
+        if (timeIntervals.size() > 0) {
+            timeInterval.set(timeIntervals.get(0));
+        }
+        else {
+            timeInterval.set(null);
+        }
     }
     
     public void reset() {
@@ -56,6 +63,7 @@ public class AddAppointmentViewModel {
     private void resetInputs() {
         date.set(null);
         loadTypes();
+        loadTimeIntervals();
     }
     
     public ObjectProperty<LocalDate> getDateProperty() {
@@ -88,23 +96,10 @@ public class AddAppointmentViewModel {
     
     public void createAppointment() {
         try {
-            Appointment appointment = null;
-            switch (type.get()) {
-                case TEST:
-                    appointment = new TestAppointment(new Date(date.get()), timeInterval.get(), type.get(), viewState.getUser());
-                    break;
-                case VACCINE:
-                    appointment = new VaccineAppointment(new Date(date.get()), timeInterval.get(), type.get(), viewState.getUser());
-                    break;
-            }
-            if (model.addAppointment(appointment) != null) {
-                errorFill.set(Color.GREEN);
-                error.set("Appointment at " + date.get() + " successfully created!");
-                resetInputs();
-            }
-            else {
-                throw new IllegalStateException("You are not a patient");
-            }
+            model.addAppointment(new Date(date.get()), timeInterval.get(), type.get(), viewState.getUser());
+            errorFill.set(Color.GREEN);
+            error.set("Appointment booked for " + date.get() + " (" + timeInterval.get() + ")");
+            resetInputs();
         }
         catch (Exception e) {
             errorFill.set(Color.RED);

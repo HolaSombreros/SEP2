@@ -21,8 +21,8 @@ public class TestAppointment extends Appointment {
     
     private Result result;
     
-    public TestAppointment(Date date, TimeInterval timeInterval, Type type, User patient) {
-        super(date, timeInterval, type, patient);
+    public TestAppointment(Date date, TimeInterval timeInterval,Type type, User patient,User nurse) {
+        super(date,timeInterval,type, patient,nurse);
         result = Result.NORESULTSAVAILABLE;
     }
     

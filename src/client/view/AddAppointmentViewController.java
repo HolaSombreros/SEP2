@@ -11,7 +11,6 @@ import server.model.TimeInterval;
 public class AddAppointmentViewController extends ViewController {
     private AddAppointmentViewModel viewModel;
     
-    
     @FXML private DatePicker dateDatePicker;
     @FXML private ChoiceBox<TimeInterval> timeIntervalChoiceBox;
     @FXML private ChoiceBox<Appointment.Type> typeChoiceBox;

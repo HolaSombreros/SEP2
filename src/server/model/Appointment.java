@@ -36,26 +36,36 @@ public abstract class Appointment implements Serializable {
         }
     }
     
-    private Date date;
-    private TimeInterval timeInterval;
+    public static int idCounter = 1;
+    private int id;
     private Type type;
     private Status status;
     private User patient;
+    private User nurse;
+    private Date date;
+    private TimeInterval timeInterval;
     
-    public Appointment(Date date, TimeInterval timeInterval, Type type, User patient) {
-        this.date = date;
-        this.timeInterval = timeInterval;
+    public Appointment(Date date, TimeInterval timeInterval,Type type, User patient, User nurse) {
+        id = idCounter;
         this.type = type;
         this.status = Status.UPCOMING;
         this.patient = patient;
+        this.nurse = nurse;
+        this.date = date;
+        this.timeInterval = timeInterval;
+        idCounter++;
     }
-    
+
     public Date getDate() {
-        return date.copy();
+        return date;
     }
-    
+
     public TimeInterval getTimeInterval() {
         return timeInterval;
+    }
+
+    public int getId() {
+        return id;
     }
     
     public Type getType() {
@@ -68,5 +78,22 @@ public abstract class Appointment implements Serializable {
     
     public User getPatient() {
         return patient;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Appointment)) {
+            return false;
+        }
+        Appointment appointment = (Appointment) obj;
+        return id == appointment.id &&
+            type.equals(appointment.type) &&
+            status.equals(appointment.status) &&
+            patient.equals(appointment.patient);
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("#%d: %s (%s) - %s\n", id, patient, type, status);
     }
 }

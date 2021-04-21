@@ -23,18 +23,9 @@ public class LoginViewModel {
     }
 
     public int login(){
-        if(cprProperty.get().equals("") || passwordProperty.get().equals("")) {
-            errorProperty.setValue("Please enter a valid Cpr or Password");
-            return 0;
-        }
-        User loggedIn = model.login(cprProperty.get(), passwordProperty.get());
-        if (loggedIn == null) {
-            errorProperty.set("CPR and password do not match");
-            return 0;
-        }
-        else {
-            // TODO: Change the return type of this, perhaps to 0 for false, 1 for patient, 2 for admin/nurse so we can differentiate between 3 things in the viewcontroller
-            viewState.setPatient(loggedIn);
+        try {
+            User loggedIn = model.login(cprProperty.get(), passwordProperty.get());
+            viewState.setUser(loggedIn);
             if (loggedIn.getType().equals("Administrator") ||
                 loggedIn.getType().equals("Nurse")) {
                 // Account is a Admin / Nurse
@@ -44,6 +35,10 @@ public class LoginViewModel {
                 // Account is only a Patient
                 return 1;
             }
+        }
+        catch (Exception e) {
+            errorProperty.set(e.getMessage());
+            return 0;
         }
     }
 
