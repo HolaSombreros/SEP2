@@ -1,6 +1,7 @@
 package server.database;
 
 import server.model.Address;
+import server.model.Administrator;
 import server.model.Patient;
 import server.model.UserList;
 
@@ -55,7 +56,7 @@ public class PatientManager extends DatabaseManager{
 
     public UserList getAllPatients() throws RemoteException, SQLException {
         try (Connection connection = getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM patients");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM patient");
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String cprResult = resultSet.getString("cpr");
@@ -99,6 +100,28 @@ public class PatientManager extends DatabaseManager{
         }
     }
 
+    public String getPassword(String cpr) throws SQLException{
+        try(Connection connection = getConnection()){
+            PreparedStatement selectStatement = connection.prepareStatement("SELECT password FROM patient WHERE cpr = ?");
+            selectStatement.setString(1,cpr);
+            ResultSet resultSet = selectStatement.executeQuery();
+            if(resultSet.next()){
+                String password = resultSet.getString("password");
+                return password;
+            }
+            else{
+                throw new IllegalStateException("User not in database");
+            }
+        }
+    }
+
+    public void removePatient(Patient patient) throws SQLException {
+        try (Connection connection = getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM patient WHERE cpr = ?");
+            statement.setString(1,patient.getCpr());
+            statement.executeQuery();
+        }
+    }
 
 
 }

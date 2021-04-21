@@ -1,6 +1,7 @@
 package server.database;
 
 import server.model.Address;
+import server.model.Administrator;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,6 +35,16 @@ public class AddressManager extends DatabaseManager{
             else {
                 throw new IllegalStateException("No existing city with this zipcode");
             }
+        }
+    }
+
+    public void removeAddress(Address address) throws SQLException
+    {
+        try (Connection connection = getConnection())
+        {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM address WHERE zip_code = ?");
+            statement.setInt(1,address.getZipcode());
+            statement.executeQuery();
         }
     }
 }
