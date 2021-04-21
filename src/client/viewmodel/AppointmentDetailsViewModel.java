@@ -38,8 +38,8 @@ public class AppointmentDetailsViewModel
         reset();
     }
     public void reset(){
-        Appointment appointment = model.getAppointmentsByUser(viewState.getUser()).getAppointmentById(viewState.getSelectedAppointment());
-        type.set(appointment.getType().toString());
+//        Appointment appointment = model.getAppointmentsByUser(viewState.getUser()).getAppointmentById(viewState.getSelectedAppointment());
+//        type.set(appointment.getType().toString());
 
         errorLabel.set("");
         date.set(null);

@@ -60,12 +60,20 @@ public abstract class Appointment implements Serializable {
         return id;
     }
     
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public Type getType() {
         return type;
     }
     
     public Status getStatus() {
         return status;
+    }
+    
+    public void setStatus(Status status) {
+        this.status = status;
     }
     
     public User getPatient() {

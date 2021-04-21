@@ -14,10 +14,16 @@ public class AppointmentTimeList {
         appointmentTimeFrames.add(appointmentTimeFrame);
     }
     
-    public void add(Appointment appointment, TimeInterval timeInterval) {
+    public void add(Appointment appointment, Date date, TimeInterval timeInterval) {
+        // is there a timeframe on a certain date?
+        // is there a timeinterval in that timeframe?
+        // add the appointment there
+        
+        
         for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
-            if (appointmentTimeFrame.getTimeInterval().equals(timeInterval)) {
-                System.out.println("Added appointment");
+            if (appointmentTimeFrame.getDate().equals(date) &&
+                appointmentTimeFrame.getTimeInterval().equals(timeInterval)) {
+                
                 appointmentTimeFrame.add(appointment);
             }
         }
