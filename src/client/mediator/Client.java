@@ -81,6 +81,16 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
     }
     
     @Override
+    public Appointment getAppointmentById(int id) {
+        try {
+            return server.getAppointmentById(id);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
+        }
+    }
+    
+    @Override
     public void close() {
         try {
             UnicastRemoteObject.unexportObject(this, true);

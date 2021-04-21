@@ -53,6 +53,11 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
         return serverModel.getAvailableTimeIntervals();
     }
     
+    @Override
+    public Appointment getAppointmentById(int id) throws RemoteException {
+        return serverModel.getAppointmentById(id);
+    }
+    
     private void startRegistry() throws RemoteException {
         try {
             LocateRegistry.createRegistry(1099);

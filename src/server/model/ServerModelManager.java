@@ -120,6 +120,11 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
+    public Appointment getAppointmentById(int id) {
+        return appointmentList.getAppointmentById(id);
+    }
+    
+    @Override
     public TimeIntervalList getAvailableTimeIntervals() {
         return timeIntervalList;
     }

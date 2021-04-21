@@ -11,6 +11,7 @@ public interface ServerModel extends LocalSubject<User, Appointment>
     void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city);
     void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, User patient);
     AppointmentList getAppointmentsByUser(User user);
+    Appointment getAppointmentById(int id);
     TimeIntervalList getAvailableTimeIntervals();
     void close();
 }

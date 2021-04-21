@@ -63,6 +63,7 @@ public class AddAppointmentViewModel {
     private void resetInputs() {
         date.set(null);
         loadTypes();
+        loadTimeIntervals();
     }
     
     public ObjectProperty<LocalDate> getDateProperty() {
@@ -97,7 +98,7 @@ public class AddAppointmentViewModel {
         try {
             model.addAppointment(new Date(date.get()), timeInterval.get(), type.get(), viewState.getUser());
             errorFill.set(Color.GREEN);
-            error.set("Booked appointment at " + date.get() + " " + timeInterval.get() + "!");
+            error.set("Appointment booked for " + date.get() + " (" + timeInterval.get() + ")");
             resetInputs();
         }
         catch (Exception e) {

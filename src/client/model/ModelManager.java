@@ -52,6 +52,11 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     }
     
     @Override
+    public Appointment getAppointmentById(int id) {
+        return client.getAppointmentById(id);
+    }
+    
+    @Override
     public void close() {
         property.close();
         client.close();

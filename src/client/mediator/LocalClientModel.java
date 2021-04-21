@@ -9,5 +9,6 @@ public interface LocalClientModel extends LocalSubject<User, Appointment> {
     void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, User patient);
     AppointmentList getAppointmentsByUser(User patient);
     TimeIntervalList getAvailableTimeIntervals();
+    Appointment getAppointmentById(int id);
     void close();
 }

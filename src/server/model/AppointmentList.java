@@ -19,8 +19,23 @@ public class AppointmentList implements Serializable
     public void add(Appointment appointment) {
         appointments.add(appointment);
     }
+    
+    public Appointment getAppointmentById(int id) {
+        if (id < 1) {
+            throw new IllegalArgumentException("Please enter an id higher than 0");
+        }
+        for (Appointment appointment : appointments) {
+            if (appointment.getId() == id) {
+                return appointment;
+            }
+        }
+        return null;
+    }
 
     public AppointmentList getAppointmentListByUser(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("The user cannot be null");
+        }
         AppointmentList list = new AppointmentList();
         for (Appointment appointment : appointments) {
             if (user.equals(appointment.getPatient())) {
@@ -36,8 +51,7 @@ public class AppointmentList implements Serializable
     }
 
     public boolean contains(Appointment appointment) {
-        //TODO : CONTAINS WITH TIME INTERVAL AND BLA BLA
-        return false;
+        return getAppointmentById(appointment.getId()) != null;
     }
 
     @Override

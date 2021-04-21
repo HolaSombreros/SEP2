@@ -38,16 +38,12 @@ public abstract class Appointment implements Serializable {
     
     public static int idCounter = 1;
     private int id;
-    private Date date;
-    private TimeInterval timeInterval;
     private Type type;
     private Status status;
     private User patient;
     
-    public Appointment(Date date, TimeInterval timeInterval, Type type, User patient) {
+    public Appointment(Type type, User patient) {
         id = idCounter;
-        this.date = date;
-        this.timeInterval = timeInterval;
         this.type = type;
         this.status = Status.UPCOMING;
         this.patient = patient;
@@ -56,14 +52,6 @@ public abstract class Appointment implements Serializable {
     
     public int getId() {
         return id;
-    }
-    
-    public Date getDate() {
-        return date.copy();
-    }
-    
-    public TimeInterval getTimeInterval() {
-        return timeInterval;
     }
     
     public Type getType() {
@@ -85,8 +73,6 @@ public abstract class Appointment implements Serializable {
         }
         Appointment appointment = (Appointment) obj;
         return id == appointment.id &&
-            date.equals(appointment.date) &&
-            timeInterval.equals(appointment.timeInterval) &&
             type.equals(appointment.type) &&
             status.equals(appointment.status) &&
             patient.equals(appointment.patient);
@@ -94,6 +80,6 @@ public abstract class Appointment implements Serializable {
     
     @Override
     public String toString() {
-        return String.format("#%d: %s %s | %s | %s | %s\n", id, date, timeInterval, type, status, patient);
+        return String.format("#%d: %s (%s) - %s\n", id, patient, type, status);
     }
 }
