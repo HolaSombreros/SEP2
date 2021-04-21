@@ -16,9 +16,10 @@ public class AppointmentDetailsViewModel
 {
     private StringProperty type;
     private ObjectProperty<LocalDate> date;
-    private ObjectProperty<Appointment.Status> status;
+    private StringProperty status;
     private StringProperty errorLabel;
-    private ObservableList<TimeInterval> timeInterval;
+    private ObservableList<TimeInterval> listOfTimeIntervals;
+    private ObjectProperty<TimeInterval> timeInterval;
     private StringProperty result;
 
     private Model model;
@@ -30,8 +31,56 @@ public class AppointmentDetailsViewModel
         date = new SimpleObjectProperty<>();
         type = new SimpleStringProperty();
         result = new SimpleStringProperty();
-       // status = new SimpleObjectProperty<>(Appointment.Type.values()[0]);
-        timeInterval = FXCollections.observableArrayList();
+        status = new SimpleStringProperty();
+        timeInterval = new SimpleObjectProperty<>();
+        listOfTimeIntervals = FXCollections.observableArrayList();
         errorLabel = new SimpleStringProperty();
+        reset();
+    }
+    public void reset(){
+        Appointment appointment = model.getAppointmentsByUser(viewState.getUser()).getAppointmentById(viewState.getSelectedAppointment());
+        type.set(appointment.getType().toString());
+
+        errorLabel.set("");
+        date.set(null);
+    }
+
+    public StringProperty getTypeProperty()
+    {
+        return type;
+    }
+
+    public ObjectProperty<LocalDate> dateProperty()
+    {
+        return date;
+    }
+
+    public StringProperty statusProperty()
+    {
+        return status;
+    }
+
+    public StringProperty errorLabelProperty()
+    {
+        return errorLabel;
+    }
+
+    public ObservableList<TimeInterval> getListOfTimeIntervals()
+    {
+        return listOfTimeIntervals;
+    }
+    public ObjectProperty<TimeInterval> getTimeInterval(){
+        return timeInterval;
+    }
+
+    public StringProperty resultProperty()
+    {
+        return result;
+    }
+    public void cancelAppointment(){
+        //TODO: Next sprints
+    }
+    public void rescheduleAppointment(){
+        //TODO: Next sprints
     }
 }

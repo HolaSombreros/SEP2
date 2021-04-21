@@ -33,11 +33,14 @@ public class AppointmentListViewController extends ViewController
         typeColumn.setCellValueFactory(cellData -> cellData.getValue().typePropertyProperty());
         errorLabel.textProperty().bind(viewModel.getErrorProperty());
         appointmentTable.setItems(viewModel.getAppointments());
+        appointmentTable.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> viewModel.setSelectedAppointment(newValue));
         
         // TODO: maybe?
         reset();
     }
     @FXML private void seeDetails(){
+        viewModel.seeDetails();
+        getViewHandler().openView(View.APPOINTMENTDETAILS);
     }
     @FXML private void bookAppointment(){
         getViewHandler().openView(View.ADDAPPOINTMENT);

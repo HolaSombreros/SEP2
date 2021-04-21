@@ -1,22 +1,20 @@
 package client.viewmodel;
 
-
-import server.model.Appointment;
 import server.model.User;
 
 public class ViewState {
 
     private User user;
-    private Appointment selectedAppointment;
+    private int selectedAppointment;
 
     public ViewState() {
         user = null;
-        selectedAppointment = null;
+        selectedAppointment = -1;
     }
-    public Appointment getSelectedAppointment(){
+    public int getSelectedAppointment(){
         return selectedAppointment;
     }
-    public void setSelectedAppointment(Appointment appointment){
+    public void setSelectedAppointment(int appointment){
         this.selectedAppointment = appointment;
     }
 

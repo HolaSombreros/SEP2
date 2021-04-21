@@ -53,7 +53,7 @@ public class LoginViewController extends ViewController {
                 break;
             case 1:
                 // Account is 'Patient' only
-                getViewHandler().openView(View.ADDAPPOINTMENT);
+                getViewHandler().openView(View.APPOINTMENTLIST);
                 break;
             case 2:
                 // Account is either Admin or Nurse
