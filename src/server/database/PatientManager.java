@@ -94,7 +94,8 @@ public class PatientManager extends DatabaseManager{
             insertStatement.setString(9,patient.getAddress().getNumber());
             insertStatement.setInt(10,patient.getAddress().getZipcode());
             insertStatement.setBoolean(11,patient.isValidForVaccine());
-            addressManager.addAddress(patient.getAddress());
+            if(!addressManager.isAddress(patient.getAddress().getStreet(),patient.getAddress().getNumber(),patient.getAddress().getZipcode()))
+                addressManager.addAddress(patient.getAddress());
             //execute the statement
             insertStatement.executeUpdate();
         }

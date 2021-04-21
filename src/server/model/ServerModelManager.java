@@ -1,20 +1,25 @@
 package server.model;
 
+import server.database.DatabaseManager;
+import server.database.PatientManager;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
+
+import java.sql.SQLException;
 
 public class ServerModelManager implements ServerModel
 {
     private UserList userList;
     private AppointmentList appointmentList;
-    
+    private PatientManager patientManager;
     private PropertyChangeAction<User, ServerMessage> property;
 
     public ServerModelManager(){
         property = new PropertyChangeProxy<>(this);
         userList = new UserList();
         appointmentList = new AppointmentList();
+        patientManager = new PatientManager();
         addDummyData();
     }
     
@@ -33,7 +38,18 @@ public class ServerModelManager implements ServerModel
     @Override
     public User login(String cpr, String password)
     {
-        for(User user : userList.getUsersList()){
+        try {
+            User user = patientManager.getPatientByCpr(cpr);
+            if (user.getPassword().equals(password)){
+                System.out.println("Logged in as a: " + user.getCpr());
+                return user;
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        /*for(User user : userList.getUsersList()){
             if(user.getCpr().equals(cpr)){
                 if(user.getPassword().equals(password)){
                     System.out.println("Logged in as a: " + user.getCpr());
@@ -41,6 +57,8 @@ public class ServerModelManager implements ServerModel
                 }
             }
         }
+
+         */
         return null;
     }
 
@@ -52,8 +70,16 @@ public class ServerModelManager implements ServerModel
 
     @Override public User register(User user)
     {
+
         if (userList.contains(user)) {
             return null;
+        }
+        try {
+            patientManager.addPatient(new Patient(user, false));
+            System.out.println("Patient added");
+        }
+        catch (SQLException e){
+            e.printStackTrace();
         }
         userList.addUser(user);
         System.out.println("Registered patient: " + user.getCpr());
