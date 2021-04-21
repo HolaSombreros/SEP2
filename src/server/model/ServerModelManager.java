@@ -1,6 +1,5 @@
 package server.model;
 
-import server.mediator.DatabaseManager;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;

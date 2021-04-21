@@ -1,4 +1,4 @@
-package server.mediator;
+package server.database;
 
 import server.model.Address;
 import server.model.Patient;
@@ -10,16 +10,36 @@ import java.sql.*;
 public class DatabaseManager
 {
   private UsersList registeredUsers;
+  private String url;
+  private String username;
+  private String password;
+  private static String URL = "jdbc:postgresql://localhost:5432/postgres?currentSchema=sep2";
+  private static String USERNAME = "sep2admin";
+  private static String PASSWORD = "admin";
 
-  public DatabaseManager()
+  public DatabaseManager(String url, String username, String password)
   {
+    this.password = password;
+    this.url = url;
+    this.username = username;
     registeredUsers = new UsersList();
+  }
+
+  public DatabaseManager(){
+    this(URL,USERNAME,PASSWORD);
   }
 
   public Connection getConnection() throws SQLException
   {
-    return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep2", "sep2admin", "admin");
+
+    return DriverManager.getConnection(url,username,password);
+    //return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep2", "sep2admin", "admin");
   }
+
+
+
+
+
 
   public UsersList getRegisteredUsers()
   {
