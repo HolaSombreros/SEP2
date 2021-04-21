@@ -16,14 +16,6 @@ public class Date implements Serializable
   }
 
   /**
-   * Sets the date to the current date
-   */
-  public Date()
-  {
-    today();
-  }
-
-  /**
    * @return Date object storing the current date
    */
   public static Date today()

@@ -18,7 +18,11 @@ public class AppointmentList implements Serializable {
     public List<Appointment> getAppointments(){
         return appointments;
     }
-    public void addAll(List<Appointment> appointmentList){
-        appointments.addAll(appointmentList);
+    public void addAll(AppointmentList appointmentList){
+        appointments.addAll(appointmentList.getAppointments());
+    }
+    
+    public int size() {
+        return appointments.size();
     }
 }

@@ -5,7 +5,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import server.model.Appointment;
-import server.model.AppointmentTime;
 
 public class AppointmentTableViewModel
 {
@@ -19,7 +18,7 @@ public class AppointmentTableViewModel
     public AppointmentTableViewModel(Appointment appointment){
         dateProperty = new SimpleStringProperty(appointment.getDate().toString());
         timeProperty = new SimpleStringProperty(appointment.getTimeInterval().toString());
-        typeProperty = new SimpleStringProperty(appointment.getAppointmentList().getType().toString());
+        typeProperty = new SimpleStringProperty(appointment.getType().toString());
         resultProperty = new SimpleStringProperty(appointment.getStatus().toString());
         idProperty = new SimpleIntegerProperty(appointment.getId());
 

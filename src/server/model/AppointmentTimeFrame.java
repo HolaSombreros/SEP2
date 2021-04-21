@@ -47,11 +47,11 @@ public class AppointmentTimeFrame implements Serializable {
         return null;
     }
     
-    public List<Appointment> getAppointmensByUser(User user) {
+    public AppointmentList getAppointmentsByUser(User user) {
         if (user == null) {
             throw new IllegalArgumentException("The user cannot be null");
         }
-        List<Appointment> appointments = new ArrayList<>();
+        AppointmentList appointments = new AppointmentList();
         for (Appointment appointment : this.appointments) {
             if (user.getCpr().equals(appointment.getPatient().getCpr())) {
                 appointments.add(appointment);

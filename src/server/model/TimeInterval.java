@@ -18,6 +18,16 @@ public class TimeInterval implements Serializable {
     public Time getTo() {
         return to.copy();
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof TimeInterval)) {
+            return false;
+        }
+        TimeInterval timeInterval = (TimeInterval) obj;
+        return from.equals(timeInterval.from) &&
+            to.equals(timeInterval.to);
+    }
 
     public String toString(){
         return from.toString() + " - " + to.toString();

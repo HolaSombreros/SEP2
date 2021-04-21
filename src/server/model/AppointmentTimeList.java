@@ -17,6 +17,7 @@ public class AppointmentTimeList {
     public void add(Appointment appointment, TimeInterval timeInterval) {
         for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
             if (appointmentTimeFrame.getTimeInterval().equals(timeInterval)) {
+                System.out.println("Added appointment");
                 appointmentTimeFrame.add(appointment);
             }
         }
@@ -25,22 +26,14 @@ public class AppointmentTimeList {
     public AppointmentList getAppointsByUser(User user) {
         AppointmentList appointments = new AppointmentList();
         for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
-            for (Appointment appointment : appointmentTimeFrame.getAppointmentList()) {
-                if (appointment.getPatient().equals(user)) {
-                    appointments.add(appointment);
-                }
-            }
+            appointments.addAll(appointmentTimeFrame.getAppointmentsByUser(user));
         }
         return appointments;
     }
     
     public Appointment getAppointmentById(int id) {
         for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
-            for (Appointment appointment : appointmentTimeFrame.getAppointmentList()) {
-                if (appointment.getId() == id) {
-                    return appointment;
-                }
-            }
+            return appointmentTimeFrame.getAppointmentById(id);
         }
         return null;
     }
