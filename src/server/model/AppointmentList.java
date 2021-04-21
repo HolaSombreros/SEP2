@@ -4,19 +4,34 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppointmentList implements Serializable
-{
+public class AppointmentList implements Serializable {
     private List<Appointment> appointments;
-
-    public AppointmentList() {
+    private Date date;
+    private TimeInterval timeInterval;
+    private static final int maxAppointmentCount = 3;
+    
+    public AppointmentList(Date date, TimeInterval timeInterval) {
         this.appointments = new ArrayList<>();
+        this.date = date.copy();
+        this.timeInterval = timeInterval;
     }
-
+    
     public List<Appointment> getAppointmentList() {
         return appointments;
     }
-
+    
+    public Date getDate() {
+        return date.copy();
+    }
+    
+    public TimeInterval getTimeInterval() {
+        return timeInterval;
+    }
+    
     public void add(Appointment appointment) {
+        if (size() >= maxAppointmentCount) {
+            throw new IllegalStateException("This time interval is unavailable");
+        }
         appointments.add(appointment);
     }
     
@@ -31,51 +46,35 @@ public class AppointmentList implements Serializable
         }
         return null;
     }
-
-    public AppointmentList getAppointmentListByUser(User user) {
+    
+    public List<Appointment> getAppointmensByUser(User user) {
         if (user == null) {
             throw new IllegalArgumentException("The user cannot be null");
         }
-        AppointmentList list = new AppointmentList();
-        for (Appointment appointment : appointments) {
-            if (user.equals(appointment.getPatient())) {
-                 list.add(appointment);
+        List<Appointment> appointments = new ArrayList<>();
+        for (Appointment appointment : this.appointments) {
+            if (user.getCpr().equals(appointment.getPatient().getCpr())) {
+                appointments.add(appointment);
             }
         }
-        return list;
+        return appointments;
     }
-
-
+    
     public int size() {
         return appointments.size();
     }
-
-    public boolean contains(Appointment appointment) {
-        return getAppointmentById(appointment.getId()) != null;
-    }
-
+    
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof AppointmentList))
-            return false;
-        AppointmentList other = (AppointmentList) obj;
-        if (appointments.size() != other.size()) {
-            return false;
-        }
-        for (int index = 0; index < appointments.size(); index++) {
-            if (!appointments.get(index).equals(other.appointments.get(index))) {
-                return false;
-            }
-        }
-        return true;
+        return false;
     }
-
+    
     @Override
     public String toString() {
-        String totalAppointments = "";
-        for (Appointment appointment1 : appointments) {
-            totalAppointments += appointment1+ " ";
+        String result = "";
+        for (Appointment appointment : appointments) {
+            result += appointment + " ";
         }
-        return totalAppointments;
+        return result;
     }
 }

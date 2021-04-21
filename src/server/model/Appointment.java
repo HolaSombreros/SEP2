@@ -41,12 +41,14 @@ public abstract class Appointment implements Serializable {
     private Type type;
     private Status status;
     private User patient;
+    private User nurse;
     
-    public Appointment(Type type, User patient) {
+    public Appointment(Type type, User patient, User nurse) {
         id = idCounter;
         this.type = type;
         this.status = Status.UPCOMING;
         this.patient = patient;
+        this.nurse = nurse;
         idCounter++;
     }
     

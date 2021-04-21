@@ -44,7 +44,7 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     }
     
     @Override
-    public AppointmentList getAppointmentsByUser(User patient) throws RemoteException {
+    public AppointmentTimeList getAppointmentsByUser(User patient) throws RemoteException {
         return serverModel.getAppointmentsByUser(patient);
     }
     

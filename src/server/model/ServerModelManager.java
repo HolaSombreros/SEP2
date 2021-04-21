@@ -4,11 +4,12 @@ import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
 
+import java.util.List;
+
 public class ServerModelManager implements ServerModel {
     private UserList userList;
     private UserList onlineList;
-    private AppointmentList appointmentList;
-    private TimeIntervalList timeIntervalList;
+    private AppointmentTimeList appointmentTimeList;
     
     private PropertyChangeAction<User, Appointment> property;
     
@@ -16,8 +17,7 @@ public class ServerModelManager implements ServerModel {
         property = new PropertyChangeProxy<>(this);
         userList = new UserList();
         onlineList = new UserList();
-        appointmentList = new AppointmentList();
-        timeIntervalList = new TimeIntervalList();
+        appointmentTimeList = new AppointmentTimeList();
         addDummyData();
         addDummyTimeIntervals();
     }
@@ -31,7 +31,7 @@ public class ServerModelManager implements ServerModel {
     private void addDummyTimeIntervals() {
         // from 8:00 -> 8:20  'til  15:00 -> 15:20
         for (int i = 8; i < 16; i++) {
-            timeIntervalList.add(new TimeInterval(new Time(i, 0), new Time(i, 20), userList.getUserByCpr("1205561111")));
+            appointmentTimeList.add(new AppointmentList(new Date(), new TimeInterval(new Time(i, 0), new Time(i, 20))));
         }
     }
     
@@ -104,7 +104,8 @@ public class ServerModelManager implements ServerModel {
                 default:
                     throw new IllegalStateException("Appointment type '" + type + "' is invalid");
             }
-            appointmentList.add(appointment);
+            
+            appointmentTimeList.add(appointment, timeInterval);
         }
         else {
             throw new IllegalStateException("Please log in as a patient and try again");
@@ -112,21 +113,21 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
-    public AppointmentList getAppointmentsByUser(User user) {
+    public List<Appointment> getAppointmentsByUser(User user) {
         if (user.getType().equals("Patient")) {
-            return appointmentList.getAppointmentListByUser(user);
+            return appointmentTimeList.getAppointsByUser(user);
         }
         return null;
     }
     
     @Override
     public Appointment getAppointmentById(int id) {
-        return appointmentList.getAppointmentById(id);
+        return appointmentTimeList.getAppointmentById(id);
     }
     
     @Override
     public TimeIntervalList getAvailableTimeIntervals() {
-        return timeIntervalList;
+        return appointmentTimeList.getAvailableTimeIntervals();
     }
     
     @Override
