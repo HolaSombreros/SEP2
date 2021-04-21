@@ -11,7 +11,7 @@ import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
 
 
-public class AppointmentListViewModel implements LocalListener<Appointment, Appointment>
+public class AppointmentListViewModel
 {
     private ObservableList<AppointmentTableViewModel> appointments;
     private ViewState viewState;
@@ -29,23 +29,17 @@ public class AppointmentListViewModel implements LocalListener<Appointment, Appo
     }
     public void reset(){
         appointments.clear();
-        loadFromModel();
+        updateList();
     }
     public StringProperty  getErrorProperty(){
         return errorProperty;
     }
     
-    private void loadFromModel() {
+    private void updateList() {
         appointments.clear();
         AppointmentList appointmentList = model.getAppointmentsByUser(viewState.getUser());
         for (Appointment appointment : appointmentList.getAppointmentList()) {
             appointments.add(new AppointmentTableViewModel(appointment));
         }
-    }
-
-    @Override
-    public void propertyChange(ObserverEvent<Appointment, Appointment> event)
-    {
-    
     }
 }

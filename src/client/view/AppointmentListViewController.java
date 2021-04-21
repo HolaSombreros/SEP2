@@ -2,7 +2,6 @@ package client.view;
 
 import client.viewmodel.AppointmentListViewModel;
 import client.viewmodel.AppointmentTableViewModel;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -39,7 +38,9 @@ public class AppointmentListViewController extends ViewController
         reset();
     }
     @FXML private void seeDetails(){
-
+    }
+    @FXML private void bookAppointment(){
+        getViewHandler().openView(View.ADDAPPOINTMENT);
     }
     @FXML private void backButton(){
         //TODO: go back to the main page

@@ -24,4 +24,8 @@ public class TimeInterval implements Serializable {
     public User getNurse() {
         return nurse;
     }
+
+    public String toString(){
+        return from.toString() + "-" + to.toString();
+    }
 }

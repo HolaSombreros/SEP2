@@ -43,14 +43,19 @@
       </VBox>
       <HBox prefHeight="46.0" prefWidth="580.0">
          <children>
-            <VBox alignment="BOTTOM_CENTER" prefHeight="54.0" prefWidth="431.0">
+            <VBox alignment="BOTTOM_CENTER" prefHeight="26.0" prefWidth="184.0">
                <children>
                   <Button cancelButton="true" defaultButton="true" mnemonicParsing="false" onAction="#seeDetails" text="See details" />
                </children>
             </VBox>
-            <VBox alignment="BOTTOM_CENTER" prefHeight="54.0" prefWidth="383.0">
+            <VBox alignment="BOTTOM_CENTER" prefHeight="26.0" prefWidth="241.0">
                <children>
-                  <Button alignment="CENTER" cancelButton="true" contentDisplay="CENTER" mnemonicParsing="false" onAction="#backButton" prefHeight="25.0" prefWidth="72.0" text="Back" />
+                  <Button alignment="CENTER" cancelButton="true" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#bookAppointment" prefHeight="25.0" prefWidth="118.0" text="Book Appointment" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#backButton" prefHeight="25.0" prefWidth="54.0" text="Back" />
                </children>
             </VBox>
          </children>
