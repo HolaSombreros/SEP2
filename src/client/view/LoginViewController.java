@@ -23,7 +23,7 @@ public class LoginViewController extends ViewController {
     @Override
     protected void init() {
         viewModel = getViewModelFactory().getLoginViewModel();
-        usernameField.textProperty().bindBidirectional(viewModel.getUsernameProperty());
+        usernameField.textProperty().bindBidirectional(viewModel.getCprProperty());
         passwordField.textProperty().bindBidirectional(viewModel.getPasswordProperty());
         errorLabel.textProperty().bind(viewModel.getErrorProperty());
     }
@@ -53,7 +53,7 @@ public class LoginViewController extends ViewController {
                 break;
             case 1:
                 // Account is 'Patient' only
-                getViewHandler().openView(View.REGISTER);
+                getViewHandler().openView(View.ADDAPPOINTMENT);
                 break;
             case 2:
                 // Account is either Admin or Nurse

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" userData="Appointment Lists" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.AppointmentListViewController">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="70.0" prefWidth="580.0" text="My Appointments">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox prefHeight="262.0" prefWidth="580.0">
+         <children>
+            <TableView fx:id="appointmentTable" prefHeight="310.0" prefWidth="602.0">
+              <columns>
+                <TableColumn fx:id="dateColumn" prefWidth="179.0" text="Date" />
+                <TableColumn fx:id="timeColumn" prefWidth="136.0" text="Time" />
+                  <TableColumn fx:id="typeColumn" prefWidth="142.0" text="Type" />
+                  <TableColumn fx:id="resultColumn" prefWidth="121.0" text="Result" />
+              </columns>
+            </TableView>
+         </children>
+      </HBox>
+      <VBox prefHeight="54.0" prefWidth="580.0">
+         <children>
+            <Label fx:id="errorLabel" alignment="CENTER" prefHeight="34.0" prefWidth="584.0" text="ErrorLabel" textFill="#f80303">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <HBox prefHeight="46.0" prefWidth="580.0">
+         <children>
+            <VBox alignment="BOTTOM_CENTER" prefHeight="26.0" prefWidth="184.0">
+               <children>
+                  <Button cancelButton="true" defaultButton="true" mnemonicParsing="false" onAction="#seeDetails" text="See details" />
+               </children>
+            </VBox>
+            <VBox alignment="BOTTOM_CENTER" prefHeight="26.0" prefWidth="241.0">
+               <children>
+                  <Button alignment="CENTER" cancelButton="true" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#bookAppointment" prefHeight="25.0" prefWidth="118.0" text="Book Appointment" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#backButton" prefHeight="25.0" prefWidth="54.0" text="Back" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</VBox>

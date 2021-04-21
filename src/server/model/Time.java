@@ -1,6 +1,8 @@
 package server.model;
 
-public class Time
+import java.io.Serializable;
+
+public class Time implements Serializable
 {
   private int hour;
   private int minute;
@@ -11,12 +13,6 @@ public class Time
     setHour(hour);
     setMinute(minute);
     setSecond(second);
-  }
-
-  public Time(int hour, int minute)
-  {
-    setHour(hour);
-    setMinute(minute);
   }
 
   public Time(int seconds)
@@ -78,7 +74,7 @@ public class Time
     second = seconds;
   }
 
-  public int TimeInSeconds()
+  public int timeInSeconds()
   {
     return hour * 3600 + minute * 60 + second;
   }

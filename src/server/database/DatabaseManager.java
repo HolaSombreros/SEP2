@@ -2,14 +2,15 @@ package server.database;
 
 import server.model.Address;
 import server.model.Patient;
-import server.model.UsersList;
+import server.model.UserList;
 
 import java.rmi.RemoteException;
 import java.sql.*;
 
 public class DatabaseManager
 {
-  private UsersList registeredUsers;
+
+  private UserList registeredUsers;
   private String url;
   private String username;
   private String password;
@@ -17,12 +18,14 @@ public class DatabaseManager
   private static String USERNAME = "sep2admin";
   private static String PASSWORD = "admin";
 
+
   public DatabaseManager(String url, String username, String password)
   {
+
     this.password = password;
     this.url = url;
     this.username = username;
-    registeredUsers = new UsersList();
+    registeredUsers = new UserList();
   }
 
   public DatabaseManager(){
@@ -36,17 +39,11 @@ public class DatabaseManager
     //return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep2", "sep2admin", "admin");
   }
 
-
-
-
-
-
-  public UsersList getRegisteredUsers()
-  {
+  public UserList getRegisteredUsers() {
     return registeredUsers;
   }
 
-  public UsersList loadFromDatabasePatients() throws RemoteException, SQLException
+  public UserList loadFromDatabasePatients() throws RemoteException, SQLException
   {
     try (Connection connection = getConnection())
     {

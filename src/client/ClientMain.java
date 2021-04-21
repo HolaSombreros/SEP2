@@ -2,7 +2,7 @@ package client;
 
 import javafx.application.Application;
 
-public class Main {
+public class ClientMain {
     public static void main(String[] args) {
         Application.launch(ClientApplication.class);
     }

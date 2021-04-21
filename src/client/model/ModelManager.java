@@ -11,8 +11,9 @@ import utility.observer.subject.PropertyChangeProxy;
 
 import java.rmi.RemoteException;
 
-public class ModelManager implements Model, LocalListener<Patient, ServerMessage> {
-    private PropertyChangeAction<Patient, ServerMessage> property;
+public class ModelManager implements Model, LocalListener<User, ServerMessage> {
+
+    private PropertyChangeAction<User, ServerMessage> property;
     private LocalClientModel client;
     
     public ModelManager() {
@@ -24,8 +25,11 @@ public class ModelManager implements Model, LocalListener<Patient, ServerMessage
     @Override
     public void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email) {
         try {
-            Patient patient = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, true);
-            client.register(patient);
+            Patient patient = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, false);
+            User patient1 = client.register(patient);
+            if(patient1 == null){
+                throw new IllegalArgumentException("CPR already exists in the system");
+            }
         }
         catch (RemoteException e) {
             e.printStackTrace();
@@ -33,7 +37,7 @@ public class ModelManager implements Model, LocalListener<Patient, ServerMessage
     }
     
     @Override
-    public Patient login(String cpr, String password) {
+    public User login(String cpr, String password) {
         try {
             return client.login(cpr, password);
         }
@@ -42,19 +46,54 @@ public class ModelManager implements Model, LocalListener<Patient, ServerMessage
         }
         return null;
     }
-    
+
     @Override
-    public void propertyChange(ObserverEvent<Patient, ServerMessage> event) {
+    public Appointment addAppointment(Appointment appointment)
+    {
+        try {
+            if(appointment == null){
+                throw new IllegalArgumentException("Please input an appoint to add");
+            }
+            // TODO: Fire new appointment event
+            property.firePropertyChange("new", null, null);
+            return client.addAppointment(appointment);
+        }
+        catch (RemoteException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public AppointmentList getAppointmentsByUser(User user)
+    {
+        try{
+            /*if(user == null){
+                throw new IllegalArgumentException("No user");
+            }*/
+            return client.getAppointmentsByUser(user);
+        }
+        catch (RemoteException e){
+            e.printStackTrace();
+        }
+      return null;
+    }
+
+    @Override
+    public void propertyChange(ObserverEvent<User, ServerMessage> event)
+    {
         property.firePropertyChange(event);
     }
-    
+
     @Override
-    public boolean addListener(GeneralListener<Patient, ServerMessage> listener, String... propertyNames) {
+    public boolean addListener(GeneralListener<User, ServerMessage> listener, String... propertyNames)
+    {
         return property.addListener(listener, propertyNames);
     }
-    
+
     @Override
-    public boolean removeListener(GeneralListener<Patient, ServerMessage> listener, String... propertyNames) {
+    public boolean removeListener(GeneralListener<User, ServerMessage> listener, String... propertyNames)
+    {
         return property.removeListener(listener, propertyNames);
     }
 }

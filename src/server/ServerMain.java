@@ -8,7 +8,7 @@ import server.model.ServerModelManager;
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 
-public class Main {
+public class ServerMain {
     public static void main(String[] args) throws MalformedURLException, RemoteException
     {
        ServerModel serverModel = new ServerModelManager();
