@@ -42,13 +42,17 @@ public abstract class Appointment implements Serializable {
     private Status status;
     private User patient;
     private User nurse;
+    private Date date;
+    private TimeInterval timeInterval;
     
-    public Appointment(Type type, User patient, User nurse) {
+    public Appointment(Date date, TimeInterval timeInterval, Type type, User patient, User nurse) {
         id = idCounter;
         this.type = type;
         this.status = Status.UPCOMING;
         this.patient = patient;
         this.nurse = nurse;
+        this.date = date.copy();
+        this.timeInterval = timeInterval;
         idCounter++;
     }
     
@@ -66,6 +70,14 @@ public abstract class Appointment implements Serializable {
     
     public User getPatient() {
         return patient;
+    }
+    
+    public Date getDate() {
+        return date.copy();
+    }
+    
+    public TimeInterval getTimeInterval() {
+        return timeInterval;
     }
     
     @Override

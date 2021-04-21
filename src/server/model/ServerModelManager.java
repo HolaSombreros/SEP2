@@ -4,8 +4,6 @@ import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
 
-import java.util.List;
-
 public class ServerModelManager implements ServerModel {
     private UserList userList;
     private UserList onlineList;
@@ -31,7 +29,7 @@ public class ServerModelManager implements ServerModel {
     private void addDummyTimeIntervals() {
         // from 8:00 -> 8:20  'til  15:00 -> 15:20
         for (int i = 8; i < 16; i++) {
-            appointmentTimeList.add(new AppointmentList(new Date(), new TimeInterval(new Time(i, 0), new Time(i, 20))));
+            appointmentTimeList.add(new AppointmentTimeFrame(Date.today(), new TimeInterval(new Time(i, 0), new Time(i, 20))));
         }
     }
     
@@ -94,12 +92,13 @@ public class ServerModelManager implements ServerModel {
             Appointment appointment = null;
     
             // validate the data
+            // TODO: assign nurse automatically based on their schedule, somehow
             switch (type) {
                 case TEST:
-                    appointment = new TestAppointment(date, timeInterval, type, patient);
+                    appointment = new TestAppointment(date, timeInterval, type, patient, userList.getUserByCpr("1205561111"));
                     break;
                 case VACCINE:
-                    appointment = new VaccineAppointment(date, timeInterval, type, patient);
+                    appointment = new VaccineAppointment(date, timeInterval, type, patient, userList.getUserByCpr("1205561111"));
                     break;
                 default:
                     throw new IllegalStateException("Appointment type '" + type + "' is invalid");
@@ -113,7 +112,7 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
-    public List<Appointment> getAppointmentsByUser(User user) {
+    public AppointmentList getAppointmentsByUser(User user) {
         if (user.getType().equals("Patient")) {
             return appointmentTimeList.getAppointsByUser(user);
         }

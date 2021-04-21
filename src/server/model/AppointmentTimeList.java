@@ -4,27 +4,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AppointmentTimeList {
-    private List<AppointmentList> appointmentLists;
+    private List<AppointmentTimeFrame> appointmentTimeFrames;
     
     public AppointmentTimeList() {
-        appointmentLists = new ArrayList<>();
+        appointmentTimeFrames = new ArrayList<>();
     }
     
-    public void add(AppointmentList appointmentList) {
-        appointmentLists.add(appointmentList);
+    public void add(AppointmentTimeFrame appointmentTimeFrame) {
+        appointmentTimeFrames.add(appointmentTimeFrame);
     }
     
     public void add(Appointment appointment, TimeInterval timeInterval) {
-        for (AppointmentList appointmentList : appointmentLists) {
-            if (appointmentList.getTimeInterval().equals(timeInterval)) {
-                appointmentList.add(appointment);
+        for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
+            if (appointmentTimeFrame.getTimeInterval().equals(timeInterval)) {
+                appointmentTimeFrame.add(appointment);
             }
         }
     }
     
-    public List<Appointment> getAppointsByUser(User user) {
-        for (AppointmentList appointmentList : appointmentLists) {
-        
+    public AppointmentList getAppointsByUser(User user) {
+        AppointmentList appointments = new AppointmentList();
+        for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
+            for (Appointment appointment : appointmentTimeFrame.getAppointmentList()) {
+                if (appointment.getPatient().equals(user)) {
+                    appointments.add(appointment);
+                }
+            }
         }
+        return appointments;
+    }
+    
+    public Appointment getAppointmentById(int id) {
+        for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
+            for (Appointment appointment : appointmentTimeFrame.getAppointmentList()) {
+                if (appointment.getId() == id) {
+                    return appointment;
+                }
+            }
+        }
+        return null;
+    }
+    
+    public TimeIntervalList getAvailableTimeIntervals() {
+        TimeIntervalList list = new TimeIntervalList();
+        for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
+            list.add(appointmentTimeFrame.getTimeInterval());
+        }
+        return list;
     }
 }
