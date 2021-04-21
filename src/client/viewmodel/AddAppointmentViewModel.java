@@ -88,23 +88,10 @@ public class AddAppointmentViewModel {
     
     public void createAppointment() {
         try {
-            Appointment appointment = null;
-            switch (type.get()) {
-                case TEST:
-                    appointment = new TestAppointment(new Date(date.get()), timeInterval.get(), type.get(), viewState.getUser());
-                    break;
-                case VACCINE:
-                    appointment = new VaccineAppointment(new Date(date.get()), timeInterval.get(), type.get(), viewState.getUser());
-                    break;
-            }
-            if (model.addAppointment(appointment) != null) {
-                errorFill.set(Color.GREEN);
-                error.set("Appointment at " + date.get() + " successfully created!");
-                resetInputs();
-            }
-            else {
-                throw new IllegalStateException("You are not a patient");
-            }
+            model.addAppointment(new Date(date.get()), timeInterval.get(), type.get(), viewState.getUser());
+            errorFill.set(Color.GREEN);
+            error.set("Appointment at " + date.get() + " " + timeInterval.get() + " successfully created!");
+            resetInputs();
         }
         catch (Exception e) {
             errorFill.set(Color.RED);

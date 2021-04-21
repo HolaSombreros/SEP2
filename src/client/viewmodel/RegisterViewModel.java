@@ -103,8 +103,7 @@ public class RegisterViewModel {
     
     public boolean register() {
         try {
-            Address address = new Address(street.get(), number.get(), zipCode.get(), city.get());
-            model.register(cpr.get(), password.get(), firstName.get(), middleName.get(), lastName.get(), address, phone.get(), email.get());
+            model.register(cpr.get(), password.get(), firstName.get(), middleName.get(), lastName.get(), phone.get(), email.get(), street.get(), number.get(), zipCode.get(), city.get());
             error.set("");
             return true;
         }

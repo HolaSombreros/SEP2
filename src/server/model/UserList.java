@@ -41,6 +41,19 @@ public class UserList {
         return userList.size();
     }
     
+    public void remove(User user) {
+        userList.remove(user);
+    }
+    
+    public boolean contains(String cpr) {
+        for (User user : userList) {
+            if (user.getCpr().equals(cpr)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public boolean contains(User user) {
         for (User u : userList) {
             if (user.getCpr().equals(u.getCpr())) {

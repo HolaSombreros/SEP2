@@ -8,7 +8,7 @@ public class Patient extends User {
         setValidForVaccine(validForVaccine);
     }
 
-    public Patient(String cpr, String password, String firstName,String lastName, Address address, String phone, String email, boolean validForVaccine){
+    public Patient(String cpr, String password, String firstName, String lastName, Address address, String phone, String email, boolean validForVaccine){
         this(cpr, password,firstName, null, lastName, address,phone, email, validForVaccine);
     }
     

@@ -4,99 +4,123 @@ import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
 
-public class ServerModelManager implements ServerModel
-{
+public class ServerModelManager implements ServerModel {
     private UserList userList;
+    private UserList onlineList;
     private AppointmentList appointmentList;
     
-    private PropertyChangeAction<User, ServerMessage> property;
-
-    public ServerModelManager(){
+    private PropertyChangeAction<User, Appointment> property;
+    
+    public ServerModelManager() {
         property = new PropertyChangeProxy<>(this);
         userList = new UserList();
+        onlineList = new UserList();
         appointmentList = new AppointmentList();
         addDummyData();
     }
     
     private void addDummyData() {
-        userList.addUser(new Patient("1204560000", "testpassword", "Test", "Person",
-            new Address("TestStreet", "0", 8700, "Horsens"
-            ), "12345678", "test@email.com", false));
-        userList.addUser(new Nurse("1205561111", "testpassword", "Test", "Person",
-            new Address("TestStreet", "0", 8700, "Horsens"
-            ), "12345678", "test@email.com", "emp1"));
-        userList.addUser(new Administrator("1211562222", "testpassword", "Test",  "Person",
-            new Address("TestStreet", "0", 8700, "Horsens"
-            ), "12345678", "test@email.com", "emp2"));
+        userList.addUser(new Patient("1204560000", "testpassword", "Test", "Person", new Address("TestStreet", "0", 8700, "Horsens"), "12345678", "test@email.com", false));
+        userList.addUser(new Nurse("1205561111", "testpassword", "Test", "Person", new Address("TestStreet", "0", 8700, "Horsens"), "12345678", "test@email.com", "emp1"));
+        userList.addUser(new Administrator("1211562222", "testpassword", "Test", "Person", new Address("TestStreet", "0", 8700, "Horsens"), "12345678", "test@email.com", "emp2"));
     }
     
     @Override
-    public User login(String cpr, String password)
-    {
-        for(User user : userList.getUsersList()){
-            if(user.getCpr().equals(cpr)){
-                if(user.getPassword().equals(password)){
-                    System.out.println("Logged in as a: " + user.getCpr());
+    public User login(String cpr, String password) {
+        // validate cpr and password first?
+        if (userList.contains(cpr)) {
+            User user = userList.getUserByCpr(cpr);
+            if (user.getPassword().equals(password)) {
+                if (!onlineList.contains(user)) {
+                    onlineList.addUser(user);
                     return user;
                 }
+                else {
+                    throw new IllegalStateException("That user is already signed in");
+                }
+            }
+            else {
+                throw new IllegalArgumentException("That username/password combination does not match");
             }
         }
-        return null;
+        else {
+            throw new IllegalStateException("That user does not exist");
+        }
     }
-
+    
     @Override
-    public void sendServerMessage(ServerMessage message)
-    {
-        property.firePropertyChange("message", null, message);
-    }
-
-    @Override public User register(User user)
-    {
+    public void logout(User user) {
         if (userList.contains(user)) {
-            return null;
+            if (onlineList.contains(user)) {
+                onlineList.remove(user);
+            }
+            else {
+                throw new IllegalStateException("That user is not logged in");
+            }
         }
-        userList.addUser(user);
-        System.out.println("Registered patient: " + user.getCpr());
-        return user;
+        else {
+            throw new IllegalArgumentException("No such user found");
+        }
     }
-
+    
     @Override
-    public void close()
-    {
-        property.close();
+    public void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city) {
+        if (!userList.contains(cpr)) {
+            
+            // validate the data
+            Address address = new Address(street, number, zip, city);
+            User user = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, false);
+            userList.addUser(user);
+        }
+        else {
+            throw new IllegalStateException("That CPR is already registered in the system");
+        }
     }
-
+    
     @Override
-    public Appointment addAppointment(Appointment appointment)
-    {
-        if(appointment.getPatient().getType().equals("Patient")){
+    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, User patient) {
+        // not sure how to do this in a way without using instanceof to verify...?
+        if (patient instanceof Patient) {
+            Appointment appointment = null;
+    
+            // validate the data
+            switch (type) {
+                case TEST:
+                    appointment = new TestAppointment(date, timeInterval, type, patient);
+                    break;
+                case VACCINE:
+                    appointment = new VaccineAppointment(date, timeInterval, type, patient);
+                    break;
+                default:
+                    throw new IllegalStateException("Appointment type '" + type + "' is invalid");
+            }
             appointmentList.add(appointment);
-            //TODO: Remove SOUT when done
-            System.out.println("Appointment added for " + appointment.getPatient().getCpr());
-            return appointment;
         }
-        return null;
+        else {
+            throw new IllegalStateException("Please log in as a patient and try again");
+        }
     }
-
+    
     @Override
-    public AppointmentList getAppointmentsByUser(User user)
-    {
-        AppointmentList list = new AppointmentList();
-        if(user.getType().equals("Patient")){
+    public AppointmentList getAppointmentsByUser(User user) {
+        if (user.getType().equals("Patient")) {
             return appointmentList.getAppointmentListByUser(user);
         }
-        return list;
+        return null;
     }
-
+    
     @Override
-    public boolean addListener(GeneralListener<User, ServerMessage> listener, String... propertyNames)
-    {
+    public void close() {
+        property.close();
+    }
+    
+    @Override
+    public boolean addListener(GeneralListener<User, Appointment> listener, String... propertyNames) {
         return property.addListener(listener, propertyNames);
     }
-
+    
     @Override
-    public boolean removeListener(GeneralListener<User, ServerMessage> listener, String... propertyNames)
-    {
+    public boolean removeListener(GeneralListener<User, Appointment> listener, String... propertyNames) {
         return property.removeListener(listener, propertyNames);
     }
 }

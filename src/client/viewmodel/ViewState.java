@@ -24,7 +24,7 @@ public class ViewState {
         return user;
     }
 
-    public void setPatient(User user) {
+    public void setUser(User user) {
         this.user = user;
     }
 }

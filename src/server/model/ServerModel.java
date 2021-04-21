@@ -4,12 +4,12 @@ import utility.observer.subject.LocalSubject;
 
 
 
-public interface ServerModel extends LocalSubject<User, ServerMessage>
+public interface ServerModel extends LocalSubject<User, Appointment>
 {
     User login(String cpr, String password);
-    void sendServerMessage(ServerMessage message);
-    User register(User user);
-    void close();
-    Appointment addAppointment(Appointment appointment);
+    void logout(User user);
+    void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city);
+    void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, User patient);
     AppointmentList getAppointmentsByUser(User user);
+    void close();
 }

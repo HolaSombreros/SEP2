@@ -3,12 +3,10 @@ package client.mediator;
 import server.model.*;
 import utility.observer.subject.LocalSubject;
 
-import java.rmi.RemoteException;
-
-public interface LocalClientModel extends LocalSubject<User, ServerMessage> {
-    User login(String cpr, String password) throws RemoteException;
-    User register(User patient) throws RemoteException;
-    Appointment addAppointment(Appointment appointment) throws RemoteException;
-    AppointmentList getAppointmentsByUser(User user) throws RemoteException;
-    void close() throws RemoteException;
+public interface LocalClientModel extends LocalSubject<User, Appointment> {
+    void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city);
+    User login(String cpr, String password);
+    void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, User patient);
+    AppointmentList getAppointmentsByUser(User patient);
+    void close();
 }

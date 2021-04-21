@@ -3,9 +3,10 @@ package client.model;
 import server.model.*;
 import utility.observer.subject.LocalSubject;
 
-public interface Model extends LocalSubject<User, ServerMessage> {
-  void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email);
+public interface Model extends LocalSubject<User, Appointment> {
+  void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city);
   User login(String cpr, String password);
-  Appointment addAppointment(Appointment appointment);
-  AppointmentList getAppointmentsByUser(User user);
+  void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, User patient);
+  AppointmentList getAppointmentsByUser(User patient);
+  void close();
 }
