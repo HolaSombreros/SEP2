@@ -26,14 +26,13 @@ public class Date implements Serializable
   /**
    * @return Date object storing the current date
    */
-  private static Date today()
+  public static Date today()
   {
     GregorianCalendar currentDate = new GregorianCalendar();
     int currentDay = currentDate.get(GregorianCalendar.DATE);
     int currentMonth = currentDate.get(GregorianCalendar.MONTH) + 1;
     int currentYear = currentDate.get(GregorianCalendar.YEAR);
-    Date today = new Date(currentDay, currentMonth, currentYear);
-    return today;
+    return new Date(currentDay, currentMonth, currentYear);
   }
   
   public Date(LocalDate date) {

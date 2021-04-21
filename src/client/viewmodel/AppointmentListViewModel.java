@@ -6,10 +6,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import server.model.Appointment;
-import server.model.AppointmentList;
-import utility.observer.event.ObserverEvent;
-import utility.observer.listener.LocalListener;
-
+import server.model.AppointmentTimeFrame;
 
 public class AppointmentListViewModel
 {
@@ -37,9 +34,9 @@ public class AppointmentListViewModel
     
     private void updateList() {
         appointments.clear();
-        AppointmentList appointmentList = model.getAppointmentsByUser(viewState.getUser());
-        for (Appointment appointment : appointmentList.getAppointmentList()) {
-            appointments.add(new AppointmentTableViewModel(appointment));
-        }
+//        AppointmentTimeFrame appointmentTimeFrame = model.getAppointmentsByUser(viewState.getUser());
+//        for (Appointment appointment : appointmentTimeFrame.getAppointmentList()) {
+//            appointments.add(new AppointmentTableViewModel(appointment));
+//        }
     }
 }
