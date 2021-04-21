@@ -8,6 +8,7 @@ public class ServerModelManager implements ServerModel {
     private UserList userList;
     private UserList onlineList;
     private AppointmentList appointmentList;
+    private TimeIntervalList timeIntervalList;
     
     private PropertyChangeAction<User, Appointment> property;
     
@@ -16,13 +17,22 @@ public class ServerModelManager implements ServerModel {
         userList = new UserList();
         onlineList = new UserList();
         appointmentList = new AppointmentList();
+        timeIntervalList = new TimeIntervalList();
         addDummyData();
+        addDummyTimeIntervals();
     }
     
     private void addDummyData() {
         userList.addUser(new Patient("1204560000", "testpassword", "Test", "Person", new Address("TestStreet", "0", 8700, "Horsens"), "12345678", "test@email.com", false));
         userList.addUser(new Nurse("1205561111", "testpassword", "Test", "Person", new Address("TestStreet", "0", 8700, "Horsens"), "12345678", "test@email.com", "emp1"));
         userList.addUser(new Administrator("1211562222", "testpassword", "Test", "Person", new Address("TestStreet", "0", 8700, "Horsens"), "12345678", "test@email.com", "emp2"));
+    }
+    
+    private void addDummyTimeIntervals() {
+        // from 8:00 -> 8:20  'til  15:00 -> 15:20
+        for (int i = 8; i < 16; i++) {
+            timeIntervalList.add(new TimeInterval(new Time(i, 0), new Time(i, 20), userList.getUserByCpr("1205561111")));
+        }
     }
     
     @Override
@@ -107,6 +117,11 @@ public class ServerModelManager implements ServerModel {
             return appointmentList.getAppointmentListByUser(user);
         }
         return null;
+    }
+    
+    @Override
+    public TimeIntervalList getAvailableTimeIntervals() {
+        return timeIntervalList;
     }
     
     @Override

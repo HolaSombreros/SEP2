@@ -6,18 +6,11 @@ public class Time implements Serializable
 {
   private int hour;
   private int minute;
-  private int second;
 
-  public Time(int hour, int minute, int second)
+  public Time(int hour, int minute)
   {
     setHour(hour);
     setMinute(minute);
-    setSecond(second);
-  }
-
-  public Time(int seconds)
-  {
-    setTimeInSeconds(seconds);
   }
 
   public int getHour()
@@ -44,44 +37,9 @@ public class Time implements Serializable
     this.minute = minute;
   }
 
-  public int getSecond()
-  {
-    return second;
-  }
-
-  public void setSecond(int second)
-  {
-    if (second >= 60 || second < 0)
-      throw new IllegalArgumentException("Invalid time");
-    this.second = second;
-  }
-
-  public void setTimeInSeconds(int seconds)
-  {
-    if (seconds >= 24 * 60 * 60 || seconds < 0)
-      throw new IllegalArgumentException("Invalid time");
-    hour = minute = second = 0;
-    while (seconds >= 3600)
-    {
-      hour++;
-      seconds -= 3600;
-    }
-    while (seconds >= 60)
-    {
-      minute++;
-      seconds -= 60;
-    }
-    second = seconds;
-  }
-
-  public int timeInSeconds()
-  {
-    return hour * 3600 + minute * 60 + second;
-  }
-
   public Time copy()
   {
-    return new Time(hour, minute, second);
+    return new Time(hour, minute);
   }
 
   public boolean equals(Object obj)
@@ -89,11 +47,11 @@ public class Time implements Serializable
     if (!(obj instanceof Time))
       return false;
     Time other = (Time) obj;
-    return hour == other.hour && minute == other.minute && second == other.second;
+    return hour == other.hour && minute == other.minute;
   }
 
   public String toString()
   {
-    return String.format("%02d:%02d:%02d", hour, minute, second);
+    return String.format("%02d:%02d", hour, minute);
   }
 }

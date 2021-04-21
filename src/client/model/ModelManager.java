@@ -47,6 +47,11 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     }
     
     @Override
+    public TimeIntervalList getAvailableTimeIntervals() {
+        return client.getAvailableTimeIntervals();
+    }
+    
+    @Override
     public void close() {
         property.close();
         client.close();

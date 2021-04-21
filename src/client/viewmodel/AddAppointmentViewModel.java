@@ -45,7 +45,14 @@ public class AddAppointmentViewModel {
     }
     
     private void loadTimeIntervals() {
-        // TODO: Get available time intervals from the server
+        timeIntervals.clear();
+        timeIntervals.addAll(model.getAvailableTimeIntervals().getTimeIntervals());
+        if (timeIntervals.size() > 0) {
+            timeInterval.set(timeIntervals.get(0));
+        }
+        else {
+            timeInterval.set(null);
+        }
     }
     
     public void reset() {
@@ -90,7 +97,7 @@ public class AddAppointmentViewModel {
         try {
             model.addAppointment(new Date(date.get()), timeInterval.get(), type.get(), viewState.getUser());
             errorFill.set(Color.GREEN);
-            error.set("Appointment at " + date.get() + " " + timeInterval.get() + " successfully created!");
+            error.set("Booked appointment at " + date.get() + " " + timeInterval.get() + "!");
             resetInputs();
         }
         catch (Exception e) {

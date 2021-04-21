@@ -8,5 +8,6 @@ public interface Model extends LocalSubject<User, Appointment> {
   User login(String cpr, String password);
   void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, User patient);
   AppointmentList getAppointmentsByUser(User patient);
+  TimeIntervalList getAvailableTimeIntervals();
   void close();
 }
