@@ -10,7 +10,7 @@ import java.sql.*;
 public class DatabaseManager
 {
 
-  private UserList registeredUsers;
+
   private String url;
   private String username;
   private String password;
@@ -19,59 +19,25 @@ public class DatabaseManager
   private static String PASSWORD = "admin";
 
 
-  public DatabaseManager(String url, String username, String password)
-  {
+  public DatabaseManager(String url, String username, String password) {
 
     this.password = password;
     this.url = url;
     this.username = username;
-    registeredUsers = new UserList();
+
   }
 
   public DatabaseManager(){
     this(URL,USERNAME,PASSWORD);
   }
 
-  public Connection getConnection() throws SQLException
-  {
-
+  public Connection getConnection() throws SQLException {
     return DriverManager.getConnection(url,username,password);
-    //return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep2", "sep2admin", "admin");
   }
 
-  public UserList getRegisteredUsers() {
-    return registeredUsers;
-  }
 
-  public UserList loadFromDatabasePatients() throws RemoteException, SQLException
-  {
-    try (Connection connection = getConnection())
-    {
-      PreparedStatement statement = connection.prepareStatement("SELECT * FROM Users");
-      ResultSet resultSet = statement.executeQuery();
-      if (resultSet.next())
-      {
-        String cprResult = resultSet.getString("cpr");
-        String password = resultSet.getString("password");
-        String firstName = resultSet.getString("firstName");
-        String lastName = resultSet.getString("lastName");
-        String middleName = resultSet.getString("middleName");
-        String street = resultSet.getString("street");
-        String number = resultSet.getString("number");
-        int zipcode = resultSet.getInt("zip_code");
-        Address address = new Address(street,number,zipcode,null); //TODO: Get city from database (new method)
-        String phone = resultSet.getString("phone");
-        String email = resultSet.getString("email");
-        boolean validForVaccination = resultSet.getBoolean("valid_for_vaccine");
-        registeredUsers.getUsersList().add(new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email,validForVaccination));
-        return registeredUsers;
-      }
-      else
-      {
-        throw new IllegalStateException("Not loaded from DBS");
-      }
-    }
-  }
+
+
 
   public Patient readByCpr(String cpr) throws RemoteException, SQLException
   {

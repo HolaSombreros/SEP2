@@ -14,20 +14,17 @@ public class AddressManager extends DatabaseManager{
 
     public void addAddress(Address address) throws SQLException {
         try(Connection connection = getConnection()){
-            PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO address VALUES (?,?,?,?)");
+            PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO address VALUES (?,?,?)");
             insertStatement.setString(1,address.getStreet());
             insertStatement.setString(2,address.getNumber());
             insertStatement.setInt(3,address.getZipcode());
-            insertStatement.setString(4,address.getCity());
             insertStatement.executeUpdate();
         }
     }
 
-    //this method would require a separate table for city and zipcode
-    //TODO: new table and modify the method
     public String getCityByZipcode(int zipcode)throws SQLException{
         try(Connection connection = getConnection()){
-            PreparedStatement selectStatement = connection.prepareStatement("SELECT city FROM address WHERE zip_code = ?");
+            PreparedStatement selectStatement = connection.prepareStatement("SELECT city FROM city WHERE zip_code = ?");
             selectStatement.setInt(1,zipcode);
             ResultSet resultSet = selectStatement.executeQuery();
             if(resultSet.next()){
