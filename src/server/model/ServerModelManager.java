@@ -22,6 +22,7 @@ public class ServerModelManager implements ServerModel {
     
     private void addDummyData() {
         userList.addUser(new Patient("1204560000", "testpassword", "Test", "Person", new Address("TestStreet", "0", 8700, "Horsens"), "12345678", "test@email.com", false));
+        userList.addUser(new Patient("1204560001", "testpassword", "Test", "Person", new Address("TestStreet", "0", 8700, "Horsens"), "12345677", "test@email.com", false));
         userList.addUser(new Nurse("1205561111", "testpassword", "Test", "Person", new Address("TestStreet", "0", 8700, "Horsens"), "12345678", "test@email.com", "emp1"));
         userList.addUser(new Administrator("1211562222", "testpassword", "Test", "Person", new Address("TestStreet", "0", 8700, "Horsens"), "12345678", "test@email.com", "emp2"));
     }

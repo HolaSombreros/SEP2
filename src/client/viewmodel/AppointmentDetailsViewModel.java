@@ -8,6 +8,8 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import server.model.Appointment;
+import server.model.Date;
+import server.model.TestAppointment;
 import server.model.TimeInterval;
 
 import java.time.LocalDate;
@@ -21,9 +23,11 @@ public class AppointmentDetailsViewModel
     private ObservableList<TimeInterval> listOfTimeIntervals;
     private ObjectProperty<TimeInterval> timeInterval;
     private StringProperty result;
+    private StringProperty resultLabel;
 
     private Model model;
     private ViewState viewState;
+
 
     public AppointmentDetailsViewModel(Model model, ViewState viewState){
         this.model = model;
@@ -35,14 +39,28 @@ public class AppointmentDetailsViewModel
         timeInterval = new SimpleObjectProperty<>();
         listOfTimeIntervals = FXCollections.observableArrayList();
         errorLabel = new SimpleStringProperty();
-        reset();
+        resultLabel = new SimpleStringProperty("Result");
     }
     public void reset(){
-//        Appointment appointment = model.getAppointmentsByUser(viewState.getUser()).getAppointmentById(viewState.getSelectedAppointment());
-//        type.set(appointment.getType().toString());
-
-        errorLabel.set("");
-        date.set(null);
+        Appointment appointment = model.getAppointmentById(viewState.getSelectedAppointment());
+        System.out.println(viewState.getSelectedAppointment());
+        System.out.println(appointment.toString());
+        if(appointment.toString() != null)
+        {
+            date.set(LocalDate.of(appointment.getDate().getYear(), appointment.getDate().getMonth(), appointment.getDate().getDay()));
+            listOfTimeIntervals.addAll(model.getAvailableTimeIntervals(new Date(date.get())).getTimeIntervals());
+            timeInterval.set(appointment.getTimeInterval());
+            type.set(appointment.getType().toString());
+            status.set(appointment.getStatus().toString());
+            if(appointment instanceof TestAppointment){
+                TestAppointment testAppointment = (TestAppointment) appointment;
+                result.set(testAppointment.getResult().toString());
+            }
+            else {
+                resultLabel.set("");
+                result.set("");
+            }
+        }
     }
 
     public StringProperty getTypeProperty()
@@ -77,6 +95,11 @@ public class AppointmentDetailsViewModel
     {
         return result;
     }
+    public StringProperty resultLabelProperty()
+    {
+        return resultLabel;
+    }
+
     public void cancelAppointment(){
         //TODO: Next sprints
     }

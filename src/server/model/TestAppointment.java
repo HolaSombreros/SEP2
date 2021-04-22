@@ -33,4 +33,8 @@ public class TestAppointment extends Appointment {
     public void setResult(Result result) {
         this.result = result;
     }
+
+    public String toString(){
+        return super.toString() + " " + result;
+    }
 }

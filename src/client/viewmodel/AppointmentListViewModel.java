@@ -8,8 +8,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import server.model.Appointment;
-
-import server.model.AppointmentTimeFrame;
+import server.model.AppointmentList;
 
 
 public class AppointmentListViewModel
@@ -25,12 +24,14 @@ public class AppointmentListViewModel
         this.viewState = viewState;
         this.appointments = FXCollections.observableArrayList();
         this.errorProperty = new SimpleStringProperty();
-        selectedAppointment = new SimpleObjectProperty<>();
+        this.selectedAppointment = new SimpleObjectProperty<>();
     }
     public ObservableList<AppointmentTableViewModel> getAppointments(){
         return appointments;
     }
     public void reset(){
+        viewState.setSelectedAppointment(-1);
+        errorProperty.set("");
         appointments.clear();
         updateList();
     }
@@ -40,22 +41,26 @@ public class AppointmentListViewModel
     
     private void updateList() {
         appointments.clear();
-
-//        AppointmentTimeFrame appointmentTimeFrame = model.getAppointmentsByUser(viewState.getUser());
-//        for (Appointment appointment : appointmentTimeFrame.getAppointmentList()) {
-//            appointments.add(new AppointmentTableViewModel(appointment));
-//        }
-
+       AppointmentList appointmentList = model.getAppointmentsByUser(viewState.getUser());
+       for (Appointment appointment : appointmentList.getAppointments()) {
+          appointments.add(new AppointmentTableViewModel(appointment));
+       }
     }
     public void setSelectedAppointment(AppointmentTableViewModel selectedAppointment){
         this.selectedAppointment.set(selectedAppointment);
 
     }
-    public void seeDetails(){
-        if(selectedAppointment != null){
-            viewState.setSelectedAppointment(selectedAppointment.get().getIdProperty().get());
-        }
-        else
-            errorProperty.set("Please select an appointment");
+    public boolean seeDetails(){
+           if(selectedAppointment.get() != null) {
+               viewState.setSelectedAppointment(selectedAppointment.get().getIdProperty().get());
+               return true;
+           }
+           else{
+               viewState.setSelectedAppointment(-1);
+               errorProperty.set("Please select a project first");
+               return false;
+           }
+
+
     }
 }

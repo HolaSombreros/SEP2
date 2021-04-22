@@ -69,7 +69,7 @@
          <children>
             <VBox prefHeight="104.0" prefWidth="781.0" spacing="25.0">
                <children>
-                  <Label alignment="TOP_CENTER" prefHeight="26.0" prefWidth="766.0" text="Result">
+                  <Label fx:id = "resultLabel" alignment="TOP_CENTER" prefHeight="26.0" prefWidth="766.0" text="Result">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font>

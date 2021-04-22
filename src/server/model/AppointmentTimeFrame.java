@@ -38,18 +38,6 @@ public class AppointmentTimeFrame implements Serializable {
         appointmentList.add(appointment);
     }
     
-    public Appointment getAppointmentById(int id) {
-        if (id < 1) {
-            throw new IllegalArgumentException("Please enter an id higher than 0");
-        }
-        for (Appointment appointment : appointmentList.getAppointments()) {
-            if (appointment.getId() == id) {
-                return appointment;
-            }
-        }
-        return null;
-    }
-    
     public AppointmentList getAppointmentsByUser(User user) {
         if (user == null) {
             throw new IllegalArgumentException("The user cannot be null");
