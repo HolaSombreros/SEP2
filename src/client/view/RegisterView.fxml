@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="600.0" prefWidth="600.0" stylesheets="@../../util/light.css" userData="Register an account" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.RegisterViewController">
+<VBox alignment="CENTER" prefHeight="600.0" prefWidth="600.0" stylesheets="@../../util/style.css" userData="Register an account" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.RegisterViewController">
    <children>
       <Label styleClass="header" text="Register New Account">
       </Label>

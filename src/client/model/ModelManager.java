@@ -36,7 +36,7 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     }
     
     @Override
-    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, User patient) {
+    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {
         client.addAppointment(date, timeInterval, type, patient);
         property.firePropertyChange("new", null, null);
     }

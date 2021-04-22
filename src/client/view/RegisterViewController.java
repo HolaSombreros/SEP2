@@ -1,6 +1,6 @@
 package client.view;
 
-import client.viewmodel.RegisterViewModel;
+import client.viewmodel.RegisterViewModelInterface;
 import javafx.beans.binding.Bindings;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import util.IntStringConverter;
 
 public class RegisterViewController extends ViewController {
-    private RegisterViewModel viewModel;
+    private RegisterViewModelInterface viewModel;
     
     @FXML private TextField firstNameInputField;
     @FXML private TextField middleNameInputField;

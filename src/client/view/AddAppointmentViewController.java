@@ -1,6 +1,6 @@
 package client.view;
 
-import client.viewmodel.AddAppointmentViewModel;
+import client.viewmodel.AddAppointmentViewModelInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -9,12 +9,16 @@ import server.model.Appointment;
 import server.model.TimeInterval;
 
 public class AddAppointmentViewController extends ViewController {
-    private AddAppointmentViewModel viewModel;
+    private AddAppointmentViewModelInterface viewModel;
     
     @FXML private DatePicker dateDatePicker;
     @FXML private ChoiceBox<TimeInterval> timeIntervalChoiceBox;
     @FXML private ChoiceBox<Appointment.Type> typeChoiceBox;
     @FXML private Label errorLabel;
+    
+    public AddAppointmentViewController() {
+    
+    }
     
     @Override
     protected void init() {

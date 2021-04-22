@@ -39,7 +39,7 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     }
     
     @Override
-    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, User patient) throws RemoteException {
+    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) throws RemoteException {
         serverModel.addAppointment(date, timeInterval, type, patient);
     }
     

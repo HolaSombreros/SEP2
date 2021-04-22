@@ -87,37 +87,26 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
-    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, User patient) {
-        // not sure how to do this in a way without using instanceof to verify...?
-        if (patient instanceof Patient) {
-            Appointment appointment = null;
-    
-            // validate the data
-            // TODO: assign nurse automatically based on their schedule, somehow
-            switch (type) {
-                case TEST:
-                    appointment = new TestAppointment(date, timeInterval, type, patient, userList.getUserByCpr("1205561111"));
-                    break;
-                case VACCINE:
-                    appointment = new VaccineAppointment(date, timeInterval, type, patient, userList.getUserByCpr("1205561111"));
-                    break;
-                default:
-                    throw new IllegalStateException("Appointment type '" + type + "' is invalid");
-            }
-            
-            appointmentTimeList.add(appointment, date, timeInterval);
+    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {
+        Appointment appointment = null;
+
+        // TODO: assign nurse automatically based on their schedule, somehow
+        switch (type) {
+            case TEST:
+                appointment = new TestAppointment(date, timeInterval, type, patient, (Nurse) userList.getUserByCpr("1205561111"));
+                break;
+            case VACCINE:
+                appointment = new VaccineAppointment(date, timeInterval, type, patient, (Nurse) userList.getUserByCpr("1205561111"));
+                break;
+            default:
+                throw new IllegalStateException("Appointment type '" + type + "' is invalid");
         }
-        else {
-            throw new IllegalStateException("Please log in as a patient and try again");
-        }
+        appointmentTimeList.add(appointment, date, timeInterval);
     }
     
     @Override
     public AppointmentList getAppointmentsByUser(User user) {
-        if (user.getType().equals("Patient")) {
-            return appointmentTimeList.getAppointsByUser(user);
-        }
-        return null;
+        return appointmentTimeList.getAppointsByUser(user);
     }
     
     @Override

@@ -13,7 +13,7 @@ import server.model.*;
 
 import java.time.LocalDate;
 
-public class AddAppointmentViewModel {
+public class AddAppointmentViewModel implements AddAppointmentViewModelInterface {
     private Model model;
     private ViewState viewState;
     private ObjectProperty<LocalDate> date;
@@ -43,6 +43,7 @@ public class AddAppointmentViewModel {
         type.set(types.get(0));
     }
     
+    @Override
     public void loadTimeIntervals() {
         timeIntervals.clear();
         if (date.get() != null) {
@@ -59,6 +60,7 @@ public class AddAppointmentViewModel {
         }
     }
     
+    @Override
     public void reset() {
         error.set("");
         resetInputs();
@@ -66,41 +68,50 @@ public class AddAppointmentViewModel {
     
     private void resetInputs() {
         date.set(null);
-        loadTypes();
+        type.set(types.get(0));
         timeIntervals.clear();
+        timeInterval.set(null);
     }
     
+    @Override
     public ObjectProperty<LocalDate> getDateProperty() {
         return date;
     }
     
+    @Override
     public ObservableList<Appointment.Type> getAllTypes() {
         return types;
     }
     
+    @Override
     public ObjectProperty<Appointment.Type> getTypeProperty() {
         return type;
     }
     
+    @Override
     public ObservableList<TimeInterval> getAvailableTimeIntervals() {
         return timeIntervals;
     }
     
+    @Override
     public ObjectProperty<TimeInterval> getTimeIntervalProperty() {
         return timeInterval;
     }
     
+    @Override
     public StringProperty getErrorProperty() {
         return error;
     }
     
+    @Override
     public ObjectProperty<Paint> getErrorFillProperty() {
         return errorFill;
     }
     
+    @Override
     public void createAppointment() {
         try {
-            model.addAppointment(new Date(date.get()), timeInterval.get(), type.get(), viewState.getUser());
+            model.addAppointment(new Date(date.get()), timeInterval.get(), type.get(), (Patient) viewState.getUser());
             errorFill.set(Color.GREEN);
             error.set("Appointment booked for " + date.get() + " (" + timeInterval.get() + ")");
             resetInputs();

@@ -22,11 +22,7 @@ public class LoginChoiceViewModel {
 
 
     public void updateRoleProperty(){
-        System.out.println(viewState.getUser());
-        if(viewState.getUser().getType().equals("Nurse"))
-            roleProperty.set(viewState.getUser().getType());
-        if(viewState.getUser().getType().equals("Administrator"))
-            roleProperty.set(viewState.getUser().getType());
+        roleProperty.set(viewState.getUser().getType());
     }
 
     public StringProperty roleProperty() {

@@ -51,7 +51,7 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
     }
     
     @Override
-    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, User patient) {
+    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {
         try {
             server.addAppointment(date, timeInterval, type, patient);
         }

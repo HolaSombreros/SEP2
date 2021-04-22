@@ -1,6 +1,6 @@
 package client.view;
 
-import client.viewmodel.AppointmentDetailsViewModel;
+import client.viewmodel.AppointmentDetailsViewModelInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -16,7 +16,7 @@ public class AppointmentDetailsController extends ViewController
     @FXML private Label result;
     @FXML private Label errorLabel;
 
-    private AppointmentDetailsViewModel viewModel;
+    private AppointmentDetailsViewModelInterface viewModel;
 
     public AppointmentDetailsController(){}
 

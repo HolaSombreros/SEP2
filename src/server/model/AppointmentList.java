@@ -19,8 +19,8 @@ public class AppointmentList implements Serializable {
         appointments.add(appointment);
     }
     
-    public void addAll(AppointmentList appointmentList){
-        appointments.addAll(appointmentList.getAppointments());
+    public void addAll(List<Appointment> appointments){
+        this.appointments.addAll(appointments);
     }
     
     public int size() {

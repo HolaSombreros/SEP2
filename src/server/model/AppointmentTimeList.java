@@ -19,7 +19,6 @@ public class AppointmentTimeList {
         // is there a timeinterval in that timeframe?
         // add the appointment there
         
-        
         for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
             if (appointmentTimeFrame.getDate().equals(date) &&
                 appointmentTimeFrame.getTimeInterval().equals(timeInterval)) {
@@ -31,7 +30,7 @@ public class AppointmentTimeList {
     public AppointmentList getAppointsByUser(User user) {
         AppointmentList appointments = new AppointmentList();
         for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
-            appointments.addAll(appointmentTimeFrame.getAppointmentsByUser(user));
+            appointments.addAll(appointmentTimeFrame.getAppointmentsByUser(user).getAppointments());
         }
         return appointments;
     }

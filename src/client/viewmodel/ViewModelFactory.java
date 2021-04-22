@@ -3,43 +3,49 @@ package client.viewmodel;
 import client.model.Model;
 
 public class ViewModelFactory {
-    private RegisterViewModel registerViewModel;
-    private LoginViewModel loginViewModel;
-    private LoginChoiceViewModel loginChoiceViewModel;
-    private AppointmentListViewModel appointmentListViewModel;
-    private AddAppointmentViewModel addAppointmentViewModel;
-    private AppointmentDetailsViewModel appointmentDetailsViewModel;
+    private RegisterViewModelInterface registerViewModel;
+    private LoginViewModelInterface loginViewModel;
+    private LoginChoiceViewModelInterface loginChoiceViewModel;
+    private AppointmentListViewModelInterface appointmentListViewModel;
+    private AddAppointmentViewModelInterface addAppointmentViewModel;
+    private AppointmentDetailsViewModelInterface appointmentDetailsViewModel;
     private ViewState viewState;
-
     
     public ViewModelFactory(Model model) {
         this.viewState = new ViewState();
         registerViewModel = new RegisterViewModel(model);
-        loginViewModel = new LoginViewModel(model,viewState);
-        loginChoiceViewModel = new LoginChoiceViewModel(model,viewState);
+        loginViewModel = new LoginViewModel(model, viewState);
+        loginChoiceViewModel = new LoginChoiceViewModel(model, viewState);
         appointmentListViewModel = new AppointmentListViewModel(model, viewState);
         addAppointmentViewModel = new AddAppointmentViewModel(model, viewState);
         appointmentDetailsViewModel = new AppointmentDetailsViewModel(model, viewState);
     }
-    public ViewState getViewState(){ return viewState;}
-    public RegisterViewModel getRegisterViewModel() {
+    
+    public ViewState getViewState() {
+        return viewState;
+    }
+    
+    public RegisterViewModelInterface getRegisterViewModel() {
         return registerViewModel;
     }
     
-    public LoginViewModel getLoginViewModel() {
+    public LoginViewModelInterface getLoginViewModel() {
         return loginViewModel;
     }
-
-    public LoginChoiceViewModel getLoginChoiceViewModel() {
+    
+    public LoginChoiceViewModelInterface getLoginChoiceViewModel() {
         return loginChoiceViewModel;
     }
-    public AppointmentListViewModel getAppointmentListViewModel(){
+    
+    public AppointmentListViewModelInterface getAppointmentListViewModel() {
         return appointmentListViewModel;
     }
-
-    public AddAppointmentViewModel getAddAppointmentViewModel()
-    {
+    
+    public AddAppointmentViewModelInterface getAddAppointmentViewModel() {
         return addAppointmentViewModel;
     }
-    public AppointmentDetailsViewModel getAppointmentDetailsViewModel(){ return appointmentDetailsViewModel;}
+    
+    public AppointmentDetailsViewModelInterface getAppointmentDetailsViewModel() {
+        return appointmentDetailsViewModel;
+    }
 }
