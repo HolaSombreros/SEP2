@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 public interface AppointmentListViewModelInterface {
     void reset();
     void setSelectedAppointment(AppointmentTableViewModel selectedAppointment);
-    void seeDetails();
+    boolean seeDetails();
     
     ObservableList<AppointmentTableViewModel> getAppointments();
     StringProperty getErrorProperty();

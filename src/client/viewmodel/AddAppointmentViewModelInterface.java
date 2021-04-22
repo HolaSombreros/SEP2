@@ -4,8 +4,8 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Paint;
-import server.model.Appointment;
-import server.model.TimeInterval;
+import server.model.domain.Appointment;
+import server.model.domain.TimeInterval;
 
 import java.time.LocalDate;
 

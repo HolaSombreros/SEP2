@@ -1,6 +1,6 @@
 package client.mediator;
 
-import server.model.*;
+import server.model.domain.*;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.RemoteListener;

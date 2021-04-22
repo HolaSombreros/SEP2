@@ -1,4 +1,4 @@
-package server.model;
+package server.model.domain;
 
 import java.io.Serializable;
 
@@ -23,13 +23,13 @@ public abstract class Appointment implements Serializable {
         PREVIOUS("Previous"),
         UPCOMING("Upcoming"),
         CANCELLED("Cancelled");
-    
+        
         private String status;
-    
+        
         Status(String status) {
             this.status = status;
         }
-    
+        
         @Override
         public String toString() {
             return status;
@@ -99,6 +99,10 @@ public abstract class Appointment implements Serializable {
     
     public TimeInterval getTimeInterval() {
         return timeInterval;
+    }
+    
+    public void setTimeInterval(TimeInterval timeInterval) {
+        this.timeInterval = timeInterval;
     }
     
     @Override

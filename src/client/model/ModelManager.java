@@ -2,7 +2,7 @@ package client.model;
 
 import client.mediator.Client;
 import client.mediator.LocalClientModel;
-import server.model.*;
+import server.model.domain.*;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.LocalListener;

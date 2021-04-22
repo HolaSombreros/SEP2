@@ -1,4 +1,4 @@
-package server.model;
+package server.model.domain;
 
 public class TestAppointment extends Appointment {
     public enum Result {

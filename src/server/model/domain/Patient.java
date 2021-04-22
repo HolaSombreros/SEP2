@@ -1,4 +1,4 @@
-package server.model;
+package server.model.domain;
 
 public class Patient extends User {
     private boolean validForVaccine;
@@ -7,9 +7,9 @@ public class Patient extends User {
         super(cpr, password, firstName, middleName, lastName, address, phone, email);
         setValidForVaccine(validForVaccine);
     }
-
-    public Patient(String cpr, String password, String firstName, String lastName, Address address, String phone, String email, boolean validForVaccine){
-        this(cpr, password,firstName, null, lastName, address,phone, email, validForVaccine);
+    
+    public Patient(String cpr, String password, String firstName, String lastName, Address address, String phone, String email, boolean validForVaccine) {
+        this(cpr, password, firstName, null, lastName, address, phone, email, validForVaccine);
     }
     
     public boolean isValidForVaccine() {

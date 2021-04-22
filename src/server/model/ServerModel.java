@@ -1,9 +1,9 @@
 package server.model;
 
+import server.model.domain.*;
 import utility.observer.subject.LocalSubject;
 
-public interface ServerModel extends LocalSubject<User, Appointment>
-{
+public interface ServerModel extends LocalSubject<User, Appointment> {
     User login(String cpr, String password);
     void logout(User user);
     void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city);

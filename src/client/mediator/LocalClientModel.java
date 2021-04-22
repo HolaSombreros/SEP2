@@ -1,6 +1,6 @@
 package client.mediator;
 
-import server.model.*;
+import server.model.domain.*;
 import utility.observer.subject.LocalSubject;
 
 public interface LocalClientModel extends LocalSubject<User, Appointment> {

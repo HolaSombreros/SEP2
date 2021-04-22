@@ -1,4 +1,4 @@
-package server.model;
+package server.model.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +20,7 @@ public class AppointmentTimeList {
         // add the appointment there
         
         for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
-            if (appointmentTimeFrame.getDate().equals(date) &&
-                appointmentTimeFrame.getTimeInterval().equals(timeInterval)) {
+            if (appointmentTimeFrame.getDate().equals(date) && appointmentTimeFrame.getTimeInterval().equals(timeInterval)) {
                 appointmentTimeFrame.add(appointment);
             }
         }
@@ -52,8 +51,7 @@ public class AppointmentTimeList {
     public TimeIntervalList getAvailableTimeIntervals(Date date) {
         TimeIntervalList list = new TimeIntervalList();
         for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
-            if (appointmentTimeFrame.getDate().equals(date) &&
-                appointmentTimeFrame.size() < appointmentTimeFrame.getMaxAppointmentCount()) {
+            if (appointmentTimeFrame.getDate().equals(date) && appointmentTimeFrame.size() < appointmentTimeFrame.getMaxAppointmentCount()) {
                 list.add(appointmentTimeFrame.getTimeInterval());
             }
         }

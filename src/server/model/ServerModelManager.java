@@ -1,5 +1,6 @@
 package server.model;
 
+import server.model.domain.*;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
@@ -90,7 +91,7 @@ public class ServerModelManager implements ServerModel {
     @Override
     public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {
         Appointment appointment = null;
-
+        
         // TODO: assign nurse automatically based on their schedule, somehow
         switch (type) {
             case TEST:

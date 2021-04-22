@@ -1,6 +1,6 @@
 package server.mediator;
 
-import server.model.*;
+import server.model.domain.*;
 import utility.observer.subject.RemoteSubject;
 import java.rmi.RemoteException;
 

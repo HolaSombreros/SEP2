@@ -1,6 +1,6 @@
 package client.model;
 
-import server.model.*;
+import server.model.domain.*;
 import utility.observer.subject.LocalSubject;
 
 public interface Model extends LocalSubject<User, Appointment> {
