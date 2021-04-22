@@ -24,12 +24,14 @@ public class AppointmentListViewModel
         this.viewState = viewState;
         this.appointments = FXCollections.observableArrayList();
         this.errorProperty = new SimpleStringProperty();
-        selectedAppointment = new SimpleObjectProperty<>();
+        this.selectedAppointment = new SimpleObjectProperty<>();
     }
     public ObservableList<AppointmentTableViewModel> getAppointments(){
         return appointments;
     }
     public void reset(){
+        viewState.setSelectedAppointment(-1);
+        errorProperty.set("");
         appointments.clear();
         updateList();
     }
@@ -43,17 +45,22 @@ public class AppointmentListViewModel
        for (Appointment appointment : appointmentList.getAppointments()) {
           appointments.add(new AppointmentTableViewModel(appointment));
        }
-
     }
     public void setSelectedAppointment(AppointmentTableViewModel selectedAppointment){
         this.selectedAppointment.set(selectedAppointment);
 
     }
-    public void seeDetails(){
-        if(selectedAppointment != null){
-            viewState.setSelectedAppointment(selectedAppointment.get().getIdProperty().get());
-        }
-        else
-            errorProperty.set("Please select an appointment");
+    public boolean seeDetails(){
+           if(selectedAppointment.get() != null) {
+               viewState.setSelectedAppointment(selectedAppointment.get().getIdProperty().get());
+               return true;
+           }
+           else{
+               viewState.setSelectedAppointment(-1);
+               errorProperty.set("Please select a project first");
+               return false;
+           }
+
+
     }
 }

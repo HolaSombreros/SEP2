@@ -37,8 +37,15 @@ public class AppointmentTimeList {
     }
     
     public Appointment getAppointmentById(int id) {
+        if (id < 1) {
+            throw new IllegalArgumentException("Please enter an id higher than 0");
+        }
         for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
-            return appointmentTimeFrame.getAppointmentById(id);
+            for (Appointment appointment : appointmentTimeFrame.getAppointmentList()) {
+                if (appointment.getId() == id) {
+                    return appointment;
+                }
+            }
         }
         return null;
     }

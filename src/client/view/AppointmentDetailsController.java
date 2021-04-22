@@ -15,6 +15,7 @@ public class AppointmentDetailsController extends ViewController
     @FXML private ChoiceBox<TimeInterval> timeInterval;
     @FXML private Label result;
     @FXML private Label errorLabel;
+    @FXML private Label resultLabel;
 
     private AppointmentDetailsViewModel viewModel;
 
@@ -32,6 +33,8 @@ public class AppointmentDetailsController extends ViewController
         timeInterval.setItems(viewModel.getListOfTimeIntervals());
         result.textProperty().bind(viewModel.resultProperty());
         errorLabel.textProperty().bind(viewModel.errorLabelProperty());
+        resultLabel.textProperty().bind(viewModel.resultLabelProperty());
+        reset();
     }
 
     @Override
