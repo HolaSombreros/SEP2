@@ -19,6 +19,8 @@ public class AddressManager extends DatabaseManager{
             insertStatement.setString(1,address.getStreet());
             insertStatement.setString(2,address.getNumber());
             insertStatement.setInt(3,address.getZipcode());
+            if(!isCity(address))
+                addCity(address);
             insertStatement.executeUpdate();
         }
     }
@@ -72,11 +74,32 @@ public class AddressManager extends DatabaseManager{
 
     public void removeAddress(Address address) throws SQLException
     {
-        try (Connection connection = getConnection())
-        {
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM address WHERE zip_code = ?");
             statement.setInt(1,address.getZipcode());
             statement.executeQuery();
+        }
+    }
+
+    public void addCity(Address address)throws SQLException{
+        try(Connection connection =getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO city VALUES (?,?)");
+            statement.setString(1,address.getCity());
+            statement.setInt(2,address.getZipcode());
+            statement.executeUpdate();
+        }
+    }
+
+    public boolean isCity(Address address) throws SQLException{
+        try(Connection connection = getConnection()) {
+            PreparedStatement selectStatement = connection.prepareStatement("SELECT * FROM city WHERE zip_code = ?");
+            selectStatement.setInt(1,address.getZipcode());
+            ResultSet resultSet = selectStatement.executeQuery();
+            if (resultSet.next()) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }
