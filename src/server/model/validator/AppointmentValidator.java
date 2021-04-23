@@ -17,9 +17,9 @@ public class AppointmentValidator {
     }
     
     public static void validateNurse(Nurse nurse) {
-        if (nurse == null) {
-            throw new IllegalArgumentException("Please specify a nurse");
-        }
+//        if (nurse == null) {
+//            throw new IllegalArgumentException("Please specify a nurse");
+//        }
     }
     
     public static void validateDate(Date date) {

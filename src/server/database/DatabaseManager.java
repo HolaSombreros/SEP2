@@ -1,6 +1,5 @@
 package server.database;
 
-import server.model.domain.*;
 
 import java.rmi.RemoteException;
 import java.sql.*;
@@ -22,8 +21,23 @@ public class DatabaseManager {
 
   }
 
+  private void setSchemaPrivileges() throws SQLException {
+    try (Connection connection = getConnection()){
+      PreparedStatement statement = connection.prepareStatement("SET SCHEMA 'sep2'");
+      statement.executeUpdate();
+      PreparedStatement privilegeStatement = connection.prepareStatement("GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA sep2 TO sep2admin");
+      privilegeStatement.executeUpdate();
+    }
+  }
   public DatabaseManager(){
     this(URL,USERNAME,PASSWORD);
+    try {
+      setSchemaPrivileges();
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+    }
+
   }
 
   public Connection getConnection() throws SQLException {
