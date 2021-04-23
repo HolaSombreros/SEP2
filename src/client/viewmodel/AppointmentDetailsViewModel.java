@@ -43,9 +43,7 @@ public class AppointmentDetailsViewModel
     }
     public void reset(){
         Appointment appointment = model.getAppointmentById(viewState.getSelectedAppointment());
-        System.out.println(viewState.getSelectedAppointment());
-        System.out.println(appointment.toString());
-        if(appointment.toString() != null)
+        if(appointment != null)
         {
             date.set(LocalDate.of(appointment.getDate().getYear(), appointment.getDate().getMonth(), appointment.getDate().getDay()));
             listOfTimeIntervals.addAll(model.getAvailableTimeIntervals(new Date(date.get())).getTimeIntervals());
