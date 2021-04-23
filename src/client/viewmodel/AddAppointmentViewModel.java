@@ -116,7 +116,7 @@ public class AddAppointmentViewModel implements AddAppointmentViewModelInterface
         try {
             model.addAppointment(new Date(date.get()), timeInterval.get(), type.get(), (Patient) viewState.getUser());
             errorFill.set(Color.GREEN);
-            error.set("Appointment booked for " + date.get() + " (" + timeInterval.get() + ")");
+            error.set("Appointment booked for " + date.get().toString() + " (" + timeInterval.get() + ")");
             resetInputs();
         }
         catch (Exception e) {

@@ -78,6 +78,13 @@ public abstract class Appointment implements Serializable {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public void setNurse(Nurse nurse){
+        this.nurse = nurse;
+    }
+    public void setPatient(Patient patient){
+        this.patient = patient;
+    }
     
     public Patient getPatient() {
         return patient;

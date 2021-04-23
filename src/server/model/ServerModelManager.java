@@ -108,7 +108,7 @@ public class ServerModelManager implements ServerModel {
     
     @Override
     public AppointmentList getAppointmentsByUser(User user) {
-        return appointmentTimeList.getAppointsByUser(user);
+        return appointmentTimeList.getAppointmentsByUser(user);
     }
     
     @Override

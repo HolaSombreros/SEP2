@@ -26,7 +26,7 @@ public class AppointmentTimeList {
         }
     }
     
-    public AppointmentList getAppointsByUser(User user) {
+    public AppointmentList getAppointmentsByUser(User user) {
         AppointmentList appointments = new AppointmentList();
         for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
             appointments.addAll(appointmentTimeFrame.getAppointmentsByUser(user).getAppointments());
@@ -50,6 +50,9 @@ public class AppointmentTimeList {
     
     public TimeIntervalList getAvailableTimeIntervals(Date date) {
         TimeIntervalList list = new TimeIntervalList();
+        if(date.isBefore(Date.today())){
+            return list;
+        }
         for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
             if (appointmentTimeFrame.getDate().equals(date) && appointmentTimeFrame.size() < appointmentTimeFrame.getMaxAppointmentCount()) {
                 list.add(appointmentTimeFrame.getTimeInterval());

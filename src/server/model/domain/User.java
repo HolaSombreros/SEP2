@@ -45,6 +45,7 @@ public abstract class User implements Serializable {
 
     public void setPassword(String password) {
         UserValidator.setPassword(password);
+        this.password = password;
     }
     
     public String getFirstName() {

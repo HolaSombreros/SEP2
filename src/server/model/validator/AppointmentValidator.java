@@ -14,5 +14,12 @@ public class AppointmentValidator {
         if (nurse == null) {
             throw new IllegalArgumentException("Please specify a nurse");
         }
+        if(date == null){
+            throw new IllegalArgumentException("Please specify a date");
+        }
+        if(date.isBefore(Date.today())){
+            throw new IllegalArgumentException("You cannot book an appointment for the previous days");
+        }
+
     }
 }
