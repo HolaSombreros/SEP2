@@ -1,6 +1,6 @@
 package server.database;
 
-import server.model.Address;
+import server.model.domain.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

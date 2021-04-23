@@ -1,14 +1,21 @@
 package server.model;
 
+import server.database.AppointmentManager;
+import server.database.PatientManager;
 import server.model.domain.*;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
 
+import java.sql.SQLException;
+
+
 public class ServerModelManager implements ServerModel {
     private UserList userList;
     private UserList onlineList;
     private AppointmentTimeList appointmentTimeList;
+    private PatientManager patientManager;
+    private AppointmentManager appointmentManager;
     
     private PropertyChangeAction<User, Appointment> property;
     
@@ -17,6 +24,8 @@ public class ServerModelManager implements ServerModel {
         userList = new UserList();
         onlineList = new UserList();
         appointmentTimeList = new AppointmentTimeList();
+        patientManager = new PatientManager();
+        appointmentManager = new AppointmentManager();
         addDummyData();
         addDummyTimeIntervals();
     }
@@ -39,24 +48,23 @@ public class ServerModelManager implements ServerModel {
     @Override
     public User login(String cpr, String password) {
         // validate cpr and password first?
-        if (userList.contains(cpr)) {
-            User user = userList.getUserByCpr(cpr);
-            if (user.getPassword().equals(password)) {
+        try{
+            User user = patientManager.getPatientByCpr(cpr);
+            if(patientManager.getPassword(cpr).equals(password)){
                 if (!onlineList.contains(user)) {
                     onlineList.addUser(user);
                     return user;
                 }
-                else {
+                else
                     throw new IllegalStateException("That user is already signed in");
-                }
             }
-            else {
+            else
                 throw new IllegalArgumentException("That username/password combination does not match");
-            }
         }
-        else {
-            throw new IllegalStateException("That user does not exist");
+        catch (SQLException | IllegalStateException e){
+            e.printStackTrace();
         }
+        return null;
     }
     
     @Override
@@ -82,6 +90,12 @@ public class ServerModelManager implements ServerModel {
             Address address = new Address(street, number, zip, city);
             User user = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, false);
             userList.addUser(user);
+            try {
+                patientManager.addPatient((Patient)user);
+            }
+            catch (SQLException e){
+                e.printStackTrace();
+            }
         }
         else {
             throw new IllegalStateException("That CPR is already registered in the system");
@@ -96,9 +110,21 @@ public class ServerModelManager implements ServerModel {
         switch (type) {
             case TEST:
                 appointment = new TestAppointment(date, timeInterval, type, patient, (Nurse) userList.getUserByCpr("1205561111"));
+                try {
+                    appointmentManager.addAppointment(appointment);
+                }
+                catch (SQLException e){
+                    e.printStackTrace();
+                }
                 break;
             case VACCINE:
                 appointment = new VaccineAppointment(date, timeInterval, type, patient, (Nurse) userList.getUserByCpr("1205561111"));
+                try {
+                    appointmentManager.addAppointment(appointment);
+                }
+                catch (SQLException e){
+                    e.printStackTrace();
+                }
                 break;
             default:
                 throw new IllegalStateException("Appointment type '" + type + "' is invalid");

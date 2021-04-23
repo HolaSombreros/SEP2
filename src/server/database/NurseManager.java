@@ -1,7 +1,6 @@
 package server.database;
 
-import server.model.Nurse;
-import server.model.Patient;
+import server.model.domain.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

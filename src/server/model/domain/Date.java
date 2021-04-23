@@ -113,4 +113,8 @@ public class Date implements Serializable {
     public String toString() {
         return String.format("%02d-%02d-%d", day, month, year);
     }
+
+    public String getDateSQL() {
+        return year + "-" + month + "-" + day;
+    }
 }

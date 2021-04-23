@@ -1,11 +1,6 @@
 package server.database;
 
-import server.model.Address;
-import server.model.Administrator;
-import server.model.Patient;
-import server.model.UserList;
-
-import java.rmi.RemoteException;
+import server.model.domain.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -56,7 +51,7 @@ public class PatientManager extends DatabaseManager
       }
       else
       {
-        throw new IllegalStateException("No existing registered Patient with this CPR");
+        throw new IllegalStateException("User not in database");
       }
     }
   }

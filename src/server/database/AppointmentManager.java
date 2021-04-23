@@ -1,7 +1,7 @@
 package server.database;
 
 
-
+import server.model.domain.*;
 import java.sql.*;
 import java.sql.Date;
 import java.sql.Time;
@@ -14,7 +14,7 @@ public class AppointmentManager extends DatabaseManager
   public AppointmentManager()
   {
   }
-/*
+
   public void addAppointment(Appointment appointment) throws SQLException
   {
     try (Connection connection = getConnection())
@@ -38,8 +38,6 @@ public class AppointmentManager extends DatabaseManager
     }
   }
 
-  //TODO: get appointment by patient, nurse, time, status.
-
   public AppointmentList getAppointmentsByPatient(Patient patient) throws SQLException
   {
     try (Connection connection = getConnection())
@@ -59,9 +57,9 @@ public class AppointmentManager extends DatabaseManager
         String typeSQL = resultSet.getString("type");
         String statusSQL = resultSet.getString("status");
         String resultSQL = resultSet.getString("result");
-        server.model.Date date = new server.model.Date(dateSQL.getDay(), dateSQL.getMonth(), dateSQL.getYear());
-        server.model.Time timeFrom = new server.model.Time(timeFromSQL.getHours(), timeFromSQL.getMinutes());
-        server.model.Time timeTo = new server.model.Time(timeToSQL.getHours(), timeToSQL.getMinutes());
+        server.model.domain.Date date = new server.model.domain.Date(dateSQL.getDay(), dateSQL.getMonth(), dateSQL.getYear());
+        server.model.domain.Time timeFrom = new server.model.domain.Time(timeFromSQL.getHours(), timeFromSQL.getMinutes());
+        server.model.domain.Time timeTo = new server.model.domain.Time(timeToSQL.getHours(), timeToSQL.getMinutes());
         Appointment.Type type = Appointment.Type.valueOf(typeSQL);
         Appointment.Status status = Appointment.Status.valueOf(statusSQL);
         Nurse nurse = nurseManager.getNurseByCPR(nurseCpr);
@@ -103,9 +101,9 @@ public class AppointmentManager extends DatabaseManager
         String typeSQL = resultSet.getString("type");
         String statusSQL = resultSet.getString("status");
         String resultSQL = resultSet.getString("result");
-        server.model.Date date = new server.model.Date(dateSQL.getDay(), dateSQL.getMonth(), dateSQL.getYear());
-        server.model.Time timeFrom = new server.model.Time(timeFromSQL.getHours(), timeFromSQL.getMinutes());
-        server.model.Time timeTo = new server.model.Time(timeToSQL.getHours(), timeToSQL.getMinutes());
+        server.model.domain.Date date = new server.model.domain.Date(dateSQL.getDay(), dateSQL.getMonth(), dateSQL.getYear());
+        server.model.domain.Time timeFrom = new server.model.domain.Time(timeFromSQL.getHours(), timeFromSQL.getMinutes());
+        server.model.domain.Time timeTo = new server.model.domain.Time(timeToSQL.getHours(), timeToSQL.getMinutes());
         Appointment.Type type = Appointment.Type.valueOf(typeSQL);
         Appointment.Status status = Appointment.Status.valueOf(statusSQL);
         Patient patient = patientManager.getPatientByCpr(patientCpr);
@@ -146,7 +144,7 @@ public class AppointmentManager extends DatabaseManager
     return list;
   }
 
- */
+
 }
 
 

@@ -1,8 +1,6 @@
 package server.database;
 
-import server.model.Address;
-import server.model.Patient;
-import server.model.UserList;
+import server.model.domain.*;
 
 import java.rmi.RemoteException;
 import java.sql.*;
