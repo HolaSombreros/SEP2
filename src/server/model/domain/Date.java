@@ -1,5 +1,7 @@
 package server.model.domain;
 
+import server.model.validator.DateValidator;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.GregorianCalendar;
@@ -25,9 +27,7 @@ public class Date implements Serializable {
     }
     
     public Date(LocalDate date) {
-        if (date == null) {
-            throw new IllegalArgumentException("Please input a date");
-        }
+        DateValidator.constructorValidator(date);
         set(date.getDayOfMonth(), date.getMonthValue(), date.getYear());
     }
     
@@ -38,20 +38,17 @@ public class Date implements Serializable {
     }
     
     public void setYear(int year) {
-        if (year < 0)
-            throw new IllegalArgumentException("Invalid year");
+        DateValidator.setYear(year);
         this.year = year;
     }
     
     public void setMonth(int month) {
-        if (month < 1 || month > 12)
-            throw new IllegalArgumentException("Invalid month");
+        DateValidator.setMonth(month);
         this.month = month;
     }
     
     public void setDay(int day) {
-        if (day < 1 || day > numberOfDaysInMonth())
-            throw new IllegalArgumentException("Invalid day");
+        DateValidator.setDay(this, day);
         this.day = day;
     }
     
@@ -66,14 +63,7 @@ public class Date implements Serializable {
     public int getDay() {
         return day;
     }
-    
-    public boolean isLeapYear() {
-        if ((year % 4 == 0) && ((year % 100 == 0) || (year % 400 == 0)))
-            return true;
-        else
-            return false;
-    }
-    
+
     public int numberOfDaysInMonth() {
         if (month == 2)
             if (isLeapYear())
@@ -85,7 +75,10 @@ public class Date implements Serializable {
         else
             return 31;
     }
-    
+    public boolean isLeapYear() {
+        return (((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) && year >= 1752);
+    }
+
     public boolean isBefore(Date other) {
         if (year > other.year)
             return false;

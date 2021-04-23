@@ -63,7 +63,7 @@ public class AppointmentListViewModel implements AppointmentListViewModelInterfa
         }
         else {
             viewState.setSelectedAppointment(-1);
-            errorProperty.set("Please select a project first");
+            errorProperty.set("Please select an appointment first");
             return false;
         }
     }

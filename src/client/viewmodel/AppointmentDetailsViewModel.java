@@ -48,7 +48,8 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
     
     private void loadAppointmentDetails() {
         Appointment appointment = model.getAppointmentById(viewState.getSelectedAppointment());
-        if (appointment != null) {
+        if(appointment != null)
+        {
             date.set(LocalDate.of(appointment.getDate().getYear(), appointment.getDate().getMonth(), appointment.getDate().getDay()));
             listOfTimeIntervals.addAll(model.getAvailableTimeIntervals(new Date(date.get())).getTimeIntervals());
             timeInterval.set(appointment.getTimeInterval());

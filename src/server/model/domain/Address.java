@@ -1,5 +1,7 @@
 package server.model.domain;
 
+import server.model.validator.AddressValidator;
+
 import java.io.Serializable;
 
 public class Address implements Serializable {
@@ -14,49 +16,30 @@ public class Address implements Serializable {
         setZipcode(zipcode);
         setCity(city);
     }
-    
     public String getStreet() {
         return street;
     }
-    
-    /**
-     * Throws exception if the street is null or empty
-     *
-     * @param street
-     */
+
     public void setStreet(String street) {
-        if (street == null || street.equals(""))
-            throw new IllegalArgumentException("Please enter the street name");
+        AddressValidator.streetValidator(street);
         this.street = street;
     }
-    
+
     public String getNumber() {
         return number;
     }
-    
-    /**
-     * Throws exception if the number is null or empty
-     *
-     * @param number
-     */
+
     public void setNumber(String number) {
-        if (number == null || number.equals(""))
-            throw new IllegalArgumentException("Please enter the number of your address");
+        AddressValidator.setNumber(number);
         this.number = number;
     }
     
     public int getZipcode() {
         return zipcode;
     }
-    
-    /**
-     * Throws exception if the zipcode is invalid
-     *
-     * @param zipcode between 1000 and 9999
-     */
+
     public void setZipcode(int zipcode) {
-        if (zipcode < 1000 || zipcode > 9999)
-            throw new IllegalArgumentException("Invalid zipcode");
+        AddressValidator.setZipcode(zipcode);
         this.zipcode = zipcode;
     }
     
@@ -64,14 +47,8 @@ public class Address implements Serializable {
         return city;
     }
     
-    /**
-     * Throws exception if the city is null or empty
-     *
-     * @param city
-     */
     public void setCity(String city) {
-        if (city == null || city.equals(""))
-            throw new IllegalArgumentException("Please enter the city");
+       AddressValidator.setCity(city);
         this.city = city;
     }
     

@@ -3,6 +3,7 @@ package client.viewmodel;
 import client.model.Model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import server.model.domain.Staff;
 import server.model.domain.User;
 
 public class LoginViewModel implements LoginViewModelInterface {
@@ -32,8 +33,7 @@ public class LoginViewModel implements LoginViewModelInterface {
         try {
             User loggedIn = model.login(cprProperty.get(), passwordProperty.get());
             viewState.setUser(loggedIn);
-            if (loggedIn.getType().equals("Administrator") ||
-                loggedIn.getType().equals("Nurse")) {
+            if (loggedIn instanceof Staff) {
                 // Account is a Admin / Nurse
                 return 2;
             }

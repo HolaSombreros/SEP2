@@ -23,7 +23,7 @@ public class LoginChoiceViewModel implements LoginChoiceViewModelInterface {
     
     @Override
     public void updateRoleProperty() {
-        roleProperty.set(viewState.getUser().getType());
+        roleProperty.set(viewState.getUser().getClass().getSimpleName());
     }
     
     @Override
