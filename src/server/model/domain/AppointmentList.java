@@ -1,4 +1,4 @@
-package server.model;
+package server.model.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ public class AppointmentList implements Serializable {
         appointments = new ArrayList<>();
     }
     
-    public List<Appointment> getAppointments(){
+    public List<Appointment> getAppointments() {
         return appointments;
     }
     
@@ -19,8 +19,8 @@ public class AppointmentList implements Serializable {
         appointments.add(appointment);
     }
     
-    public void addAll(AppointmentList appointmentList){
-        appointments.addAll(appointmentList.getAppointments());
+    public void addAll(List<Appointment> appointments) {
+        this.appointments.addAll(appointments);
     }
     
     public int size() {

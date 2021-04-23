@@ -1,4 +1,4 @@
-package server.model;
+package server.model.domain;
 
 import java.io.Serializable;
 
@@ -23,13 +23,13 @@ public abstract class Appointment implements Serializable {
         PREVIOUS("Previous"),
         UPCOMING("Upcoming"),
         CANCELLED("Cancelled");
-    
+        
         private String status;
-    
+        
         Status(String status) {
             this.status = status;
         }
-    
+        
         @Override
         public String toString() {
             return status;
@@ -40,20 +40,20 @@ public abstract class Appointment implements Serializable {
     private int id;
     private Type type;
     private Status status;
-    private User patient;
-    private User nurse;
+    private Patient patient;
+    private Nurse nurse;
     private Date date;
     private TimeInterval timeInterval;
     
-    public Appointment(Date date, TimeInterval timeInterval, Type type, User patient, User nurse) {
+    public Appointment(Date date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) {
         if (timeInterval == null) {
-            throw new IllegalArgumentException("Please select a time interval");
+            throw new IllegalArgumentException("Please specify a time interval");
         }
         if (patient == null) {
-            throw new IllegalArgumentException("Please select a patient");
+            throw new IllegalArgumentException("Please specify a patient");
         }
         if (nurse == null) {
-            throw new IllegalArgumentException("Please select a nurse");
+            throw new IllegalArgumentException("Please specify a nurse");
         }
         id = idCounter;
         this.type = type;
@@ -85,11 +85,11 @@ public abstract class Appointment implements Serializable {
         this.status = status;
     }
     
-    public User getPatient() {
+    public Patient getPatient() {
         return patient;
     }
     
-    public User getNurse() {
+    public Nurse getNurse() {
         return nurse;
     }
     
@@ -101,6 +101,10 @@ public abstract class Appointment implements Serializable {
         return timeInterval;
     }
     
+    public void setTimeInterval(TimeInterval timeInterval) {
+        this.timeInterval = timeInterval;
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Appointment)) {
@@ -110,7 +114,8 @@ public abstract class Appointment implements Serializable {
         return id == appointment.id &&
             type.equals(appointment.type) &&
             status.equals(appointment.status) &&
-            patient.equals(appointment.patient);
+            patient.equals(appointment.patient) &&
+            nurse.equals(appointment.nurse);
     }
     
     @Override

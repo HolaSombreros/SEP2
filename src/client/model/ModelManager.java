@@ -2,7 +2,7 @@ package client.model;
 
 import client.mediator.Client;
 import client.mediator.LocalClientModel;
-import server.model.*;
+import server.model.domain.*;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.LocalListener;
@@ -36,7 +36,7 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     }
     
     @Override
-    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, User patient) {
+    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {
         client.addAppointment(date, timeInterval, type, patient);
         property.firePropertyChange("new", null, null);
     }

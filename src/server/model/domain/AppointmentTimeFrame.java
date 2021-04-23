@@ -1,4 +1,4 @@
-package server.model;
+package server.model.domain;
 
 import java.io.Serializable;
 import java.util.List;
@@ -44,7 +44,7 @@ public class AppointmentTimeFrame implements Serializable {
         }
         AppointmentList appointments = new AppointmentList();
         for (Appointment appointment : appointmentList.getAppointments()) {
-            if (user.getCpr().equals(appointment.getPatient().getCpr())) {
+            if (appointment.getPatient().equals(user) || appointment.getNurse().equals(user)) {
                 appointments.add(appointment);
             }
         }

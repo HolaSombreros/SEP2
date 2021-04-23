@@ -1,13 +1,11 @@
 package client.view;
 
-import client.viewmodel.AppointmentListViewModel;
+import client.viewmodel.AppointmentListViewModelInterface;
 import client.viewmodel.AppointmentTableViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-
-
 
 public class AppointmentListViewController extends ViewController
 {
@@ -18,7 +16,7 @@ public class AppointmentListViewController extends ViewController
     @FXML private TableColumn<AppointmentTableViewModel, String> typeColumn;
     @FXML private Label errorLabel;
 
-    private AppointmentListViewModel viewModel;
+    private AppointmentListViewModelInterface viewModel;
 
     public AppointmentListViewController(){
 

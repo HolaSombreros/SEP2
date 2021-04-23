@@ -7,15 +7,14 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import server.model.Appointment;
-import server.model.Date;
-import server.model.TestAppointment;
-import server.model.TimeInterval;
+import server.model.domain.Appointment;
+import server.model.domain.Date;
+import server.model.domain.TestAppointment;
+import server.model.domain.TimeInterval;
 
 import java.time.LocalDate;
 
-public class AppointmentDetailsViewModel
-{
+public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelInterface {
     private StringProperty type;
     private ObjectProperty<LocalDate> date;
     private StringProperty status;
@@ -24,12 +23,11 @@ public class AppointmentDetailsViewModel
     private ObjectProperty<TimeInterval> timeInterval;
     private StringProperty result;
     private StringProperty resultLabel;
-
+    
     private Model model;
     private ViewState viewState;
-
-
-    public AppointmentDetailsViewModel(Model model, ViewState viewState){
+    
+    public AppointmentDetailsViewModel(Model model, ViewState viewState) {
         this.model = model;
         this.viewState = viewState;
         date = new SimpleObjectProperty<>();
@@ -41,7 +39,14 @@ public class AppointmentDetailsViewModel
         errorLabel = new SimpleStringProperty();
         resultLabel = new SimpleStringProperty("Result");
     }
-    public void reset(){
+    
+    @Override
+    public void reset() {
+        listOfTimeIntervals.clear();
+        loadAppointmentDetails();
+    }
+    
+    private void loadAppointmentDetails() {
         Appointment appointment = model.getAppointmentById(viewState.getSelectedAppointment());
         if(appointment != null)
         {
@@ -50,7 +55,7 @@ public class AppointmentDetailsViewModel
             timeInterval.set(appointment.getTimeInterval());
             type.set(appointment.getType().toString());
             status.set(appointment.getStatus().toString());
-            if(appointment instanceof TestAppointment){
+            if (appointment instanceof TestAppointment) {
                 TestAppointment testAppointment = (TestAppointment) appointment;
                 result.set(testAppointment.getResult().toString());
             }
@@ -60,48 +65,54 @@ public class AppointmentDetailsViewModel
             }
         }
     }
-
-    public StringProperty getTypeProperty()
-    {
+    
+    @Override
+    public StringProperty getTypeProperty() {
         return type;
     }
-
-    public ObjectProperty<LocalDate> dateProperty()
-    {
+    
+    @Override
+    public ObjectProperty<LocalDate> dateProperty() {
         return date;
     }
-
-    public StringProperty statusProperty()
-    {
+    
+    @Override
+    public StringProperty statusProperty() {
         return status;
     }
-
-    public StringProperty errorLabelProperty()
-    {
+    
+    @Override
+    public StringProperty errorLabelProperty() {
         return errorLabel;
     }
-
-    public ObservableList<TimeInterval> getListOfTimeIntervals()
-    {
+    
+    @Override
+    public ObservableList<TimeInterval> getListOfTimeIntervals() {
         return listOfTimeIntervals;
     }
-    public ObjectProperty<TimeInterval> getTimeInterval(){
+    
+    @Override
+    public ObjectProperty<TimeInterval> getTimeInterval() {
         return timeInterval;
     }
-
-    public StringProperty resultProperty()
-    {
+    
+    @Override
+    public StringProperty resultProperty() {
         return result;
     }
-    public StringProperty resultLabelProperty()
-    {
+    
+    @Override
+    public StringProperty resultLabelProperty() {
         return resultLabel;
     }
-
-    public void cancelAppointment(){
+    
+    @Override
+    public void cancelAppointment() {
         //TODO: Next sprints
     }
-    public void rescheduleAppointment(){
+    
+    @Override
+    public void rescheduleAppointment() {
         //TODO: Next sprints
     }
 }

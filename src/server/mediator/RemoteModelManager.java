@@ -1,6 +1,7 @@
 package server.mediator;
 
 import server.model.*;
+import server.model.domain.*;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.LocalListener;
@@ -39,7 +40,7 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     }
     
     @Override
-    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, User patient) throws RemoteException {
+    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) throws RemoteException {
         serverModel.addAppointment(date, timeInterval, type, patient);
     }
     

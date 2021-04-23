@@ -1,8 +1,8 @@
 package server.mediator;
 
-import server.model.Address;
-import server.model.Patient;
-import server.model.UserList;
+import server.model.domain.Address;
+import server.model.domain.Patient;
+import server.model.domain.UserList;
 
 import java.rmi.RemoteException;
 import java.sql.*;

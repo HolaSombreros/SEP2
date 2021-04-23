@@ -4,9 +4,9 @@ public enum View {
     REGISTER("RegisterView.fxml"),
     LOGIN("LoginView.fxml"),
     LOGINCHOICE("LoginChoiceView.fxml"),
-    APPOINTMENTLIST("AppointmentList.fxml"),
+    APPOINTMENTLIST("AppointmentListView.fxml"),
     ADDAPPOINTMENT("AddAppointmentView.fxml"),
-    APPOINTMENTDETAILS("AppointmentDetails.fxml");
+    APPOINTMENTDETAILS("AppointmentDetailsView.fxml");
     
     private String fxmlFile;
     

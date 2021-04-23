@@ -1,4 +1,4 @@
-package server.model;
+package server.model.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,7 @@ public class UserList {
         userList.add(user);
     }
     
+    // Method compares using only the user's CPR
     public User getUserByCpr(String cpr) {
         for (User user : userList) {
             if (user.getCpr().equals(cpr)) {
@@ -25,16 +26,6 @@ public class UserList {
             }
         }
         return null;
-    }
-    
-    public List<User> getUserByName(String name) {
-        List<User> users = new ArrayList<>();
-        for (User user : userList) {
-            if (user.getFullName().contains(name)) {
-                users.add(user);
-            }
-        }
-        return users;
     }
     
     public int size() {
@@ -45,6 +36,7 @@ public class UserList {
         userList.remove(user);
     }
     
+    // Method compares using only the user's CPR
     public boolean contains(String cpr) {
         for (User user : userList) {
             if (user.getCpr().equals(cpr)) {
@@ -54,6 +46,7 @@ public class UserList {
         return false;
     }
     
+    // Method compares using only the user's CPR
     public boolean contains(User user) {
         for (User u : userList) {
             if (user.getCpr().equals(u.getCpr())) {

@@ -1,6 +1,6 @@
 package client.viewmodel;
 
-import server.model.User;
+import server.model.domain.User;
 
 public class ViewState {
 
