@@ -15,15 +15,25 @@ public class AppointmentTimeList {
     }
     
     public void add(Appointment appointment, Date date, TimeInterval timeInterval) {
-        // is there a timeframe on a certain date?
-        // is there a timeinterval in that timeframe?
-        // add the appointment there
-        
-        for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
-            if (appointmentTimeFrame.getDate().equals(date) && appointmentTimeFrame.getTimeInterval().equals(timeInterval)) {
-                appointmentTimeFrame.add(appointment);
+        if(!checkAppointmentOnTimeInterval(timeInterval, date, appointment.getPatient())){
+            for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames)
+            {
+                if (appointmentTimeFrame.getDate().equals(date) && appointmentTimeFrame.getTimeInterval().equals(timeInterval))
+                {
+                    appointmentTimeFrame.add(appointment);
+                }
             }
         }
+        else throw new IllegalArgumentException("You cannot book another appointment in this time interval");
+
+    }
+    public boolean checkAppointmentOnTimeInterval(TimeInterval timeInterval, Date date, Patient patient){
+        for(Appointment appointment : getAppointmentsByUser(patient).getAppointments()){
+            if(appointment.getTimeInterval().equals(timeInterval) && appointment.getDate().equals(date)){
+                return true;
+            }
+        }
+        return false;
     }
     
     public AppointmentList getAppointmentsByUser(User user) {
