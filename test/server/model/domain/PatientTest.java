@@ -1,6 +1,5 @@
-package server.model;
+package server.model.domain;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,10 +11,6 @@ class PatientTest {
     @BeforeEach
     void setUp() {
         patient1 = new Patient("121256-1234", "password", "Test", null, "Person", new Address("Street", "1", 8700, "Horsens"), "12345678", "email@address.com", false);
-    }
-    
-    @AfterEach
-    void tearDown() {
     }
     
     @Test
@@ -69,7 +64,7 @@ class PatientTest {
     @Test
     void setCprInvalidMonth() {
         assertThrows(IllegalArgumentException.class, () -> {
-            patient1.setCpr("181394-1234");
+            patient1.setCpr("021394-1234");
         });
     }
     

@@ -5,9 +5,8 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import server.model.Address;
 
-public class RegisterViewModel {
+public class RegisterViewModel implements RegisterViewModelInterface {
     private Model model;
     private StringProperty firstName;
     private StringProperty middleName;
@@ -38,6 +37,7 @@ public class RegisterViewModel {
         error = new SimpleStringProperty();
     }
     
+    @Override
     public void reset() {
         firstName.set("");
         middleName.set("");
@@ -53,58 +53,70 @@ public class RegisterViewModel {
         error.set("");
     }
     
+    @Override
     public StringProperty getFirstNameProperty() {
         return firstName;
     }
     
+    @Override
     public StringProperty getMiddleNameProperty() {
         return middleName;
     }
     
+    @Override
     public StringProperty getLastNameProperty() {
         return lastName;
     }
     
+    @Override
     public StringProperty getCPRProperty() {
         return cpr;
     }
     
+    @Override
     public StringProperty getPasswordProperty() {
         return password;
     }
     
+    @Override
     public StringProperty getStreetProperty() {
         return street;
     }
     
+    @Override
     public StringProperty getNumberProperty() {
         return number;
     }
     
+    @Override
     public IntegerProperty getZipCodeProperty() {
         return zipCode;
     }
     
+    @Override
     public StringProperty getCityProperty() {
         return city;
     }
     
+    @Override
     public StringProperty getPhoneProperty() {
         return phone;
     }
     
+    @Override
     public StringProperty getEmailProperty() {
         return email;
     }
     
+    @Override
     public StringProperty getErrorProperty() {
         return error;
     }
     
+    @Override
     public boolean register() {
         try {
-            Address address = new Address(street.get(), number.get(), zipCode.get(), city.get());
-            model.register(cpr.get(), password.get(), firstName.get(), middleName.get(), lastName.get(), address, phone.get(), email.get());
+            model.register(cpr.get(), password.get(), firstName.get(), middleName.get(), lastName.get(), phone.get(), email.get(), street.get(), number.get(), zipCode.get(), city.get());
             error.set("");
             return true;
         }

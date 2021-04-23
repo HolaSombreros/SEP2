@@ -1,19 +1,19 @@
 package server.mediator;
 
-import server.model.Address;
-import server.model.Patient;
-import server.model.UsersList;
+import server.model.domain.Address;
+import server.model.domain.Patient;
+import server.model.domain.UserList;
 
 import java.rmi.RemoteException;
 import java.sql.*;
 
 public class DatabaseManager
 {
-  private UsersList registeredUsers;
+  private UserList registeredUsers;
 
   public DatabaseManager()
   {
-    registeredUsers = new UsersList();
+    registeredUsers = new UserList();
   }
 
   public Connection getConnection() throws SQLException
@@ -21,12 +21,12 @@ public class DatabaseManager
     return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep2", "sep2admin", "admin");
   }
 
-  public UsersList getRegisteredUsers()
+  public UserList getRegisteredUsers()
   {
     return registeredUsers;
   }
 
-  public UsersList loadFromDatabasePatients() throws RemoteException, SQLException
+  public UserList loadFromDatabasePatients() throws RemoteException, SQLException
   {
     try (Connection connection = getConnection())
     {

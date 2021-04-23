@@ -1,13 +1,13 @@
 package client.view;
 
-import client.viewmodel.LoginChoiceViewModel;
+import client.viewmodel.LoginChoiceViewModelInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 public class LoginChoiceViewController extends ViewController{
 
     @FXML private Label roleLabel;
-    private LoginChoiceViewModel viewModel;
+    private LoginChoiceViewModelInterface viewModel;
 
 
     public LoginChoiceViewController() {
@@ -18,7 +18,7 @@ public class LoginChoiceViewController extends ViewController{
     protected void init() {
         viewModel = getViewModelFactory().getLoginChoiceViewModel();
         roleLabel.textProperty().bind(viewModel.roleProperty());
-        viewModel.getRoleState();
+        viewModel.updateRoleProperty();
     }
 
     @Override

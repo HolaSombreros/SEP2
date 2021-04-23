@@ -2,62 +2,78 @@ package client.model;
 
 import client.mediator.Client;
 import client.mediator.LocalClientModel;
-import server.model.*;
+import server.model.domain.*;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.LocalListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
 
-import java.rmi.RemoteException;
-
-public class ModelManager implements Model, LocalListener<Patient, ServerMessage> {
-    private PropertyChangeAction<Patient, ServerMessage> property;
+public class ModelManager implements Model, LocalListener<User, Appointment> {
+    
+    private PropertyChangeAction<User, Appointment> property;
     private LocalClientModel client;
     
     public ModelManager() {
+        try {
+            client = new Client();
+            client.addListener(this);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         property = new PropertyChangeProxy<>(this);
-        client = new Client();
-        client.addListener(this);
     }
     
     @Override
-    public void register(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email) {
-        try {
-            Patient patient = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, false);
-            Patient patient1 = client.register(patient);
-            if(patient1 == null){
-                throw new IllegalArgumentException("CPR already exists in the system");
-            }
-        }
-        catch (RemoteException e) {
-            e.printStackTrace();
-        }
+    public void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city) {
+        client.register(cpr, password, firstName, middleName, lastName, phone, email, street, number, zip, city);
     }
     
     @Override
-    public Patient login(String cpr, String password) {
-        try {
-            return client.login(cpr, password);
-        }
-        catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public User login(String cpr, String password) {
+        return client.login(cpr, password);
     }
     
     @Override
-    public void propertyChange(ObserverEvent<Patient, ServerMessage> event) {
+    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {
+        client.addAppointment(date, timeInterval, type, patient);
+        property.firePropertyChange("new", null, null);
+    }
+    
+    @Override
+    public AppointmentList getAppointmentsByUser(User patient) {
+        return client.getAppointmentsByUser(patient);
+    }
+    
+    @Override
+    public TimeIntervalList getAvailableTimeIntervals(Date date) {
+        return client.getAvailableTimeIntervals(date);
+    }
+    
+    @Override
+    public Appointment getAppointmentById(int id) {
+        return client.getAppointmentById(id);
+    }
+    
+    @Override
+    public void close() {
+        property.close();
+        client.close();
+    }
+    
+    @Override
+    public void propertyChange(ObserverEvent<User, Appointment> event) {
         property.firePropertyChange(event);
     }
     
     @Override
-    public boolean addListener(GeneralListener<Patient, ServerMessage> listener, String... propertyNames) {
+    public boolean addListener(GeneralListener<User, Appointment> listener, String... propertyNames) {
         return property.addListener(listener, propertyNames);
     }
     
     @Override
-    public boolean removeListener(GeneralListener<Patient, ServerMessage> listener, String... propertyNames) {
+    public boolean removeListener(GeneralListener<User, Appointment> listener, String... propertyNames) {
         return property.removeListener(listener, propertyNames);
     }
 }

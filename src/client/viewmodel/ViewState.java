@@ -1,20 +1,28 @@
 package client.viewmodel;
 
-import server.model.Patient;
+import server.model.domain.User;
 
 public class ViewState {
 
-    private Patient patient;
+    private User user;
+    private int selectedAppointment;
 
     public ViewState() {
-        patient = null;
+        user = null;
+        selectedAppointment = -1;
+    }
+    public int getSelectedAppointment(){
+        return selectedAppointment;
+    }
+    public void setSelectedAppointment(int appointment){
+        this.selectedAppointment = appointment;
     }
 
-    public Patient getPatient() {
-        return patient;
+    public User getUser() {
+        return user;
     }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

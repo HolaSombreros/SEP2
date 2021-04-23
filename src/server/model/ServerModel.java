@@ -1,17 +1,15 @@
 package server.model;
 
+import server.model.domain.*;
 import utility.observer.subject.LocalSubject;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
-
-public interface ServerModel extends LocalSubject<Patient, ServerMessage>
-{
-    Patient login(String cpr, String password);
-    void sendServerMessage(ServerMessage message);
-    Patient register(Patient patient);
+public interface ServerModel extends LocalSubject<User, Appointment> {
+    User login(String cpr, String password);
+    void logout(User user);
+    void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city);
+    void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient);
+    AppointmentList getAppointmentsByUser(User user);
+    Appointment getAppointmentById(int id);
+    TimeIntervalList getAvailableTimeIntervals(Date date);
     void close();
 }

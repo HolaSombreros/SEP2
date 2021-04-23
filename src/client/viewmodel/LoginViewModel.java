@@ -3,13 +3,11 @@ package client.viewmodel;
 import client.model.Model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import server.model.Administrator;
-import server.model.Nurse;
-import server.model.Patient;
+import server.model.domain.Staff;
+import server.model.domain.User;
 
-public class LoginViewModel {
-
-    private StringProperty usernameProperty;
+public class LoginViewModel implements LoginViewModelInterface {
+    private StringProperty cprProperty;
     private StringProperty passwordProperty;
     private StringProperty errorProperty;
     private Model model;
@@ -18,26 +16,24 @@ public class LoginViewModel {
     public LoginViewModel(Model model,ViewState viewState) {
         this.model = model;
         this.viewState = viewState;
-        usernameProperty = new SimpleStringProperty("");
+        cprProperty = new SimpleStringProperty("");
         passwordProperty = new SimpleStringProperty("");
         errorProperty = new SimpleStringProperty("");
     }
-
+    
+    @Override
+    public void reset(){
+        errorProperty.setValue("");
+        cprProperty.setValue("");
+        passwordProperty.setValue("");
+    }
+    
+    @Override
     public int login(){
-        if(usernameProperty.get().equals("") || passwordProperty.get().equals("")) {
-            errorProperty.setValue("Please enter a valid Cpr or Password");
-            return 0;
-        }
-        Patient loggedIn = model.login(usernameProperty.get(), passwordProperty.get());
-        if (loggedIn == null) {
-            errorProperty.set("CPR and password do not match");
-            return 0;
-        }
-        else {
-            // TODO: Change the return type of this, perhaps to 0 for false, 1 for patient, 2 for admin/nurse so we can differentiate between 3 things in the viewcontroller
-            viewState.setPatient(loggedIn);
-            if (loggedIn instanceof Administrator ||
-                loggedIn instanceof Nurse) {
+        try {
+            User loggedIn = model.login(cprProperty.get(), passwordProperty.get());
+            viewState.setUser(loggedIn);
+            if (loggedIn instanceof Staff) {
                 // Account is a Admin / Nurse
                 return 2;
             }
@@ -46,22 +42,23 @@ public class LoginViewModel {
                 return 1;
             }
         }
+        catch (Exception e) {
+            errorProperty.set(e.getMessage());
+            return 0;
+        }
     }
-
-    public void reset(){
-        errorProperty.setValue("");
-        usernameProperty.setValue("");
-        passwordProperty.setValue("");
+    
+    @Override
+    public StringProperty getCprProperty() {
+        return cprProperty;
     }
-
-    public StringProperty getUsernameProperty() {
-        return usernameProperty;
-    }
-
+    
+    @Override
     public StringProperty getPasswordProperty() {
         return passwordProperty;
     }
-
+    
+    @Override
     public StringProperty getErrorProperty() {
         return errorProperty;
     }
