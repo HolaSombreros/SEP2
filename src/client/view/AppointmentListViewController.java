@@ -11,7 +11,7 @@ public class AppointmentListViewController extends ViewController
 {
     @FXML private TableView<AppointmentTableViewModel> appointmentTable;
     @FXML private TableColumn<AppointmentTableViewModel, String> dateColumn;
-    @FXML private TableColumn<AppointmentTableViewModel, String > resultColumn;
+    @FXML private TableColumn<AppointmentTableViewModel, String > statusColumn;
     @FXML private TableColumn<AppointmentTableViewModel, String> timeColumn;
     @FXML private TableColumn<AppointmentTableViewModel, String> typeColumn;
     @FXML private Label errorLabel;
@@ -26,7 +26,7 @@ public class AppointmentListViewController extends ViewController
     {
         viewModel = getViewModelFactory().getAppointmentListViewModel();
         dateColumn.setCellValueFactory(cellData -> cellData.getValue().datePropertyProperty());
-        resultColumn.setCellValueFactory(cellData -> cellData.getValue().resultPropertyProperty());
+        statusColumn.setCellValueFactory(cellData -> cellData.getValue().resultPropertyProperty());
         timeColumn.setCellValueFactory(cellData -> cellData.getValue().timePropertyProperty());
         typeColumn.setCellValueFactory(cellData -> cellData.getValue().typePropertyProperty());
         errorLabel.textProperty().bind(viewModel.getErrorProperty());

@@ -1,5 +1,7 @@
 package server.model.domain;
 
+import server.model.validator.TimeIntervalValidator;
+
 import java.io.Serializable;
 
 public class TimeInterval implements Serializable {
@@ -7,10 +9,14 @@ public class TimeInterval implements Serializable {
     private Time to;
     
     public TimeInterval(Time from, Time to) {
+        set(from, to);
+    }
+    public void set(Time from, Time to){
+        TimeIntervalValidator.set(from, to);
         this.from = from.copy();
         this.to = to.copy();
     }
-    
+
     public Time getFrom() {
         return from.copy();
     }

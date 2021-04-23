@@ -15,18 +15,28 @@ public class AppointmentTimeList {
     }
     
     public void add(Appointment appointment, Date date, TimeInterval timeInterval) {
-        // is there a timeframe on a certain date?
-        // is there a timeinterval in that timeframe?
-        // add the appointment there
-        
-        for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
-            if (appointmentTimeFrame.getDate().equals(date) && appointmentTimeFrame.getTimeInterval().equals(timeInterval)) {
-                appointmentTimeFrame.add(appointment);
+        if(!checkAppointmentOnTimeInterval(timeInterval, date, appointment.getPatient())){
+            for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames)
+            {
+                if (appointmentTimeFrame.getDate().equals(date) && appointmentTimeFrame.getTimeInterval().equals(timeInterval))
+                {
+                    appointmentTimeFrame.add(appointment);
+                }
             }
         }
+        else throw new IllegalArgumentException("You cannot book another appointment in this time interval");
+
+    }
+    public boolean checkAppointmentOnTimeInterval(TimeInterval timeInterval, Date date, Patient patient){
+        for(Appointment appointment : getAppointmentsByUser(patient).getAppointments()){
+            if(appointment.getTimeInterval().equals(timeInterval) && appointment.getDate().equals(date)){
+                return true;
+            }
+        }
+        return false;
     }
     
-    public AppointmentList getAppointsByUser(User user) {
+    public AppointmentList getAppointmentsByUser(User user) {
         AppointmentList appointments = new AppointmentList();
         for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
             appointments.addAll(appointmentTimeFrame.getAppointmentsByUser(user).getAppointments());
@@ -50,6 +60,9 @@ public class AppointmentTimeList {
     
     public TimeIntervalList getAvailableTimeIntervals(Date date) {
         TimeIntervalList list = new TimeIntervalList();
+        if(date.isBefore(Date.today())){
+            return list;
+        }
         for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
             if (appointmentTimeFrame.getDate().equals(date) && appointmentTimeFrame.size() < appointmentTimeFrame.getMaxAppointmentCount()) {
                 list.add(appointmentTimeFrame.getTimeInterval());

@@ -1,9 +1,7 @@
-package server.model;
+package server.model.domain;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.model.domain.Address;
-import server.model.domain.Patient;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -66,7 +64,7 @@ class PatientTest {
     @Test
     void setCprInvalidMonth() {
         assertThrows(IllegalArgumentException.class, () -> {
-            patient1.setCpr("181394-1234");
+            patient1.setCpr("021394-1234");
         });
     }
     

@@ -1,5 +1,7 @@
 package server.model.domain;
 
+import server.model.validator.TimeValidator;
+
 import java.io.Serializable;
 
 public class Time implements Serializable {
@@ -10,27 +12,40 @@ public class Time implements Serializable {
         setHour(hour);
         setMinute(minute);
     }
-    
-    public int getHour() {
-        return hour;
+
+    public void setMinute(int minute) {
+        TimeValidator.setMinute(minute);
+        this.minute = minute;
     }
     
     public void setHour(int hour) {
-        if (hour >= 24 || hour < 0)
-            throw new IllegalArgumentException("Invalid time");
+        TimeValidator.setHour(hour);
         this.hour = hour;
+    }
+
+    public boolean isBefore(Time other){
+        if(hour > other.hour){
+            return false;
+        }
+        else if(hour == other.hour){
+            if(minute > other.minute){
+                return false;
+            }
+            else if(minute == other.minute){
+                return false;
+            }
+        }
+        return true;
     }
     
     public int getMinute() {
         return minute;
     }
-    
-    public void setMinute(int minute) {
-        if (minute >= 60 || minute < 0)
-            throw new IllegalArgumentException("Invalid time");
-        this.minute = minute;
+
+    public int getHour() {
+        return hour;
     }
-    
+
     public Time copy() {
         return new Time(hour, minute);
     }
@@ -41,7 +56,7 @@ public class Time implements Serializable {
         Time other = (Time) obj;
         return hour == other.hour && minute == other.minute;
     }
-    
+
     public String toString() {
         return String.format("%02d:%02d", hour, minute);
     }
