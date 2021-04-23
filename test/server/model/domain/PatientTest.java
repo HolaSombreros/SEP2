@@ -64,7 +64,7 @@ class PatientTest {
     @Test
     void setCprInvalidMonth() {
         assertThrows(IllegalArgumentException.class, () -> {
-            patient1.setCpr("181394-1234");
+            patient1.setCpr("021394-1234");
         });
     }
     

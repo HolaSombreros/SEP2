@@ -76,10 +76,7 @@ public class Date implements Serializable {
             return 31;
     }
     public boolean isLeapYear() {
-        if ((year % 4 == 0) && ((year % 100 == 0) || (year % 400 == 0)))
-            return true;
-        else
-            return false;
+        return (((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) && year >= 1752);
     }
 
     public boolean isBefore(Date other) {

@@ -5,11 +5,14 @@ import server.model.domain.Time;
 public class TimeIntervalValidator {
 
     public static void set(Time from, Time to){
-        if(to.isBefore(from)){
-            throw new IllegalArgumentException("Time to cannot be before time from");
+        if (from == null) {
+            throw new IllegalArgumentException("Please input a starting time");
         }
-        if(from == null || to == null){
-            throw new IllegalArgumentException("Time to or from cannot be null");
+        if (to == null) {
+            throw new IllegalArgumentException("Please input an end time");
+        }
+        if(to.isBefore(from)){
+            throw new IllegalArgumentException("The end time cannot be before the start time");
         }
     }
 }

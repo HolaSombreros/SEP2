@@ -20,7 +20,7 @@ class AppointmentTest {
     @Test
     void setDateNull() {
         assertThrows(IllegalArgumentException.class, () -> {
-//            appointment.setDate(null);
+            appointment.setDate(null);
         });
     }
     

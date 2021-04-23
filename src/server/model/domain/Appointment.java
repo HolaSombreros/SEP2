@@ -48,7 +48,7 @@ public abstract class Appointment implements Serializable {
     private TimeInterval timeInterval;
     
     public Appointment(Date date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) {
-        AppointmentValidator.appointmentValidator(date,timeInterval,type,patient,nurse);
+        AppointmentValidator.appointmentValidator(date, timeInterval, patient, nurse);
         id = idCounter;
         this.type = type;
         this.status = Status.UPCOMING;
@@ -80,9 +80,11 @@ public abstract class Appointment implements Serializable {
     }
 
     public void setNurse(Nurse nurse){
+        AppointmentValidator.validateNurse(nurse);
         this.nurse = nurse;
     }
     public void setPatient(Patient patient){
+        AppointmentValidator.validatePatient(patient);
         this.patient = patient;
     }
     
@@ -98,11 +100,17 @@ public abstract class Appointment implements Serializable {
         return date.copy();
     }
     
+    public void setDate(Date date) {
+        AppointmentValidator.validateDate(date);
+        this.date = date;
+    }
+    
     public TimeInterval getTimeInterval() {
         return timeInterval;
     }
     
     public void setTimeInterval(TimeInterval timeInterval) {
+        AppointmentValidator.validateTimeInterval(timeInterval);
         this.timeInterval = timeInterval;
     }
     

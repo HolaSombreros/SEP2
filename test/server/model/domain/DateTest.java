@@ -103,9 +103,8 @@ class DateTest {
     
     @Test
     void setYearZero() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            date.setYear(0);
-        });
+        date.setYear(0);
+        assertEquals(stringVal(), "08-08-0");
     }
     
     @Test
@@ -125,17 +124,16 @@ class DateTest {
     
     @Test
     void setYearBoundary() {
-        // lower left done in Zero
+        assertThrows(IllegalArgumentException.class, () -> date.setYear(-1));
         
-        // upper left done in One
+        // upper left done in Zero
         
         // lower right and upper right don't exist
     }
     
     @Test
     void setYearException() {
-        // any negative value
-        assertThrows(IllegalArgumentException.class, () -> date.setYear(-1));
+        // dont in Boundary()
     }
     
     @Test
@@ -154,13 +152,13 @@ class DateTest {
         date.setYear(2000);
         assertTrue(date.isLeapYear());
         
-        date.setYear(1816);
+        date.setYear(1818);
         assertFalse(date.isLeapYear());
         
-        date.setYear(2016);
+        date.setYear(1920);
         assertTrue(date.isLeapYear());
         
-        date.setYear(1904);
+        date.setYear(1902);
         assertFalse(date.isLeapYear());
     }
     
@@ -171,7 +169,7 @@ class DateTest {
         assertFalse(date.isLeapYear());
         
         // upper left - first leap year in 'modern sense'
-        date.setYear(1752);
+        date.setYear(1904);
         assertTrue(date.isLeapYear());
         
         // lower right and upper right don't exist
@@ -180,10 +178,8 @@ class DateTest {
     @Test
     void isLeapYearException() {
         // no exceptions thrown but there are special cases
-        date.setYear(1800);
-        assertFalse(date.isLeapYear());
-        
-        date.setYear(500);
+        // anything lower than year 1752 should return false - 1751 is checked in Boundary()
+        date.setYear(400);
         assertFalse(date.isLeapYear());
     }
     
@@ -213,7 +209,7 @@ class DateTest {
     @Test
     void isBeforeDayIsBefore() {
         Date date2 = new Date(9, 8, 2000);
-        assertFalse(date.isBefore(date2));
+        assertTrue(date.isBefore(date2));
     }
     
     @Test
@@ -225,7 +221,7 @@ class DateTest {
     @Test
     void isBeforeMonthIsBefore() {
         Date date2 = new Date(8, 9, 2000);
-        assertFalse(date.isBefore(date2));
+        assertTrue(date.isBefore(date2));
     }
     
     @Test
@@ -243,6 +239,6 @@ class DateTest {
     @Test
     void isBeforeYearIsAfter() {
         Date date2 = new Date(8, 8, 2001);
-        assertFalse(date.isBefore(date2));
+        assertTrue(date.isBefore(date2));
     }
 }

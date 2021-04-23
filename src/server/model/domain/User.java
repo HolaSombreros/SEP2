@@ -36,6 +36,9 @@ public abstract class User implements Serializable {
 
     public void setCpr(String cpr) {
         UserValidator.setCpr(cpr);
+        if (cpr.contains("-")) {
+            cpr = cpr.replace("-", "");
+        }
         this.cpr = cpr;
     }
     
