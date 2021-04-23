@@ -169,7 +169,7 @@ class DateTest {
         assertFalse(date.isLeapYear());
         
         // upper left - first leap year in 'modern sense'
-        date.setYear(1904);
+        date.setYear(1752);
         assertTrue(date.isLeapYear());
         
         // lower right and upper right don't exist

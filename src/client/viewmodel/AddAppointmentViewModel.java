@@ -40,6 +40,7 @@ public class AddAppointmentViewModel implements AddAppointmentViewModelInterface
         errorFill = new SimpleObjectProperty<>(Color.RED);
     }
     
+    // TODO : implement check for isValidForVaccination
     private void loadTypes() {
         types.clear();
         types.addAll(Appointment.Type.values());

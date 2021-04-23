@@ -28,8 +28,6 @@ public abstract class User implements Serializable {
         setEmail(email);
     }
     
-    public abstract String getType();
-    
     public String getCpr() {
         return cpr;
     }

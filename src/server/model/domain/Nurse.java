@@ -10,11 +10,6 @@ public class Nurse extends Staff {
     }
     
     @Override
-    public String getType() {
-        return "Nurse";
-    }
-    
-    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Nurse)) {
             return false;
