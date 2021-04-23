@@ -1,5 +1,7 @@
 package server.model.domain;
 
+import server.model.validator.AppointmentValidator;
+
 import java.io.Serializable;
 
 public abstract class Appointment implements Serializable {
@@ -46,15 +48,7 @@ public abstract class Appointment implements Serializable {
     private TimeInterval timeInterval;
     
     public Appointment(Date date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) {
-        if (timeInterval == null) {
-            throw new IllegalArgumentException("Please specify a time interval");
-        }
-        if (patient == null) {
-            throw new IllegalArgumentException("Please specify a patient");
-        }
-        if (nurse == null) {
-            throw new IllegalArgumentException("Please specify a nurse");
-        }
+        AppointmentValidator.appointmentValidator(date,timeInterval,type,patient,nurse);
         id = idCounter;
         this.type = type;
         this.status = Status.UPCOMING;

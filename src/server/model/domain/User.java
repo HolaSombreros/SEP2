@@ -1,11 +1,13 @@
 package server.model.domain;
 
+import server.model.validator.UserValidator;
+
 import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class User implements Serializable {
-    //instance variables
+
     private String cpr;
     private String password;
     private String firstName;
@@ -31,44 +33,18 @@ public abstract class User implements Serializable {
     public String getCpr() {
         return cpr;
     }
-    
-    /**
-     * @param cpr ignores "-"
-     *            sets the cpr to a given value
-     *            if the given String is empty of invalid throws an exception
-     */
+
     public void setCpr(String cpr) {
-        if (cpr == null || cpr.equals(""))
-            throw new IllegalArgumentException("Please enter your CPR");
-        if (cpr.contains("-"))
-            cpr = cpr.replace("-", "");
-        if (cpr.length() != 10)
-            throw new IllegalArgumentException("Invalid CPR");
-        try {
-            Long.parseLong(cpr);
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException("Invalid CPR");
-        }
+        UserValidator.setCpr(cpr);
         this.cpr = cpr;
     }
     
     public String getPassword() {
         return password;
     }
-    
-    /**
-     * @param password sets the password to a given value
-     *                 if the given String is empty or invalid throws an exception
-     */
+
     public void setPassword(String password) {
-        if (password == null || password.equals(""))
-            throw new IllegalArgumentException("Please enter a password between 6 and 20 characters");
-        if (password.length() < 6)
-            throw new IllegalArgumentException("The password must contain at least 6 characters");
-        if (password.length() > 20)
-            throw new IllegalArgumentException("The password must not contain more than 20 characters");
-        this.password = password;
+        UserValidator.setPassword(password);
     }
     
     public String getFirstName() {
@@ -76,8 +52,7 @@ public abstract class User implements Serializable {
     }
     
     public void setFirstName(String firstName) {
-        if (firstName == null || firstName.equals(""))
-            throw new IllegalArgumentException("Please enter your first name");
+       UserValidator.setFirstName(firstName);
         this.firstName = firstName;
     }
     
@@ -94,8 +69,7 @@ public abstract class User implements Serializable {
     }
     
     public void setLastName(String lastName) {
-        if (lastName == null || lastName.equals(""))
-            throw new IllegalArgumentException("Please enter your last name");
+        UserValidator.setLastName(lastName);
         this.lastName = lastName;
     }
     
@@ -116,15 +90,7 @@ public abstract class User implements Serializable {
     }
     
     public void setPhone(String phone) {
-        phone = phone.replace(" ", "");
-        if (phone.equals(""))
-            throw new IllegalArgumentException("Please enter your phone number");
-        try {
-            Long.parseLong(phone.replace("+", ""));
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException("The phone number is not valid");
-        }
+        UserValidator.setPhone(phone);
         this.phone = phone;
     }
     
@@ -133,13 +99,7 @@ public abstract class User implements Serializable {
     }
     
     public void setEmail(String email) {
-        if (email == null || email.equals(""))
-            throw new IllegalArgumentException("Please enter your email address");
-        String emailValidation = "^[A-Za-z0-9+_.-]+@(?:[a-zA-Z0-9-]+.)+[a-zA-Z]{2,6}$";
-        Pattern pattern = Pattern.compile(emailValidation);
-        Matcher matcher = pattern.matcher(email);
-        if (!matcher.matches())
-            throw new IllegalArgumentException("The email is not valid");
+        UserValidator.setEmail(email);
         this.email = email;
     }
     
