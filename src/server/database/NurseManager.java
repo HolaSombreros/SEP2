@@ -24,6 +24,7 @@ public class NurseManager extends DatabaseManager
       PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO nurse VALUES (?,?)");
       insertStatement.setString(1, nurse.getCpr());
       insertStatement.setString(2, nurse.getEmployeeId());
+      patientManager.addPatient(new Patient(nurse.getCpr(),nurse.getPassword(),nurse.getFirstName(), nurse.getMiddleName(), nurse.getLastName(),nurse.getAddress(),nurse.getPhone(),nurse.getEmail(),false));
       insertStatement.executeUpdate();
     }
   }
@@ -73,6 +74,18 @@ public class NurseManager extends DatabaseManager
       PreparedStatement statement = connection.prepareStatement("DELETE FROM nurse WHERE cpr = ?");
       statement.setString(1,nurse.getCpr());
       statement.executeQuery();
+    }
+  }
+
+  public boolean isNurse(Nurse nurse) throws SQLException{
+    try(Connection connection = getConnection()) {
+      PreparedStatement statement= connection.prepareStatement("SELECT * FROM nurse WHERE cpr = ?");
+      statement.setString(1,nurse.getCpr());
+      ResultSet resultSet = statement.executeQuery();
+      if(resultSet.next())
+        return true;
+      else
+        return false;
     }
   }
 }

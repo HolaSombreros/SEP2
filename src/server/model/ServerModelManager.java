@@ -1,13 +1,13 @@
 package server.model;
 
-import server.database.AppointmentManager;
-import server.database.PatientManager;
+import server.database.*;
 import server.model.domain.*;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 public class ServerModelManager implements ServerModel {
@@ -15,7 +15,10 @@ public class ServerModelManager implements ServerModel {
     private UserList onlineList;
     private AppointmentTimeList appointmentTimeList;
     private PatientManager patientManager;
+    private AddressManager addressManager;
     private AppointmentManager appointmentManager;
+    private NurseManager nurseManager;
+    private AdministratorManager administratorManager;
     
     private PropertyChangeAction<User, Appointment> property;
     
@@ -25,16 +28,41 @@ public class ServerModelManager implements ServerModel {
         onlineList = new UserList();
         appointmentTimeList = new AppointmentTimeList();
         patientManager = new PatientManager();
+        addressManager = new AddressManager();
         appointmentManager = new AppointmentManager();
+        nurseManager = new NurseManager();
+        administratorManager = new AdministratorManager();
         addDummyData();
         addDummyTimeIntervals();
     }
     
     private void addDummyData() {
-        userList.addUser(new Patient("1204560000", "testpassword", "Test", "Person", new Address("TestStreet", "0", 8700, "Horsens"), "12345678", "test@email.com", false));
-        userList.addUser(new Patient("1204560001", "testpassword", "Test", "Person", new Address("TestStreet", "0", 8700, "Horsens"), "12345677", "test@email.com", false));
-        userList.addUser(new Nurse("1205561111", "testpassword", "Test", "Person", new Address("TestStreet", "0", 8700, "Horsens"), "12345678", "test@email.com", "emp1"));
-        userList.addUser(new Administrator("1211562222", "testpassword", "Test", "Person", new Address("TestStreet", "0", 8700, "Horsens"), "12345678", "test@email.com", "emp2"));
+        ArrayList<Address> addresses = new ArrayList<>();
+        addresses.add(new Address("Sesame Street","2",8700,"Horsens"));
+        addresses.add(new Address("Sesame Street", "7A",8700,"Horsens"));
+        addresses.add(new Address("Via Street","25B",8700,"Horsens"));
+        userList.addUser(new Patient("2003036532","password","Hello",null,"World",addresses.get(1),"12587463","elmo@email.com",false));
+        userList.addUser(new Patient("2003045698","password","Maria",null,"Magdalena",addresses.get(2),"12587464","holy@email.com",false));
+        userList.addUser(new Patient("3105026358","password","Elmo",null,"Popescu",addresses.get(1),"12587465","popescu@email.com",false));
+        userList.addUser(new Patient("2504012368","password","Vaseline",null,"Veselin",addresses.get(0),"12587466","vaseline@email.com",false));
+        userList.addUser(new Nurse("1302026584","password","Mikasa",null,"Ackerman",addresses.get(0),"12587467","aot@email.com","mikasa_nurse"));
+        userList.addUser(new Administrator("1407026358","password","Robin",null,"Robin",addresses.get(0),"12569873","nicoRobin@email.com","nicoRobin_admin"));
+        try {
+           for (Address address : addresses)
+               if (!addressManager.isAddress(address.getStreet(),address.getNumber(),address.getZipcode()))
+                   addressManager.addAddress(address);
+           for(User user: userList.getUsersList())
+               if( user instanceof Patient &&!patientManager.isPatient((Patient) user) )
+                   patientManager.addPatient((Patient)user);
+               else if(user instanceof Nurse && !nurseManager.isNurse((Nurse) user))
+                   nurseManager.addNurse((Nurse)user);
+               else if (user instanceof Administrator && !administratorManager.isAdmin((Administrator) user))
+                   administratorManager.addAdministrator((Administrator) user);
+
+       }
+       catch (SQLException e){
+           e.printStackTrace();
+       }
     }
     
     private void addDummyTimeIntervals() {

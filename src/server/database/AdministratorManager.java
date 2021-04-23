@@ -20,6 +20,7 @@ public class AdministratorManager extends DatabaseManager{
             PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO administrator VALUES (?,?)");
             insertStatement.setString(1,administrator.getCpr());
             insertStatement.setString(2,administrator.getEmployeeId());
+            patientManager.addPatient(new Patient(administrator.getCpr(),administrator.getPassword(),administrator.getFirstName(), administrator.getMiddleName(), administrator.getLastName(),administrator.getAddress(),administrator.getPhone(),administrator.getEmail(),false));
             insertStatement.executeUpdate();
         }
     }
@@ -65,6 +66,16 @@ public class AdministratorManager extends DatabaseManager{
             statement.executeQuery();
         }
     }
-
+    public boolean isAdmin(Administrator administrator) throws SQLException{
+        try(Connection connection = getConnection()) {
+            PreparedStatement statement= connection.prepareStatement("SELECT * FROM administrator WHERE cpr = ?");
+            statement.setString(1,administrator.getCpr());
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next())
+                return true;
+            else
+                return false;
+        }
+    }
 
 }

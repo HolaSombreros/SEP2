@@ -134,4 +134,16 @@ public class PatientManager extends DatabaseManager
     }
   }
 
+  public boolean isPatient(Patient patient) throws SQLException{
+    try(Connection connection = getConnection()) {
+      PreparedStatement statement= connection.prepareStatement("SELECT * FROM patient WHERE cpr = ?");
+      statement.setString(1,patient.getCpr());
+      ResultSet resultSet = statement.executeQuery();
+      if(resultSet.next())
+        return true;
+      else
+        return false;
+    }
+  }
+
 }
