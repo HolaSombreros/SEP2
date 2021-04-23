@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="757.0" userData="Appointment Lists" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.AppointmentListViewController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="757.0" userData="Appointment Lists" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.AppointmentListViewController">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
@@ -26,8 +26,8 @@
               <columns>
                 <TableColumn fx:id="dateColumn" prefWidth="194.0" text="Date" />
                 <TableColumn fx:id="timeColumn" prefWidth="213.0" text="Time" />
-                  <TableColumn fx:id="typeColumn" prefWidth="189.0" text="Type" />
-                  <TableColumn fx:id="statusColumn" prefWidth="140.0" text="Status" />
+                  <TableColumn fx:id="typeColumn" prefWidth="132.0" text="Type" />
+                  <TableColumn fx:id="statusColumn" prefWidth="158.0" text="Status" />
               </columns>
             </TableView>
          </children>
