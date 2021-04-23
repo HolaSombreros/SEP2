@@ -20,7 +20,7 @@ public class DatabaseManager {
     this.username = username;
 
   }
-//TODO: private method to set schema and grant privileges
+
   private void setSchemaPrivileges() throws SQLException {
     try (Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("SET SCHEMA 'sep2'");
