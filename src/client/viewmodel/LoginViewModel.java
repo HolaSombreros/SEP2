@@ -3,11 +3,9 @@ package client.viewmodel;
 import client.model.Model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import server.model.Patient;
-import server.model.User;
+import server.model.domain.User;
 
-public class LoginViewModel {
-
+public class LoginViewModel implements LoginViewModelInterface {
     private StringProperty cprProperty;
     private StringProperty passwordProperty;
     private StringProperty errorProperty;
@@ -21,7 +19,15 @@ public class LoginViewModel {
         passwordProperty = new SimpleStringProperty("");
         errorProperty = new SimpleStringProperty("");
     }
-
+    
+    @Override
+    public void reset(){
+        errorProperty.setValue("");
+        cprProperty.setValue("");
+        passwordProperty.setValue("");
+    }
+    
+    @Override
     public int login(){
         try {
             User loggedIn = model.login(cprProperty.get(), passwordProperty.get());
@@ -41,21 +47,18 @@ public class LoginViewModel {
             return 0;
         }
     }
-
-    public void reset(){
-        errorProperty.setValue("");
-        cprProperty.setValue("");
-        passwordProperty.setValue("");
-    }
-
+    
+    @Override
     public StringProperty getCprProperty() {
         return cprProperty;
     }
-
+    
+    @Override
     public StringProperty getPasswordProperty() {
         return passwordProperty;
     }
-
+    
+    @Override
     public StringProperty getErrorProperty() {
         return errorProperty;
     }

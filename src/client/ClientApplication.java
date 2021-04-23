@@ -4,10 +4,9 @@ import client.model.Model;
 import client.model.ModelManager;
 import client.view.ViewHandler;
 import client.viewmodel.ViewModelFactory;
-import client.viewmodel.ViewState;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import server.model.User;
+import server.model.domain.User;
 
 public class ClientApplication extends Application {
     private Model model;

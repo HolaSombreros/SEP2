@@ -1,13 +1,11 @@
 package client.view;
 
-import client.viewmodel.AppointmentListViewModel;
+import client.viewmodel.AppointmentListViewModelInterface;
 import client.viewmodel.AppointmentTableViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-
-
 
 public class AppointmentListViewController extends ViewController
 {
@@ -18,7 +16,7 @@ public class AppointmentListViewController extends ViewController
     @FXML private TableColumn<AppointmentTableViewModel, String> typeColumn;
     @FXML private Label errorLabel;
 
-    private AppointmentListViewModel viewModel;
+    private AppointmentListViewModelInterface viewModel;
 
     public AppointmentListViewController(){
 
@@ -33,11 +31,13 @@ public class AppointmentListViewController extends ViewController
         typeColumn.setCellValueFactory(cellData -> cellData.getValue().typePropertyProperty());
         errorLabel.textProperty().bind(viewModel.getErrorProperty());
         appointmentTable.setItems(viewModel.getAppointments());
-        
-        // TODO: maybe?
+        appointmentTable.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> viewModel.setSelectedAppointment(newValue));
         reset();
     }
     @FXML private void seeDetails(){
+      boolean openWindow = viewModel.seeDetails();
+      if(openWindow)
+          getViewHandler().openView(View.APPOINTMENTDETAILS);
     }
     @FXML private void bookAppointment(){
         getViewHandler().openView(View.ADDAPPOINTMENT);

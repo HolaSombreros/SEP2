@@ -1,7 +1,6 @@
 package client.view;
 
-
-import client.viewmodel.LoginViewModel;
+import client.viewmodel.LoginViewModelInterface;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.Event;
@@ -10,7 +9,7 @@ import javafx.scene.control.Label;
 
 public class LoginViewController extends ViewController {
 
-    private LoginViewModel viewModel;
+    private LoginViewModelInterface viewModel;
     @FXML private JFXTextField usernameField;
     @FXML private JFXPasswordField passwordField;
     @FXML private Label errorLabel;
@@ -53,7 +52,7 @@ public class LoginViewController extends ViewController {
                 break;
             case 1:
                 // Account is 'Patient' only
-                getViewHandler().openView(View.ADDAPPOINTMENT);
+                getViewHandler().openView(View.APPOINTMENTLIST);
                 break;
             case 2:
                 // Account is either Admin or Nurse

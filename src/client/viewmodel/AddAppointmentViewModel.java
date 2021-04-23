@@ -9,11 +9,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import server.model.*;
+import server.model.domain.Appointment;
+import server.model.domain.Date;
+import server.model.domain.Patient;
+import server.model.domain.TimeInterval;
 
 import java.time.LocalDate;
 
-public class AddAppointmentViewModel {
+public class AddAppointmentViewModel implements AddAppointmentViewModelInterface {
     private Model model;
     private ViewState viewState;
     private ObjectProperty<LocalDate> date;
@@ -33,7 +36,6 @@ public class AddAppointmentViewModel {
         timeIntervals = FXCollections.observableArrayList();
         timeInterval = new SimpleObjectProperty<>();
         loadTypes();
-        loadTimeIntervals();
         error = new SimpleStringProperty();
         errorFill = new SimpleObjectProperty<>(Color.RED);
     }
@@ -44,17 +46,24 @@ public class AddAppointmentViewModel {
         type.set(types.get(0));
     }
     
-    private void loadTimeIntervals() {
+    @Override
+    public void loadTimeIntervals() {
         timeIntervals.clear();
-        timeIntervals.addAll(model.getAvailableTimeIntervals().getTimeIntervals());
-        if (timeIntervals.size() > 0) {
-            timeInterval.set(timeIntervals.get(0));
-        }
-        else {
-            timeInterval.set(null);
+        if (date.get() != null) {
+            timeIntervals.addAll(model.getAvailableTimeIntervals(new Date(date.get())).getTimeIntervals());
+            if (timeIntervals.size() > 0) {
+                timeInterval.set(timeIntervals.get(0));
+                error.set("");
+            }
+            else {
+                timeInterval.set(null);
+                errorFill.set(Color.RED);
+                error.set("No time intervals available this day");
+            }
         }
     }
     
+    @Override
     public void reset() {
         error.set("");
         resetInputs();
@@ -62,41 +71,50 @@ public class AddAppointmentViewModel {
     
     private void resetInputs() {
         date.set(null);
-        loadTypes();
-        loadTimeIntervals();
+        type.set(types.get(0));
+        timeIntervals.clear();
+        timeInterval.set(null);
     }
     
+    @Override
     public ObjectProperty<LocalDate> getDateProperty() {
         return date;
     }
     
+    @Override
     public ObservableList<Appointment.Type> getAllTypes() {
         return types;
     }
     
+    @Override
     public ObjectProperty<Appointment.Type> getTypeProperty() {
         return type;
     }
     
+    @Override
     public ObservableList<TimeInterval> getAvailableTimeIntervals() {
         return timeIntervals;
     }
     
+    @Override
     public ObjectProperty<TimeInterval> getTimeIntervalProperty() {
         return timeInterval;
     }
     
+    @Override
     public StringProperty getErrorProperty() {
         return error;
     }
     
+    @Override
     public ObjectProperty<Paint> getErrorFillProperty() {
         return errorFill;
     }
     
+    @Override
     public void createAppointment() {
         try {
-            model.addAppointment(new Date(date.get()), timeInterval.get(), type.get(), viewState.getUser());
+            model.addAppointment(new Date(date.get()), timeInterval.get(), type.get(), (Patient) viewState.getUser());
             errorFill.set(Color.GREEN);
             error.set("Appointment booked for " + date.get() + " (" + timeInterval.get() + ")");
             resetInputs();

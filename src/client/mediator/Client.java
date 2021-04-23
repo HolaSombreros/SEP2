@@ -1,6 +1,6 @@
 package client.mediator;
 
-import server.model.*;
+import server.model.domain.*;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.RemoteListener;
@@ -51,7 +51,7 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
     }
     
     @Override
-    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, User patient) {
+    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {
         try {
             server.addAppointment(date, timeInterval, type, patient);
         }
@@ -71,9 +71,9 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
     }
     
     @Override
-    public TimeIntervalList getAvailableTimeIntervals() {
+    public TimeIntervalList getAvailableTimeIntervals(Date date) {
         try {
-            return server.getAvailableTimeIntervals();
+            return server.getAvailableTimeIntervals(date);
         }
         catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);

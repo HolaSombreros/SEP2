@@ -1,6 +1,6 @@
 package server.database;
 
-import server.model.*;
+
 
 import java.sql.*;
 import java.sql.Date;
@@ -14,7 +14,7 @@ public class AppointmentManager extends DatabaseManager
   public AppointmentManager()
   {
   }
-
+/*
   public void addAppointment(Appointment appointment) throws SQLException
   {
     try (Connection connection = getConnection())
@@ -145,4 +145,8 @@ public class AppointmentManager extends DatabaseManager
         list.add(appointment);
     return list;
   }
+
+ */
 }
+
+
