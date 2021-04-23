@@ -47,7 +47,6 @@ public class ServerModelManager implements ServerModel {
     
     @Override
     public User login(String cpr, String password) {
-        // validate cpr and password first?
         try{
             User user = patientManager.getPatientByCpr(cpr);
             if(patientManager.getPassword(cpr).equals(password)){

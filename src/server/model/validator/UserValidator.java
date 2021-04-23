@@ -26,11 +26,11 @@ public class UserValidator {
             throw new IllegalArgumentException("Invalid CPR");
         }
         
-        int cprDay = Integer.parseInt(cpr.substring(0, 2));
-        int cprMonth = Integer.parseInt(cpr.substring(2, 4));
+//        int cprDay = Integer.parseInt(cpr.substring(0, 2));
+//        int cprMonth = Integer.parseInt(cpr.substring(2, 4));
         
         // validate day and month
-        Date date = new Date(cprDay, cprMonth, 2000);
+//        new Date(cprDay, cprMonth, 2000);
         
         if (cpr.length() != 10) {
             throw new IllegalArgumentException("Invalid CPR");
