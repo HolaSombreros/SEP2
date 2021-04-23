@@ -1,9 +1,7 @@
-package server.model;
+package server.model.domain;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.model.domain.Address;
-import server.model.domain.Patient;
 
 import static org.junit.jupiter.api.Assertions.*;
 
