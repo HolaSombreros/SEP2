@@ -11,6 +11,7 @@ public class Patient extends User {
     public Patient(String cpr, String password, String firstName, String lastName, Address address, String phone, String email, boolean validForVaccine) {
         this(cpr, password, firstName, null, lastName, address, phone, email, validForVaccine);
     }
+
     
     public boolean isValidForVaccine() {
         return validForVaccine;
