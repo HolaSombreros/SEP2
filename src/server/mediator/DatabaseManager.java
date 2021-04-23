@@ -1,10 +1,8 @@
 package server.mediator;
 
-import server.model.domain.Address;
-import server.model.domain.Patient;
 import server.model.domain.UserList;
 
-import java.rmi.RemoteException;
+
 import java.sql.*;
 
 public class DatabaseManager
@@ -26,84 +24,5 @@ public class DatabaseManager
     return registeredUsers;
   }
 
-  public UserList loadFromDatabasePatients() throws RemoteException, SQLException
-  {
-    try (Connection connection = getConnection())
-    {
-      PreparedStatement statement = connection.prepareStatement("SELECT * FROM Users");
-      ResultSet resultSet = statement.executeQuery();
-      if (resultSet.next())
-      {
-        String cprResult = resultSet.getString("cpr");
-        String password = resultSet.getString("password");
-        String firstName = resultSet.getString("firstName");
-        String lastName = resultSet.getString("lastName");
-        String middleName = resultSet.getString("middleName");
-        String street = resultSet.getString("street");
-        String number = resultSet.getString("number");
-        int zipcode = resultSet.getInt("zip_code");
-        Address address = new Address(street,number,zipcode,null); //TODO: Get city from database (new method)
-        String phone = resultSet.getString("phone");
-        String email = resultSet.getString("email");
-        boolean validForVaccination = resultSet.getBoolean("valid_for_vaccine");
-        registeredUsers.getUsersList().add(new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email,validForVaccination));
-        return registeredUsers;
-      }
-      else
-      {
-        throw new IllegalStateException("Not loaded from DBS");
-      }
-    }
-  }
 
-  public Patient readByCpr(String cpr) throws RemoteException, SQLException
-  {
-    Patient patient = null;
-    try (Connection connection = getConnection())
-    {
-      PreparedStatement statement = connection.prepareStatement("SELECT * FROM Users WHERE cpr=?");
-      statement.setString(1, cpr);
-      ResultSet resultSet = statement.executeQuery();
-      if (resultSet.next())
-      {
-        String cprResult = resultSet.getString("cpr");
-        String password = resultSet.getString("password");
-        String firstName = resultSet.getString("firstName");
-        String lastName = resultSet.getString("lastName");
-        String middleName = resultSet.getString("middleName");
-        String street = resultSet.getString("street");
-        String number = resultSet.getString("number");
-        int zipcode = resultSet.getInt("zip_code");
-        Address address = new Address(street,number,zipcode,null); //TODO: Get city from database (new method)
-        String phone = resultSet.getString("phone");
-        String email = resultSet.getString("email");
-        boolean validForVaccination = resultSet.getBoolean("valid_for_vaccine");
-        patient = new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email,validForVaccination);
-        return patient;
-      }
-      else
-      {
-        throw new IllegalStateException("No existing registered Patient with this CPR");
-      }
-    }
-
-  }
-
-  public String requestPassword(String cpr) throws RemoteException, SQLException
-  {
-    String password = null;
-    try (Connection connection = getConnection())
-    {
-      PreparedStatement statement = connection.prepareStatement("SELECT password FROM Users WHERE cpr=?");
-      statement.setString(1, cpr);
-      ResultSet resultSet = statement.executeQuery();
-      if (resultSet.next())
-      {
-        password = resultSet.getString("password");
-        return password;
-      }
-      else
-        throw new IllegalArgumentException("No existing registered Patient with this CPR");
-    }
-  }
 }

@@ -25,7 +25,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <DatePicker fx:id="dateDatePicker" maxWidth="1.7976931348623157E308" minHeight="30.0" />
+                  <DatePicker fx:id="datePicker" maxWidth="1.7976931348623157E308" minHeight="30.0" />
                </children>
             </VBox>
                 <VBox maxWidth="250.0" spacing="3.0">

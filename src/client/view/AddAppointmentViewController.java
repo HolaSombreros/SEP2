@@ -11,7 +11,7 @@ import server.model.domain.TimeInterval;
 public class AddAppointmentViewController extends ViewController {
     private AddAppointmentViewModelInterface viewModel;
     
-    @FXML private DatePicker dateDatePicker;
+    @FXML private DatePicker datePicker;
     @FXML private ChoiceBox<TimeInterval> timeIntervalChoiceBox;
     @FXML private ChoiceBox<Appointment.Type> typeChoiceBox;
     @FXML private Label errorLabel;
@@ -23,8 +23,8 @@ public class AddAppointmentViewController extends ViewController {
     @Override
     protected void init() {
         viewModel = getViewModelFactory().getAddAppointmentViewModel();
-        dateDatePicker.valueProperty().bindBidirectional(viewModel.getDateProperty());
-        dateDatePicker.valueProperty().addListener((obs, oldVal, newVal) -> {
+        datePicker.valueProperty().bindBidirectional(viewModel.getDateProperty());
+        datePicker.valueProperty().addListener((obs, oldVal, newVal) -> {
             viewModel.loadTimeIntervals();
         });
         timeIntervalChoiceBox.valueProperty().bindBidirectional(viewModel.getTimeIntervalProperty());
