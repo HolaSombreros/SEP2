@@ -7,6 +7,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import server.model.domain.User;
+import server.model.domain.UserList;
 
 public class UserListViewModel implements UserListViewModelInterface
 {
@@ -36,7 +38,9 @@ public class UserListViewModel implements UserListViewModelInterface
   private void updateList()
   {
     users.clear();
-    //TODO
+    UserList userList = model.getUserList();
+    for (User user : userList.getUsersList())
+      users.add(new UserTableViewModel(user));
   }
 
   @Override public void logout()
@@ -49,8 +53,7 @@ public class UserListViewModel implements UserListViewModelInterface
   {
     if (selectedUser.get()!=null)
     {
-      // TODO
-      //viewState.setSelectedUser(model.get);
+      viewState.setSelectedUser(model.getUserList().getUserByCpr(selectedUser.get().getCprProperty().get()));
       return true;
     }
     else
