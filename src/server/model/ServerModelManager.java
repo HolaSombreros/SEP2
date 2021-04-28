@@ -164,7 +164,6 @@ public class ServerModelManager implements ServerModel {
         if (userList.contains(user)) {
             if (onlineList.contains(user)) {
                 onlineList.remove(user);
-                System.out.println(user.getFullName() + " logged out!");
             }
             else {
                 throw new IllegalStateException("That user is not logged in");

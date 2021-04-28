@@ -12,6 +12,10 @@ public class DashboardViewController extends ViewController {
     @FXML private Label timeLabel;
     @FXML private Label dateLabel;
     
+    public DashboardViewController() {
+        // empty - called by FXMLLoader
+    }
+    
     @Override
     protected void init() {
         viewModel = getViewModelFactory().getDashBoardViewModel();
