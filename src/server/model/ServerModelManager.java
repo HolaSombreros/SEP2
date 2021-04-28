@@ -19,6 +19,7 @@ public class ServerModelManager implements ServerModel {
     private PropertyChangeAction<User, Appointment> property;
     
     public ServerModelManager() {
+
         property = new PropertyChangeProxy<>(this);
         userList = new UserList();
         onlineList = new UserList();
@@ -68,13 +69,7 @@ public class ServerModelManager implements ServerModel {
     @Override
     public synchronized User login(String cpr, String password) {
         try{
-            User user;
-            if(managerFactory.getNurseManager().isNurse(cpr))
-                 user = managerFactory.getNurseManager().getNurseByCPR(cpr);
-            else if(managerFactory.getAdministratorManager().isAdmin(cpr))
-                user = managerFactory.getAdministratorManager().getAdministratorByCpr(cpr);
-            else
-                user = managerFactory.getPatientManager().getPatientByCpr(cpr);
+            User user = managerFactory.getPatientManager().getUser(cpr);
             if(managerFactory.getPatientManager().getPassword(cpr).equals(password)){
                 if (!onlineList.contains(user)) {
                     onlineList.addUser(user);

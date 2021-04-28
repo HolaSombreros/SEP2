@@ -9,11 +9,14 @@ import java.sql.SQLException;
 public class PatientManager extends DatabaseManager {
 
   private AddressManager addressManager;
+  private NurseManager nurseManager;
+  private AdministratorManager administratorManager;
   private UserList registeredUsers;
 
-  public PatientManager()
-  {
+  public PatientManager() {
     addressManager = new AddressManager();
+    nurseManager = new NurseManager();
+    administratorManager = new AdministratorManager();
     registeredUsers = new UserList();
   }
 
@@ -204,6 +207,17 @@ public class PatientManager extends DatabaseManager {
       statement.setString(3,lastName);
       statement.executeUpdate();
     }
+  }
+
+  public User getUser(String cpr)throws SQLException{
+    User user;
+    if(nurseManager.isNurse(cpr))
+      user = nurseManager.getNurseByCPR(cpr);
+    else if(administratorManager.isAdmin(cpr))
+      user = administratorManager.getAdministratorByCpr(cpr);
+    else
+      user = getPatientByCpr(cpr);
+    return user;
   }
 
 }
