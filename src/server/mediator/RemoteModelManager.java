@@ -38,6 +38,12 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
         throws RemoteException {
         serverModel.register(cpr, password, firstName, middleName, lastName, phone, email, street, number, zip, city);
     }
+
+    @Override
+    public UserList getUserList()
+    {
+        return serverModel.getUserList();
+    }
     
     @Override
     public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) throws RemoteException {

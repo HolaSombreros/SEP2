@@ -19,6 +19,15 @@ public abstract class Appointment implements Serializable {
         public String toString() {
             return type;
         }
+        
+        public static Type fromString(String value) {
+            for (Type option : Type.values()) {
+                if (option.type.equalsIgnoreCase(value)) {
+                    return option;
+                }
+            }
+            return null;
+        }
     }
     
     public enum Status {
@@ -35,6 +44,15 @@ public abstract class Appointment implements Serializable {
         @Override
         public String toString() {
             return status;
+        }
+        
+        public static Status fromString(String value) {
+            for (Status option : Status.values()) {
+                if (option.status.equalsIgnoreCase(value)) {
+                    return option;
+                }
+            }
+            return null;
         }
     }
     

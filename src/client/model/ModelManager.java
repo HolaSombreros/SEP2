@@ -34,6 +34,12 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     public User login(String cpr, String password) {
         return client.login(cpr, password);
     }
+
+    @Override
+    public UserList getUserList()
+    {
+        return client.getUserList();
+    }
     
     @Override
     public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {

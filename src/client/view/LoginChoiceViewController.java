@@ -32,6 +32,6 @@ public class LoginChoiceViewController extends ViewController{
     }
 
     @FXML public void loginSpecialRole() {
-        getViewHandler().openView(View.DASHBOARD);
+        getViewHandler().openView(View.USERLIST);
     }
 }
