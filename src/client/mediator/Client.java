@@ -91,6 +91,16 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
     }
     
     @Override
+    public void logout(User user) {
+        try {
+            server.logout(user);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
+        }
+    }
+    
+    @Override
     public void close() {
         try {
             UnicastRemoteObject.unexportObject(this, true);

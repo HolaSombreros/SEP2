@@ -25,7 +25,7 @@ public class ClientApplication extends Application {
         User user = viewModelFactory.getViewState().getUser();
         // if the user is logged in, log him out
         if (user != null) {
-//            model.logout(user);
+            model.logout(user);
         }
         model.close();
     }

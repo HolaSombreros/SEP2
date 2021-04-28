@@ -18,7 +18,8 @@ public class LoginChoiceViewController extends ViewController{
     protected void init() {
         viewModel = getViewModelFactory().getLoginChoiceViewModel();
         roleLabel.textProperty().bind(viewModel.roleProperty());
-        viewModel.updateRoleProperty();
+        
+        viewModel.reset();
     }
 
     @Override
@@ -27,12 +28,10 @@ public class LoginChoiceViewController extends ViewController{
     }
 
     @FXML public void loginPatient() {
-        System.out.println("Logged in as Patient");
-        //TODO: implement View for patient
+        getViewHandler().openView(View.DASHBOARD);
     }
 
     @FXML public void loginSpecialRole() {
-        System.out.println("Logged in as " + roleLabel.textProperty().get());
-        //TODO: implement View for Admin/Nurse
+        getViewHandler().openView(View.DASHBOARD);
     }
 }

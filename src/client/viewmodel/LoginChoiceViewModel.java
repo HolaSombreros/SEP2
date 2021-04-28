@@ -19,10 +19,6 @@ public class LoginChoiceViewModel implements LoginChoiceViewModelInterface {
     @Override
     public void reset() {
         roleProperty.set("");
-    }
-    
-    @Override
-    public void updateRoleProperty() {
         roleProperty.set(viewState.getUser().getClass().getSimpleName());
     }
     

@@ -57,6 +57,11 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     }
     
     @Override
+    public void logout(User user) {
+        client.logout(user);
+    }
+    
+    @Override
     public void close() {
         property.close();
         client.close();

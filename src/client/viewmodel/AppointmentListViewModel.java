@@ -31,7 +31,7 @@ public class AppointmentListViewModel implements AppointmentListViewModelInterfa
     
     @Override
     public void reset() {
-        viewState.setSelectedAppointment(-1);
+        viewState.removeSelectedAppointment();
         errorProperty.set("");
         appointments.clear();
         updateList();
@@ -62,7 +62,7 @@ public class AppointmentListViewModel implements AppointmentListViewModelInterfa
             return true;
         }
         else {
-            viewState.setSelectedAppointment(-1);
+            viewState.removeSelectedAppointment();
             errorProperty.set("Please select an appointment first");
             return false;
         }

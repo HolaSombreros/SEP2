@@ -59,6 +59,11 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
         return serverModel.getAppointmentById(id);
     }
     
+    @Override
+    public void logout(User user) throws RemoteException {
+        serverModel.logout(user);
+    }
+    
     private void startRegistry() throws RemoteException {
         try {
             LocateRegistry.createRegistry(1099);

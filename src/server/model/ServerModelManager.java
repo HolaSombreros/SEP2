@@ -85,24 +85,10 @@ public class ServerModelManager implements ServerModel {
         }
         return null;
     }
-    
-    @Override
-    public synchronized void logout(User user) {
-        if (userList.contains(user)) {
-            if (onlineList.contains(user)) {
-                onlineList.remove(user);
-            }
-            else {
-                throw new IllegalStateException("That user is not logged in");
-            }
-        }
-        else {
-            throw new IllegalArgumentException("No such user found");
-        }
-    }
-    
+
     @Override
     public synchronized void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city) {
+
         if (!userList.contains(cpr)) {
             
             // validate the data
@@ -167,7 +153,24 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
+    public synchronized void logout(User user) {
+        if (userList.contains(user)) {
+            if (onlineList.contains(user)) {
+                onlineList.remove(user);
+                System.out.println(user.getFullName() + " logged out!");
+            }
+            else {
+                throw new IllegalStateException("That user is not logged in");
+            }
+        }
+        else {
+            throw new IllegalArgumentException("No such user found");
+        }
+    }
+    
+    @Override
     public synchronized void close() {
+
         property.close();
     }
     
