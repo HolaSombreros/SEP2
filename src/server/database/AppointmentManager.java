@@ -6,13 +6,14 @@ import java.sql.*;
 import java.sql.Date;
 import java.sql.Time;
 
-public class AppointmentManager extends DatabaseManager
-{
+public class AppointmentManager extends DatabaseManager {
   private NurseManager nurseManager;
   private PatientManager patientManager;
 
   public AppointmentManager()
   {
+    nurseManager = new NurseManager();
+    patientManager = new PatientManager();
   }
 
   public void addAppointment(Appointment appointment) throws SQLException

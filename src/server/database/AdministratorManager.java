@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class AdministratorManager extends DatabaseManager{
     private PatientManager patientManager;
 
+
     public AdministratorManager() {
         patientManager = new PatientManager();
     }

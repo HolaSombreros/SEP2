@@ -2,17 +2,14 @@ package server.database;
 
 import server.model.domain.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class AddressManager extends DatabaseManager{
 
+
     public AddressManager() {
     }
-
     public void addAddress(Address address) throws SQLException {
         try(Connection connection = getConnection()){
             PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO address VALUES (?,?,?)");

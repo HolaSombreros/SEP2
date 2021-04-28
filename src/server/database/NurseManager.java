@@ -8,9 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class NurseManager extends DatabaseManager
-{
+public class NurseManager extends DatabaseManager {
   private PatientManager patientManager;
+
 
   public NurseManager()
   {

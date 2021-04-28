@@ -6,8 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PatientManager extends DatabaseManager
-{
+public class PatientManager extends DatabaseManager {
 
   private AddressManager addressManager;
   private UserList registeredUsers;
@@ -18,10 +17,6 @@ public class PatientManager extends DatabaseManager
     registeredUsers = new UserList();
   }
 
-  public UserList getRegisteredUsers()
-  {
-    return registeredUsers;
-  }
 
   public Patient getPatientByCpr(String cpr) throws SQLException
   {
