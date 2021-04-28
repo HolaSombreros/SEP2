@@ -102,7 +102,7 @@ public class ServerModelManager implements ServerModel {
             User user = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, false);
             userList.addUser(user);
             try {
-               managerFactory.getPatientManager().addPatient((Patient)user);
+               managerFactory.getPatientManager().addPatient(user);
             }
             catch (SQLException e){
                 e.printStackTrace();
@@ -115,8 +115,8 @@ public class ServerModelManager implements ServerModel {
     
     @Override
     public synchronized void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {
-        Appointment appointment = null;
-        
+        Appointment appointment;
+
         // TODO: assign nurse automatically based on their schedule, somehow
         switch (type) {
             case TEST:
