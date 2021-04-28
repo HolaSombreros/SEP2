@@ -90,7 +90,7 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     public void propertyChange(ObserverEvent<String, String> event) {
         Platform.runLater(() -> {
             time.set(event.getValue2());
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-YYYY");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             String date = LocalDate.now().format(formatter);
             if (!date.equals(this.date.get())) {
                 this.date.set(date);
