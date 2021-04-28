@@ -68,7 +68,13 @@ public class ServerModelManager implements ServerModel {
     @Override
     public synchronized User login(String cpr, String password) {
         try{
-            User user = managerFactory.getPatientManager().getPatientByCpr(cpr);
+            User user;
+            if(managerFactory.getNurseManager().isNurse(cpr))
+                 user = managerFactory.getNurseManager().getNurseByCPR(cpr);
+            else if(managerFactory.getAdministratorManager().isAdmin(cpr))
+                user = managerFactory.getAdministratorManager().getAdministratorByCpr(cpr);
+            else
+                user = managerFactory.getPatientManager().getPatientByCpr(cpr);
             if(managerFactory.getPatientManager().getPassword(cpr).equals(password)){
                 if (!onlineList.contains(user)) {
                     onlineList.addUser(user);

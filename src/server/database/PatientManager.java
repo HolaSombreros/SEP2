@@ -18,8 +18,7 @@ public class PatientManager extends DatabaseManager {
   }
 
 
-  public User getPatientByCpr(String cpr) throws SQLException
-  {
+  public User getPatientByCpr(String cpr) throws SQLException {
     User patient = null;
     try (Connection connection = getConnection())
     {
