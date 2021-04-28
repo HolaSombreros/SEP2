@@ -17,6 +17,15 @@ public class TestAppointment extends Appointment {
         public String toString() {
             return result;
         }
+    
+        public static Result fromString(String value) {
+            for (Result option : Result.values()) {
+                if (option.result.equalsIgnoreCase(value)) {
+                    return option;
+                }
+            }
+            return null;
+        }
     }
     
     private Result result;

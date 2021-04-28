@@ -12,7 +12,6 @@ import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class DashBoardViewModel implements DashBoardViewModelInterface, LocalListener<String, String> {
@@ -46,7 +45,7 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     public void reset() {
         username.set(viewState.getUser().getFirstName());
         if (viewState.getUser() instanceof Staff) {
-            access.set(viewState.getUser().getClass().getSimpleName());
+            access.set("Logged in as: " + viewState.getUser().getClass().getSimpleName());
             accessVisibility.set(true);
         }
         else {
