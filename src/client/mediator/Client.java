@@ -49,6 +49,19 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
+
+    @Override
+    public UserList getUserList()
+    {
+        try
+        {
+            return server.getUserList();
+        }
+        catch (RemoteException e)
+        {
+            throw new IllegalStateException(getExceptionMessage(e),e);
+        }
+    }
     
     @Override
     public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {

@@ -5,6 +5,7 @@ import server.model.domain.User;
 public class ViewState {
     
     private User user;
+    private User selectedUser;
     private int selectedAppointment;
     
     public ViewState() {
@@ -34,5 +35,20 @@ public class ViewState {
     
     public void removeUser() {
         user = null;
+    }
+
+    public User getSelectedUser()
+    {
+        return selectedUser;
+    }
+
+    public void setSelectedUser(User user)
+    {
+        this.selectedUser = user;
+    }
+
+    public void removeSelectedUser()
+    {
+        selectedUser = null;
     }
 }

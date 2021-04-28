@@ -112,6 +112,12 @@ public class ServerModelManager implements ServerModel {
             throw new IllegalStateException("That CPR is already registered in the system");
         }
     }
+
+    @Override
+    public UserList getUserList()
+    {
+        return userList;
+    }
     
     @Override
     public synchronized void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {
