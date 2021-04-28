@@ -21,7 +21,7 @@ public class AdministratorManager extends DatabaseManager {
             PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO administrator VALUES (?,?)");
             insertStatement.setString(1, administrator.getCpr());
             insertStatement.setString(2, administrator.getEmployeeId());
-            patientManager.addPatient(new Patient(administrator.getCpr(), administrator.getPassword(), administrator.getFirstName(), administrator.getMiddleName(), administrator.getLastName(), administrator.getAddress(), administrator.getPhone(), administrator.getEmail(), false));
+            patientManager.addPatient(new Patient(administrator.getCpr(), administrator.getPassword(), administrator.getFirstName(), administrator.getMiddleName(), administrator.getLastName(), administrator.getAddress(), administrator.getPhone(), administrator.getEmail(), Patient.VaccineStatus.NOTAPPLIED));
             insertStatement.executeUpdate();
         }
     }
@@ -79,7 +79,7 @@ public class AdministratorManager extends DatabaseManager {
 
     public boolean isAdmin(String cpr) throws SQLException {
         try (Connection connection = getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM patient WHERE cpr = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM administrator WHERE cpr = ?");
             statement.setString(1, cpr);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next())
@@ -89,17 +89,5 @@ public class AdministratorManager extends DatabaseManager {
         }
     }
 
-    public String getId(String cpr) throws SQLException {
-        try (Connection connection = getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM administrator WHERE cpr = ?");
-            statement.setString(1, cpr);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                String id = resultSet.getString("employee_id");
-                return id;
-            } else
-                throw new IllegalStateException("No admin with this cpr!");
-        }
 
-    }
 }

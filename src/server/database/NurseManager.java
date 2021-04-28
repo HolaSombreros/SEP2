@@ -21,7 +21,7 @@ public class NurseManager extends DatabaseManager {
       PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO nurse VALUES (?,?)");
       insertStatement.setString(1, nurse.getCpr());
       insertStatement.setString(2, nurse.getEmployeeId());
-      patientManager.addPatient(new Patient(nurse.getCpr(), nurse.getPassword(), nurse.getFirstName(), nurse.getMiddleName(), nurse.getLastName(), nurse.getAddress(), nurse.getPhone(), nurse.getEmail(), false));
+      patientManager.addPatient(new Patient(nurse.getCpr(), nurse.getPassword(), nurse.getFirstName(), nurse.getMiddleName(), nurse.getLastName(), nurse.getAddress(), nurse.getPhone(), nurse.getEmail(), Patient.VaccineStatus.NOTAPPLIED));
       insertStatement.executeUpdate();
     }
   }
@@ -89,16 +89,4 @@ public class NurseManager extends DatabaseManager {
     }
   }
 
-  public String getId(String cpr) throws SQLException {
-    try (Connection connection = getConnection()) {
-      PreparedStatement statement = connection.prepareStatement("SELECT * FROM nurse WHERE cpr = ?");
-      statement.setString(1, cpr);
-      ResultSet resultSet = statement.executeQuery();
-      if (resultSet.next()) {
-        String id = resultSet.getString("employee_id");
-        return id;
-      } else
-        throw new IllegalStateException("No nurse with this cpr!");
-    }
-  }
 }
