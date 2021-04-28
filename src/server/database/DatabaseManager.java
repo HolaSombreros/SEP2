@@ -13,8 +13,6 @@ public class DatabaseManager {
   private static String PASSWORD = "admin";
 
 
-
-
   public DatabaseManager(String url, String username, String password) {
 
     this.password = password;
