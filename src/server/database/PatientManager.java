@@ -143,13 +143,66 @@ public class PatientManager extends DatabaseManager {
 
   public boolean isPatient(String cpr) throws SQLException{
     try(Connection connection = getConnection()) {
-      PreparedStatement statement= connection.prepareStatement("SELECT * FROM patient WHERE cpr = ?");
+      PreparedStatement statement = connection.prepareStatement("SELECT * FROM patient WHERE cpr = ?");
       statement.setString(1,cpr);
       ResultSet resultSet = statement.executeQuery();
       if(resultSet.next())
         return true;
       else
         return false;
+    }
+  }
+
+
+  public void updateEmail(String email) throws SQLException{
+    try(Connection connection = getConnection()) {
+      PreparedStatement statement = connection.prepareStatement("UPDATE patient set email = ?");
+      statement.setString(1,email);
+      statement.executeUpdate();
+    }
+  }
+
+  public void updatePhone(String phone) throws SQLException{
+    try(Connection connection = getConnection()) {
+      PreparedStatement statement = connection.prepareStatement("UPDATE patient set phone = ?");
+      statement.setString(1,phone);
+      statement.executeUpdate();
+    }
+  }
+
+  public void updateAddress(Address address) throws SQLException{
+    try(Connection connection = getConnection()) {
+      PreparedStatement statement = connection.prepareStatement("UPDATE patient set street = ?, number = ?, zip_code = ?");
+      statement.setString(1,address.getStreet());
+      statement.setString(2,address.getNumber());
+      statement.setInt(3,address.getZipcode());
+      statement.executeUpdate();
+    }
+  }
+
+  public void updateVaccineStatus(Patient.VaccineStatus vaccineStatus)throws SQLException{
+    try(Connection connection = getConnection()) {
+      PreparedStatement statement = connection.prepareStatement("UPDATE patient set valid_for_vaccine = ?");
+      statement.setString(1,vaccineStatus.toString());
+      statement.executeUpdate();
+    }
+  }
+
+  public void updatePassword(String password) throws SQLException {
+    try(Connection connection = getConnection()) {
+      PreparedStatement statement = connection.prepareStatement("UPDATE patient set password = ?");
+      statement.setString(1,password);
+      statement.executeUpdate();
+    }
+  }
+
+  public void updateName(String firstName, String middleName, String lastName) throws SQLException{
+    try(Connection connection = getConnection()) {
+      PreparedStatement statement = connection.prepareStatement("UPDATE patient set firstname = ?, middlename = ?, lastname = ?");
+      statement.setString(1,firstName);
+      statement.setString(2,middleName);
+      statement.setString(3,lastName);
+      statement.executeUpdate();
     }
   }
 
