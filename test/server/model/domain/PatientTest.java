@@ -10,7 +10,7 @@ class PatientTest {
     
     @BeforeEach
     void setUp() {
-        patient1 = new Patient("121256-1234", "password", "Test", null, "Person", new Address("Street", "1", 8700, "Horsens"), "12345678", "email@address.com", false);
+        patient1 = new Patient("121256-1234", "password", "Test", null, "Person", new Address("Street", "1", 8700, "Horsens"), "12345678", "email@address.com", Patient.VaccineStatus.NOTAPPLIED);
     }
     
     @Test

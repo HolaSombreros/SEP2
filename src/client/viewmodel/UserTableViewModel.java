@@ -2,6 +2,7 @@ package client.viewmodel;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import server.model.domain.Patient;
 import server.model.domain.User;
 
 public class UserTableViewModel
@@ -20,10 +21,10 @@ public class UserTableViewModel
     phoneProperty = new SimpleStringProperty(user.getPhone());
     emailProperty = new SimpleStringProperty(user.getEmail());
     roleProperty = new SimpleStringProperty(user.getClass().getSimpleName());
-    // if (user instanceof Patient)
-    // vaccineProperty = new SimpleStringProperty(((Patient)user).isValidForVaccine());
-    // else
-    vaccineProperty = new SimpleStringProperty("-");
+    if (user instanceof Patient)
+      vaccineProperty = new SimpleStringProperty(((Patient) user).getVaccineStatus().toString());
+    else
+      vaccineProperty = new SimpleStringProperty("-");
   }
 
   public StringProperty getCprProperty()

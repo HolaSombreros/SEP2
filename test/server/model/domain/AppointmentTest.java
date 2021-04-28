@@ -12,7 +12,7 @@ class AppointmentTest {
     
     @BeforeEach
     void setUp() {
-        patient = new Patient("1204560000", "testpassword", "Test", "Person", new Address("TestStreet", "0", 8700, "Horsens"), "12345678", "test@email.com", false);
+        patient = new Patient("1204560000", "testpassword", "Test", "Person", new Address("TestStreet", "0", 8700, "Horsens"), "12345678", "test@email.com", Patient.VaccineStatus.NOTAPPLIED);
         nurse = new Nurse("1205561111", "testpassword", "Test", "Person", new Address("TestStreet", "0", 8700, "Horsens"), "12345678", "test@email.com", "emp1");
         appointment = new VaccineAppointment(Date.today(), new TimeInterval(new Time(8, 0), new Time(8, 20)), Appointment.Type.VACCINE, patient, nurse);
     }

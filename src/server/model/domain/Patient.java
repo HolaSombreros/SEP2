@@ -30,11 +30,11 @@ public class Patient extends User {
          }
     }
 
-    private VaccineStatus validForVaccine;
+    private VaccineStatus vaccineStatus;
     
     public Patient(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email, VaccineStatus validForVaccine) {
         super(cpr, password, firstName, middleName, lastName, address, phone, email);
-        setValidForVaccine(validForVaccine);
+        setVaccineStatus(validForVaccine);
     }
     
     public Patient(String cpr, String password, String firstName, String lastName, Address address, String phone, String email, VaccineStatus validForVaccine) {
@@ -42,12 +42,12 @@ public class Patient extends User {
     }
 
     
-    public VaccineStatus isValidForVaccine() {
-        return validForVaccine;
+    public VaccineStatus getVaccineStatus() {
+        return vaccineStatus;
     }
     
-    public void setValidForVaccine(VaccineStatus validForVaccine) {
-        this.validForVaccine = validForVaccine;
+    public void setVaccineStatus(VaccineStatus vaccineStatus) {
+        this.vaccineStatus = vaccineStatus;
     }
     
     @Override
@@ -56,11 +56,11 @@ public class Patient extends User {
             return false;
         }
         Patient patient = (Patient) obj;
-        return super.equals(obj) && validForVaccine == patient.validForVaccine;
+        return super.equals(obj) && vaccineStatus == patient.vaccineStatus;
     }
     
     @Override
     public String toString() {
-        return super.toString() + " | Vaccine Status: " + validForVaccine;
+        return super.toString() + " | Vaccine Status: " + vaccineStatus;
     }
 }
