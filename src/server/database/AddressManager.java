@@ -22,23 +22,6 @@ public class AddressManager extends DatabaseManager{
         }
     }
 
-    public ArrayList<Address> getAddressByCity(int zipcode)throws SQLException{
-        ArrayList<Address> addresses = new ArrayList<>();
-        try(Connection connection = getConnection()){
-            PreparedStatement selectStatement = connection.prepareStatement("SELECT * FROM address WHERE zip_code = ?");
-            selectStatement.setInt(1,zipcode);
-            ResultSet resultSet = selectStatement.executeQuery();
-                if (resultSet.next()) {
-                    String street = resultSet.getString("street");
-                    String number = resultSet.getString("number");
-                    addresses.add(new Address(street, number, zipcode, getCityByZipcode(zipcode)));
-                    return addresses;
-                } else {
-                    throw new IllegalStateException("No addresses for this city in the database");
-                }
-        }
-    }
-
     public boolean isAddress(String street, String number, int zipcode)throws SQLException{
         try(Connection connection = getConnection()){
             PreparedStatement selectStatement = connection.prepareStatement("SELECT * FROM address WHERE zip_code = ? AND street = ? AND number = ?");
