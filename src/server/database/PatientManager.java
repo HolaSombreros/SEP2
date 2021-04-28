@@ -18,14 +18,15 @@ public class PatientManager extends DatabaseManager {
   }
 
 
-  public Patient getPatientByCpr(String cpr) throws SQLException
+  public User getPatientByCpr(String cpr) throws SQLException
   {
-    Patient patient = null;
+    User patient = null;
     try (Connection connection = getConnection())
     {
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM patient WHERE cpr=?");
       statement.setString(1, cpr);
       ResultSet resultSet = statement.executeQuery();
+
       if (resultSet.next())
       {
         String cprResult = resultSet.getString("cpr");
@@ -41,7 +42,7 @@ public class PatientManager extends DatabaseManager {
         String phone = resultSet.getString("phone");
         String email = resultSet.getString("email");
         boolean validForVaccination = resultSet.getBoolean("valid_for_vaccine");
-        patient = new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email, validForVaccination);
+        patient = new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email,validForVaccination);
         return patient;
       }
       else
@@ -77,7 +78,7 @@ public class PatientManager extends DatabaseManager {
     }
   }
 
-  public void addPatient(Patient patient) throws SQLException
+  public void addPatient(User patient) throws SQLException
   {
     try (Connection connection = getConnection())
     {
@@ -92,10 +93,9 @@ public class PatientManager extends DatabaseManager {
       insertStatement.setString(8, patient.getAddress().getStreet());
       insertStatement.setString(9, patient.getAddress().getNumber());
       insertStatement.setInt(10, patient.getAddress().getZipcode());
-      insertStatement.setBoolean(11, patient.isValidForVaccine());
+      insertStatement.setBoolean(11, false);
       if (!addressManager.isAddress(patient.getAddress().getStreet(), patient.getAddress().getNumber(), patient.getAddress().getZipcode()))
         addressManager.addAddress(patient.getAddress());
-      //execute the statement
       insertStatement.executeUpdate();
     }
   }
@@ -119,7 +119,7 @@ public class PatientManager extends DatabaseManager {
     }
   }
 
-  public void removePatient(Patient patient) throws SQLException
+  public void removePatient(User patient) throws SQLException
   {
     try (Connection connection = getConnection())
     {
@@ -129,7 +129,7 @@ public class PatientManager extends DatabaseManager {
     }
   }
 
-  public boolean isPatient(Patient patient) throws SQLException{
+  public boolean isPatient(User patient) throws SQLException{
     try(Connection connection = getConnection()) {
       PreparedStatement statement= connection.prepareStatement("SELECT * FROM patient WHERE cpr = ?");
       statement.setString(1,patient.getCpr());

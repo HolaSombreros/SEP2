@@ -33,7 +33,7 @@ public class AdministratorManager extends DatabaseManager{
             ResultSet resultSet = statement.executeQuery();
             if(resultSet.next()){
                 String employeeId = resultSet.getString("employee_id");
-                Patient patient = patientManager.getPatientByCpr(cpr);
+                User patient = patientManager.getPatientByCpr(cpr);
                 return new Administrator(patient.getCpr(), patient.getPassword(), patient.getFirstName(), patient.getMiddleName(), patient.getLastName(), patient.getAddress(), patient.getPhone(),
                         patient.getEmail(), employeeId);
             }
@@ -50,7 +50,7 @@ public class AdministratorManager extends DatabaseManager{
             while (resultSet.next()) {
                 String cpr = resultSet.getString("cpr");
                 String employeeId = resultSet.getString("employee_id");
-                Patient patient = patientManager.getPatientByCpr(cpr);
+                User patient = patientManager.getPatientByCpr(cpr);
                 result.add(new Administrator(cpr, patient.getPassword(), patient.getFirstName(), patient.getMiddleName(), patient.getLastName(), patient.getAddress(), patient.getPhone(),
                         patient.getEmail(), employeeId));
             }

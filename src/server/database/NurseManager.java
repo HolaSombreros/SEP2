@@ -39,7 +39,7 @@ public class NurseManager extends DatabaseManager {
       if (resultSet.next())
       {
         String employeeId = resultSet.getString("employee_id");
-        Patient patient = patientManager.getPatientByCpr(cpr);
+        User patient = patientManager.getPatientByCpr(cpr);
         return new Nurse(patient.getCpr(), patient.getPassword(), patient.getFirstName(), patient.getMiddleName(), patient.getLastName(), patient.getAddress(), patient.getPhone(),
             patient.getEmail(), employeeId);
       }
@@ -59,7 +59,7 @@ public class NurseManager extends DatabaseManager {
       {
         String cpr = resultSet.getString("cpr");
         String employeeId = resultSet.getString("employee_id");
-        Patient patient = patientManager.getPatientByCpr(cpr);
+        User patient = patientManager.getPatientByCpr(cpr);
         result.add(new Nurse(cpr, patient.getPassword(), patient.getFirstName(), patient.getMiddleName(), patient.getLastName(), patient.getAddress(), patient.getPhone(),
             patient.getEmail(), employeeId));
       }

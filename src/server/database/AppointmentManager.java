@@ -107,18 +107,18 @@ public class AppointmentManager extends DatabaseManager {
         server.model.domain.Time timeTo = new server.model.domain.Time(timeToSQL.getHours(), timeToSQL.getMinutes());
         Appointment.Type type = Appointment.Type.valueOf(typeSQL);
         Appointment.Status status = Appointment.Status.valueOf(statusSQL);
-        Patient patient = patientManager.getPatientByCpr(patientCpr);
+        User patient = patientManager.getPatientByCpr(patientCpr);
         if (type.equals(Appointment.Type.TEST))
         {
           TestAppointment.Result result = TestAppointment.Result.valueOf(resultSQL);
-          Appointment appointment = new TestAppointment(date, new TimeInterval(timeFrom, timeTo), type, patient, nurse);
+          Appointment appointment = new TestAppointment(date, new TimeInterval(timeFrom, timeTo), type, (Patient)patient, nurse);
           ((TestAppointment) appointment).setResult(result);
           appointment.setStatus(status);
           list.add(appointment);
         }
         else
         {
-          Appointment appointment = new VaccineAppointment(date, new TimeInterval(timeFrom, timeTo), type, patient, nurse);
+          Appointment appointment = new VaccineAppointment(date, new TimeInterval(timeFrom, timeTo), type, (Patient)patient, nurse);
           appointment.setStatus(status);
           list.add(appointment);
         }
