@@ -10,11 +10,6 @@ public class Administrator extends Staff {
     }
     
     @Override
-    public String getType() {
-        return "Administrator";
-    }
-    
-    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Administrator)) {
             return false;

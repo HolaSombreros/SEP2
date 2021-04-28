@@ -22,11 +22,6 @@ public class Patient extends User {
     }
     
     @Override
-    public String getType() {
-        return "Patient";
-    }
-    
-    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Patient)) {
             return false;
