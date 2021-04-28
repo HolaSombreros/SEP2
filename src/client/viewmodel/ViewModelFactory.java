@@ -10,6 +10,7 @@ public class ViewModelFactory {
     private AddAppointmentViewModelInterface addAppointmentViewModel;
     private AppointmentDetailsViewModelInterface appointmentDetailsViewModel;
     private DashBoardViewModelInterface dashBoardViewModel;
+    private UserListViewModelInterface userListViewModel;
     private ViewState viewState;
     
     public ViewModelFactory(Model model) {
@@ -21,6 +22,7 @@ public class ViewModelFactory {
         addAppointmentViewModel = new AddAppointmentViewModel(model, viewState);
         appointmentDetailsViewModel = new AppointmentDetailsViewModel(model, viewState);
         dashBoardViewModel = new DashBoardViewModel(model, viewState);
+        userListViewModel = new UserListViewModel(model,viewState);
     }
     
     public ViewState getViewState() {
@@ -53,5 +55,10 @@ public class ViewModelFactory {
     
     public DashBoardViewModelInterface getDashBoardViewModel() {
         return dashBoardViewModel;
+    }
+
+    public UserListViewModelInterface getUserListViewModel()
+    {
+        return userListViewModel;
     }
 }
