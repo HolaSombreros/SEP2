@@ -3,24 +3,24 @@ package server.model.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppointmentTimeList {
-    private List<AppointmentTimeFrame> appointmentTimeFrames;
+public class AppointmentTimeIntervalList {
+    private List<AppointmentTimeInterval> appointmentTimeIntervals;
     
-    public AppointmentTimeList() {
-        appointmentTimeFrames = new ArrayList<>();
+    public AppointmentTimeIntervalList() {
+        appointmentTimeIntervals = new ArrayList<>();
     }
     
-    public void add(AppointmentTimeFrame appointmentTimeFrame) {
-        appointmentTimeFrames.add(appointmentTimeFrame);
+    public void add(AppointmentTimeInterval appointmentTimeInterval) {
+        appointmentTimeIntervals.add(appointmentTimeInterval);
     }
     
     public void add(Appointment appointment, Date date, TimeInterval timeInterval) {
         if(!checkAppointmentOnTimeInterval(timeInterval, date, appointment.getPatient())){
-            for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames)
+            for (AppointmentTimeInterval appointmentTimeInterval : appointmentTimeIntervals)
             {
-                if (appointmentTimeFrame.getDate().equals(date) && appointmentTimeFrame.getTimeInterval().equals(timeInterval))
+                if (appointmentTimeInterval.getDate().equals(date) && appointmentTimeInterval.getTimeInterval().equals(timeInterval))
                 {
-                    appointmentTimeFrame.add(appointment);
+                    appointmentTimeInterval.add(appointment);
                 }
             }
         }
@@ -38,8 +38,8 @@ public class AppointmentTimeList {
     
     public AppointmentList getAppointmentsByUser(User user) {
         AppointmentList appointments = new AppointmentList();
-        for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
-            appointments.addAll(appointmentTimeFrame.getAppointmentsByUser(user).getAppointments());
+        for (AppointmentTimeInterval appointmentTimeInterval : appointmentTimeIntervals) {
+            appointments.addAll(appointmentTimeInterval.getAppointmentsByUser(user).getAppointments());
         }
         return appointments;
     }
@@ -48,8 +48,8 @@ public class AppointmentTimeList {
         if (id < 1) {
             throw new IllegalArgumentException("Please enter an id higher than 0");
         }
-        for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
-            for (Appointment appointment : appointmentTimeFrame.getAppointmentList()) {
+        for (AppointmentTimeInterval appointmentTimeInterval : appointmentTimeIntervals) {
+            for (Appointment appointment : appointmentTimeInterval.getAppointmentList()) {
                 if (appointment.getId() == id) {
                     return appointment;
                 }
@@ -63,9 +63,9 @@ public class AppointmentTimeList {
         if(date.isBefore(Date.today())){
             return list;
         }
-        for (AppointmentTimeFrame appointmentTimeFrame : appointmentTimeFrames) {
-            if (appointmentTimeFrame.getDate().equals(date) && appointmentTimeFrame.size() < appointmentTimeFrame.getMaxAppointmentCount()) {
-                list.add(appointmentTimeFrame.getTimeInterval());
+        for (AppointmentTimeInterval appointmentTimeInterval : appointmentTimeIntervals) {
+            if (appointmentTimeInterval.getDate().equals(date) && appointmentTimeInterval.size() < appointmentTimeInterval.getMaxAppointmentCount()) {
+                list.add(appointmentTimeInterval.getTimeInterval());
             }
         }
         return list;

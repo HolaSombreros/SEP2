@@ -66,7 +66,8 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
     @Override
     public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {
         try {
-            server.addAppointment(date, timeInterval, type, patient);
+            Appointment appointment = server.addAppointment(date, timeInterval, type, patient);
+            property.firePropertyChange("NewAppointment", appointment.getPatient(), appointment);
         }
         catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);

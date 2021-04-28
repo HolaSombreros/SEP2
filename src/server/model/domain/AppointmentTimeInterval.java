@@ -3,13 +3,13 @@ package server.model.domain;
 import java.io.Serializable;
 import java.util.List;
 
-public class AppointmentTimeFrame implements Serializable {
+public class AppointmentTimeInterval implements Serializable {
     private AppointmentList appointmentList;
     private Date date;
     private TimeInterval timeInterval;
     public static final int maxAppointmentCount = 3;
     
-    public AppointmentTimeFrame(Date date, TimeInterval timeInterval) {
+    public AppointmentTimeInterval(Date date, TimeInterval timeInterval) {
         this.appointmentList = new AppointmentList();
         this.date = date.copy();
         this.timeInterval = timeInterval;
