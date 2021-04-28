@@ -14,11 +14,7 @@ public class ServerModelManager implements ServerModel {
     private UserList userList;
     private UserList onlineList;
     private AppointmentTimeList appointmentTimeList;
-    private PatientManager patientManager;
-    private AddressManager addressManager;
-    private AppointmentManager appointmentManager;
-    private NurseManager nurseManager;
-    private AdministratorManager administratorManager;
+    private ManagerFactory managerFactory;
     
     private PropertyChangeAction<User, Appointment> property;
     
@@ -27,11 +23,7 @@ public class ServerModelManager implements ServerModel {
         userList = new UserList();
         onlineList = new UserList();
         appointmentTimeList = new AppointmentTimeList();
-        patientManager = new PatientManager();
-        addressManager = new AddressManager();
-        appointmentManager = new AppointmentManager();
-        nurseManager = new NurseManager();
-        administratorManager = new AdministratorManager();
+        managerFactory = new ManagerFactory();
         addDummyData();
         addDummyTimeIntervals();
     }
@@ -46,18 +38,18 @@ public class ServerModelManager implements ServerModel {
         userList.addUser(new Patient("3105026358","password","Elmo",null,"Popescu",addresses.get(1),"12587465","popescu@email.com",false));
         userList.addUser(new Patient("2504012368","password","Vaseline",null,"Veselin",addresses.get(0),"12587466","vaseline@email.com",false));
         userList.addUser(new Nurse("1302026584","password","Mikasa",null,"Ackerman",addresses.get(0),"12587467","aot@email.com","mikasa_nurse"));
-        userList.addUser(new Administrator("1407026358","password","Robin",null,"Robin",addresses.get(0),"12569873","nicoRobin@email.com","nicoRobin_admin"));
+        userList.addUser(new Administrator("1407026358","password","Nico",null,"Robin",addresses.get(0),"12569873","nicoRobin@email.com","nicoRobin_admin"));
         try {
            for (Address address : addresses)
-               if (!addressManager.isAddress(address.getStreet(),address.getNumber(),address.getZipcode()))
-                   addressManager.addAddress(address);
+               if (!managerFactory.getAddressManager().isAddress(address.getStreet(),address.getNumber(),address.getZipcode()))
+                   managerFactory.getAddressManager().addAddress(address);
            for(User user: userList.getUsersList())
-               if( user instanceof Patient &&!patientManager.isPatient((Patient) user) )
-                   patientManager.addPatient((Patient)user);
-               else if(user instanceof Nurse && !nurseManager.isNurse((Nurse) user))
-                   nurseManager.addNurse((Nurse)user);
-               else if (user instanceof Administrator && !administratorManager.isAdmin((Administrator) user))
-                   administratorManager.addAdministrator((Administrator) user);
+               if( user instanceof Patient &&!managerFactory.getPatientManager().isPatient((Patient) user) )
+                   managerFactory.getPatientManager().addPatient((Patient)user);
+               else if(user instanceof Nurse && !managerFactory.getNurseManager().isNurse((Nurse) user))
+                   managerFactory.getNurseManager().addNurse((Nurse)user);
+               else if (user instanceof Administrator && !managerFactory.getAdministratorManager().isAdmin((Administrator) user))
+                   managerFactory.getAdministratorManager().addAdministrator((Administrator) user);
 
        }
        catch (SQLException e){
@@ -74,10 +66,16 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
-    public User login(String cpr, String password) {
+    public synchronized User login(String cpr, String password) {
         try{
-            User user = patientManager.getPatientByCpr(cpr);
-            if(patientManager.getPassword(cpr).equals(password)){
+            User user;
+            if(managerFactory.getNurseManager().isNurse(cpr))
+                 user = managerFactory.getNurseManager().getNurseByCPR(cpr);
+            else if(managerFactory.getAdministratorManager().isAdmin(cpr))
+                user = managerFactory.getAdministratorManager().getAdministratorByCpr(cpr);
+            else
+                user = managerFactory.getPatientManager().getPatientByCpr(cpr);
+            if(managerFactory.getPatientManager().getPassword(cpr).equals(password)){
                 if (!onlineList.contains(user)) {
                     onlineList.addUser(user);
                     return user;
@@ -93,9 +91,10 @@ public class ServerModelManager implements ServerModel {
         }
         return null;
     }
-    
+
     @Override
-    public void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city) {
+    public synchronized void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city) {
+
         if (!userList.contains(cpr)) {
             
             // validate the data
@@ -103,7 +102,7 @@ public class ServerModelManager implements ServerModel {
             User user = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, false);
             userList.addUser(user);
             try {
-                patientManager.addPatient((Patient)user);
+               managerFactory.getPatientManager().addPatient(user);
             }
             catch (SQLException e){
                 e.printStackTrace();
@@ -115,15 +114,15 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
-    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {
-        Appointment appointment = null;
-        
+    public synchronized void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {
+        Appointment appointment;
+
         // TODO: assign nurse automatically based on their schedule, somehow
         switch (type) {
             case TEST:
                 appointment = new TestAppointment(date, timeInterval, type, patient, (Nurse) userList.getUserByCpr("1205561111"));
                 try {
-                    appointmentManager.addAppointment(appointment);
+                    managerFactory.getAppointmentManager().addAppointment(appointment);
                 }
                 catch (SQLException e){
                     e.printStackTrace();
@@ -132,7 +131,7 @@ public class ServerModelManager implements ServerModel {
             case VACCINE:
                 appointment = new VaccineAppointment(date, timeInterval, type, patient, (Nurse) userList.getUserByCpr("1205561111"));
                 try {
-                    appointmentManager.addAppointment(appointment);
+                    managerFactory.getAppointmentManager().addAppointment(appointment);
                 }
                 catch (SQLException e){
                     e.printStackTrace();
@@ -145,17 +144,17 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
-    public AppointmentList getAppointmentsByUser(User user) {
+    public synchronized AppointmentList getAppointmentsByUser(User user) {
         return appointmentTimeList.getAppointmentsByUser(user);
     }
     
     @Override
-    public Appointment getAppointmentById(int id) {
+    public synchronized Appointment getAppointmentById(int id) {
         return appointmentTimeList.getAppointmentById(id);
     }
     
     @Override
-    public TimeIntervalList getAvailableTimeIntervals(Date date) {
+    public synchronized TimeIntervalList getAvailableTimeIntervals(Date date) {
         return appointmentTimeList.getAvailableTimeIntervals(date);
     }
     
@@ -175,7 +174,8 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
-    public void close() {
+    public synchronized void close() {
+
         property.close();
     }
     

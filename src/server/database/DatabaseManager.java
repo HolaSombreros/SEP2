@@ -1,7 +1,7 @@
 package server.database;
 
 
-import java.rmi.RemoteException;
+
 import java.sql.*;
 
 public class DatabaseManager {
@@ -11,6 +11,8 @@ public class DatabaseManager {
   private static String URL = "jdbc:postgresql://localhost:5432/postgres?currentSchema=sep2";
   private static String USERNAME = "sep2admin";
   private static String PASSWORD = "admin";
+
+
 
 
   public DatabaseManager(String url, String username, String password) {
@@ -38,6 +40,7 @@ public class DatabaseManager {
       e.printStackTrace();
     }
 
+
   }
 
   public Connection getConnection() throws SQLException {
@@ -45,20 +48,4 @@ public class DatabaseManager {
   }
 
 
-  public String requestPassword(String cpr) throws RemoteException, SQLException {
-    String password = null;
-    try (Connection connection = getConnection())
-    {
-      PreparedStatement statement = connection.prepareStatement("SELECT password FROM Users WHERE cpr=?");
-      statement.setString(1, cpr);
-      ResultSet resultSet = statement.executeQuery();
-      if (resultSet.next())
-      {
-        password = resultSet.getString("password");
-        return password;
-      }
-      else
-        throw new IllegalArgumentException("No existing registered Patient with this CPR");
-    }
-  }
 }
