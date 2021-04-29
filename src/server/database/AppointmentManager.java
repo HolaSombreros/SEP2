@@ -6,19 +6,18 @@ import java.sql.*;
 import java.sql.Date;
 import java.sql.Time;
 
-public class AppointmentManager extends DatabaseManager {
+public class AppointmentManager {
   private NurseManager nurseManager;
   private PatientManager patientManager;
 
-  public AppointmentManager()
-  {
+  public AppointmentManager() {
+
     nurseManager = new NurseManager();
     patientManager = new PatientManager();
   }
 
-  public void addAppointment(Appointment appointment) throws SQLException
-  {
-    try (Connection connection = getConnection())
+  public void addAppointment(Appointment appointment) throws SQLException {
+    try (Connection connection = DatabaseManager.getInstance().getConnection())
     {
       PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO appointment VALUES (?,?,?,?,?,?,?,?,?)");
       insertStatement.setDate(1, Date.valueOf(appointment.getDate().getDateSQL()));
@@ -41,7 +40,7 @@ public class AppointmentManager extends DatabaseManager {
 
   public AppointmentList getAppointmentsByPatient(Patient patient) throws SQLException
   {
-    try (Connection connection = getConnection())
+    try (Connection connection = DatabaseManager.getInstance().getConnection())
     {
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM appointment WHERE patient_cpr=?");
       statement.setString(1, patient.getCpr());
@@ -85,7 +84,7 @@ public class AppointmentManager extends DatabaseManager {
 
   public AppointmentList getAppointmentsByNurse(Nurse nurse) throws SQLException
   {
-    try (Connection connection = getConnection())
+    try (Connection connection = DatabaseManager.getInstance().getConnection())
     {
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM appointment WHERE nurse_cpr=?");
       statement.setString(1, nurse.getCpr());

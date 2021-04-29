@@ -6,24 +6,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PatientManager extends DatabaseManager {
+public class PatientManager{
 
   private AddressManager addressManager;
-  private NurseManager nurseManager;
-  private AdministratorManager administratorManager;
   private UserList registeredUsers;
 
   public PatientManager() {
     addressManager = new AddressManager();
-    nurseManager = new NurseManager();
-    administratorManager = new AdministratorManager();
     registeredUsers = new UserList();
   }
 
 
   public User getPatientByCpr(String cpr) throws SQLException {
     User patient = null;
-    try (Connection connection = getConnection())
+    try (Connection connection = DatabaseManager.getInstance().getConnection())
     {
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM patient WHERE cpr=?");
       statement.setString(1, cpr);
@@ -57,7 +53,7 @@ public class PatientManager extends DatabaseManager {
 
   public UserList getAllPatients() throws SQLException
   {
-    try (Connection connection = getConnection())
+    try (Connection connection = DatabaseManager.getInstance().getConnection())
     {
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM patient");
       ResultSet resultSet = statement.executeQuery();
@@ -83,7 +79,7 @@ public class PatientManager extends DatabaseManager {
 
   public void addPatient(User patient) throws SQLException
   {
-    try (Connection connection = getConnection())
+    try (Connection connection = DatabaseManager.getInstance().getConnection())
     {
       PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO patient VALUES (?,?,?,?,?,?,?,?,?,?,?)");
       insertStatement.setString(1, patient.getCpr());
@@ -105,7 +101,7 @@ public class PatientManager extends DatabaseManager {
 
   public String getPassword(String cpr) throws SQLException
   {
-    try (Connection connection = getConnection())
+    try (Connection connection = DatabaseManager.getInstance().getConnection())
     {
       PreparedStatement selectStatement = connection.prepareStatement("SELECT password FROM patient WHERE cpr = ?");
       selectStatement.setString(1, cpr);
@@ -124,7 +120,7 @@ public class PatientManager extends DatabaseManager {
 
   public void removePatient(User patient) throws SQLException
   {
-    try (Connection connection = getConnection())
+    try (Connection connection = DatabaseManager.getInstance().getConnection())
     {
       PreparedStatement statement = connection.prepareStatement("DELETE FROM patient WHERE cpr = ?");
       statement.setString(1, patient.getCpr());
@@ -133,7 +129,7 @@ public class PatientManager extends DatabaseManager {
   }
 
   public boolean isPatient(User patient) throws SQLException{
-    try(Connection connection = getConnection()) {
+    try(Connection connection = DatabaseManager.getInstance().getConnection()) {
       PreparedStatement statement= connection.prepareStatement("SELECT * FROM patient WHERE cpr = ?");
       statement.setString(1,patient.getCpr());
       ResultSet resultSet = statement.executeQuery();
@@ -145,7 +141,7 @@ public class PatientManager extends DatabaseManager {
   }
 
   public boolean isPatient(String cpr) throws SQLException{
-    try(Connection connection = getConnection()) {
+    try(Connection connection = DatabaseManager.getInstance().getConnection()) {
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM patient WHERE cpr = ?");
       statement.setString(1,cpr);
       ResultSet resultSet = statement.executeQuery();
@@ -158,7 +154,7 @@ public class PatientManager extends DatabaseManager {
 
 
   public void updateEmail(String email) throws SQLException{
-    try(Connection connection = getConnection()) {
+    try(Connection connection = DatabaseManager.getInstance().getConnection()) {
       PreparedStatement statement = connection.prepareStatement("UPDATE patient set email = ?");
       statement.setString(1,email);
       statement.executeUpdate();
@@ -166,7 +162,7 @@ public class PatientManager extends DatabaseManager {
   }
 
   public void updatePhone(String phone) throws SQLException{
-    try(Connection connection = getConnection()) {
+    try(Connection connection = DatabaseManager.getInstance().getConnection()) {
       PreparedStatement statement = connection.prepareStatement("UPDATE patient set phone = ?");
       statement.setString(1,phone);
       statement.executeUpdate();
@@ -174,7 +170,7 @@ public class PatientManager extends DatabaseManager {
   }
 
   public void updateAddress(Address address) throws SQLException{
-    try(Connection connection = getConnection()) {
+    try(Connection connection = DatabaseManager.getInstance().getConnection()) {
       PreparedStatement statement = connection.prepareStatement("UPDATE patient set street = ?, number = ?, zip_code = ?");
       statement.setString(1,address.getStreet());
       statement.setString(2,address.getNumber());
@@ -184,7 +180,7 @@ public class PatientManager extends DatabaseManager {
   }
 
   public void updateVaccineStatus(Patient.VaccineStatus vaccineStatus)throws SQLException{
-    try(Connection connection = getConnection()) {
+    try(Connection connection = DatabaseManager.getInstance().getConnection()) {
       PreparedStatement statement = connection.prepareStatement("UPDATE patient set valid_for_vaccine = ?");
       statement.setString(1,vaccineStatus.toString());
       statement.executeUpdate();
@@ -192,7 +188,7 @@ public class PatientManager extends DatabaseManager {
   }
 
   public void updatePassword(String password) throws SQLException {
-    try(Connection connection = getConnection()) {
+    try(Connection connection = DatabaseManager.getInstance().getConnection()) {
       PreparedStatement statement = connection.prepareStatement("UPDATE patient set password = ?");
       statement.setString(1,password);
       statement.executeUpdate();
@@ -200,7 +196,7 @@ public class PatientManager extends DatabaseManager {
   }
 
   public void updateName(String firstName, String middleName, String lastName) throws SQLException{
-    try(Connection connection = getConnection()) {
+    try(Connection connection = DatabaseManager.getInstance().getConnection()) {
       PreparedStatement statement = connection.prepareStatement("UPDATE patient set firstname = ?, middlename = ?, lastname = ?");
       statement.setString(1,firstName);
       statement.setString(2,middleName);
@@ -209,14 +205,9 @@ public class PatientManager extends DatabaseManager {
     }
   }
 
-  public User getUser(String cpr)throws SQLException{
-    User user;
-    if(nurseManager.isNurse(cpr))
-      user = nurseManager.getNurseByCPR(cpr);
-    else if(administratorManager.isAdmin(cpr))
-      user = administratorManager.getAdministratorByCpr(cpr);
-    else
-      user = getPatientByCpr(cpr);
+  public User getUser(String cpr)throws SQLException {
+    User user = null;
+
     return user;
   }
 
