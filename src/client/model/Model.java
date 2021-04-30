@@ -13,7 +13,9 @@ public interface Model extends LocalSubject<User, Appointment> {
   AppointmentList getAppointmentsByUser(User patient);
   TimeIntervalList getAvailableTimeIntervals(LocalDate date);
   Appointment getAppointmentById(int id);
-  
+  UserList getPatients();
+  UserList getNurses();
+  UserList getAdministrators();
   void logout(User user);
   void close();
 }

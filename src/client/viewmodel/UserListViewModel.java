@@ -16,6 +16,7 @@ public class UserListViewModel implements UserListViewModelInterface
   private ObjectProperty<UserTableViewModel> selectedUser;
   private ViewState viewState;
   private Model model;
+  private StringProperty roleProperty;
   private StringProperty errorProperty;
 
   public UserListViewModel(Model model, ViewState viewState)
@@ -24,21 +25,37 @@ public class UserListViewModel implements UserListViewModelInterface
     this.viewState = viewState;
     this.users = FXCollections.observableArrayList();
     this.errorProperty = new SimpleStringProperty();
+    this.roleProperty = new SimpleStringProperty();
     this.selectedUser = new SimpleObjectProperty<>();
   }
 
   @Override public void reset()
   {
-    viewState.removeSelectedAppointment();
+    viewState.removeSelectedUser();
     errorProperty.set("");
     users.clear();
-    updateList();
+    updateList("patients");
   }
 
-  private void updateList()
+  private void updateList(String role)
   {
     users.clear();
-    UserList userList = model.getUserList();
+    UserList userList = new UserList();
+    switch (role)
+    {
+      case "patients":
+        userList = model.getPatients();
+        roleProperty.set("Patient List");
+        break;
+      case "nurses":
+        userList = model.getNurses();
+        roleProperty.set("Nurse List");
+        break;
+      case "admins":
+        userList = model.getAdministrators();
+        roleProperty.set("Administrator List");
+        break;
+    }
     for (User user : userList.getUsersList())
       users.add(new UserTableViewModel(user));
   }
@@ -51,7 +68,7 @@ public class UserListViewModel implements UserListViewModelInterface
 
   @Override public boolean seeDetails()
   {
-    if (selectedUser.get()!=null)
+    if (selectedUser.get() != null)
     {
       viewState.setSelectedUser(model.getUserList().getUserByCpr(selectedUser.get().getCprProperty().get()));
       return true;
@@ -74,8 +91,28 @@ public class UserListViewModel implements UserListViewModelInterface
     return users;
   }
 
+  @Override public StringProperty getRoleProperty()
+  {
+    return roleProperty;
+  }
+
   @Override public StringProperty getErrorProperty()
   {
     return errorProperty;
+  }
+
+  @Override public void seePatients()
+  {
+    updateList("patients");
+  }
+
+  @Override public void seeNurses()
+  {
+    updateList("nurses");
+  }
+
+  @Override public void seeAdmins()
+  {
+    updateList("admins");
   }
 }

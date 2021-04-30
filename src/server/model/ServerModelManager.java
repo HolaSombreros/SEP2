@@ -136,19 +136,31 @@ public class ServerModelManager implements ServerModel {
     @Override
     public UserList getPatients()
     {
-        return null;
+        UserList patientList = new UserList();
+        for (User user: userList.getUsersList())
+            if (user instanceof Patient)
+                patientList.addUser(user);
+        return patientList;
     }
 
     @Override
     public UserList getNurses()
     {
-        return null;
+        UserList nurseList = new UserList();
+        for (User user: userList.getUsersList())
+            if (user instanceof Nurse)
+                nurseList.addUser(user);
+        return nurseList;
     }
 
     @Override
     public UserList getAdministrators()
     {
-        return null;
+        UserList adminList = new UserList();
+        for (User user: userList.getUsersList())
+            if (user instanceof Administrator)
+                adminList.addUser(user);
+        return adminList;
     }
 
     @Override
