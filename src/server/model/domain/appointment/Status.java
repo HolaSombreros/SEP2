@@ -1,6 +1,8 @@
 package server.model.domain.appointment;
 
-public abstract class Status {
+import java.io.Serializable;
+
+public abstract class Status implements Serializable {
     public void cancel(Appointment appointment) {
         // overwritten in UpcomingStatus
     }
@@ -9,7 +11,5 @@ public abstract class Status {
         // overwritten in FinishedStatus
     }
     
-    public String status() {
-        return getClass().getSimpleName();
-    }
+    public abstract String toString();
 }

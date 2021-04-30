@@ -1,6 +1,8 @@
 package server.model.domain.user;
 
-public abstract class VaccineStatus {
+import java.io.Serializable;
+
+public abstract class VaccineStatus implements Serializable {
     // Methods are overwritten where necessary
     public void apply(Patient patient) {
     
@@ -13,4 +15,6 @@ public abstract class VaccineStatus {
     public void decline(Patient patient) {
     
     }
+    
+    public abstract String toString();
 }

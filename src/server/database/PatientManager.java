@@ -1,9 +1,6 @@
 package server.database;
 
-import server.model.domain.user.Address;
-import server.model.domain.user.Patient;
-import server.model.domain.user.User;
-import server.model.domain.user.UserList;
+import server.model.domain.user.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -46,7 +43,7 @@ public class PatientManager extends DatabaseManager {
         String email = resultSet.getString("email");
         String validForVaccination = resultSet.getString("valid_for_vaccine");
         System.out.println(validForVaccination);
-        patient = new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email,Patient.VaccineStatus.fromString(validForVaccination));
+        patient = new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email, new NotApprovedStatus());
         return patient;
       }
       else
@@ -76,7 +73,7 @@ public class PatientManager extends DatabaseManager {
         String phone = resultSet.getString("phone");
         String email = resultSet.getString("email");
         String validForVaccination = resultSet.getString("valid_for_vaccine");
-        registeredUsers.getUsersList().add(new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email, Patient.VaccineStatus.fromString(validForVaccination)));
+        registeredUsers.getUsersList().add(new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email, new NotApprovedStatus()));
       }
       return registeredUsers;
     }
@@ -97,7 +94,7 @@ public class PatientManager extends DatabaseManager {
       insertStatement.setString(8, patient.getAddress().getStreet());
       insertStatement.setString(9, patient.getAddress().getNumber());
       insertStatement.setInt(10, patient.getAddress().getZipcode());
-      insertStatement.setString(11, Patient.VaccineStatus.NOTAPPLIED.toString());
+      insertStatement.setString(11, "change me");
       if (!addressManager.isAddress(patient.getAddress().getStreet(), patient.getAddress().getNumber(), patient.getAddress().getZipcode()))
         addressManager.addAddress(patient.getAddress());
       insertStatement.executeUpdate();

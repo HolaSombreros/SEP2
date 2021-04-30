@@ -10,4 +10,9 @@ public class PendingStatus extends VaccineStatus {
     public void decline(Patient patient) {
         patient.setVaccineStatus(new NotApprovedStatus());
     }
+    
+    @Override
+    public String toString() {
+        return "Pending";
+    }
 }

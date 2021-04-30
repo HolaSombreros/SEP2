@@ -1,6 +1,7 @@
 package server.database;
 
 import server.model.domain.user.Administrator;
+import server.model.domain.user.NotApprovedStatus;
 import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 
@@ -23,7 +24,7 @@ public class AdministratorManager extends DatabaseManager {
             PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO administrator VALUES (?,?)");
             insertStatement.setString(1, administrator.getCpr());
             insertStatement.setString(2, administrator.getEmployeeId());
-            patientManager.addPatient(new Patient(administrator.getCpr(), administrator.getPassword(), administrator.getFirstName(), administrator.getMiddleName(), administrator.getLastName(), administrator.getAddress(), administrator.getPhone(), administrator.getEmail(), Patient.VaccineStatus.NOTAPPLIED));
+            patientManager.addPatient(new Patient(administrator.getCpr(), administrator.getPassword(), administrator.getFirstName(), administrator.getMiddleName(), administrator.getLastName(), administrator.getAddress(), administrator.getPhone(), administrator.getEmail(), new NotApprovedStatus()));
             insertStatement.executeUpdate();
         }
     }

@@ -1,6 +1,8 @@
 package server.model.domain.appointment;
 
-public enum Result
+import java.io.Serializable;
+
+public enum Result implements Serializable
 {
     NEGATIVE("Negative"),
     POSITIVE("Positive"),

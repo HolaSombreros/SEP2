@@ -5,4 +5,9 @@ public class NotApprovedStatus extends VaccineStatus {
     public void apply(Patient patient) {
         patient.setVaccineStatus(new PendingStatus());
     }
+    
+    @Override
+    public String toString() {
+        return "Not Approved";
+    }
 }

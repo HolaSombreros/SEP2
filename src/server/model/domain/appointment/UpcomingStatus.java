@@ -24,4 +24,9 @@ public class UpcomingStatus extends Status {
     public void cancel(Appointment appointment) {
         appointment.setStatus(new CancelledStatus());
     }
+    
+    @Override
+    public String toString() {
+        return "Upcoming";
+    }
 }
