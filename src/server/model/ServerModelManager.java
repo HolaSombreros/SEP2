@@ -2,11 +2,14 @@ package server.model;
 
 import server.database.*;
 import server.model.domain.*;
+import server.model.domain.user.NotApprovedStatus;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class ServerModelManager implements ServerModel {
@@ -49,10 +52,10 @@ public class ServerModelManager implements ServerModel {
         addresses.add(new Address("Sesame Street", "2", 8700, "Horsens"));
         addresses.add(new Address("Sesame Street", "7A", 8700, "Horsens"));
         addresses.add(new Address("Via Street", "25B", 8700, "Horsens"));
-        userList.addUser(new Patient("2003036532", "password", "Hello", null, "World", addresses.get(1), "12587463", "elmo@email.com", Patient.VaccineStatus.NOTAPPLIED));
-        userList.addUser(new Patient("2003045698", "password", "Maria", null, "Magdalena", addresses.get(2), "12587464", "holy@email.com", Patient.VaccineStatus.NOTAPPLIED));
-        userList.addUser(new Patient("3105026358", "password", "Elmo", null, "Popescu", addresses.get(1), "12587465", "popescu@email.com", Patient.VaccineStatus.NOTAPPLIED));
-        userList.addUser(new Patient("2504012368", "password", "Vaseline", null, "Veselin", addresses.get(0), "12587466", "vaseline@email.com", Patient.VaccineStatus.NOTAPPLIED));
+        userList.addUser(new Patient("2003036532", "password", "Hello", null, "World", addresses.get(1), "12587463", "elmo@email.com", new NotApprovedStatus()));
+        userList.addUser(new Patient("2003045698", "password", "Maria", null, "Magdalena", addresses.get(2), "12587464", "holy@email.com", new NotApprovedStatus()));
+        userList.addUser(new Patient("3105026358", "password", "Elmo", null, "Popescu", addresses.get(1), "12587465", "popescu@email.com", new NotApprovedStatus()));
+        userList.addUser(new Patient("2504012368", "password", "Vaseline", null, "Veselin", addresses.get(0), "12587466", "vaseline@email.com", new NotApprovedStatus()));
         userList.addUser(new Nurse("1302026584", "password", "Mikasa", null, "Ackerman", addresses.get(0), "12587467", "aot@email.com", "mikasa_nurse"));
         userList.addUser(new Administrator("1407026358", "password", "Nico", null, "Robin", addresses.get(0), "12569873", "nicoRobin@email.com", "nicoRobin_admin"));
         try {
@@ -76,7 +79,7 @@ public class ServerModelManager implements ServerModel {
     private void addDummyTimeIntervals() {
         // from 8:00 -> 8:20  'til  15:00 -> 15:20 on current day
         for (int i = 8; i < 16; i++) {
-            appointmentTimeIntervalList.add(new AppointmentTimeInterval(Date.today(), new TimeInterval(new Time(i, 0), new Time(i, 20))));
+            appointmentTimeIntervalList.add(new AppointmentTimeInterval(LocalDate.now(), new TimeInterval(LocalTime.of(i, 0), LocalTime.of(i, 20))));
         }
     }
     
@@ -112,7 +115,7 @@ public class ServerModelManager implements ServerModel {
         String city) {
         if (!userList.contains(cpr)) {
             Address address = new Address(street, number, zip, city);
-            User user = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, Patient.VaccineStatus.NOTAPPLIED);
+            User user = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, new NotApprovedStatus());
             userList.addUser(user);
             try {
                 managerFactory.getPatientManager().addPatient(user);
@@ -130,9 +133,27 @@ public class ServerModelManager implements ServerModel {
     public UserList getUserList() {
         return userList;
     }
-    
+
     @Override
-    public synchronized Appointment addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {
+    public UserList getPatients()
+    {
+        return null;
+    }
+
+    @Override
+    public UserList getNurses()
+    {
+        return null;
+    }
+
+    @Override
+    public UserList getAdministrators()
+    {
+        return null;
+    }
+
+    @Override
+    public synchronized Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) {
         Appointment appointment;
         
         // TODO: assign nurse automatically based on their schedule, somehow
@@ -173,7 +194,7 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
-    public synchronized TimeIntervalList getAvailableTimeIntervals(Date date) {
+    public synchronized TimeIntervalList getAvailableTimeIntervals(LocalDate date) {
         return appointmentTimeIntervalList.getAvailableTimeIntervals(date);
     }
     

@@ -3,26 +3,27 @@ package server.model.domain;
 import server.model.validator.TimeIntervalValidator;
 
 import java.io.Serializable;
+import java.time.LocalTime;
 
 public class TimeInterval implements Serializable {
-    private Time from;
-    private Time to;
+    private LocalTime from;
+    private LocalTime to;
     
-    public TimeInterval(Time from, Time to) {
+    public TimeInterval(LocalTime from, LocalTime to) {
         set(from, to);
     }
-    public void set(Time from, Time to){
+    public void set(LocalTime from, LocalTime to){
         TimeIntervalValidator.set(from, to);
-        this.from = from.copy();
-        this.to = to.copy();
+        this.from = from;
+        this.to = to;
     }
 
-    public Time getFrom() {
-        return from.copy();
+    public LocalTime getFrom() {
+        return from;
     }
     
-    public Time getTo() {
-        return to.copy();
+    public LocalTime getTo() {
+        return to;
     }
     
     @Override

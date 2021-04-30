@@ -1,17 +1,18 @@
 package server.model.domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 public class AppointmentTimeInterval implements Serializable {
     private AppointmentList appointmentList;
-    private Date date;
+    private LocalDate date;
     private TimeInterval timeInterval;
     public static final int maxAppointmentCount = 3;
     
-    public AppointmentTimeInterval(Date date, TimeInterval timeInterval) {
+    public AppointmentTimeInterval(LocalDate date, TimeInterval timeInterval) {
         this.appointmentList = new AppointmentList();
-        this.date = date.copy();
+        this.date = date;
         this.timeInterval = timeInterval;
     }
     
@@ -23,8 +24,8 @@ public class AppointmentTimeInterval implements Serializable {
         return appointmentList.getAppointments();
     }
     
-    public Date getDate() {
-        return date.copy();
+    public LocalDate getDate() {
+        return date;
     }
     
     public TimeInterval getTimeInterval() {

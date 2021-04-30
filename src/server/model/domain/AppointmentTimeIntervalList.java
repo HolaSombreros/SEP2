@@ -1,5 +1,6 @@
 package server.model.domain;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class AppointmentTimeIntervalList {
         appointmentTimeIntervals.add(appointmentTimeInterval);
     }
     
-    public void add(Appointment appointment, Date date, TimeInterval timeInterval) {
+    public void add(Appointment appointment, LocalDate date, TimeInterval timeInterval) {
         if(!checkAppointmentOnTimeInterval(timeInterval, date, appointment.getPatient())){
             for (AppointmentTimeInterval appointmentTimeInterval : appointmentTimeIntervals)
             {
@@ -27,7 +28,7 @@ public class AppointmentTimeIntervalList {
         else throw new IllegalArgumentException("You cannot book another appointment in this time interval");
 
     }
-    public boolean checkAppointmentOnTimeInterval(TimeInterval timeInterval, Date date, Patient patient){
+    public boolean checkAppointmentOnTimeInterval(TimeInterval timeInterval, LocalDate date, Patient patient){
         for(Appointment appointment : getAppointmentsByUser(patient).getAppointments()){
             if(appointment.getTimeInterval().equals(timeInterval) && appointment.getDate().equals(date)){
                 return true;
@@ -58,9 +59,9 @@ public class AppointmentTimeIntervalList {
         return null;
     }
     
-    public TimeIntervalList getAvailableTimeIntervals(Date date) {
+    public TimeIntervalList getAvailableTimeIntervals(LocalDate date) {
         TimeIntervalList list = new TimeIntervalList();
-        if(date.isBefore(Date.today())){
+        if(date.isBefore(LocalDate.now())){
             return list;
         }
         for (AppointmentTimeInterval appointmentTimeInterval : appointmentTimeIntervals) {

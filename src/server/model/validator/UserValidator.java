@@ -1,7 +1,5 @@
 package server.model.validator;
 
-import server.model.domain.Date;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
