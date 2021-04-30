@@ -9,6 +9,8 @@ import utility.observer.listener.LocalListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
 
+import java.time.LocalDate;
+
 public class ModelManager implements Model, LocalListener<User, Appointment> {
     
     private PropertyChangeAction<User, Appointment> property;
@@ -42,7 +44,7 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     }
     
     @Override
-    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {
+    public void addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) {
         client.addAppointment(date, timeInterval, type, patient);
     }
     
@@ -52,7 +54,7 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     }
     
     @Override
-    public TimeIntervalList getAvailableTimeIntervals(Date date) {
+    public TimeIntervalList getAvailableTimeIntervals(LocalDate date) {
         return client.getAvailableTimeIntervals(date);
     }
     

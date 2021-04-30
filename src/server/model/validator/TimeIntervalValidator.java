@@ -1,10 +1,10 @@
 package server.model.validator;
 
-import server.model.domain.Time;
+import java.time.LocalTime;
 
 public class TimeIntervalValidator {
 
-    public static void set(Time from, Time to){
+    public static void set(LocalTime from, LocalTime to){
         if (from == null) {
             throw new IllegalArgumentException("Please input a starting time");
         }

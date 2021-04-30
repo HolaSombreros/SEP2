@@ -3,33 +3,10 @@ package server.model.domain;
 import server.model.validator.AppointmentValidator;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 public abstract class Appointment implements Serializable {
-    public enum Type {
-        TEST("Test"),
-        VACCINE("Vaccine");
-        
-        private String type;
-        
-        Type(String type) {
-            this.type = type;
-        }
-        
-        @Override
-        public String toString() {
-            return type;
-        }
-        
-        public static Type fromString(String value) {
-            for (Type option : Type.values()) {
-                if (option.type.equalsIgnoreCase(value)) {
-                    return option;
-                }
-            }
-            return null;
-        }
-    }
-    
+
     public enum Status {
         PREVIOUS("Previous"),
         UPCOMING("Upcoming"),
@@ -62,17 +39,17 @@ public abstract class Appointment implements Serializable {
     private Status status;
     private Patient patient;
     private Nurse nurse;
-    private Date date;
+    private LocalDate date;
     private TimeInterval timeInterval;
     
-    public Appointment(Date date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) {
+    public Appointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) {
         AppointmentValidator.appointmentValidator(date, timeInterval, patient, nurse);
         id = idCounter;
         this.type = type;
         this.status = Status.UPCOMING;
         this.patient = patient;
         this.nurse = nurse;
-        this.date = date.copy();
+        this.date = date;
         this.timeInterval = timeInterval;
         idCounter++;
     }
@@ -114,11 +91,11 @@ public abstract class Appointment implements Serializable {
         return nurse;
     }
     
-    public Date getDate() {
-        return date.copy();
+    public LocalDate getDate() {
+        return date;
     }
     
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         AppointmentValidator.validateDate(date);
         this.date = date;
     }

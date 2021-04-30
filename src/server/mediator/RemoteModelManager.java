@@ -14,6 +14,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
+import java.time.LocalDate;
 
 public class RemoteModelManager implements RemoteModel, LocalListener<User, Appointment> {
     
@@ -46,7 +47,7 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     }
     
     @Override
-    public Appointment addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) throws RemoteException {
+    public Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) throws RemoteException {
         return serverModel.addAppointment(date, timeInterval, type, patient);
     }
     
@@ -56,7 +57,7 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     }
     
     @Override
-    public TimeIntervalList getAvailableTimeIntervals(Date date) throws RemoteException {
+    public TimeIntervalList getAvailableTimeIntervals(LocalDate date) throws RemoteException {
         return serverModel.getAvailableTimeIntervals(date);
     }
     

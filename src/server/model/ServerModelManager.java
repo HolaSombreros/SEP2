@@ -7,6 +7,8 @@ import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class ServerModelManager implements ServerModel {
@@ -76,7 +78,7 @@ public class ServerModelManager implements ServerModel {
     private void addDummyTimeIntervals() {
         // from 8:00 -> 8:20  'til  15:00 -> 15:20 on current day
         for (int i = 8; i < 16; i++) {
-            appointmentTimeIntervalList.add(new AppointmentTimeInterval(Date.today(), new TimeInterval(new Time(i, 0), new Time(i, 20))));
+            appointmentTimeIntervalList.add(new AppointmentTimeInterval(LocalDate.now(), new TimeInterval(LocalTime.of(i, 0), LocalTime.of(i, 20))));
         }
     }
     
@@ -132,7 +134,7 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
-    public synchronized Appointment addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {
+    public synchronized Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) {
         Appointment appointment;
         
         // TODO: assign nurse automatically based on their schedule, somehow
@@ -173,7 +175,7 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
-    public synchronized TimeIntervalList getAvailableTimeIntervals(Date date) {
+    public synchronized TimeIntervalList getAvailableTimeIntervals(LocalDate date) {
         return appointmentTimeIntervalList.getAvailableTimeIntervals(date);
     }
     

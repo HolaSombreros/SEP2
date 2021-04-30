@@ -8,7 +8,6 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import server.model.domain.Appointment;
-import server.model.domain.Date;
 import server.model.domain.TestAppointment;
 import server.model.domain.TimeInterval;
 
@@ -50,8 +49,8 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
         Appointment appointment = model.getAppointmentById(viewState.getSelectedAppointment());
         if(appointment != null)
         {
-            date.set(LocalDate.of(appointment.getDate().getYear(), appointment.getDate().getMonth(), appointment.getDate().getDay()));
-            listOfTimeIntervals.addAll(model.getAvailableTimeIntervals(new Date(date.get())).getTimeIntervals());
+            date.set(LocalDate.of(appointment.getDate().getYear(), appointment.getDate().getMonth(), appointment.getDate().getDayOfMonth()));
+            listOfTimeIntervals.addAll(model.getAvailableTimeIntervals(date.get()).getTimeIntervals());
             timeInterval.set(appointment.getTimeInterval());
             type.set(appointment.getType().toString());
             status.set(appointment.getStatus().toString());

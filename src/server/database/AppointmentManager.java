@@ -5,6 +5,8 @@ import server.model.domain.*;
 import java.sql.*;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class AppointmentManager extends DatabaseManager {
   private NurseManager nurseManager;
@@ -21,15 +23,15 @@ public class AppointmentManager extends DatabaseManager {
     try (Connection connection = getConnection())
     {
       PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO appointment VALUES (?,?,?,?,?,?,?,?,?)");
-      insertStatement.setDate(1, Date.valueOf(appointment.getDate().getDateSQL()));
-      insertStatement.setTime(2, Time.valueOf(appointment.getTimeInterval().getFrom().toString() + ":00"));
-      insertStatement.setTime(3, Time.valueOf(appointment.getTimeInterval().getTo().toString() + ":00"));
+      insertStatement.setDate(1, Date.valueOf(LocalDate.of(appointment.getDate().getYear(), appointment.getDate().getMonth(), appointment.getDate().getDayOfMonth())));
+      insertStatement.setTime(2, Time.valueOf(LocalTime.of(appointment.getTimeInterval().getFrom().getHour(), appointment.getTimeInterval().getFrom().getMinute())));
+      insertStatement.setTime(3, Time.valueOf(LocalTime.of(appointment.getTimeInterval().getTo().getHour(), appointment.getTimeInterval().getTo().getMinute())));
       insertStatement.setString(4, appointment.getPatient().getCpr());
       insertStatement.setString(5, appointment.getNurse().getCpr());
       insertStatement.setString(6, ((Nurse) appointment.getNurse()).getEmployeeId());
       insertStatement.setString(7, appointment.getType().toString());
       insertStatement.setString(8, appointment.getStatus().toString());
-      if (appointment.getType().equals(Appointment.Type.TEST))
+      if (appointment.getType().equals(Type.TEST))
       {
         insertStatement.setString(9, ((TestAppointment) appointment).getResult().toString());
       }
@@ -58,15 +60,15 @@ public class AppointmentManager extends DatabaseManager {
         String typeSQL = resultSet.getString("type");
         String statusSQL = resultSet.getString("status");
         String resultSQL = resultSet.getString("result");
-        server.model.domain.Date date = new server.model.domain.Date(dateSQL.getDay(), dateSQL.getMonth(), dateSQL.getYear());
-        server.model.domain.Time timeFrom = new server.model.domain.Time(timeFromSQL.getHours(), timeFromSQL.getMinutes());
-        server.model.domain.Time timeTo = new server.model.domain.Time(timeToSQL.getHours(), timeToSQL.getMinutes());
-        Appointment.Type type = Appointment.Type.valueOf(typeSQL);
+        LocalDate date = LocalDate.of(dateSQL.getYear(), dateSQL.getMonth(), dateSQL.getDay());
+        LocalTime timeFrom = LocalTime.of(timeFromSQL.getHours(), timeFromSQL.getMinutes());
+        LocalTime timeTo = LocalTime.of(timeFromSQL.getHours(), timeFromSQL.getMinutes());
+        Type type = Type.valueOf(typeSQL);
         Appointment.Status status = Appointment.Status.valueOf(statusSQL);
         Nurse nurse = nurseManager.getNurseByCPR(nurseCpr);
-        if (type.equals(Appointment.Type.TEST))
+        if (type.equals(Type.TEST))
         {
-          TestAppointment.Result result = TestAppointment.Result.valueOf(resultSQL);
+          Result result = Result.valueOf(resultSQL);
           Appointment appointment = new TestAppointment(date, new TimeInterval(timeFrom, timeTo), type, patient, nurse);
           ((TestAppointment) appointment).setResult(result);
           appointment.setStatus(status);
@@ -102,15 +104,15 @@ public class AppointmentManager extends DatabaseManager {
         String typeSQL = resultSet.getString("type");
         String statusSQL = resultSet.getString("status");
         String resultSQL = resultSet.getString("result");
-        server.model.domain.Date date = new server.model.domain.Date(dateSQL.getDay(), dateSQL.getMonth(), dateSQL.getYear());
-        server.model.domain.Time timeFrom = new server.model.domain.Time(timeFromSQL.getHours(), timeFromSQL.getMinutes());
-        server.model.domain.Time timeTo = new server.model.domain.Time(timeToSQL.getHours(), timeToSQL.getMinutes());
-        Appointment.Type type = Appointment.Type.valueOf(typeSQL);
+        LocalDate date = LocalDate.of(dateSQL.getYear(), dateSQL.getMonth(), dateSQL.getDay());
+        LocalTime timeFrom = LocalTime.of(timeFromSQL.getHours(), timeFromSQL.getMinutes());
+        LocalTime timeTo = LocalTime.of(timeToSQL.getHours(), timeToSQL.getMinutes());
+        Type type = Type.valueOf(typeSQL);
         Appointment.Status status = Appointment.Status.valueOf(statusSQL);
         User patient = patientManager.getPatientByCpr(patientCpr);
-        if (type.equals(Appointment.Type.TEST))
+        if (type.equals(Type.TEST))
         {
-          TestAppointment.Result result = TestAppointment.Result.valueOf(resultSQL);
+          Result result = Result.valueOf(resultSQL);
           Appointment appointment = new TestAppointment(date, new TimeInterval(timeFrom, timeTo), type, (Patient)patient, nurse);
           ((TestAppointment) appointment).setResult(result);
           appointment.setStatus(status);

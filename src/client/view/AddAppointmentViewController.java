@@ -7,13 +7,14 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import server.model.domain.Appointment;
 import server.model.domain.TimeInterval;
+import server.model.domain.Type;
 
 public class AddAppointmentViewController extends ViewController {
     private AddAppointmentViewModelInterface viewModel;
     
     @FXML private DatePicker datePicker;
     @FXML private ChoiceBox<TimeInterval> timeIntervalChoiceBox;
-    @FXML private ChoiceBox<Appointment.Type> typeChoiceBox;
+    @FXML private ChoiceBox<Type> typeChoiceBox;
     @FXML private Label errorLabel;
     
     public AddAppointmentViewController() {

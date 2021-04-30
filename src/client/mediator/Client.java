@@ -12,6 +12,8 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.time.LocalDate;
+
 import server.mediator.RemoteModel;
 
 public class Client implements LocalClientModel, RemoteListener<User, Appointment> {
@@ -64,7 +66,7 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
     }
     
     @Override
-    public void addAppointment(Date date, TimeInterval timeInterval, Appointment.Type type, Patient patient) {
+    public void addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) {
         try {
             Appointment appointment = server.addAppointment(date, timeInterval, type, patient);
             property.firePropertyChange("NewAppointment", appointment.getPatient(), appointment);
@@ -85,7 +87,7 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
     }
     
     @Override
-    public TimeIntervalList getAvailableTimeIntervals(Date date) {
+    public TimeIntervalList getAvailableTimeIntervals(LocalDate date) {
         try {
             return server.getAvailableTimeIntervals(date);
         }
