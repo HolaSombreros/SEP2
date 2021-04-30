@@ -132,7 +132,25 @@ public class ServerModelManager implements ServerModel {
     public UserList getUserList() {
         return userList;
     }
-    
+
+    @Override
+    public UserList getPatients()
+    {
+        return null;
+    }
+
+    @Override
+    public UserList getNurses()
+    {
+        return null;
+    }
+
+    @Override
+    public UserList getAdministrators()
+    {
+        return null;
+    }
+
     @Override
     public synchronized Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) {
         Appointment appointment;
