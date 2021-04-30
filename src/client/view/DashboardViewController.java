@@ -43,4 +43,9 @@ public class DashboardViewController extends ViewController {
     private void myAppointments() {
         getViewHandler().openView(View.APPOINTMENTLIST);
     }
+    
+    @FXML
+    private void personalData() {
+        getViewHandler().openView(View.PERSONALDATA);
+    }
 }

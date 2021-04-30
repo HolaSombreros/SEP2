@@ -10,9 +10,14 @@
 
 <BorderPane prefHeight="500.0" prefWidth="900.0" stylesheets="@../../util/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.DashboardViewController">
    <left>
-      <VBox alignment="TOP_CENTER" prefWidth="175.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefWidth="175.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#myAppointments" text="Mah Appoinmentz">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#personalData" text="My Personal Data">
                <font>
                   <Font size="14.0" />
                </font>

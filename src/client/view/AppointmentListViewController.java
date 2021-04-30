@@ -43,7 +43,7 @@ public class AppointmentListViewController extends ViewController
         getViewHandler().openView(View.ADDAPPOINTMENT);
     }
     @FXML private void backButton(){
-        //TODO: go back to the main page
+        getViewHandler().openView(View.DASHBOARD);
     }
 
     @Override
