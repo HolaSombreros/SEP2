@@ -8,11 +8,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox userData="My Personal Information" fx:controller="client.view.PersonalDataViewController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="471.0" prefWidth="736.0" spacing="10.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="471.0" prefWidth="840.0" spacing="10.0" userData="My Personal Information" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.PersonalDataViewController">
    <children>
       <HBox prefHeight="81.0" prefWidth="600.0">
          <children>
-            <Label alignment="CENTER" prefHeight="81.0" prefWidth="767.0" text="My Personal Details">
+            <Label alignment="CENTER" prefHeight="39.0" prefWidth="943.0" text="My Personal Details">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -21,70 +21,80 @@
       </HBox>
       <HBox prefHeight="319.0" prefWidth="736.0" spacing="25.0">
          <children>
-            <VBox prefHeight="319.0" prefWidth="220.0" spacing="20.0">
-               <children>
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="380.0" text="First Name">
-                     <font>
-                        <Font name="System Bold" size="17.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="firstName" prefHeight="25.0" prefWidth="338.0" promptText="First Name" />
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="380.0" text="Middle Name">
-                     <font>
-                        <Font name="System Bold" size="17.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="middleName" prefHeight="25.0" prefWidth="338.0" promptText="Middle Name" />
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="380.0" text="Last Name">
-                     <font>
-                        <Font name="System Bold" size="17.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="lastName" prefHeight="25.0" prefWidth="338.0" promptText="Last Name" />
-               </children>
-            </VBox>
-            <VBox prefHeight="319.0" prefWidth="224.0" spacing="20.0">
+            <VBox alignment="CENTER" prefHeight="319.0" prefWidth="220.0" spacing="20.0">
                <children>
                   <Label alignment="CENTER" prefHeight="17.0" prefWidth="245.0" text="CPR">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font>
                   </Label>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="380.0" text="First Name">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="380.0" text="Middle Name">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="380.0" text="Last Name">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="380.0" text="Password">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="319.0" prefWidth="224.0" spacing="20.0">
+               <children>
                   <TextField fx:id="cpr" editable="false" promptText="CPR" />
+                  <TextField fx:id="firstName" prefHeight="25.0" prefWidth="338.0" promptText="First Name" />
+                  <TextField fx:id="middleName" prefHeight="25.0" prefWidth="338.0" promptText="Middle Name" />
+                  <TextField fx:id="lastName" prefHeight="25.0" prefWidth="338.0" promptText="Last Name" />
+                  <TextField fx:id="password" promptText="Password" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="319.0" prefWidth="202.0" spacing="20.0">
+               <children>
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="367.0" text="Email">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="email" promptText="Email" />
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="235.0" text="Phone Number">
-                     <font>
-                        <Font name="System Bold" size="17.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="phoneNumber" promptText="Phone Number" />
-               </children>
-            </VBox>
-            <VBox prefHeight="319.0" prefWidth="202.0" spacing="20.0">
-               <children>
                   <Label alignment="CENTER" prefHeight="17.0" prefWidth="223.0" text="Street">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="street" promptText="Street" />
                   <Label alignment="CENTER" prefHeight="17.0" prefWidth="224.0" text="Number">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="number" promptText="Number" />
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="207.0" text="City">
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="207.0" text="Zip code">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="city" promptText="City" />
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="235.0" text="Phone Number">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="342.0" prefWidth="216.0" spacing="20.0">
+               <children>
+                  <TextField fx:id="email" promptText="Email" />
+                  <TextField fx:id="street" promptText="Street" />
+                  <TextField fx:id="number" promptText="Number" />
+                  <TextField fx:id="zipCode" promptText="Zip code" />
+                  <TextField fx:id="phoneNumber" promptText="Phone Number" />
                </children>
             </VBox>
          </children>
@@ -100,11 +110,11 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="250.0">
          <children>
-            <Button onAction="#editDetails" mnemonicParsing="false" text="Edit Personal Details">
+            <Button mnemonicParsing="false" onAction="#editDetails" text="Edit Personal Details">
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Button onAction="#backButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="61.0" text="Back">
+            <Button mnemonicParsing="false" onAction="#backButton" prefHeight="30.0" prefWidth="61.0" text="Back">
                <font>
                   <Font size="14.0" />
                </font></Button>

@@ -19,6 +19,7 @@ public interface Model extends LocalSubject<User, Appointment> {
   UserList getPatients();
   UserList getNurses();
   UserList getAdministrators();
+  void editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip);
   void logout(User user);
   void close();
 }

@@ -186,6 +186,17 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
+    public void editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip)
+    {
+        try{
+            managerFactory.getUserManager().updateUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public synchronized Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) {
         Appointment appointment;
         

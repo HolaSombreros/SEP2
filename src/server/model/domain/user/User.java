@@ -102,6 +102,15 @@ public abstract class User implements Serializable {
         UserValidator.setEmail(email);
         this.email = email;
     }
+    public void editUserInformation(String password, String firstName, String middleName, String lastName, Address address, String phone, String email){
+        setPassword(password);
+        setFirstName(firstName);
+        setMiddleName(middleName);
+        setLastName(lastName);
+        setAddress(address);
+        setPhone(phone);
+        setEmail(email);
+    }
     
     @Override
     public boolean equals(Object obj) {

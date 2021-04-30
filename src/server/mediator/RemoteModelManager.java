@@ -89,6 +89,12 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
         return serverModel.getAdministrators();
     }
 
+    @Override
+    public void editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws RemoteException
+    {
+        serverModel.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
+    }
+
     private void startRegistry() throws RemoteException {
         try {
             LocateRegistry.createRegistry(1099);

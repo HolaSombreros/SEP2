@@ -156,6 +156,17 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
     }
 
     @Override
+    public void editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip)
+    {
+        try{
+            server.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
+        }
+        catch (RemoteException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void close() {
         try {
             UnicastRemoteObject.unexportObject(this, true);

@@ -1,5 +1,6 @@
 package server.model;
 
+import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 import server.model.domain.user.UserList;
 
@@ -12,4 +13,5 @@ public interface ServerUserModel
     UserList getPatients();
     UserList getNurses();
     UserList getAdministrators();
+    void editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip);
 }

@@ -117,21 +117,15 @@ public class UserManager {
 
 
     public void addNurse(User user) throws SQLException{
-        if(isUser(user.getCpr()))
-            nurseManager.addNurse((Nurse)user);
-        else{
+        if(!isUser(user.getCpr()))
             addPerson(user);
-            nurseManager.addNurse((Nurse)user);
-        }
+        nurseManager.addNurse((Nurse)user);
     }
 
     public void addAdministrtor(User user) throws SQLException{
-        if(isUser(user.getCpr()))
-            administratorManager.addAdministrator((Administrator) user);
-        else{
+        if(!isUser(user.getCpr()))
             addPerson(user);
-            administratorManager.addAdministrator((Administrator) user);
-        }
+        administratorManager.addAdministrator((Administrator) user);
     }
 
     public String getPassword(String cpr) throws SQLException {
@@ -148,60 +142,29 @@ public class UserManager {
         }
     }
 
-    public void updateEmail(User user) throws SQLException {
+    public void updateUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE person set email = ? where cpr = ?");
-            statement.setString(1, user.getEmail());
-            statement.setString(2, user.getCpr());
+            PreparedStatement statement = connection.prepareStatement("UPDATE person set password = ?, firstname = ?, middlename = ?, lastname = ?, phone = ?, email = ?, street = ?, number = ?, zip_code = ? where cpr = ?");
+            statement.setString(1, password);
+            statement.setString(2, firstName);
+            statement.setString(3, middleName);
+            statement.setString(4, lastName);
+            statement.setString(5, phone);
+            statement.setString(6, email);
+            statement.setString(7, street);
+            statement.setString(8, number);
+            statement.setInt(9, zip);
+            statement.setString(10, user.getCpr());
             statement.executeUpdate();
         }
     }
 
-    public void updatePhone(User user) throws SQLException {
-        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE person set phone = ? where cpr = ?");
-            statement.setString(1, user.getPhone());
-            statement.setString(2, user.getCpr());
-            statement.executeUpdate();
-        }
-    }
-
-    public void updateAddress(User user) throws SQLException {
-        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE person set street = ?, number = ?, zip_code = ? where cpr = ?");
-            statement.setString(1, user.getAddress().getStreet());
-            statement.setString(2, user.getAddress().getNumber());
-            statement.setInt(3, user.getAddress().getZipcode());
-            statement.setString(4, user.getCpr());
-            statement.executeUpdate();
-        }
-    }
 
     public void updateVaccineStatus(Patient patient) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("UPDATE person set valid_for_vaccine = ? where cpr = ?");
             statement.setString(1, patient.getVaccineStatus().toString());
             statement.setString(2, patient.getCpr());
-            statement.executeUpdate();
-        }
-    }
-
-    public void updatePassword(User user) throws SQLException {
-        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE person set password = ?  where cpr = ?");
-            statement.setString(1, user.getPassword());
-            statement.setString(2, user.getCpr());
-            statement.executeUpdate();
-        }
-    }
-
-    public void updateName(User user) throws SQLException {
-        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE person set firstname = ?, middlename = ?, lastname = ? where cpr = ?");
-            statement.setString(1, user.getFirstName());
-            statement.setString(2, user.getMiddleName());
-            statement.setString(3, user.getLastName());
-            statement.setString(4, user.getCpr());
             statement.executeUpdate();
         }
     }
