@@ -25,21 +25,20 @@ public class AppointmentManager {
   public void addAppointment(Appointment appointment) throws SQLException {
     try (Connection connection = DatabaseManager.getInstance().getConnection())
     {
-      PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO appointment VALUES (?,?,?,?,?,?,?,?,?)");
-      insertStatement.setDate(1, Date.valueOf(LocalDate.of(appointment.getDate().getYear(), appointment.getDate().getMonth(), appointment.getDate().getDayOfMonth())));
-      insertStatement.setTime(2, Time.valueOf(LocalTime.of(appointment.getTimeInterval().getFrom().getHour(), appointment.getTimeInterval().getFrom().getMinute())));
-      insertStatement.setTime(3, Time.valueOf(LocalTime.of(appointment.getTimeInterval().getTo().getHour(), appointment.getTimeInterval().getTo().getMinute())));
+      PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO appointment VALUES (?,?,?,?,?,?,?,?)");
+      insertStatement.setDate(1, Date.valueOf(appointment.getDate()));
+      insertStatement.setTime(2, Time.valueOf(appointment.getTimeInterval().getFrom()));
+      insertStatement.setTime(3, Time.valueOf(appointment.getTimeInterval().getTo()));
       insertStatement.setString(4, appointment.getPatient().getCpr());
       insertStatement.setString(5, appointment.getNurse().getCpr());
-      insertStatement.setString(6, ((Nurse) appointment.getNurse()).getEmployeeId());
-      insertStatement.setString(7, appointment.getType().toString());
-      insertStatement.setString(8, appointment.getStatus().toString());
+      insertStatement.setString(6, appointment.getType().toString());
+      insertStatement.setString(7, appointment.getStatus().toString());
       if (appointment.getType().equals(Type.TEST))
       {
-        insertStatement.setString(9, ((TestAppointment) appointment).getResult().toString());
+        insertStatement.setString(8, ((TestAppointment) appointment).getResult().toString());
       }
       else
-        insertStatement.setString(9, null);
+        insertStatement.setString(8, null);
       insertStatement.executeUpdate();
     }
   }

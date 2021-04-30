@@ -27,15 +27,15 @@ public class ServerModelManager implements ServerModel {
         onlineList = new UserList();
         appointmentTimeIntervalList = new AppointmentTimeIntervalList();
         managerFactory = new ManagerFactory();
-        //loadUsers();
+        loadUsers();
         loadAppointments();
-        //        addDummyData();
+//        addDummyData();
         addDummyTimeIntervals();
     }
-    /*
+    
     private void loadUsers() {
         try {
-            for (User user : managerFactory.getPatientManager().getAllPatients().getUsersList()) {
+            for (User user : managerFactory.getUserManager().getAllPatients().getUsersList()) {
                 userList.addUser(user);
             }
         }
@@ -44,7 +44,6 @@ public class ServerModelManager implements ServerModel {
         }
     }
 
-     */
     private void loadAppointments() {
         // nevermind this one for now...
     }
@@ -207,27 +206,21 @@ public class ServerModelManager implements ServerModel {
         // TODO: assign nurse automatically based on their schedule, somehow
         switch (type) {
             case TEST:
-                appointment = new TestAppointment(date, timeInterval, type, patient, (Nurse) userList.getUserByCpr("1205561111"));
-                try {
-                    managerFactory.getAppointmentManager().addAppointment(appointment);
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                appointment = new TestAppointment(date, timeInterval, type, patient, (Nurse) userList.getUserByCpr("1302026584"));
                 break;
             case VACCINE:
-                appointment = new VaccineAppointment(date, timeInterval, type, patient, (Nurse) userList.getUserByCpr("1205561111"));
-                try {
-                    managerFactory.getAppointmentManager().addAppointment(appointment);
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                appointment = new VaccineAppointment(date, timeInterval, type, patient, (Nurse) userList.getUserByCpr("1302026584"));
                 break;
             default:
                 throw new IllegalStateException("Appointment type '" + type + "' is invalid");
         }
-        appointmentTimeIntervalList.add(appointment, date, timeInterval);
+        try {
+            managerFactory.getAppointmentManager().addAppointment(appointment);
+            appointmentTimeIntervalList.add(appointment, date, timeInterval);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
         return appointment;
     }
     

@@ -16,11 +16,12 @@ public class PatientManager{
     addressManager = new AddressManager();
   }
 
-  public void addPatient(Patient patient) throws SQLException {
+  public void addPatient(User patient) throws SQLException {
     try (Connection connection = DatabaseManager.getInstance().getConnection()) {
       PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO patient VALUES (?,?)");
       insertStatement.setString(1, patient.getCpr());
-      insertStatement.setString(2,patient.getVaccineStatus().toString());
+      insertStatement.setString(2, new NotApprovedStatus().toString());
+      insertStatement.executeUpdate();
     }
   }
 
@@ -33,7 +34,7 @@ public class PatientManager{
       ResultSet resultSet = statement.executeQuery();
 
       if(resultSet.next()){
-        String vaccineStatus = resultSet.getString("valid_for_vaccine");
+        String vaccineStatus = resultSet.getString("vaccine_status");
         VaccineStatus status = null;
         switch (vaccineStatus){
           case "Approved":

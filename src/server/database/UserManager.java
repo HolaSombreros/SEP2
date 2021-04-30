@@ -38,7 +38,7 @@ public class UserManager {
             if (!addressManager.isAddress(user.getAddress().getStreet(), user.getAddress().getNumber(), user.getAddress().getZipcode()))
                 addressManager.addAddress(user.getAddress());
             insertStatement.executeUpdate();
-            patientManager.addPatient((Patient) user);
+            patientManager.addPatient(user);
         }
     }
 
@@ -205,7 +205,7 @@ public class UserManager {
         UserList registeredUsers = new UserList();
         try (Connection connection = DatabaseManager.getInstance().getConnection())
         {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM person");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM person JOIN patient USING(cpr)");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next())
             {
@@ -220,7 +220,7 @@ public class UserManager {
                 Address address = new Address(street, number, zipcode, addressManager.getCityByZipcode(zipcode));
                 String phone = resultSet.getString("phone");
                 String email = resultSet.getString("email");
-                String vaccine = resultSet.getString("valid_for_vaccine");
+                String vaccine = resultSet.getString("vaccine_status");
                 VaccineStatus status = null;
                 switch (vaccine){
                     case "Approved":
