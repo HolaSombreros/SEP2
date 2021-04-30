@@ -44,7 +44,6 @@ public class UserManager {
 
 
 
-
     public User getUser(String cpr) throws SQLException {
         User user = null;
         if (nurseManager.isNurse(cpr))
@@ -149,54 +148,60 @@ public class UserManager {
         }
     }
 
-    public void updateEmail(String email) throws SQLException {
+    public void updateEmail(User user) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE person set email = ?");
-            statement.setString(1, email);
+            PreparedStatement statement = connection.prepareStatement("UPDATE person set email = ? where cpr = ?");
+            statement.setString(1, user.getEmail());
+            statement.setString(2, user.getCpr());
             statement.executeUpdate();
         }
     }
 
-    public void updatePhone(String phone) throws SQLException {
+    public void updatePhone(User user) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE person set phone = ?");
-            statement.setString(1, phone);
+            PreparedStatement statement = connection.prepareStatement("UPDATE person set phone = ? where cpr = ?");
+            statement.setString(1, user.getPhone());
+            statement.setString(2, user.getCpr());
             statement.executeUpdate();
         }
     }
 
-    public void updateAddress(Address address) throws SQLException {
+    public void updateAddress(User user) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE person set street = ?, number = ?, zip_code = ?");
-            statement.setString(1, address.getStreet());
-            statement.setString(2, address.getNumber());
-            statement.setInt(3, address.getZipcode());
+            PreparedStatement statement = connection.prepareStatement("UPDATE person set street = ?, number = ?, zip_code = ? where cpr = ?");
+            statement.setString(1, user.getAddress().getStreet());
+            statement.setString(2, user.getAddress().getNumber());
+            statement.setInt(3, user.getAddress().getZipcode());
+            statement.setString(4, user.getCpr());
             statement.executeUpdate();
         }
     }
 
-    public void updateVaccineStatus(VaccineStatus vaccineStatus) throws SQLException {
+    public void updateVaccineStatus(Patient patient) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE person set valid_for_vaccine = ?");
-            statement.setString(1, vaccineStatus.toString());
+            PreparedStatement statement = connection.prepareStatement("UPDATE person set valid_for_vaccine = ? where cpr = ?");
+            statement.setString(1, patient.getVaccineStatus().toString());
+            statement.setString(2, patient.getCpr());
             statement.executeUpdate();
         }
     }
 
-    public void updatePassword(String password) throws SQLException {
+    public void updatePassword(User user) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE person set password = ?");
-            statement.setString(1, password);
+            PreparedStatement statement = connection.prepareStatement("UPDATE person set password = ?  where cpr = ?");
+            statement.setString(1, user.getPassword());
+            statement.setString(2, user.getCpr());
             statement.executeUpdate();
         }
     }
 
-    public void updateName(String firstName, String middleName, String lastName) throws SQLException {
+    public void updateName(User user) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE person set firstname = ?, middlename = ?, lastname = ?");
-            statement.setString(1, firstName);
-            statement.setString(2, middleName);
-            statement.setString(3, lastName);
+            PreparedStatement statement = connection.prepareStatement("UPDATE person set firstname = ?, middlename = ?, lastname = ? where cpr = ?");
+            statement.setString(1, user.getFirstName());
+            statement.setString(2, user.getMiddleName());
+            statement.setString(3, user.getLastName());
+            statement.setString(4, user.getCpr());
             statement.executeUpdate();
         }
     }

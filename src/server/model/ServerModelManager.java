@@ -66,7 +66,7 @@ public class ServerModelManager implements ServerModel {
                if (!managerFactory.getAddressManager().isAddress(address.getStreet(),address.getNumber(),address.getZipcode()))
                    managerFactory.getAddressManager().addAddress(address);
            for(User user: userList.getUsersList())
-               if( user instanceof Patient ) {
+               if( user instanceof Patient && managerFactory.getPatientManager().isPatient(user)) {
                    managerFactory.getUserManager().addPerson(user);
                }
                else if(user instanceof Nurse && !managerFactory.getNurseManager().isNurse((Nurse) user)) {
@@ -120,7 +120,7 @@ public class ServerModelManager implements ServerModel {
         }
         else {
             throw new IllegalStateException("That CPR is already registered in the system");
-        };
+        }
     }
     
     @Override
