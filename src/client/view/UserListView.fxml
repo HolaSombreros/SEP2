@@ -51,13 +51,13 @@
                   </Button>
                </children>
             </VBox>
-            <TableView fx:id="userTable" prefHeight="317.0" prefWidth="660.0">
+            <TableView fx:id="userTable" prefHeight="317.0" prefWidth="637.0">
               <columns>
                 <TableColumn fx:id="cprColumn" prefWidth="102.0" text="CPR" />
                 <TableColumn fx:id="nameColumn" minWidth="7.0" prefWidth="199.0" text="Name" />
                   <TableColumn fx:id="phoneColumn" minWidth="0.0" prefWidth="128.0" text="Phone" />
                   <TableColumn fx:id="emailColumn" prefWidth="107.0" text="Email" />
-                  <TableColumn fx:id="vaccineColumn" minWidth="0.0" prefWidth="105.0" text="Vaccine Status" />
+                  <TableColumn fx:id="vaccineColumn" minWidth="0.0" prefWidth="100.0" text="Vaccine Status" />
               </columns>
             </TableView>
          </children>

@@ -58,6 +58,7 @@ public class UserListViewModel implements UserListViewModelInterface
     }
     for (User user : userList.getUsersList())
       users.add(new UserTableViewModel(user));
+
   }
 
   @Override public void logout()
