@@ -34,6 +34,7 @@ public class ServerModelManager implements ServerModel {
         addresses.add(new Address("Sesame Street","2",8700,"Horsens"));
         addresses.add(new Address("Sesame Street", "7A",8700,"Horsens"));
         addresses.add(new Address("Via Street","25B",8700,"Horsens"));
+        UserList userList = new UserList();
         userList.addUser(new Patient("2003036532","password","Hello",null,"World",addresses.get(1),"12587463","elmo@email.com", Patient.VaccineStatus.NOTAPPLIED));
         userList.addUser(new Patient("2003045698","password","Maria",null,"Magdalena",addresses.get(2),"12587464","holy@email.com",Patient.VaccineStatus.NOTAPPLIED));
         userList.addUser(new Patient("3105026358","password","Elmo",null,"Popescu",addresses.get(1),"12587465","popescu@email.com",Patient.VaccineStatus.NOTAPPLIED));
@@ -45,12 +46,15 @@ public class ServerModelManager implements ServerModel {
                if (!managerFactory.getAddressManager().isAddress(address.getStreet(),address.getNumber(),address.getZipcode()))
                    managerFactory.getAddressManager().addAddress(address);
            for(User user: userList.getUsersList())
-               if( user instanceof Patient &&!managerFactory.getPatientManager().isPatient(user) )
-                   managerFactory.getPatientManager().addPatient(user);
-               else if(user instanceof Nurse && !managerFactory.getNurseManager().isNurse((Nurse) user))
-                   managerFactory.getNurseManager().addNurse((Nurse)user);
-               else if (user instanceof Administrator && !managerFactory.getAdministratorManager().isAdmin((Administrator) user))
-                   managerFactory.getAdministratorManager().addAdministrator((Administrator) user);
+               if( user instanceof Patient ) {
+                   managerFactory.getUserManager().addPerson(user);
+               }
+               else if(user instanceof Nurse && !managerFactory.getNurseManager().isNurse((Nurse) user)) {
+                   managerFactory.getUserManager().addNurse(user);
+               }
+               else if (user instanceof Administrator && !managerFactory.getAdministratorManager().isAdmin((Administrator) user)){
+                   managerFactory.getUserManager().addAdministrtor(user);
+               }
 
        }
        catch (SQLException e){
@@ -65,12 +69,11 @@ public class ServerModelManager implements ServerModel {
         }
         appointmentTimeList.add(new AppointmentTimeFrame(new Date(22, 4, 2021), new TimeInterval(new Time(8, 0), new Time(12, 20))));
     }
-    
     @Override
     public synchronized User login(String cpr, String password) {
         try{
-            User user = managerFactory.getPatientManager().getUser(cpr);
-            if(managerFactory.getPatientManager().getPassword(cpr).equals(password)){
+            User user = managerFactory.getUserManager().getUser(cpr);
+            if(managerFactory.getUserManager().getPassword(cpr).equals(password)){
                 if (!onlineList.contains(user)) {
                     onlineList.addUser(user);
                     return user;
@@ -98,7 +101,7 @@ public class ServerModelManager implements ServerModel {
             User user = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, Patient.VaccineStatus.NOTAPPLIED);
             userList.addUser(user);
             try {
-               managerFactory.getPatientManager().addPatient(user);
+               managerFactory.getUserManager().addPerson(user);
             }
             catch (SQLException e){
                 e.printStackTrace();
@@ -106,7 +109,43 @@ public class ServerModelManager implements ServerModel {
         }
         else {
             throw new IllegalStateException("That CPR is already registered in the system");
+        };
+    }
+
+    @Override
+    public UserList getPatientList() {
+        UserList patientList = new UserList();
+        try {
+            patientList = managerFactory.getUserManager().getAllPatients();
         }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return patientList;
+    }
+
+    @Override
+    public UserList getNurseList() {
+        UserList nurseList = new UserList();
+        try {
+            nurseList = managerFactory.getUserManager().getAllNurses();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return nurseList;
+    }
+
+    @Override
+    public UserList getAdministratorList() {
+        UserList adminList = new UserList();
+        try {
+            adminList = managerFactory.getUserManager().getAllAdministrators();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return adminList;
     }
 
     @Override

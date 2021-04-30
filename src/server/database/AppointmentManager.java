@@ -7,12 +7,12 @@ import java.sql.Date;
 import java.sql.Time;
 
 public class AppointmentManager {
-  private NurseManager nurseManager;
+  private UserManager userManager;
   private PatientManager patientManager;
 
   public AppointmentManager() {
 
-    nurseManager = new NurseManager();
+    userManager = new UserManager();
     patientManager = new PatientManager();
   }
 
@@ -62,7 +62,7 @@ public class AppointmentManager {
         server.model.domain.Time timeTo = new server.model.domain.Time(timeToSQL.getHours(), timeToSQL.getMinutes());
         Appointment.Type type = Appointment.Type.valueOf(typeSQL);
         Appointment.Status status = Appointment.Status.valueOf(statusSQL);
-        Nurse nurse = nurseManager.getNurseByCPR(nurseCpr);
+        Nurse nurse = userManager.getNurse(nurseCpr);
         if (type.equals(Appointment.Type.TEST))
         {
           TestAppointment.Result result = TestAppointment.Result.valueOf(resultSQL);

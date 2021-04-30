@@ -10,6 +10,7 @@ public class ManagerFactory {
     private AppointmentManager appointmentManager ;
     private AddressManager addressManager ;
     private AdministratorManager administratorManager;
+    private UserManager userManager;
 
     public ManagerFactory() {
         patientManager = new PatientManager();
@@ -17,6 +18,7 @@ public class ManagerFactory {
         nurseManager = new NurseManager();
         appointmentManager = new AppointmentManager();
         addressManager = new AddressManager();
+        userManager = new UserManager();
     }
     public PatientManager getPatientManager() {
         return patientManager;
@@ -38,14 +40,9 @@ public class ManagerFactory {
         return administratorManager;
     }
 
-    public User getUser(String cpr)throws SQLException {
-        User user = null;
-        if(getNurseManager().isNurse(cpr))
-            user = getNurseManager().getNurseByCPR(cpr);
-        else if(getAdministratorManager().isAdmin(cpr))
-            user = getAdministratorManager().getAdministratorByCpr(cpr);
-        else
-            user = getPatientManager().getPatientByCpr(cpr);
-        return user;
+    public UserManager getUserManager() {
+        return userManager;
     }
+
+
 }
