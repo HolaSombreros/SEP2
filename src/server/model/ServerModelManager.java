@@ -130,12 +130,12 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
-    public UserList getUserList() {
+    public synchronized UserList getUserList() {
         return userList;
     }
 
     @Override
-    public UserList getPatients()
+    public synchronized UserList getPatients()
     {
         UserList patientList = new UserList();
         for (User user: userList.getUsersList())
@@ -145,7 +145,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public UserList getNurses()
+    public synchronized UserList getNurses()
     {
         UserList nurseList = new UserList();
         for (User user: userList.getUsersList())
@@ -155,7 +155,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public UserList getAdministrators()
+    public synchronized UserList getAdministrators()
     {
         UserList adminList = new UserList();
         for (User user: userList.getUsersList())
