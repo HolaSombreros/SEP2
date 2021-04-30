@@ -12,19 +12,18 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class AppointmentManager extends DatabaseManager {
-  private NurseManager nurseManager;
+public class AppointmentManager {
+  private UserManager userManager;
   private PatientManager patientManager;
 
-  public AppointmentManager()
-  {
-    nurseManager = new NurseManager();
+  public AppointmentManager() {
+
+    userManager = new UserManager();
     patientManager = new PatientManager();
   }
 
-  public void addAppointment(Appointment appointment) throws SQLException
-  {
-    try (Connection connection = getConnection())
+  public void addAppointment(Appointment appointment) throws SQLException {
+    try (Connection connection = DatabaseManager.getInstance().getConnection())
     {
       PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO appointment VALUES (?,?,?,?,?,?,?,?,?)");
       insertStatement.setDate(1, Date.valueOf(LocalDate.of(appointment.getDate().getYear(), appointment.getDate().getMonth(), appointment.getDate().getDayOfMonth())));
@@ -47,7 +46,7 @@ public class AppointmentManager extends DatabaseManager {
 
   public AppointmentList getAppointmentsByPatient(Patient patient) throws SQLException
   {
-    try (Connection connection = getConnection())
+    try (Connection connection = DatabaseManager.getInstance().getConnection())
     {
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM appointment WHERE patient_cpr=?");
       statement.setString(1, patient.getCpr());
@@ -69,7 +68,7 @@ public class AppointmentManager extends DatabaseManager {
         LocalTime timeTo = LocalTime.of(timeFromSQL.getHours(), timeFromSQL.getMinutes());
         Type type = Type.valueOf(typeSQL);
 //        Appointment.Status status = Appointment.Status.valueOf(statusSQL);
-        Nurse nurse = nurseManager.getNurseByCPR(nurseCpr);
+        Nurse nurse = userManager.getNurse(nurseCpr);
         if (type.equals(Type.TEST))
         {
           Result result = Result.valueOf(resultSQL);
@@ -91,7 +90,7 @@ public class AppointmentManager extends DatabaseManager {
 
   public AppointmentList getAppointmentsByNurse(Nurse nurse) throws SQLException
   {
-    try (Connection connection = getConnection())
+    try (Connection connection = DatabaseManager.getInstance().getConnection())
     {
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM appointment WHERE nurse_cpr=?");
       statement.setString(1, nurse.getCpr());
@@ -113,7 +112,7 @@ public class AppointmentManager extends DatabaseManager {
         LocalTime timeTo = LocalTime.of(timeToSQL.getHours(), timeToSQL.getMinutes());
         Type type = Type.valueOf(typeSQL);
 //        String status = Appointment.Status.valueOf(statusSQL);
-        User patient = patientManager.getPatientByCpr(patientCpr);
+        User patient = userManager.getPatient(patientCpr);
         if (type.equals(Type.TEST))
         {
           Result result = Result.valueOf(resultSQL);

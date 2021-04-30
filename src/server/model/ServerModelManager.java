@@ -21,17 +21,18 @@ public class ServerModelManager implements ServerModel {
     private PropertyChangeAction<User, Appointment> property;
     
     public ServerModelManager() {
+
         property = new PropertyChangeProxy<>(this);
         userList = new UserList();
         onlineList = new UserList();
         appointmentTimeIntervalList = new AppointmentTimeIntervalList();
         managerFactory = new ManagerFactory();
-        loadUsers();
+        //loadUsers();
         loadAppointments();
         //        addDummyData();
         addDummyTimeIntervals();
     }
-    
+    /*
     private void loadUsers() {
         try {
             for (User user : managerFactory.getPatientManager().getAllPatients().getUsersList()) {
@@ -42,38 +43,44 @@ public class ServerModelManager implements ServerModel {
             e.printStackTrace();
         }
     }
-    
+
+     */
     private void loadAppointments() {
         // nevermind this one for now...
     }
     
     private void addDummyData() {
         ArrayList<Address> addresses = new ArrayList<>();
-        addresses.add(new Address("Sesame Street", "2", 8700, "Horsens"));
-        addresses.add(new Address("Sesame Street", "7A", 8700, "Horsens"));
-        addresses.add(new Address("Via Street", "25B", 8700, "Horsens"));
-        userList.addUser(new Patient("2003036532", "password", "Hello", null, "World", addresses.get(1), "12587463", "elmo@email.com", new NotApprovedStatus()));
-        userList.addUser(new Patient("2003045698", "password", "Maria", null, "Magdalena", addresses.get(2), "12587464", "holy@email.com", new NotApprovedStatus()));
-        userList.addUser(new Patient("3105026358", "password", "Elmo", null, "Popescu", addresses.get(1), "12587465", "popescu@email.com", new NotApprovedStatus()));
-        userList.addUser(new Patient("2504012368", "password", "Vaseline", null, "Veselin", addresses.get(0), "12587466", "vaseline@email.com", new NotApprovedStatus()));
-        userList.addUser(new Nurse("1302026584", "password", "Mikasa", null, "Ackerman", addresses.get(0), "12587467", "aot@email.com", "mikasa_nurse"));
-        userList.addUser(new Administrator("1407026358", "password", "Nico", null, "Robin", addresses.get(0), "12569873", "nicoRobin@email.com", "nicoRobin_admin"));
+        addresses.add(new Address("Sesame Street","2",8700,"Horsens"));
+        addresses.add(new Address("Sesame Street", "7A",8700,"Horsens"));
+        addresses.add(new Address("Via Street","25B",8700,"Horsens"));
+        VaccineStatus status = new NotApprovedStatus();
+        UserList userList = new UserList();
+        userList.addUser(new Patient("2003036532","password","Hello",null,"World",addresses.get(1),"12587463","elmo@email.com",status));
+        userList.addUser(new Patient("2003045698","password","Maria",null,"Magdalena",addresses.get(2),"12587464","holy@email.com",status));
+        userList.addUser(new Patient("3105026358","password","Elmo",null,"Popescu",addresses.get(1),"12587465","popescu@email.com",status));
+        userList.addUser(new Patient("2504012368","password","Vaseline",null,"Veselin",addresses.get(0),"12587466","vaseline@email.com",status));
+        userList.addUser(new Nurse("1302026584","password","Mikasa",null,"Ackerman",addresses.get(0),"12587467","aot@email.com","mikasa_nurse"));
+        userList.addUser(new Administrator("1407026358","password","Nico",null,"Robin",addresses.get(0),"12569873","nicoRobin@email.com","nicoRobin_admin"));
         try {
-            for (Address address : addresses)
-                if (!managerFactory.getAddressManager().isAddress(address.getStreet(), address.getNumber(), address.getZipcode()))
-                    managerFactory.getAddressManager().addAddress(address);
-            for (User user : userList.getUsersList())
-                if (user instanceof Patient && !managerFactory.getPatientManager().isPatient(user))
-                    managerFactory.getPatientManager().addPatient(user);
-                else if (user instanceof Nurse && !managerFactory.getNurseManager().isNurse((Nurse) user))
-                    managerFactory.getNurseManager().addNurse((Nurse) user);
-                else if (user instanceof Administrator && !managerFactory.getAdministratorManager().isAdmin((Administrator) user))
-                    managerFactory.getAdministratorManager().addAdministrator((Administrator) user);
-            
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
+           for (Address address : addresses)
+               if (!managerFactory.getAddressManager().isAddress(address.getStreet(),address.getNumber(),address.getZipcode()))
+                   managerFactory.getAddressManager().addAddress(address);
+           for(User user: userList.getUsersList())
+               if( user instanceof Patient ) {
+                   managerFactory.getUserManager().addPerson(user);
+               }
+               else if(user instanceof Nurse && !managerFactory.getNurseManager().isNurse((Nurse) user)) {
+                   managerFactory.getUserManager().addNurse(user);
+               }
+               else if (user instanceof Administrator && !managerFactory.getAdministratorManager().isAdmin((Administrator) user)){
+                   managerFactory.getUserManager().addAdministrtor(user);
+               }
+
+       }
+       catch (SQLException e){
+           e.printStackTrace();
+       }
     }
     
     private void addDummyTimeIntervals() {
@@ -82,18 +89,11 @@ public class ServerModelManager implements ServerModel {
             appointmentTimeIntervalList.add(new AppointmentTimeInterval(LocalDate.now(), new TimeInterval(LocalTime.of(i, 0), LocalTime.of(i, 20))));
         }
     }
-    
     @Override
     public synchronized User login(String cpr, String password) {
-        try {
-            User user;
-            if (managerFactory.getNurseManager().isNurse(cpr))
-                user = managerFactory.getNurseManager().getNurseByCPR(cpr);
-            else if (managerFactory.getAdministratorManager().isAdmin(cpr))
-                user = managerFactory.getAdministratorManager().getAdministratorByCpr(cpr);
-            else
-                user = managerFactory.getPatientManager().getPatientByCpr(cpr);
-            if (managerFactory.getPatientManager().getPassword(cpr).equals(password)) {
+        try{
+            User user = managerFactory.getUserManager().getUser(cpr);
+            if(managerFactory.getUserManager().getPassword(cpr).equals(password)){
                 if (!onlineList.contains(user)) {
                     onlineList.addUser(user);
                     return user;
@@ -118,7 +118,7 @@ public class ServerModelManager implements ServerModel {
             User user = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, new NotApprovedStatus());
             userList.addUser(user);
             try {
-                managerFactory.getPatientManager().addPatient(user);
+               managerFactory.getUserManager().addPerson(user);
             }
             catch (SQLException e) {
                 e.printStackTrace();
@@ -126,7 +126,43 @@ public class ServerModelManager implements ServerModel {
         }
         else {
             throw new IllegalStateException("That CPR is already registered in the system");
+        };
+    }
+
+    @Override
+    public UserList getPatientList() {
+        UserList patientList = new UserList();
+        try {
+            patientList = managerFactory.getUserManager().getAllPatients();
         }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return patientList;
+    }
+
+    @Override
+    public UserList getNurseList() {
+        UserList nurseList = new UserList();
+        try {
+            nurseList = managerFactory.getUserManager().getAllNurses();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return nurseList;
+    }
+
+    @Override
+    public UserList getAdministratorList() {
+        UserList adminList = new UserList();
+        try {
+            adminList = managerFactory.getUserManager().getAllAdministrators();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return adminList;
     }
     
     @Override

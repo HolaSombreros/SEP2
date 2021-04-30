@@ -11,9 +11,10 @@ public class DatabaseManager {
   private static String URL = "jdbc:postgresql://localhost:5432/postgres?currentSchema=sep2";
   private static String USERNAME = "sep2admin";
   private static String PASSWORD = "admin";
+  private static DatabaseManager instance;
+  private static Object lock = new Object();
 
-
-  public DatabaseManager(String url, String username, String password) {
+  private DatabaseManager(String url, String username, String password) {
 
     this.password = password;
     this.url = url;
@@ -29,7 +30,7 @@ public class DatabaseManager {
       privilegeStatement.executeUpdate();
     }
   }
-  public DatabaseManager(){
+  private DatabaseManager(){
     this(URL,USERNAME,PASSWORD);
     try {
       setSchemaPrivileges();
@@ -38,7 +39,16 @@ public class DatabaseManager {
       e.printStackTrace();
     }
 
+  }
 
+  public static DatabaseManager getInstance(){
+    if(instance == null){
+      synchronized (lock){
+        if(instance ==null)
+          instance = new DatabaseManager();
+      }
+    }
+    return instance;
   }
 
   public Connection getConnection() throws SQLException {

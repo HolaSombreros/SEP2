@@ -105,4 +105,6 @@ public abstract class Appointment implements Serializable {
     public String toString() {
         return String.format("#%d: %s (%s) - %s\n", id, patient, type, status);
     }
+
+
 }
