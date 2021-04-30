@@ -62,7 +62,22 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     public Appointment getAppointmentById(int id) {
         return client.getAppointmentById(id);
     }
-    
+
+    @Override public UserList getPatients()
+    {
+        return client.getPatients();
+    }
+
+    @Override public UserList getNurses()
+    {
+        return client.getNurses();
+    }
+
+    @Override public UserList getAdministrators()
+    {
+        return client.getAdministrators();
+    }
+
     @Override
     public void logout(User user) {
         client.logout(user);

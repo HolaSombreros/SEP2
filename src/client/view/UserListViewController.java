@@ -10,29 +10,31 @@ import javafx.scene.control.TableView;
 public class UserListViewController extends ViewController
 {
   private UserListViewModelInterface viewModel;
+  @FXML private Label roleLabel;
   @FXML private TableView<UserTableViewModel> userTable;
   @FXML private TableColumn<UserTableViewModel, String> cprColumn;
   @FXML private TableColumn<UserTableViewModel, String> nameColumn;
   @FXML private TableColumn<UserTableViewModel, String> phoneColumn;
   @FXML private TableColumn<UserTableViewModel, String> emailColumn;
-  @FXML private TableColumn<UserTableViewModel, String> roleColumn;
   @FXML private TableColumn<UserTableViewModel, String> vaccineColumn;
   @FXML private Label errorLabel;
 
-  public UserListViewController(){}
+  public UserListViewController()
+  {
+  }
 
   @Override protected void init()
   {
     viewModel = getViewModelFactory().getUserListViewModel();
+    roleLabel.textProperty().bind(viewModel.getRoleProperty());
     cprColumn.setCellValueFactory(cellData -> cellData.getValue().getCprProperty());
     nameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
     phoneColumn.setCellValueFactory(cellData -> cellData.getValue().getPhoneProperty());
     emailColumn.setCellValueFactory(cellData -> cellData.getValue().getEmailProperty());
-    roleColumn.setCellValueFactory(cellData -> cellData.getValue().getRoleProperty());
     vaccineColumn.setCellValueFactory(cellData -> cellData.getValue().getVaccineProperty());
     errorLabel.textProperty().bind(viewModel.getErrorProperty());
     userTable.setItems(viewModel.getUsers());
-    userTable.getSelectionModel().selectedItemProperty().addListener((obs,oldValue,newValue) -> viewModel.setSelectedUser(newValue));
+    userTable.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> viewModel.setSelectedUser(newValue));
     reset();
   }
 
@@ -57,5 +59,20 @@ public class UserListViewController extends ViewController
   {
     viewModel.logout();
     getViewHandler().openView(View.LOGIN);
+  }
+
+  @FXML public void seePatients()
+  {
+    viewModel.seePatients();
+  }
+
+  @FXML public void seeNurses()
+  {
+    viewModel.seeNurses();
+  }
+
+  @FXML public void seeAdmins()
+  {
+    viewModel.seeAdmins();
   }
 }

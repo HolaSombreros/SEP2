@@ -11,7 +11,6 @@ public class UserTableViewModel
   private StringProperty nameProperty;
   private StringProperty phoneProperty;
   private StringProperty emailProperty;
-  private StringProperty roleProperty;
   private StringProperty vaccineProperty;
 
   public UserTableViewModel(User user)
@@ -20,7 +19,6 @@ public class UserTableViewModel
     nameProperty = new SimpleStringProperty(user.getFullName());
     phoneProperty = new SimpleStringProperty(user.getPhone());
     emailProperty = new SimpleStringProperty(user.getEmail());
-    roleProperty = new SimpleStringProperty(user.getClass().getSimpleName());
     if (user instanceof Patient)
       vaccineProperty = new SimpleStringProperty(((Patient) user).getVaccineStatus().toString());
     else
@@ -45,11 +43,6 @@ public class UserTableViewModel
   public StringProperty getEmailProperty()
   {
     return emailProperty;
-  }
-
-  public StringProperty getRoleProperty()
-  {
-    return roleProperty;
   }
 
   public StringProperty getVaccineProperty()

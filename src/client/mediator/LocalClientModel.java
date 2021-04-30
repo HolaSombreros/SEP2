@@ -3,6 +3,7 @@ package client.mediator;
 import server.model.domain.*;
 import utility.observer.subject.LocalSubject;
 
+import java.rmi.RemoteException;
 import java.time.LocalDate;
 
 public interface LocalClientModel extends LocalSubject<User, Appointment> {
@@ -14,5 +15,8 @@ public interface LocalClientModel extends LocalSubject<User, Appointment> {
     TimeIntervalList getAvailableTimeIntervals(LocalDate date);
     Appointment getAppointmentById(int id);
     void logout(User user);
+    UserList getPatients();
+    UserList getNurses();
+    UserList getAdministrators();
     void close();
 }

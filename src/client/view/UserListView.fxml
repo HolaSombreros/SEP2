@@ -11,24 +11,57 @@
 
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="813.0" stylesheets="@../../util/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.UserListViewController">
    <children>
-      <Label styleClass="header" text="User List">
+      <Label fx:id="roleLabel" styleClass="header" text="Role">
          <VBox.margin>
             <Insets bottom="40.0" top="20.0" />
          </VBox.margin>
       </Label>
-      <TableView fx:id="userTable" prefHeight="312.0" prefWidth="790.0">
-        <columns>
-          <TableColumn fx:id="cprColumn" prefWidth="102.0" text="CPR" />
-          <TableColumn fx:id="nameColumn" minWidth="7.0" prefWidth="172.0" text="Name" />
-            <TableColumn fx:id="phoneColumn" minWidth="0.0" prefWidth="100.0" text="Phone" />
-            <TableColumn fx:id="emailColumn" prefWidth="177.0" text="Email" />
-            <TableColumn fx:id="roleColumn" prefWidth="105.0" text="Role" />
-            <TableColumn fx:id="vaccineColumn" minWidth="0.0" prefWidth="109.0" text="Vaccine Status" />
-        </columns>
-         <VBox.margin>
-            <Insets left="15.0" right="15.0" />
-         </VBox.margin>
-      </TableView>
+      <HBox prefHeight="325.0" prefWidth="813.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="317.0" prefWidth="135.0">
+               <children>
+                  <Label text="Filter by role:">
+                     <VBox.margin>
+                        <Insets bottom="50.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Button mnemonicParsing="false" onAction="#seePatients" text="Patients">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="50.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#seeNurses" text="Nurses">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="50.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#seeAdmins" text="Administrators">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+            <TableView fx:id="userTable" prefHeight="317.0" prefWidth="660.0">
+              <columns>
+                <TableColumn fx:id="cprColumn" prefWidth="102.0" text="CPR" />
+                <TableColumn fx:id="nameColumn" minWidth="7.0" prefWidth="199.0" text="Name" />
+                  <TableColumn fx:id="phoneColumn" minWidth="0.0" prefWidth="128.0" text="Phone" />
+                  <TableColumn fx:id="emailColumn" prefWidth="107.0" text="Email" />
+                  <TableColumn fx:id="vaccineColumn" minWidth="0.0" prefWidth="105.0" text="Vaccine Status" />
+              </columns>
+            </TableView>
+         </children>
+      </HBox>
       <Label fx:id="errorLabel" styleClass="error" text="Error label" textFill="RED">
          <font>
             <Font size="14.0" />

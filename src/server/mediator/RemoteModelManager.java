@@ -70,7 +70,22 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     public void logout(User user) throws RemoteException {
         serverModel.logout(user);
     }
-    
+
+    @Override public UserList getPatients() throws RemoteException
+    {
+       return serverModel.getPatients();
+    }
+
+    @Override public UserList getNurses() throws RemoteException
+    {
+        return serverModel.getNurses();
+    }
+
+    @Override public UserList getAdministrators() throws RemoteException
+    {
+        return serverModel.getAdministrators();
+    }
+
     private void startRegistry() throws RemoteException {
         try {
             LocateRegistry.createRegistry(1099);

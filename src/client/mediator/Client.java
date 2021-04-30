@@ -115,7 +115,43 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
-    
+
+    @Override public UserList getPatients()
+    {
+        try
+        {
+            return server.getPatients();
+        }
+        catch (RemoteException e)
+        {
+            throw new IllegalStateException("Cannot unexport RMI object", e);
+        }
+    }
+
+    @Override public UserList getNurses()
+    {
+        try
+        {
+            return server.getNurses();
+        }
+        catch (RemoteException e)
+        {
+            throw new IllegalStateException("Cannot unexport RMI object", e);
+        }
+    }
+
+    @Override public UserList getAdministrators()
+    {
+        try
+        {
+            return server.getAdministrators();
+        }
+        catch (RemoteException e)
+        {
+            throw new IllegalStateException("Cannot unexport RMI object", e);
+        }
+    }
+
     @Override
     public void close() {
         try {
