@@ -66,7 +66,7 @@ public class ServerModelManager implements ServerModel {
                if (!managerFactory.getAddressManager().isAddress(address.getStreet(),address.getNumber(),address.getZipcode()))
                    managerFactory.getAddressManager().addAddress(address);
            for(User user: userList.getUsersList())
-               if( user instanceof Patient ) {
+               if( user instanceof Patient && managerFactory.getPatientManager().isPatient(user)) {
                    managerFactory.getUserManager().addPerson(user);
                }
                else if(user instanceof Nurse && !managerFactory.getNurseManager().isNurse((Nurse) user)) {
@@ -128,40 +128,26 @@ public class ServerModelManager implements ServerModel {
         };
     }
 
-    @Override
-    public UserList getPatientList() {
-        UserList patientList = new UserList();
+
+
+    private UserList getNurseList() {
         try {
-            patientList = managerFactory.getUserManager().getAllPatients();
+            userList = managerFactory.getUserManager().getAllNurses();
         }
-        catch (Exception e){
+        catch (SQLException e){
             e.printStackTrace();
         }
-        return patientList;
+       return userList;
     }
 
-    @Override
-    public UserList getNurseList() {
-        UserList nurseList = new UserList();
+    private UserList getAdministratorList() {
         try {
-            nurseList = managerFactory.getUserManager().getAllNurses();
+            userList = managerFactory.getUserManager().getAllAdministrators();
         }
-        catch (Exception e){
+        catch (SQLException e){
             e.printStackTrace();
         }
-        return nurseList;
-    }
-
-    @Override
-    public UserList getAdministratorList() {
-        UserList adminList = new UserList();
-        try {
-            adminList = managerFactory.getUserManager().getAllAdministrators();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return adminList;
+        return userList;
     }
     
     @Override

@@ -44,7 +44,6 @@ public class UserManager {
 
 
 
-
     public User getUser(String cpr) throws SQLException {
         User user = null;
         if (nurseManager.isNurse(cpr))
