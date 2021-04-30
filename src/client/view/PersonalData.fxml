@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox userData="My Personal Information" fx:controller="client.view.PersonalDataViewController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="471.0" prefWidth="736.0" spacing="10.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox prefHeight="81.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="81.0" prefWidth="767.0" text="My Personal Details">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox prefHeight="319.0" prefWidth="736.0" spacing="25.0">
+         <children>
+            <VBox prefHeight="319.0" prefWidth="220.0" spacing="20.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="380.0" text="First Name">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="firstName" prefHeight="25.0" prefWidth="338.0" promptText="First Name" />
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="380.0" text="Middle Name">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="middleName" prefHeight="25.0" prefWidth="338.0" promptText="Middle Name" />
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="380.0" text="Last Name">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="lastName" prefHeight="25.0" prefWidth="338.0" promptText="Last Name" />
+               </children>
+            </VBox>
+            <VBox prefHeight="319.0" prefWidth="224.0" spacing="20.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="245.0" text="CPR">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="cpr" editable="false" promptText="CPR" />
+                  <Label alignment="CENTER" prefHeight="26.0" prefWidth="367.0" text="Email">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="email" promptText="Email" />
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="235.0" text="Phone Number">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="phoneNumber" promptText="Phone Number" />
+               </children>
+            </VBox>
+            <VBox prefHeight="319.0" prefWidth="202.0" spacing="20.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="223.0" text="Street">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="street" promptText="Street" />
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="224.0" text="Number">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="number" promptText="Number" />
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="207.0" text="City">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="city" promptText="City" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox prefHeight="36.0" prefWidth="696.0">
+         <children>
+            <Label fx:id="errorLabel" alignment="CENTER" prefHeight="17.0" prefWidth="802.0" text="Error Label" textFill="#f50303">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="250.0">
+         <children>
+            <Button onAction="#editDetails" mnemonicParsing="false" text="Edit Personal Details">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
+            <Button onAction="#backButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="61.0" text="Back">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>
