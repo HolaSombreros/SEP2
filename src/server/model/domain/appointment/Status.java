@@ -11,5 +11,8 @@ public abstract class Status implements Serializable {
         // overwritten in FinishedStatus
     }
     
-    public abstract String toString();
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Status;
+    }
 }

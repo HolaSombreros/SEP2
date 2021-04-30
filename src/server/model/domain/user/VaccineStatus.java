@@ -16,5 +16,8 @@ public abstract class VaccineStatus implements Serializable {
     
     }
     
-    public abstract String toString();
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof VaccineStatus;
+    }
 }

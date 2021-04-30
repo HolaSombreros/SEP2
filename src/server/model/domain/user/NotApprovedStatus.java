@@ -7,6 +7,11 @@ public class NotApprovedStatus extends VaccineStatus {
     }
     
     @Override
+    public boolean equals(Object obj) {
+        return obj instanceof NotApprovedStatus;
+    }
+    
+    @Override
     public String toString() {
         return "Not Approved";
     }

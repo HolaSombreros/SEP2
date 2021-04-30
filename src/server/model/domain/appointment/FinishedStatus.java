@@ -9,6 +9,11 @@ public class FinishedStatus extends Status {
     }
     
     @Override
+    public boolean equals(Object obj) {
+        return obj instanceof FinishedStatus;
+    }
+    
+    @Override
     public String toString() {
         return "Finished";
     }

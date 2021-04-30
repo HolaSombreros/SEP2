@@ -12,6 +12,11 @@ public class PendingStatus extends VaccineStatus {
     }
     
     @Override
+    public boolean equals(Object obj) {
+        return obj instanceof PendingStatus;
+    }
+    
+    @Override
     public String toString() {
         return "Pending";
     }

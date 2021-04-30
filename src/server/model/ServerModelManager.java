@@ -35,7 +35,7 @@ public class ServerModelManager implements ServerModel {
     
     private void loadUsers() {
         try {
-            for (User user : managerFactory.getUserManager().getAllPatients().getUsersList()) {
+            for (User user : managerFactory.getUserManager().getAllUsers().getUsersList()) {
                 userList.addUser(user);
             }
         }
@@ -90,23 +90,18 @@ public class ServerModelManager implements ServerModel {
     }
     @Override
     public synchronized User login(String cpr, String password) {
-        try{
-            User user = managerFactory.getUserManager().getUser(cpr);
-            if(managerFactory.getUserManager().getPassword(cpr).equals(password)){
-                if (!onlineList.contains(user)) {
-                    onlineList.addUser(user);
-                    return user;
-                }
-                else
-                    throw new IllegalStateException("That user is already signed in");
+        User user = userList.getUserByCpr(cpr);
+        if (userList.getUserByCpr(cpr).getPassword().equals(password)){
+            if (onlineList.contains(cpr)) {
+                throw new IllegalStateException("That user is already logged in");
             }
-            else
-                throw new IllegalArgumentException("That username/password combination does not match");
+            else {
+                onlineList.addUser(user);
+                return user;
+            }
         }
-        catch (SQLException | IllegalStateException e) {
-            e.printStackTrace();
-        }
-        return null;
+        else
+            throw new IllegalArgumentException("That username/password combination does not match");
     }
     
     @Override
@@ -127,42 +122,6 @@ public class ServerModelManager implements ServerModel {
             throw new IllegalStateException("That CPR is already registered in the system");
         };
     }
-
-    @Override
-    public UserList getPatientList() {
-        UserList patientList = new UserList();
-        try {
-            patientList = managerFactory.getUserManager().getAllPatients();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return patientList;
-    }
-
-    @Override
-    public UserList getNurseList() {
-        UserList nurseList = new UserList();
-        try {
-            nurseList = managerFactory.getUserManager().getAllNurses();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return nurseList;
-    }
-
-    @Override
-    public UserList getAdministratorList() {
-        UserList adminList = new UserList();
-        try {
-            adminList = managerFactory.getUserManager().getAllAdministrators();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return adminList;
-    }
     
     @Override
     public synchronized UserList getUserList() {
@@ -170,7 +129,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public synchronized UserList getPatients()
+    public synchronized UserList getPatientList()
     {
         UserList patientList = new UserList();
         for (User user: userList.getUsersList())
@@ -180,7 +139,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public synchronized UserList getNurses()
+    public synchronized UserList getNurseList()
     {
         UserList nurseList = new UserList();
         for (User user: userList.getUsersList())
@@ -190,7 +149,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public synchronized UserList getAdministrators()
+    public synchronized UserList getAdministratorList()
     {
         UserList adminList = new UserList();
         for (User user: userList.getUsersList())
@@ -214,9 +173,9 @@ public class ServerModelManager implements ServerModel {
             default:
                 throw new IllegalStateException("Appointment type '" + type + "' is invalid");
         }
+        appointmentTimeIntervalList.add(appointment, date, timeInterval);
         try {
             managerFactory.getAppointmentManager().addAppointment(appointment);
-            appointmentTimeIntervalList.add(appointment, date, timeInterval);
         }
         catch (SQLException e) {
             e.printStackTrace();

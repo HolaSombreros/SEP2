@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.time.format.DateTimeFormatter;
 
 public class UserManager {
 
@@ -198,6 +198,52 @@ public class UserManager {
             statement.setString(2, middleName);
             statement.setString(3, lastName);
             statement.executeUpdate();
+        }
+    }
+    
+    public UserList getAllUsers() throws SQLException {
+        UserList users = new UserList();
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("SELECT person.*, patient.vaccine_status, nurse.employee_id AS nurse_id, administrator.employee_id AS admin_id FROM person JOIN patient USING(cpr) LEFT JOIN nurse ON person.cpr = nurse.cpr LEFT JOIN administrator ON person.cpr = administrator.cpr;");
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String cpr = rs.getString("cpr");
+                String password = rs.getString("password");
+                String firstName = rs.getString("firstName");
+                String middleName = rs.getString("middleName");
+                String lastName = rs.getString("lastName");
+                String street = rs.getString("street");
+                String number = rs.getString("number");
+                int zipcode = rs.getInt("zip_code");
+                Address address = new Address(street, number, zipcode, addressManager.getCityByZipcode(zipcode));
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                String vaccine = rs.getString("vaccine_status");
+                String nurse_id = rs.getString("nurse_id");
+                String admin_id = rs.getString("admin_id");
+                VaccineStatus status = null;
+                switch (vaccine){
+                    case "Approved":
+                        status = new ApprovedStatus();
+                        break;
+                    case "Not Approved":
+                        status = new NotApprovedStatus();
+                        break;
+                    case "Pending":
+                        status = new PendingStatus();
+                        break;
+                }
+                if (nurse_id != null) {
+                    users.addUser(new Nurse(cpr, password, firstName, middleName, lastName, address, phone, email, nurse_id));
+                }
+                else if (admin_id != null) {
+                    users.addUser(new Nurse(cpr, password, firstName, middleName, lastName, address, phone, email, admin_id));
+                }
+                else {
+                    users.addUser(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, status));
+                }
+            }
+            return users;
         }
     }
 
