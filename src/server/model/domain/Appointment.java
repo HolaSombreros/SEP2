@@ -1,5 +1,7 @@
 package server.model.domain;
 
+import server.model.domain.appointment.Status;
+import server.model.domain.appointment.UpcomingStatus;
 import server.model.validator.AppointmentValidator;
 
 import java.io.Serializable;
@@ -30,32 +32,6 @@ public abstract class Appointment implements Serializable {
         }
     }
     
-    public enum Status {
-        PREVIOUS("Previous"),
-        UPCOMING("Upcoming"),
-        CANCELLED("Cancelled");
-        
-        private String status;
-        
-        Status(String status) {
-            this.status = status;
-        }
-        
-        @Override
-        public String toString() {
-            return status;
-        }
-        
-        public static Status fromString(String value) {
-            for (Status option : Status.values()) {
-                if (option.status.equalsIgnoreCase(value)) {
-                    return option;
-                }
-            }
-            return null;
-        }
-    }
-    
     public static int idCounter = 1;
     private int id;
     private Type type;
@@ -69,7 +45,7 @@ public abstract class Appointment implements Serializable {
         AppointmentValidator.appointmentValidator(date, timeInterval, patient, nurse);
         id = idCounter;
         this.type = type;
-        this.status = Status.UPCOMING;
+        this.status = new UpcomingStatus(this);
         this.patient = patient;
         this.nurse = nurse;
         this.date = date.copy();
@@ -130,6 +106,10 @@ public abstract class Appointment implements Serializable {
     public void setTimeInterval(TimeInterval timeInterval) {
         AppointmentValidator.validateTimeInterval(timeInterval);
         this.timeInterval = timeInterval;
+    }
+    
+    public void cancel() {
+        status.cancel(this);
     }
     
     @Override

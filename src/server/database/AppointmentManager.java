@@ -62,20 +62,20 @@ public class AppointmentManager extends DatabaseManager {
         server.model.domain.Time timeFrom = new server.model.domain.Time(timeFromSQL.getHours(), timeFromSQL.getMinutes());
         server.model.domain.Time timeTo = new server.model.domain.Time(timeToSQL.getHours(), timeToSQL.getMinutes());
         Appointment.Type type = Appointment.Type.valueOf(typeSQL);
-        Appointment.Status status = Appointment.Status.valueOf(statusSQL);
+        // set status
         Nurse nurse = nurseManager.getNurseByCPR(nurseCpr);
         if (type.equals(Appointment.Type.TEST))
         {
           TestAppointment.Result result = TestAppointment.Result.valueOf(resultSQL);
           Appointment appointment = new TestAppointment(date, new TimeInterval(timeFrom, timeTo), type, patient, nurse);
           ((TestAppointment) appointment).setResult(result);
-          appointment.setStatus(status);
+//          appointment.setStatus(status);
           list.add(appointment);
         }
         else
         {
           Appointment appointment = new VaccineAppointment(date, new TimeInterval(timeFrom, timeTo), type, patient, nurse);
-          appointment.setStatus(status);
+//          appointment.setStatus(status);
           list.add(appointment);
         }
       }
@@ -106,20 +106,20 @@ public class AppointmentManager extends DatabaseManager {
         server.model.domain.Time timeFrom = new server.model.domain.Time(timeFromSQL.getHours(), timeFromSQL.getMinutes());
         server.model.domain.Time timeTo = new server.model.domain.Time(timeToSQL.getHours(), timeToSQL.getMinutes());
         Appointment.Type type = Appointment.Type.valueOf(typeSQL);
-        Appointment.Status status = Appointment.Status.valueOf(statusSQL);
+//        Appointment.Status status = Appointment.Status.valueOf(statusSQL);
         User patient = patientManager.getPatientByCpr(patientCpr);
         if (type.equals(Appointment.Type.TEST))
         {
           TestAppointment.Result result = TestAppointment.Result.valueOf(resultSQL);
           Appointment appointment = new TestAppointment(date, new TimeInterval(timeFrom, timeTo), type, (Patient)patient, nurse);
           ((TestAppointment) appointment).setResult(result);
-          appointment.setStatus(status);
+//          appointment.setStatus(status);
           list.add(appointment);
         }
         else
         {
           Appointment appointment = new VaccineAppointment(date, new TimeInterval(timeFrom, timeTo), type, (Patient)patient, nurse);
-          appointment.setStatus(status);
+//          appointment.setStatus(status);
           list.add(appointment);
         }
       }
@@ -127,23 +127,23 @@ public class AppointmentManager extends DatabaseManager {
     }
   }
 
-  public AppointmentList getAppointmentsByNurseAndStatus(Nurse nurse, Appointment.Status status) throws SQLException
-  {
-    AppointmentList list = new AppointmentList();
-    for (Appointment appointment : getAppointmentsByNurse(nurse).getAppointments())
-      if (appointment.getStatus().equals(status))
-        list.add(appointment);
-    return list;
-  }
-
-  public AppointmentList getAppointmentsByPatientAndStatus(Patient patient, Appointment.Status status) throws SQLException
-  {
-    AppointmentList list = new AppointmentList();
-    for (Appointment appointment : getAppointmentsByPatient(patient).getAppointments())
-      if (appointment.getStatus().equals(status))
-        list.add(appointment);
-    return list;
-  }
+//  public AppointmentList getAppointmentsByNurseAndStatus(Nurse nurse, Appointment.Status status) throws SQLException
+//  {
+//    AppointmentList list = new AppointmentList();
+//    for (Appointment appointment : getAppointmentsByNurse(nurse).getAppointments())
+//      if (appointment.getStatus().equals(status))
+//        list.add(appointment);
+//    return list;
+//  }
+//
+//  public AppointmentList getAppointmentsByPatientAndStatus(Patient patient, Appointment.Status status) throws SQLException
+//  {
+//    AppointmentList list = new AppointmentList();
+//    for (Appointment appointment : getAppointmentsByPatient(patient).getAppointments())
+//      if (appointment.getStatus().equals(status))
+//        list.add(appointment);
+//    return list;
+//  }
 
 
 }
