@@ -17,7 +17,7 @@ public class PatientManager{
 
   public void addPatient(User patient) throws SQLException {
     try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-      PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO user VALUES (?,?)");
+      PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO patient VALUES (?,?)");
       insertStatement.setString(1, patient.getCpr());
       insertStatement.setString(2,Patient.VaccineStatus.NOTAPPLIED.toString());
     }
