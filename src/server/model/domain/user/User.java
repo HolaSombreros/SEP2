@@ -1,10 +1,8 @@
-package server.model.domain;
+package server.model.domain.user;
 
 import server.model.validator.UserValidator;
 
 import java.io.Serializable;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public abstract class User implements Serializable {
 

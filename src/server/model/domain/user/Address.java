@@ -1,4 +1,4 @@
-package server.model.domain;
+package server.model.domain.user;
 
 import server.model.validator.AddressValidator;
 

@@ -1,4 +1,4 @@
-package server.model.domain;
+package server.model.domain.appointment;
 
 import java.io.Serializable;
 import java.util.ArrayList;

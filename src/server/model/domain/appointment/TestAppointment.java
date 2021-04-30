@@ -1,4 +1,7 @@
-package server.model.domain;
+package server.model.domain.appointment;
+
+import server.model.domain.user.Nurse;
+import server.model.domain.user.Patient;
 
 import java.time.LocalDate;
 

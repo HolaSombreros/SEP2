@@ -7,8 +7,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import server.model.domain.Appointment;
-import server.model.domain.AppointmentList;
+import server.model.domain.appointment.Appointment;
+import server.model.domain.appointment.AppointmentList;
 
 public class AppointmentListViewModel implements AppointmentListViewModelInterface {
     private ObservableList<AppointmentTableViewModel> appointments;

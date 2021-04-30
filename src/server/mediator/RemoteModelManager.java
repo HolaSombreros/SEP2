@@ -1,7 +1,10 @@
 package server.mediator;
 
 import server.model.*;
-import server.model.domain.*;
+import server.model.domain.appointment.*;
+import server.model.domain.user.Patient;
+import server.model.domain.user.User;
+import server.model.domain.user.UserList;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.LocalListener;

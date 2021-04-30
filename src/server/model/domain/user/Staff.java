@@ -1,4 +1,4 @@
-package server.model.domain;
+package server.model.domain.user;
 
 public abstract class Staff extends User {
     private String employeeId;

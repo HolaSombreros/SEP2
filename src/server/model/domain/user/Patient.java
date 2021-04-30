@@ -1,6 +1,4 @@
-package server.model.domain;
-
-import server.model.domain.user.VaccineStatus;
+package server.model.domain.user;
 
 public class Patient extends User {
     private VaccineStatus vaccineStatus;

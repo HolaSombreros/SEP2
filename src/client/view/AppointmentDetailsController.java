@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import server.model.domain.TimeInterval;
+import server.model.domain.appointment.TimeInterval;
 
 public class AppointmentDetailsController extends ViewController
 {

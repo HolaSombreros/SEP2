@@ -1,7 +1,7 @@
-package server.model.domain;
+package server.model.domain.appointment;
 
-import server.model.domain.appointment.Status;
-import server.model.domain.appointment.UpcomingStatus;
+import server.model.domain.user.Nurse;
+import server.model.domain.user.Patient;
 import server.model.validator.AppointmentValidator;
 
 import java.io.Serializable;

@@ -7,8 +7,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import server.model.domain.User;
-import server.model.domain.UserList;
+import server.model.domain.user.User;
+import server.model.domain.user.UserList;
 
 public class UserListViewModel implements UserListViewModelInterface
 {

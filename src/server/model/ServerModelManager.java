@@ -1,8 +1,8 @@
 package server.model;
 
 import server.database.*;
-import server.model.domain.*;
-import server.model.domain.user.NotApprovedStatus;
+import server.model.domain.appointment.*;
+import server.model.domain.user.*;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;

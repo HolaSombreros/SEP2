@@ -1,9 +1,9 @@
 package server.model;
 
-import server.model.domain.User;
-import server.model.domain.UserList;
+import server.model.domain.user.User;
+import server.model.domain.user.UserList;
 
-public interface ServerUsersModel
+public interface ServerUserModel
 {
     User login(String cpr, String password);
     void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city);

@@ -2,8 +2,8 @@ package client.viewmodel;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import server.model.domain.Patient;
-import server.model.domain.User;
+import server.model.domain.user.Patient;
+import server.model.domain.user.User;
 
 public class UserTableViewModel
 {

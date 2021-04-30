@@ -1,4 +1,6 @@
-package server.model.domain;
+package server.model.domain.appointment;
+
+import server.model.domain.user.User;
 
 import java.io.Serializable;
 import java.time.LocalDate;

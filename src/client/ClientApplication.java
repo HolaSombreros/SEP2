@@ -6,7 +6,7 @@ import client.view.ViewHandler;
 import client.viewmodel.ViewModelFactory;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import server.model.domain.User;
+import server.model.domain.user.User;
 
 public class ClientApplication extends Application {
     private Model model;

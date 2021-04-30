@@ -1,6 +1,6 @@
 package server.database;
 
-import server.model.domain.*;
+import server.model.domain.user.Address;
 
 import java.sql.*;
 import java.util.ArrayList;

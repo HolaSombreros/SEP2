@@ -1,6 +1,8 @@
 package server.model.validator;
 
-import server.model.domain.*;
+import server.model.domain.appointment.TimeInterval;
+import server.model.domain.user.Nurse;
+import server.model.domain.user.Patient;
 
 import java.time.LocalDate;
 

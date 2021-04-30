@@ -1,4 +1,4 @@
-package server.model.domain;
+package server.model.domain.user;
 
 public class Administrator extends Staff {
     public Administrator(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email, String employeeId) {

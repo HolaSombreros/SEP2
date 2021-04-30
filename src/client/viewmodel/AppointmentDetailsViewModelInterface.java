@@ -3,7 +3,7 @@ package client.viewmodel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
-import server.model.domain.TimeInterval;
+import server.model.domain.appointment.TimeInterval;
 
 import java.time.LocalDate;
 

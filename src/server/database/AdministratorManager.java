@@ -1,6 +1,8 @@
 package server.database;
 
-import server.model.domain.*;
+import server.model.domain.user.Administrator;
+import server.model.domain.user.Patient;
+import server.model.domain.user.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

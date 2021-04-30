@@ -1,7 +1,11 @@
 package server.database;
 
 
-import server.model.domain.*;
+import server.model.domain.appointment.*;
+import server.model.domain.user.Nurse;
+import server.model.domain.user.Patient;
+import server.model.domain.user.User;
+
 import java.sql.*;
 import java.sql.Date;
 import java.sql.Time;

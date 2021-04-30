@@ -3,8 +3,8 @@ package client.viewmodel;
 import client.model.Model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import server.model.domain.Staff;
-import server.model.domain.User;
+import server.model.domain.user.Staff;
+import server.model.domain.user.User;
 
 public class LoginViewModel implements LoginViewModelInterface {
     private StringProperty cprProperty;

@@ -9,10 +9,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import server.model.domain.Appointment;
-import server.model.domain.Patient;
-import server.model.domain.TimeInterval;
-import server.model.domain.Type;
+import server.model.domain.user.Patient;
+import server.model.domain.appointment.TimeInterval;
+import server.model.domain.appointment.Type;
 
 import java.time.LocalDate;
 

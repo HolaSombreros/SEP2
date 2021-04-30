@@ -7,9 +7,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import server.model.domain.Appointment;
-import server.model.domain.TestAppointment;
-import server.model.domain.TimeInterval;
+import server.model.domain.appointment.Appointment;
+import server.model.domain.appointment.TestAppointment;
+import server.model.domain.appointment.TimeInterval;
 
 import java.time.LocalDate;
 
