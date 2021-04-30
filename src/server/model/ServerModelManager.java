@@ -35,8 +35,8 @@ public class ServerModelManager implements ServerModel {
     
     private void loadUsers() {
         try {
-            for (User user : managerFactory.getUserManager().getAllUsers().getUsersList()) {
-                userList.addUser(user);
+            for (User user : managerFactory.getUserManager().getAllUsers().getUsers()) {
+                userList.add(user);
             }
         }
         catch (SQLException e) {
@@ -45,6 +45,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     private void loadAppointments() {
+        // TODO : update appointment statuses where needed. isBefore()
         // nevermind this one for now...
     }
     
@@ -55,17 +56,17 @@ public class ServerModelManager implements ServerModel {
         addresses.add(new Address("Via Street","25B",8700,"Horsens"));
         VaccineStatus status = new NotApprovedStatus();
         UserList userList = new UserList();
-        userList.addUser(new Patient("2003036532","password","Hello",null,"World",addresses.get(1),"12587463","elmo@email.com",status));
-        userList.addUser(new Patient("2003045698","password","Maria",null,"Magdalena",addresses.get(2),"12587464","holy@email.com",status));
-        userList.addUser(new Patient("3105026358","password","Elmo",null,"Popescu",addresses.get(1),"12587465","popescu@email.com",status));
-        userList.addUser(new Patient("2504012368","password","Vaseline",null,"Veselin",addresses.get(0),"12587466","vaseline@email.com",status));
-        userList.addUser(new Nurse("1302026584","password","Mikasa",null,"Ackerman",addresses.get(0),"12587467","aot@email.com","mikasa_nurse"));
-        userList.addUser(new Administrator("1407026358","password","Nico",null,"Robin",addresses.get(0),"12569873","nicoRobin@email.com","nicoRobin_admin"));
+        userList.add(new Patient("2003036532","password","Hello",null,"World",addresses.get(1),"12587463","elmo@email.com",status));
+        userList.add(new Patient("2003045698","password","Maria",null,"Magdalena",addresses.get(2),"12587464","holy@email.com",status));
+        userList.add(new Patient("3105026358","password","Elmo",null,"Popescu",addresses.get(1),"12587465","popescu@email.com",status));
+        userList.add(new Patient("2504012368","password","Vaseline",null,"Veselin",addresses.get(0),"12587466","vaseline@email.com",status));
+        userList.add(new Nurse("1302026584","password","Mikasa",null,"Ackerman",addresses.get(0),"12587467","aot@email.com","mikasa_nurse"));
+        userList.add(new Administrator("1407026358","password","Nico",null,"Robin",addresses.get(0),"12569873","nicoRobin@email.com","nicoRobin_admin"));
         try {
            for (Address address : addresses)
                if (!managerFactory.getAddressManager().isAddress(address.getStreet(),address.getNumber(),address.getZipcode()))
                    managerFactory.getAddressManager().addAddress(address);
-           for(User user: userList.getUsersList())
+           for(User user: userList.getUsers())
                if( user instanceof Patient && managerFactory.getPatientManager().isPatient(user)) {
                    managerFactory.getUserManager().addPerson(user);
                }
@@ -96,7 +97,7 @@ public class ServerModelManager implements ServerModel {
                 throw new IllegalStateException("That user is already logged in");
             }
             else {
-                onlineList.addUser(user);
+                onlineList.add(user);
                 return user;
             }
         }
@@ -110,7 +111,7 @@ public class ServerModelManager implements ServerModel {
         if (!userList.contains(cpr)) {
             Address address = new Address(street, number, zip, city);
             User user = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, new NotApprovedStatus());
-            userList.addUser(user);
+            userList.add(user);
             try {
                managerFactory.getUserManager().addPerson(user);
             }
@@ -132,9 +133,9 @@ public class ServerModelManager implements ServerModel {
     public synchronized UserList getPatientList()
     {
         UserList patientList = new UserList();
-        for (User user: userList.getUsersList())
+        for (User user: userList.getUsers())
             if (user instanceof Patient)
-                patientList.addUser(user);
+                patientList.add(user);
         return patientList;
     }
 
@@ -142,9 +143,9 @@ public class ServerModelManager implements ServerModel {
     public synchronized UserList getNurseList()
     {
         UserList nurseList = new UserList();
-        for (User user: userList.getUsersList())
+        for (User user: userList.getUsers())
             if (user instanceof Nurse)
-                nurseList.addUser(user);
+                nurseList.add(user);
         return nurseList;
     }
 
@@ -152,9 +153,9 @@ public class ServerModelManager implements ServerModel {
     public synchronized UserList getAdministratorList()
     {
         UserList adminList = new UserList();
-        for (User user: userList.getUsersList())
+        for (User user: userList.getUsers())
             if (user instanceof Administrator)
-                adminList.addUser(user);
+                adminList.add(user);
         return adminList;
     }
 

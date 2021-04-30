@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class CountDown implements Serializable, Runnable {
+public class CountDown extends Thread implements Serializable {
     private Appointment appointment;
     
     public CountDown(Appointment appointment) {

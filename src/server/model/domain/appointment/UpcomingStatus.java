@@ -6,8 +6,7 @@ public class UpcomingStatus extends Status {
     public UpcomingStatus(Appointment appointment) {
         // TODO : Perhaps disable timer when patient logs off so its not running on the server. can then check and update when they log in
         timer = new CountDown(appointment);
-        Thread thread = new Thread(timer);
-        thread.start();
+        timer.start();
     }
     
     @Override

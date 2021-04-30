@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.format.DateTimeFormatter;
 
 public class UserManager {
 
@@ -239,13 +238,13 @@ public class UserManager {
                         break;
                 }
                 if (nurse_id != null) {
-                    users.addUser(new Nurse(cpr, password, firstName, middleName, lastName, address, phone, email, nurse_id));
+                    users.add(new Nurse(cpr, password, firstName, middleName, lastName, address, phone, email, nurse_id));
                 }
                 else if (admin_id != null) {
-                    users.addUser(new Nurse(cpr, password, firstName, middleName, lastName, address, phone, email, admin_id));
+                    users.add(new Nurse(cpr, password, firstName, middleName, lastName, address, phone, email, admin_id));
                 }
                 else {
-                    users.addUser(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, status));
+                    users.add(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, status));
                 }
             }
             return users;
@@ -285,7 +284,7 @@ public class UserManager {
                         break;
                 }
                 if(patientManager.isPatient(cprResult))
-                    registeredUsers.getUsersList().add(new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email, status));
+                    registeredUsers.getUsers().add(new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email, status));
             }
             return registeredUsers;
         }
@@ -299,7 +298,7 @@ public class UserManager {
             while (resultSet.next()) {
                 String cpr = resultSet.getString("cpr");
                 Nurse user = getNurse(cpr);
-                result.addUser(user);
+                result.add(user);
             }
             return result;
         }
@@ -313,7 +312,7 @@ public class UserManager {
             while (resultSet.next()) {
                 String cpr = resultSet.getString("cpr");
                 Administrator user = getAdministrator(cpr);
-                result.addUser(user);
+                result.add(user);
             }
             return result;
         }

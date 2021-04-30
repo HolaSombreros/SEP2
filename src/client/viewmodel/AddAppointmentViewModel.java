@@ -113,15 +113,15 @@ public class AddAppointmentViewModel implements AddAppointmentViewModelInterface
     
     @Override
     public void createAppointment() {
-//        try {
+        try {
             model.addAppointment((date.get()), timeInterval.get(), type.get(), (Patient) viewState.getUser());
             errorFill.set(Color.GREEN);
             error.set("Appointment booked for " + date.get().toString() + " (" + timeInterval.get() + ")");
             resetInputs();
-//        }
-//        catch (Exception e) {
-//            errorFill.set(Color.RED);
-//            error.set(e.getMessage());
-//        }
+        }
+        catch (Exception e) {
+            errorFill.set(Color.RED);
+            error.set(e.getMessage());
+        }
     }
 }

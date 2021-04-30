@@ -56,7 +56,7 @@ public class UserListViewModel implements UserListViewModelInterface
         roleProperty.set("Administrator List");
         break;
     }
-    for (User user : userList.getUsersList())
+    for (User user : userList.getUsers())
       users.add(new UserTableViewModel(user));
 
   }

@@ -12,11 +12,11 @@ public class UserList implements Serializable
         this.users = new ArrayList<>();
     }
     
-    public List<User> getUsersList() {
+    public List<User> getUsers() {
         return users;
     }
     
-    public void addUser(User user) {
+    public void add(User user) {
         users.add(user);
     }
     
