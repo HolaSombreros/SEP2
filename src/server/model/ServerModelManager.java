@@ -160,7 +160,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public void editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip)
+    public synchronized void editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip)
     {
         try{
             //user.editUserInformation(password, firstName, middleName, lastName, new Address(street, number, zip,null));
