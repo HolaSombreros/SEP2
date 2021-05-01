@@ -122,7 +122,7 @@ public abstract class User implements Serializable {
         if ((middleName == null && user.middleName != null) || (middleName != null && user.middleName == null)) {
             return false;
         }
-        
+
         // Same middle name or both are null:
         if (middleName != null && !middleName.equals(user.middleName)) {
             return false;

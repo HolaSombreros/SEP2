@@ -10,8 +10,10 @@ public interface ServerUserModel
     void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city);
     void logout(User user);
     UserList getUserList();
-    UserList getPatients();
-    UserList getNurses();
-    UserList getAdministrators();
+    UserList getPatientList();
+    UserList getNurseList();
+    UserList getAdministratorList();
     void editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip);
+
+
 }

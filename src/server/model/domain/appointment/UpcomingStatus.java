@@ -1,28 +1,22 @@
 package server.model.domain.appointment;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 public class UpcomingStatus extends Status {
-    private Thread timer;
+    private CountDown timer;
     
     public UpcomingStatus(Appointment appointment) {
-        timer = new Thread(() -> {
-            try {
-                while (LocalDate.now().isBefore(appointment.getDate()) && LocalTime.now().isBefore(appointment.getTimeInterval().getTo())) {
-                    Thread.sleep(1000);
-                }
-                appointment.setStatus(new FinishedStatus());
-            }
-            catch (InterruptedException e) {
-            }
-        });
+        // TODO : Perhaps disable timer when patient logs off so its not running on the server. can then check and update when they log in
+        timer = new CountDown(appointment);
         timer.start();
     }
     
     @Override
     public void cancel(Appointment appointment) {
         appointment.setStatus(new CancelledStatus());
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof UpcomingStatus;
     }
     
     @Override

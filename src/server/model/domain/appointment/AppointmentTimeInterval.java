@@ -22,8 +22,8 @@ public class AppointmentTimeInterval implements Serializable {
         return maxAppointmentCount;
     }
     
-    public List<Appointment> getAppointmentList() {
-        return appointmentList.getAppointments();
+    public AppointmentList getAppointmentList() {
+        return appointmentList;
     }
     
     public LocalDate getDate() {

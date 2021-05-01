@@ -4,6 +4,7 @@ import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +30,8 @@ public class AppointmentTimeIntervalList {
             }
         }
         else throw new IllegalArgumentException("You cannot book another appointment in this time interval");
-
     }
+    
     public boolean checkAppointmentOnTimeInterval(TimeInterval timeInterval, LocalDate date, Patient patient){
         for(Appointment appointment : getAppointmentsByUser(patient).getAppointments()){
             if(appointment.getTimeInterval().equals(timeInterval) && appointment.getDate().equals(date)){
@@ -53,7 +54,7 @@ public class AppointmentTimeIntervalList {
             throw new IllegalArgumentException("Please enter an id higher than 0");
         }
         for (AppointmentTimeInterval appointmentTimeInterval : appointmentTimeIntervals) {
-            for (Appointment appointment : appointmentTimeInterval.getAppointmentList()) {
+            for (Appointment appointment : appointmentTimeInterval.getAppointmentList().getAppointments()) {
                 if (appointment.getId() == id) {
                     return appointment;
                 }
@@ -68,8 +69,18 @@ public class AppointmentTimeIntervalList {
             return list;
         }
         for (AppointmentTimeInterval appointmentTimeInterval : appointmentTimeIntervals) {
-            if (appointmentTimeInterval.getDate().equals(date) && appointmentTimeInterval.size() < appointmentTimeInterval.getMaxAppointmentCount()) {
-                list.add(appointmentTimeInterval.getTimeInterval());
+            // if the date is the current date, filter out based on current time to not show past time intervals
+            if (date.equals(LocalDate.now())) {
+                if (appointmentTimeInterval.getDate().equals(date) && appointmentTimeInterval.size() < appointmentTimeInterval.getMaxAppointmentCount()
+                    && !appointmentTimeInterval.getTimeInterval().getFrom().isBefore(LocalTime.now())) {
+                    list.add(appointmentTimeInterval.getTimeInterval());
+                }
+            }
+            // otherwise, add all time intervals for that date
+            else {
+                if (appointmentTimeInterval.getDate().equals(date) && appointmentTimeInterval.size() < appointmentTimeInterval.getMaxAppointmentCount()) {
+                    list.add(appointmentTimeInterval.getTimeInterval());
+                }
             }
         }
         return list;

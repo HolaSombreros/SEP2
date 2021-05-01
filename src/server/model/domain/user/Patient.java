@@ -26,11 +26,11 @@ public class Patient extends User {
             return false;
         }
         Patient patient = (Patient) obj;
-        return super.equals(obj) && vaccineStatus == patient.vaccineStatus;
+        return super.equals(obj) && vaccineStatus.equals(patient.vaccineStatus);
     }
     
     @Override
     public String toString() {
-        return super.toString() + " | Vaccine Status: " + vaccineStatus;
+        return super.toString() + " | Vaccine Status: " + vaccineStatus.toString();
     }
 }

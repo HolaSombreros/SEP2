@@ -76,17 +76,17 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
 
     @Override public UserList getPatients() throws RemoteException
     {
-       return serverModel.getPatients();
+       return serverModel.getPatientList();
     }
 
     @Override public UserList getNurses() throws RemoteException
     {
-        return serverModel.getNurses();
+        return serverModel.getNurseList();
     }
 
     @Override public UserList getAdministrators() throws RemoteException
     {
-        return serverModel.getAdministrators();
+        return serverModel.getAdministratorList();
     }
 
     @Override

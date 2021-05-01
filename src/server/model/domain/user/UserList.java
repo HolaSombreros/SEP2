@@ -6,23 +6,23 @@ import java.util.List;
 
 public class UserList implements Serializable
 {
-    private List<User> userList;
+    private List<User> users;
     
     public UserList() {
-        this.userList = new ArrayList<>();
+        this.users = new ArrayList<>();
     }
     
-    public List<User> getUsersList() {
-        return userList;
+    public List<User> getUsers() {
+        return users;
     }
     
-    public void addUser(User user) {
-        userList.add(user);
+    public void add(User user) {
+        users.add(user);
     }
     
     // Method compares using only the user's CPR
     public User getUserByCpr(String cpr) {
-        for (User user : userList) {
+        for (User user : users) {
             if (user.getCpr().equals(cpr)) {
                 return user;
             }
@@ -31,16 +31,16 @@ public class UserList implements Serializable
     }
     
     public int size() {
-        return userList.size();
+        return users.size();
     }
     
     public void remove(User user) {
-        userList.remove(user);
+        users.remove(user);
     }
     
     // Method compares using only the user's CPR
     public boolean contains(String cpr) {
-        for (User user : userList) {
+        for (User user : users) {
             if (user.getCpr().equals(cpr)) {
                 return true;
             }
@@ -50,7 +50,7 @@ public class UserList implements Serializable
     
     // Method compares using only the user's CPR
     public boolean contains(User user) {
-        for (User u : userList) {
+        for (User u : users) {
             if (user.getCpr().equals(u.getCpr())) {
                 return true;
             }
@@ -63,11 +63,11 @@ public class UserList implements Serializable
         if (!(obj instanceof UserList))
             return false;
         UserList other = (UserList) obj;
-        if (userList.size() != other.size()) {
+        if (users.size() != other.users.size()) {
             return false;
         }
-        for (int index = 0; index < userList.size(); index++) {
-            if (!userList.get(index).equals(other.userList.get(index))) {
+        for (int index = 0; index < users.size(); index++) {
+            if (!users.get(index).equals(other.users.get(index))) {
                 return false;
             }
         }
@@ -77,7 +77,7 @@ public class UserList implements Serializable
     @Override
     public String toString() {
         String totalUsers = "";
-        for (User user : userList) {
+        for (User user : users) {
             totalUsers += user + " ";
         }
         return totalUsers;

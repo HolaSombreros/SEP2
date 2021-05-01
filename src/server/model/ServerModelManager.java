@@ -35,8 +35,8 @@ public class ServerModelManager implements ServerModel {
     
     private void loadUsers() {
         try {
-            for (User user : managerFactory.getUserManager().getAllPatients().getUsersList()) {
-                userList.addUser(user);
+            for (User user : managerFactory.getUserManager().getAllUsers().getUsers()) {
+                userList.add(user);
             }
         }
         catch (SQLException e) {
@@ -45,6 +45,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     private void loadAppointments() {
+        // TODO : update appointment statuses where needed. isBefore()
         // nevermind this one for now...
     }
     
@@ -55,17 +56,17 @@ public class ServerModelManager implements ServerModel {
         addresses.add(new Address("Via Street","25B",8700,"Horsens"));
         VaccineStatus status = new NotApprovedStatus();
         UserList userList = new UserList();
-        userList.addUser(new Patient("2003036532","password","Hello",null,"World",addresses.get(1),"12587463","elmo@email.com",status));
-        userList.addUser(new Patient("2003045698","password","Maria",null,"Magdalena",addresses.get(2),"12587464","holy@email.com",status));
-        userList.addUser(new Patient("3105026358","password","Elmo",null,"Popescu",addresses.get(1),"12587465","popescu@email.com",status));
-        userList.addUser(new Patient("2504012368","password","Vaseline",null,"Veselin",addresses.get(0),"12587466","vaseline@email.com",status));
-        userList.addUser(new Nurse("1302026584","password","Mikasa",null,"Ackerman",addresses.get(0),"12587467","aot@email.com","mikasa_nurse"));
-        userList.addUser(new Administrator("1407026358","password","Nico",null,"Robin",addresses.get(0),"12569873","nicoRobin@email.com","nicoRobin_admin"));
+        userList.add(new Patient("2003036532","password","Hello",null,"World",addresses.get(1),"12587463","elmo@email.com",status));
+        userList.add(new Patient("2003045698","password","Maria",null,"Magdalena",addresses.get(2),"12587464","holy@email.com",status));
+        userList.add(new Patient("3105026358","password","Elmo",null,"Popescu",addresses.get(1),"12587465","popescu@email.com",status));
+        userList.add(new Patient("2504012368","password","Vaseline",null,"Veselin",addresses.get(0),"12587466","vaseline@email.com",status));
+        userList.add(new Nurse("1302026584","password","Mikasa",null,"Ackerman",addresses.get(0),"12587467","aot@email.com","mikasa_nurse"));
+        userList.add(new Administrator("1407026358","password","Nico",null,"Robin",addresses.get(0),"12569873","nicoRobin@email.com","nicoRobin_admin"));
         try {
            for (Address address : addresses)
                if (!managerFactory.getAddressManager().isAddress(address.getStreet(),address.getNumber(),address.getZipcode()))
                    managerFactory.getAddressManager().addAddress(address);
-           for(User user: userList.getUsersList())
+           for(User user: userList.getUsers())
                if( user instanceof Patient && managerFactory.getPatientManager().isPatient(user)) {
                    managerFactory.getUserManager().addPerson(user);
                }
@@ -90,23 +91,18 @@ public class ServerModelManager implements ServerModel {
     }
     @Override
     public synchronized User login(String cpr, String password) {
-        try{
-            User user = managerFactory.getUserManager().getUser(cpr);
-            if(managerFactory.getUserManager().getPassword(cpr).equals(password)){
-                if (!onlineList.contains(user)) {
-                    onlineList.addUser(user);
-                    return user;
-                }
-                else
-                    throw new IllegalStateException("That user is already signed in");
+        User user = userList.getUserByCpr(cpr);
+        if (userList.getUserByCpr(cpr).getPassword().equals(password)){
+            if (onlineList.contains(cpr)) {
+                throw new IllegalStateException("That user is already logged in");
             }
-            else
-                throw new IllegalArgumentException("That username/password combination does not match");
+            else {
+                onlineList.add(user);
+                return user;
+            }
         }
-        catch (SQLException | IllegalStateException e) {
-            e.printStackTrace();
-        }
-        return null;
+        else
+            throw new IllegalArgumentException("That username/password combination does not match");
     }
     
     @Override
@@ -115,7 +111,7 @@ public class ServerModelManager implements ServerModel {
         if (!userList.contains(cpr)) {
             Address address = new Address(street, number, zip, city);
             User user = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, new NotApprovedStatus());
-            userList.addUser(user);
+            userList.add(user);
             try {
                managerFactory.getUserManager().addPerson(user);
             }
@@ -125,29 +121,7 @@ public class ServerModelManager implements ServerModel {
         }
         else {
             throw new IllegalStateException("That CPR is already registered in the system");
-        };
-    }
-
-
-
-    private UserList getNurseList() {
-        try {
-            userList = managerFactory.getUserManager().getAllNurses();
         }
-        catch (SQLException e){
-            e.printStackTrace();
-        }
-       return userList;
-    }
-
-    private UserList getAdministratorList() {
-        try {
-            userList = managerFactory.getUserManager().getAllAdministrators();
-        }
-        catch (SQLException e){
-            e.printStackTrace();
-        }
-        return userList;
     }
     
     @Override
@@ -156,32 +130,32 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public synchronized UserList getPatients()
+    public synchronized UserList getPatientList()
     {
         UserList patientList = new UserList();
-        for (User user: userList.getUsersList())
+        for (User user: userList.getUsers())
             if (user instanceof Patient)
-                patientList.addUser(user);
+                patientList.add(user);
         return patientList;
     }
 
     @Override
-    public synchronized UserList getNurses()
+    public synchronized UserList getNurseList()
     {
         UserList nurseList = new UserList();
-        for (User user: userList.getUsersList())
+        for (User user: userList.getUsers())
             if (user instanceof Nurse)
-                nurseList.addUser(user);
+                nurseList.add(user);
         return nurseList;
     }
 
     @Override
-    public synchronized UserList getAdministrators()
+    public synchronized UserList getAdministratorList()
     {
         UserList adminList = new UserList();
-        for (User user: userList.getUsersList())
+        for (User user: userList.getUsers())
             if (user instanceof Administrator)
-                adminList.addUser(user);
+                adminList.add(user);
         return adminList;
     }
 
@@ -211,9 +185,9 @@ public class ServerModelManager implements ServerModel {
             default:
                 throw new IllegalStateException("Appointment type '" + type + "' is invalid");
         }
+        appointmentTimeIntervalList.add(appointment, date, timeInterval);
         try {
             managerFactory.getAppointmentManager().addAppointment(appointment);
-            appointmentTimeIntervalList.add(appointment, date, timeInterval);
         }
         catch (SQLException e) {
             e.printStackTrace();
