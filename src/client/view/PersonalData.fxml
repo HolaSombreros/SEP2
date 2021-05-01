@@ -108,8 +108,13 @@
             </Label>
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="250.0">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="150.0">
          <children>
+            <Button mnemonicParsing="false" onAction="#applyForVaccination" prefHeight="30.0" prefWidth="212.0" text="Apply for vaccination approval">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
             <Button mnemonicParsing="false" onAction="#editDetails" text="Edit Personal Details">
                <font>
                   <Font size="14.0" />

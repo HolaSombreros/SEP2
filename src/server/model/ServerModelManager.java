@@ -163,6 +163,7 @@ public class ServerModelManager implements ServerModel {
     public void editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip)
     {
         try{
+            //user.editUserInformation(password, firstName, middleName, lastName, new Address(street, number, zip,null));
             managerFactory.getUserManager().updateUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
         }
         catch(Exception e){

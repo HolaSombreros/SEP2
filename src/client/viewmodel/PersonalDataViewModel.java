@@ -113,6 +113,12 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     }
 
     @Override
+    public void applyForVaccination()
+    {
+
+    }
+
+    @Override
     public StringProperty getFirstName()
     {
         return firstName;
