@@ -7,6 +7,7 @@ import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
 
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -169,12 +170,11 @@ public class ServerModelManager implements ServerModel {
         try{
             user2 = userList.getUserByCpr(user.getCpr());
             String city = managerFactory.getAddressManager().getCity(zip);
-            user2.editUserInformation(password, firstName, middleName, lastName, new Address(street, number, zip,city),phone, email);
-            System.out.println(user2.getPassword());
+            user2.editUserInformation(password, firstName, middleName, lastName, new Address(street, number, zip,city), phone, email);
             managerFactory.getUserManager().updateUserInformation(user2, password, firstName, middleName, lastName, phone, email, street, number, zip);
-        }
-        catch(Exception e){
-            e.printStackTrace();
+       }
+        catch(SQLException e){
+           e.printStackTrace();
         }
         return user2;
     }

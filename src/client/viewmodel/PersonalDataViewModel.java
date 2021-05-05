@@ -72,8 +72,8 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         if(confirmEditing()){
            try{
                User user = model.editUserInformation(viewState.getUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(),number.get(), zipCode.get());
-               errorLabel.set("Changes were saved");
                viewState.setUser(user);
+               errorLabel.set("Changes were saved");
            }
            catch (Exception e){
                errorLabel.set(e.getMessage());
@@ -83,8 +83,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
             reset();
     }
 
-    @Override
-    public boolean confirmEditing()
+    private boolean confirmEditing()
     {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm editing");
@@ -114,13 +113,6 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
     }
-
-    @Override
-    public void applyForVaccination()
-    {
-
-    }
-
     @Override
     public StringProperty getFirstName()
     {

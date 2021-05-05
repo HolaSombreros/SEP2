@@ -56,7 +56,5 @@ public class PersonalDataViewController extends ViewController
     @FXML private void backButton(){
         getViewHandler().openView(View.DASHBOARD);
     }
-    @FXML private void applyForVaccination(){
-        viewModel.applyForVaccination();
-    }
+
 }

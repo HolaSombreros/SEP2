@@ -11,6 +11,7 @@ public class DashboardViewController extends ViewController {
     @FXML private Label accessLabel;
     @FXML private Label timeLabel;
     @FXML private Label dateLabel;
+    @FXML private Label vaccinationLabel;
     
     public DashboardViewController() {
         // empty - called by FXMLLoader
@@ -24,7 +25,7 @@ public class DashboardViewController extends ViewController {
         accessLabel.visibleProperty().bind(viewModel.getAccessVisibilityProperty());
         timeLabel.textProperty().bind(viewModel.getTimeProperty());
         dateLabel.textProperty().bind(viewModel.getDateProperty());
-        
+        vaccinationLabel.textProperty().bind(viewModel.getVaccinationApproval());
         reset();
     }
     
@@ -38,7 +39,9 @@ public class DashboardViewController extends ViewController {
         viewModel.logout();
         getViewHandler().openView(View.LOGIN);
     }
-    
+    @FXML private void applyForVaccination(){
+        viewModel.applyForVaccination();
+    }
     @FXML
     private void myAppointments() {
         getViewHandler().openView(View.APPOINTMENTLIST);

@@ -127,7 +127,7 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
         }
         catch (RemoteException e)
         {
-            throw new IllegalStateException("Cannot unexport RMI object", e);
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
@@ -139,7 +139,7 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
         }
         catch (RemoteException e)
         {
-            throw new IllegalStateException("Cannot unexport RMI object", e);
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
@@ -151,7 +151,7 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
         }
         catch (RemoteException e)
         {
-            throw new IllegalStateException("Cannot unexport RMI object", e);
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
@@ -162,9 +162,8 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
             return server.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
         }
         catch (RemoteException e){
-            e.printStackTrace();
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
-        return null;
     }
 
     @Override
@@ -174,7 +173,7 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
             property.close();
         }
         catch (Exception e) {
-            throw new IllegalStateException("Cannot unexport RMI object", e);
+            throw new IllegalStateException("Cannot unexport object RMI", e);
         }
     }
     

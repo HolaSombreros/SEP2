@@ -19,6 +19,5 @@ public interface PersonalDataViewModelInterface
 
     void reset();
     void editDetails();
-    boolean confirmEditing();
-    void applyForVaccination();
+
 }

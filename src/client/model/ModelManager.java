@@ -86,8 +86,6 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     {
         return client.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
     }
-
-
     @Override
     public void logout(User user) {
         client.logout(user);
