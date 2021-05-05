@@ -72,7 +72,7 @@ public class UserManager {
                 String street = resultSet.getString("street");
                 String number = resultSet.getString("number");
                 int zipcode = resultSet.getInt("zip_code");
-                String city = addressManager.getCityByZipcode(zipcode);
+                String city = addressManager.getCity(zipcode);
                 Address address = new Address(street, number, zipcode, city);
                 String phone = resultSet.getString("phone");
                 String email = resultSet.getString("email");
@@ -184,7 +184,7 @@ public class UserManager {
                 String street = rs.getString("street");
                 String number = rs.getString("number");
                 int zipcode = rs.getInt("zip_code");
-                Address address = new Address(street, number, zipcode, addressManager.getCityByZipcode(zipcode));
+                Address address = new Address(street, number, zipcode, addressManager.getCity(zipcode));
                 String phone = rs.getString("phone");
                 String email = rs.getString("email");
                 String vaccine = rs.getString("vaccine_status");
@@ -206,7 +206,7 @@ public class UserManager {
                     users.add(new Nurse(cpr, password, firstName, middleName, lastName, address, phone, email, nurse_id));
                 }
                 else if (admin_id != null) {
-                    users.add(new Nurse(cpr, password, firstName, middleName, lastName, address, phone, email, admin_id));
+                    users.add(new Administrator(cpr, password, firstName, middleName, lastName, address, phone, email, admin_id));
                 }
                 else {
                     users.add(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, status));
@@ -233,7 +233,7 @@ public class UserManager {
                 String street = resultSet.getString("street");
                 String number = resultSet.getString("number");
                 int zipcode = resultSet.getInt("zip_code");
-                Address address = new Address(street, number, zipcode, addressManager.getCityByZipcode(zipcode));
+                Address address = new Address(street, number, zipcode, addressManager.getCity(zipcode));
                 String phone = resultSet.getString("phone");
                 String email = resultSet.getString("email");
                 String vaccine = resultSet.getString("vaccine_status");

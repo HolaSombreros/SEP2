@@ -37,7 +37,7 @@ public class AddressManager {
         }
     }
 
-    public String getCityByZipcode(int zipcode)throws SQLException{
+    public String getCity(int zipcode)throws SQLException{
         try(Connection connection = DatabaseManager.getInstance().getConnection()){
             PreparedStatement selectStatement = connection.prepareStatement("SELECT city FROM city WHERE zip_code = ?");
             selectStatement.setInt(1,zipcode);
@@ -45,6 +45,21 @@ public class AddressManager {
             if(resultSet.next()){
                 String city = resultSet.getString("city");
                 return city;
+            }
+            else {
+                throw new IllegalStateException("No existing city with this zipcode");
+            }
+        }
+    }
+
+    public int getZipcode(String city)throws SQLException{
+        try(Connection connection = DatabaseManager.getInstance().getConnection()){
+            PreparedStatement selectStatement = connection.prepareStatement("SELECT zip_code FROM city WHERE city = ?");
+            selectStatement.setString(1,city);
+            ResultSet resultSet = selectStatement.executeQuery();
+            if(resultSet.next()){
+                int zipCode = resultSet.getInt("zip_code");
+                return zipCode;
             }
             else {
                 throw new IllegalStateException("No existing city with this zipcode");
