@@ -25,22 +25,22 @@ public class PersonalDataViewController extends ViewController
     private PersonalDataViewModelInterface viewModel;
 
     public PersonalDataViewController(){}
-    
+
     @Override
     protected void init() {
         viewModel = getViewModelFactory().getPersonalDataViewModel();
-        firstName.textProperty().bindBidirectional(viewModel.getFirstName());
-        middleName.textProperty().bindBidirectional(viewModel.getMiddleName());
-        lastName.textProperty().bindBidirectional(viewModel.getLastName());
-        password.textProperty().bindBidirectional(viewModel.getPassword());
-        cpr.textProperty().bindBidirectional(viewModel.getCpr());
-        email.textProperty().bindBidirectional(viewModel.getEmail());
-        phoneNumber.textProperty().bindBidirectional(viewModel.getPhoneNumber());
-        street.textProperty().bindBidirectional(viewModel.getStreet());
-        zipCode.textProperty().bindBidirectional(viewModel.getZipCode(), new IntStringConverter());
-        number.textProperty().bindBidirectional(viewModel.getNumber());
-        errorLabel.textProperty().bindBidirectional(viewModel.getErrorLabel());
-        vaccineStatus.textProperty().bind(viewModel.getVaccineStatus());
+        firstName.textProperty().bindBidirectional(viewModel.getFirstNameProperty());
+        middleName.textProperty().bindBidirectional(viewModel.getMiddleNameProperty());
+        lastName.textProperty().bindBidirectional(viewModel.getLastNameProperty());
+        password.textProperty().bindBidirectional(viewModel.getPasswordProperty());
+        cpr.textProperty().bindBidirectional(viewModel.getCprProperty());
+        email.textProperty().bindBidirectional(viewModel.getEmailProperty());
+        phoneNumber.textProperty().bindBidirectional(viewModel.getPhoneNumberProperty());
+        street.textProperty().bindBidirectional(viewModel.getStreetProperty());
+        zipCode.textProperty().bindBidirectional(viewModel.getZipCodeProperty(), new IntStringConverter());
+        number.textProperty().bindBidirectional(viewModel.getNumberProperty());
+        errorLabel.textProperty().bindBidirectional(viewModel.getErrorLabelProperty());
+        vaccineStatus.textProperty().bind(viewModel.getVaccineStatusProperty());
         reset();
     }
 

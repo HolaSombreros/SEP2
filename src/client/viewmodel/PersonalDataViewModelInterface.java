@@ -5,18 +5,18 @@ import javafx.beans.property.StringProperty;
 
 public interface PersonalDataViewModelInterface
 {
-    StringProperty getFirstName();
-    StringProperty getMiddleName();
-    StringProperty getLastName();
-    StringProperty getEmail();
-    StringProperty getNumber();
-    StringProperty getStreet();
-    StringProperty getCpr();
-    StringProperty getPhoneNumber();
-    StringProperty getErrorLabel();
-    StringProperty getPassword();
-    IntegerProperty getZipCode();
-    StringProperty getVaccineStatus();
+    StringProperty getFirstNameProperty();
+    StringProperty getMiddleNameProperty();
+    StringProperty getLastNameProperty();
+    StringProperty getEmailProperty();
+    StringProperty getNumberProperty();
+    StringProperty getStreetProperty();
+    StringProperty getCprProperty();
+    StringProperty getPhoneNumberProperty();
+    StringProperty getErrorLabelProperty();
+    StringProperty getPasswordProperty();
+    IntegerProperty getZipCodeProperty();
+    StringProperty getVaccineStatusProperty();
 
     void reset();
     void editDetails();

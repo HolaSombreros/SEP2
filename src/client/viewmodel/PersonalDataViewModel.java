@@ -53,7 +53,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         errorLabel.set("");
 
     }
-    public void loadInformation(){
+    private void loadInformation(){
         password.set(viewState.getUser().getPassword());
         firstName.set(viewState.getUser().getFirstName());
         middleName.set(viewState.getUser().getMiddleName());
@@ -115,69 +115,69 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         return result.isPresent() && result.get() == ButtonType.OK;
     }
     @Override
-    public StringProperty getFirstName()
+    public StringProperty getFirstNameProperty()
     {
         return firstName;
     }
 
     @Override
-    public StringProperty getMiddleName()
+    public StringProperty getMiddleNameProperty()
     {
         return middleName;
     }
 
     @Override
-    public StringProperty getLastName()
+    public StringProperty getLastNameProperty()
     {
         return lastName;
     }
 
     @Override
-    public StringProperty getStreet()
+    public StringProperty getStreetProperty()
     {
         return street;
     }
 
     @Override
-    public StringProperty getNumber()
+    public StringProperty getNumberProperty()
     {
         return number;
     }
 
     @Override
-    public StringProperty getCpr()
+    public StringProperty getCprProperty()
     {
         return cpr;
     }
 
     @Override
-    public StringProperty getEmail()
+    public StringProperty getEmailProperty()
     {
         return email;
     }
 
     @Override
-    public StringProperty getPhoneNumber()
+    public StringProperty getPhoneNumberProperty()
     {
         return phoneNumber;
     }
 
     @Override
-    public StringProperty getErrorLabel()
+    public StringProperty getErrorLabelProperty()
     {
         return errorLabel;
     }
     @Override
-    public StringProperty getPassword(){
+    public StringProperty getPasswordProperty(){
         return password;
     }
     @Override
-    public IntegerProperty getZipCode(){
+    public IntegerProperty getZipCodeProperty(){
         return zipCode;
     }
 
     @Override
-    public StringProperty getVaccineStatus()
+    public StringProperty getVaccineStatusProperty()
     {
         return vaccineStatus;
     }
