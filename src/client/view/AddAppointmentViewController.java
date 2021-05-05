@@ -33,6 +33,7 @@ public class AddAppointmentViewController extends ViewController {
         typeChoiceBox.setItems(viewModel.getAllTypes());
         errorLabel.textProperty().bind(viewModel.getErrorProperty());
         errorLabel.textFillProperty().bind(viewModel.getErrorFillProperty());
+        reset();
     }
     
     @Override

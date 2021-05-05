@@ -20,26 +20,26 @@ public class AppointmentTimeIntervalList {
     }
     
     public void add(AppointmentTimeInterval appointmentTimeInterval) {
-        if(!appointmentTimeIntervals.contains(appointmentTimeInterval))
+        if (!appointmentTimeIntervals.contains(appointmentTimeInterval))
             appointmentTimeIntervals.add(appointmentTimeInterval);
     }
     
     public void add(Appointment appointment, LocalDate date, TimeInterval timeInterval) {
-        if(!checkAppointmentOnTimeInterval(timeInterval, date, appointment.getPatient())){
-            for (AppointmentTimeInterval appointmentTimeInterval : appointmentTimeIntervals)
-            {
-                if (appointmentTimeInterval.getDate().equals(date) && appointmentTimeInterval.getTimeInterval().equals(timeInterval))
-                {
+        if (!checkAppointmentOnTimeInterval(timeInterval, date, appointment.getPatient())) {
+            for (AppointmentTimeInterval appointmentTimeInterval : appointmentTimeIntervals) {
+                if (appointmentTimeInterval.getDate().equals(date) && appointmentTimeInterval.getTimeInterval().equals(timeInterval)) {
                     appointmentTimeInterval.add(appointment);
                 }
             }
         }
-            else throw new IllegalArgumentException("You cannot book another appointment in this time interval");
+        else {
+            throw new IllegalArgumentException("You cannot book another appointment in this time interval");
+        }
     }
     
-    public boolean checkAppointmentOnTimeInterval(TimeInterval timeInterval, LocalDate date, Patient patient){
-        for(Appointment appointment : getAppointmentsByUser(patient).getAppointments()){
-            if(appointment.getTimeInterval().equals(timeInterval) && appointment.getDate().equals(date)){
+    public boolean checkAppointmentOnTimeInterval(TimeInterval timeInterval, LocalDate date, Patient patient) {
+        for (Appointment appointment : getAppointmentsByUser(patient).getAppointments()) {
+            if (appointment.getTimeInterval().equals(timeInterval) && appointment.getDate().equals(date)) {
                 return true;
             }
         }
@@ -70,14 +70,14 @@ public class AppointmentTimeIntervalList {
     
     public TimeIntervalList getAvailableTimeIntervals(LocalDate date) {
         TimeIntervalList list = new TimeIntervalList();
-        if(date.isBefore(LocalDate.now())){
+        if (date.isBefore(LocalDate.now())) {
             return list;
         }
         for (AppointmentTimeInterval appointmentTimeInterval : appointmentTimeIntervals) {
             // if the date is the current date, filter out based on current time to not show past time intervals
             if (date.equals(LocalDate.now())) {
-                if (appointmentTimeInterval.getDate().equals(date) && appointmentTimeInterval.size() < appointmentTimeInterval.getMaxAppointmentCount()
-                    && !appointmentTimeInterval.getTimeInterval().getFrom().isBefore(LocalTime.now())) {
+                if (appointmentTimeInterval.getDate().equals(date) && appointmentTimeInterval.size() < appointmentTimeInterval.getMaxAppointmentCount() && !appointmentTimeInterval.getTimeInterval()
+                    .getFrom().isBefore(LocalTime.now())) {
                     list.add(appointmentTimeInterval.getTimeInterval());
                 }
             }
@@ -99,10 +99,10 @@ public class AppointmentTimeIntervalList {
         }
         return str;
     }
-
-    public boolean contains(AppointmentTimeInterval appointmentTimeInterval){
-        for(AppointmentTimeInterval a: appointmentTimeIntervals)
-            if(a.equals(appointmentTimeInterval))
+    
+    public boolean contains(AppointmentTimeInterval appointmentTimeInterval) {
+        for (AppointmentTimeInterval a : appointmentTimeIntervals)
+            if (a.equals(appointmentTimeInterval))
                 return true;
         return false;
     }

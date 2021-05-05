@@ -7,7 +7,6 @@ import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
 
-import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -24,15 +23,11 @@ public class ServerModelManager implements ServerModel {
     
     private PropertyChangeAction<User, Appointment> property;
     
+    // TODO - figure out a way to update statuses in the database based on current time
+    
     public ServerModelManager() {
-
         property = new PropertyChangeProxy<>(this);
-        userList = new UserList();
-        patientList = new UserList();
-        nurseList = new UserList();
-        adminList = new UserList();
         onlineList = new UserList();
-        appointmentTimeIntervalList = new AppointmentTimeIntervalList();
         managerFactory = new ManagerFactory();
         loadUsers();
         loadAppointments();
@@ -42,18 +37,7 @@ public class ServerModelManager implements ServerModel {
     
     private void loadUsers() {
         try {
-            for (User user : managerFactory.getUserManager().getAllUsers().getUsers()) {
-                userList.add(user);
-            }
-//            for (User user : managerFactory.getUserManager().getAllPatients().getUsers()) {
-//                patientList.add(user);
-//            }
-//            for (User user : managerFactory.getUserManager().getAllNurses().getUsers()) {
-//                nurseList.add(user);
-//            }
-//            for (User user : managerFactory.getUserManager().getAllAdministrators().getUsers()) {
-//                adminList.add(user);
-//            }
+            userList = managerFactory.getUserManager().getAllUsers();
             patientList = managerFactory.getUserManager().getAllPatients();
             nurseList = managerFactory.getUserManager().getAllNurses();
             adminList = managerFactory.getUserManager().getAllAdministrators();
@@ -192,8 +176,16 @@ public class ServerModelManager implements ServerModel {
         Appointment appointment = null;
         try {
             // TODO: assign nurse automatically based on their schedule, somehow
-            appointment = managerFactory.getAppointmentManager().addAppointment(date, timeInterval, type, patient, (Nurse) userList.getUserByCpr("1302026584"));
+            Nurse nurse = (Nurse) userList.getUserByCpr("1302026584");
+            int id = managerFactory.getAppointmentManager().getNextId();
+            switch (type) {
+                case TEST:
+                    return new TestAppointment(id, date, timeInterval, type, patient, nurse);
+                case VACCINE:
+                    return new VaccineAppointment(id, date, timeInterval, type, patient, nurse);
+            }
             appointmentTimeIntervalList.add(appointment, date, timeInterval);
+            managerFactory.getAppointmentManager().addAppointment(appointment);
         }
         catch (SQLException e) {
             e.printStackTrace();

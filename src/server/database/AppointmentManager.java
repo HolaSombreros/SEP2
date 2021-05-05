@@ -1,10 +1,8 @@
 package server.database;
 
-import javafx.scene.chart.PieChart;
 import server.model.domain.appointment.*;
 import server.model.domain.user.Nurse;
 import server.model.domain.user.Patient;
-import server.model.domain.user.User;
 
 import java.sql.*;
 import java.sql.Date;
@@ -14,49 +12,43 @@ import java.time.LocalTime;
 
 public class AppointmentManager {
     private UserManager userManager;
-    private PatientManager patientManager;
     
     public AppointmentManager() {
-        
         userManager = new UserManager();
-        patientManager = new PatientManager();
     }
     
-    public Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) throws SQLException {
+    public int getNextId() throws SQLException {
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("SELECT COUNT(appointment_id) FROM appointment;");
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("count");
+            }
+            else {
+                throw new SQLException("Something went very wrong...");
+            }
+        }
+    }
+    
+    public void addAppointment(Appointment appointment) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement insertStatement = connection
-                .prepareStatement("INSERT INTO appointment (date,time_from,time_to,patient_cpr,nurse_cpr,type,status,result) VALUES (?,?,?,?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
-            insertStatement.setDate(1, Date.valueOf(date));
-            insertStatement.setTime(2, Time.valueOf(timeInterval.getFrom()));
-            insertStatement.setTime(3, Time.valueOf(timeInterval.getTo()));
-            insertStatement.setString(4, patient.getCpr());
-            insertStatement.setString(5, nurse.getCpr());
-            insertStatement.setString(6, type.toString());
-            // TODO - IDK about this one :<
-            insertStatement.setString(7, "Upcoming");
-            if (type.equals(Type.TEST)) {
+                .prepareStatement("INSERT INTO appointment (date,time_from,time_to,patient_cpr,nurse_cpr,type,status,result) VALUES (?,?,?,?,?,?,?,?)");
+            insertStatement.setDate(1, Date.valueOf(appointment.getDate()));
+            insertStatement.setTime(2, Time.valueOf(appointment.getTimeInterval().getFrom()));
+            insertStatement.setTime(3, Time.valueOf(appointment.getTimeInterval().getTo()));
+            insertStatement.setString(4, appointment.getPatient().getCpr());
+            insertStatement.setString(5, appointment.getNurse().getCpr());
+            insertStatement.setString(6, appointment.getType().toString());
+            insertStatement.setString(7, appointment.getStatus().toString());
+            if (appointment.getType().equals(Type.TEST)) {
                 insertStatement.setString(8, (Result.NORESULTSAVAILABLE.toString()));
             }
             else {
                 insertStatement.setString(8, null);
             }
             insertStatement.executeUpdate();
-            
-            ResultSet keys = insertStatement.getGeneratedKeys();
-            if (keys.next()) {
-                int id = keys.getInt("appointment_id");
-                switch (type) {
-                    case TEST:
-                        return new TestAppointment(id, date, timeInterval, type, patient, nurse);
-                    case VACCINE:
-                        return new VaccineAppointment(id, date, timeInterval, type, patient, nurse);
-                }
-            }
-            else {
-                throw new SQLException("No keys were generated");
-            }
         }
-        throw new SQLException("Unable to connect to the database");
     }
     
     public AppointmentTimeIntervalList getAllAppointments() throws SQLException {
@@ -89,23 +81,28 @@ public class AppointmentManager {
                 // TODO - switching on this for now - might not be the proper way of doing this (:
                 Status status = null;
                 switch (rs.getString("status")) {
-                    case "Upcoming":
-                        status = new UpcomingStatus(appointment);
-                        break;
                     case "Finished":
-                        status = new FinishedStatus();
+                        appointment.setStatus(new FinishedStatus());
                         break;
                     case "Results given":
-                        status = new ResultGivenStatus();
+                        appointment.setStatus(new ResultGivenStatus());
                         break;
                     case "Cancelled":
-                        status = new CancelledStatus();
+                        appointment.setStatus(new CancelledStatus());
                         break;
                 }
-                appointment.setStatus(status);
                 appointmentTimeIntervalList.add(appointment, date, timeInterval);
             }
             return appointmentTimeIntervalList;
+        }
+    }
+    
+    public void updateStatus(Appointment appointment) throws SQLException {
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("UPDATE appointment SET status = ? WHERE appointment_id = ?;");
+            statement.setString(1, appointment.getStatus().toString());
+            statement.setInt(2, appointment.getId());
+            statement.executeUpdate();
         }
     }
     

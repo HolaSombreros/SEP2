@@ -51,7 +51,6 @@ public class AddAppointmentViewModel implements AddAppointmentViewModelInterface
                 types.add(type);
             }
         }
-        types.addAll(Type.values());
         type.set(types.get(0));
     }
     
@@ -79,10 +78,8 @@ public class AddAppointmentViewModel implements AddAppointmentViewModelInterface
     }
     
     private void resetInputs() {
-        types.clear();
         loadTypes();
         date.set(null);
-        type.set(types.get(0));
         timeIntervals.clear();
         timeInterval.set(null);
     }
