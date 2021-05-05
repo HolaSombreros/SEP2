@@ -6,6 +6,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import server.model.domain.user.Patient;
 import server.model.domain.user.Staff;
 import util.ObservableClock;
 import utility.observer.event.ObserverEvent;
@@ -18,12 +19,12 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     private Model model;
     private ViewState viewState;
     private ObservableClock observableClock;
-    private StringProperty vaccination;
     private StringProperty username;
     private StringProperty access;
     private BooleanProperty accessVisibility;
     private StringProperty time;
     private StringProperty date;
+    private StringProperty vaccinationLabel;
     
     public DashBoardViewModel(Model model, ViewState viewState) {
         this.model = model;
@@ -39,12 +40,13 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
         accessVisibility = new SimpleBooleanProperty();
         time = new SimpleStringProperty();
         date = new SimpleStringProperty();
-        this.vaccination = new SimpleStringProperty();
+        this.vaccinationLabel = new SimpleStringProperty();
     }
     
     @Override
     public void reset() {
         username.set(viewState.getUser().getFirstName());
+        vaccinationLabel.set(((Patient)viewState.getUser()).getVaccineStatus().toString());
         if (viewState.getUser() instanceof Staff) {
             access.set("Logged in as: " + viewState.getUser().getClass().getSimpleName());
             accessVisibility.set(true);
@@ -92,10 +94,11 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
         return date;
     }
 
+
     @Override
-    public StringProperty getVaccinationApproval()
+    public StringProperty getVaccinationLabelProperty()
     {
-        return vaccination;
+        return vaccinationLabel;
     }
 
     @Override

@@ -13,5 +13,5 @@ public interface DashBoardViewModelInterface {
     BooleanProperty getAccessVisibilityProperty();
     StringProperty getTimeProperty();
     StringProperty getDateProperty();
-    StringProperty getVaccinationApproval();
+    StringProperty getVaccinationLabelProperty();
 }

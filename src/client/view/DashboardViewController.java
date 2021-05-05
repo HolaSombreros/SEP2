@@ -25,7 +25,7 @@ public class DashboardViewController extends ViewController {
         accessLabel.visibleProperty().bind(viewModel.getAccessVisibilityProperty());
         timeLabel.textProperty().bind(viewModel.getTimeProperty());
         dateLabel.textProperty().bind(viewModel.getDateProperty());
-        vaccinationLabel.textProperty().bind(viewModel.getVaccinationApproval());
+        vaccinationLabel.textProperty().bind(viewModel.getVaccinationLabelProperty());
         reset();
     }
     
