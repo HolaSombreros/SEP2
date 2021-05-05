@@ -44,15 +44,18 @@ public class ServerModelManager implements ServerModel {
             for (User user : managerFactory.getUserManager().getAllUsers().getUsers()) {
                 userList.add(user);
             }
-            for (User user : managerFactory.getUserManager().getAllPatients().getUsers()) {
-                patientList.add(user);
-            }
-            for (User user : managerFactory.getUserManager().getAllNurses().getUsers()) {
-                nurseList.add(user);
-            }
-            for (User user : managerFactory.getUserManager().getAllAdministrators().getUsers()) {
-                adminList.add(user);
-            }
+//            for (User user : managerFactory.getUserManager().getAllPatients().getUsers()) {
+//                patientList.add(user);
+//            }
+//            for (User user : managerFactory.getUserManager().getAllNurses().getUsers()) {
+//                nurseList.add(user);
+//            }
+//            for (User user : managerFactory.getUserManager().getAllAdministrators().getUsers()) {
+//                adminList.add(user);
+//            }
+            patientList = managerFactory.getUserManager().getAllPatients();
+            nurseList = managerFactory.getUserManager().getAllNurses();
+            adminList = managerFactory.getUserManager().getAllAdministrators();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -89,7 +92,7 @@ public class ServerModelManager implements ServerModel {
                    managerFactory.getUserManager().addNurse(user);
                }
                else if (user instanceof Administrator && !managerFactory.getAdministratorManager().isAdmin((Administrator) user)){
-                   managerFactory.getUserManager().addAdministrtor(user);
+                   managerFactory.getUserManager().addAdministrator(user);
                }
 
        }
