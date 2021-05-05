@@ -38,7 +38,8 @@ public class AppointmentTimeInterval implements Serializable {
         if (size() >= maxAppointmentCount) {
             throw new IllegalStateException("This time interval is unavailable");
         }
-        appointmentList.add(appointment);
+        if(!appointmentList.contains(appointment))
+            appointmentList.add(appointment);
     }
     
     public AppointmentList getAppointmentsByUser(User user) {

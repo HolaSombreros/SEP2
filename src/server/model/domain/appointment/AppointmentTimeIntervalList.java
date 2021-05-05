@@ -16,7 +16,8 @@ public class AppointmentTimeIntervalList {
     }
     
     public void add(AppointmentTimeInterval appointmentTimeInterval) {
-        appointmentTimeIntervals.add(appointmentTimeInterval);
+        if(!appointmentTimeIntervals.contains(appointmentTimeInterval))
+            appointmentTimeIntervals.add(appointmentTimeInterval);
     }
     
     public void add(Appointment appointment, LocalDate date, TimeInterval timeInterval) {
