@@ -73,9 +73,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
            try{
                User user = model.editUserInformation(viewState.getUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(),number.get(), zipCode.get());
                errorLabel.set("Changes were saved");
-               System.out.println(user.toString());
                viewState.setUser(user);
-               System.out.println(user.getPassword());
            }
            catch (Exception e){
                errorLabel.set(e.getMessage());
