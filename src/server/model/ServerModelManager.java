@@ -14,6 +14,9 @@ import java.util.ArrayList;
 
 public class ServerModelManager implements ServerModel {
     private UserList userList;
+    private UserList patientList;
+    private UserList nurseList;
+    private UserList adminList;
     private UserList onlineList;
     private AppointmentTimeIntervalList appointmentTimeIntervalList;
     private ManagerFactory managerFactory;
@@ -24,6 +27,9 @@ public class ServerModelManager implements ServerModel {
 
         property = new PropertyChangeProxy<>(this);
         userList = new UserList();
+        patientList = new UserList();
+        nurseList = new UserList();
+        adminList = new UserList();
         onlineList = new UserList();
         appointmentTimeIntervalList = new AppointmentTimeIntervalList();
         managerFactory = new ManagerFactory();
@@ -37,6 +43,15 @@ public class ServerModelManager implements ServerModel {
         try {
             for (User user : managerFactory.getUserManager().getAllUsers().getUsers()) {
                 userList.add(user);
+            }
+            for (User user : managerFactory.getUserManager().getAllPatients().getUsers()) {
+                patientList.add(user);
+            }
+            for (User user : managerFactory.getUserManager().getAllNurses().getUsers()) {
+                nurseList.add(user);
+            }
+            for (User user : managerFactory.getUserManager().getAllAdministrators().getUsers()) {
+                adminList.add(user);
             }
         }
         catch (SQLException e) {
@@ -132,30 +147,18 @@ public class ServerModelManager implements ServerModel {
     @Override
     public synchronized UserList getPatientList()
     {
-        UserList patientList = new UserList();
-        for (User user: userList.getUsers())
-            if (user instanceof Patient)
-                patientList.add(user);
         return patientList;
     }
 
     @Override
     public synchronized UserList getNurseList()
     {
-        UserList nurseList = new UserList();
-        for (User user: userList.getUsers())
-            if (user instanceof Nurse)
-                nurseList.add(user);
         return nurseList;
     }
 
     @Override
     public synchronized UserList getAdministratorList()
     {
-        UserList adminList = new UserList();
-        for (User user: userList.getUsers())
-            if (user instanceof Administrator)
-                adminList.add(user);
         return adminList;
     }
 
