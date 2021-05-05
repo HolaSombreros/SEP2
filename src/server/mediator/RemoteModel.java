@@ -21,6 +21,6 @@ public interface RemoteModel extends RemoteSubject<User, Appointment>
     UserList getPatients() throws RemoteException;
     UserList getNurses() throws RemoteException;
     UserList getAdministrators() throws RemoteException;
-    void editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws RemoteException;
+    User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws RemoteException;
 
 }

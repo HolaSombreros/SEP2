@@ -1,5 +1,6 @@
 package client.viewmodel;
 
+import server.model.domain.user.Address;
 import server.model.domain.user.User;
 
 public class ViewState {

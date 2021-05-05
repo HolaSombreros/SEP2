@@ -7,6 +7,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import server.model.domain.user.Address;
+import server.model.domain.user.User;
 
 
 import java.util.Optional;
@@ -69,8 +71,10 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         errorLabel.set("");
         if(confirmEditing()){
            try{
-               model.editUserInformation(viewState.getUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(),number.get(), zipCode.get());
+               User user = model.editUserInformation(viewState.getUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(),number.get(), zipCode.get());
                errorLabel.set("Changes were saved");
+               viewState.setUser(user);
+               System.out.println(user.getPassword());
            }
            catch (Exception e){
                errorLabel.set(e.getMessage());
@@ -147,7 +151,6 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     {
         return number;
     }
-
 
     @Override
     public StringProperty getCpr()

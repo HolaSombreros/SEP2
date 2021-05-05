@@ -82,9 +82,9 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     }
 
     @Override
-    public void editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip)
+    public User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip)
     {
-        client.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
+        return client.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
     }
 
 

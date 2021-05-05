@@ -13,7 +13,7 @@ public interface ServerUserModel
     UserList getPatientList();
     UserList getNurseList();
     UserList getAdministratorList();
-    void editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip);
+    User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip);
 
 
 }

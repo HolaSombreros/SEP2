@@ -160,15 +160,20 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public synchronized void editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip)
+    public synchronized User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip)
     {
+        User user2 = null;
         try{
-            //user.editUserInformation(password, firstName, middleName, lastName, new Address(street, number, zip,null));
-            managerFactory.getUserManager().updateUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
+            user2 = userList.getUserByCpr(user.getCpr());
+            String city = managerFactory.getAddressManager().getCityByZipcode(zip);
+            user2.editUserInformation(password, firstName, middleName, lastName, new Address(street, number, zip,city),phone, email);
+            System.out.println(user2.getPassword());
+            managerFactory.getUserManager().updateUserInformation(user2, password, firstName, middleName, lastName, phone, email, street, number, zip);
         }
         catch(Exception e){
             e.printStackTrace();
         }
+        return user2;
     }
 
     @Override

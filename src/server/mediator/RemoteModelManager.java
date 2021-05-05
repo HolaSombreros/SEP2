@@ -90,9 +90,9 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     }
 
     @Override
-    public void editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws RemoteException
+    public User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws RemoteException
     {
-        serverModel.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
+        return serverModel.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
     }
 
     private void startRegistry() throws RemoteException {
