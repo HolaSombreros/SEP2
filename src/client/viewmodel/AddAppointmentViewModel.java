@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import server.model.domain.user.ApprovedStatus;
 import server.model.domain.user.Patient;
 import server.model.domain.appointment.TimeInterval;
 import server.model.domain.appointment.Type;
@@ -39,9 +40,18 @@ public class AddAppointmentViewModel implements AddAppointmentViewModelInterface
         errorFill = new SimpleObjectProperty<>(Color.RED);
     }
     
-    // TODO : implement check for isValidForVaccination
     private void loadTypes() {
         types.clear();
+        for (Type type : Type.values()) {
+            if (type == Type.VACCINE) {
+                if (((Patient) viewState.getUser()).getVaccineStatus() instanceof ApprovedStatus) {
+                    types.add(type);
+                }
+            }
+            else {
+                types.add(type);
+            }
+        }
         types.addAll(Type.values());
         type.set(types.get(0));
     }

@@ -6,7 +6,6 @@ import server.model.domain.user.Patient;
 import java.time.LocalDate;
 
 public class TestAppointment extends Appointment {
-
     private Result result;
     
     public TestAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) {
@@ -19,7 +18,12 @@ public class TestAppointment extends Appointment {
     }
     
     public void setResult(Result result) {
-        this.result = result;
+        if (getStatus() instanceof FinishedStatus) {
+            this.result = result;
+        }
+        else {
+            throw new IllegalStateException("You cannot change an unfinished appointment's results");
+        }
     }
 
     public String toString(){
