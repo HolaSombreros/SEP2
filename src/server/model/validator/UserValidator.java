@@ -93,7 +93,7 @@ public class UserValidator {
     public static void setEmail(String email) {
         if (email == null || email.equals(""))
             throw new IllegalArgumentException("Please enter your email address");
-        String emailValidation = "^[A-Za-z0-9+_.-]+@(?:[a-zA-Z0-9-]+.)+[a-zA-Z]{2,6}$";
+        String emailValidation = "^[A-Za-z0-9+_.-]+@(?:[a-zA-Z0-9-])+[.]+[a-zA-Z]{2,6}$";
         Pattern pattern = Pattern.compile(emailValidation);
         Matcher matcher = pattern.matcher(email);
         if (!matcher.matches())
