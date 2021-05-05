@@ -85,4 +85,11 @@ public class AppointmentTimeIntervalList {
         }
         return list;
     }
+
+    public boolean contains(AppointmentTimeInterval appointmentTimeInterval){
+        for(AppointmentTimeInterval a: appointmentTimeIntervals)
+            if(a.equals(appointmentTimeInterval))
+                return true;
+        return false;
+    }
 }

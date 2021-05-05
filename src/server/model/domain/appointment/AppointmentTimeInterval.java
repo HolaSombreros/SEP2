@@ -66,4 +66,11 @@ public class AppointmentTimeInterval implements Serializable {
         }
         return result;
     }
+
+    public boolean equals(Object obj){
+        if(!(obj instanceof AppointmentTimeIntervalList))
+            return false;
+        AppointmentTimeInterval other = (AppointmentTimeInterval) obj;
+        return appointmentList.equals(other.appointmentList) && date.equals(other.date) && timeInterval.equals(other.timeInterval);
+    }
 }
