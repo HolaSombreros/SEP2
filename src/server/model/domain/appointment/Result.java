@@ -2,8 +2,7 @@ package server.model.domain.appointment;
 
 import java.io.Serializable;
 
-public enum Result implements Serializable
-{
+public enum Result implements Serializable {
     NEGATIVE("Negative"),
     POSITIVE("Positive"),
     INCONCLUSIVE("Inconclusive"),
@@ -12,8 +11,8 @@ public enum Result implements Serializable
     private String result;
 
     Result(String result) {
-            this.result = result;
-        }
+        this.result = result;
+    }
 
     @Override
     public String toString() {
@@ -28,5 +27,4 @@ public enum Result implements Serializable
         }
         return null;
     }
-
 }

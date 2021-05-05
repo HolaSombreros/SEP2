@@ -2,9 +2,10 @@ package server.model.domain.appointment;
 
 public class FinishedStatus extends Status {
     @Override
-    public void setResult(Appointment appointment) {
-        if (appointment.getType() != Type.VACCINE) {
+    public void setResult(Appointment appointment, Result result) {
+        if (appointment.getType() == Type.TEST) {
             appointment.setStatus(new ResultGivenStatus());
+            ((TestAppointment) appointment).setResult(result);
         }
     }
     

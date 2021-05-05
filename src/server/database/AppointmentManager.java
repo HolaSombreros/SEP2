@@ -25,7 +25,7 @@ public class AppointmentManager {
   public void addAppointment(Appointment appointment) throws SQLException {
     try (Connection connection = DatabaseManager.getInstance().getConnection())
     {
-      PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO appointment VALUES (?,?,?,?,?,?,?,?)");
+      PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO appointment (date,time_from,time_to,patient_cpr,nurse_cpr,type,status,result) VALUES (?,?,?,?,?,?,?,?)");
       insertStatement.setDate(1, Date.valueOf(appointment.getDate()));
       insertStatement.setTime(2, Time.valueOf(appointment.getTimeInterval().getFrom()));
       insertStatement.setTime(3, Time.valueOf(appointment.getTimeInterval().getTo()));
@@ -131,6 +131,7 @@ public class AppointmentManager {
     }
   }
 
+  //TODO: get appointments by date/time interval
 //  public AppointmentList getAppointmentsByNurseAndStatus(Nurse nurse, Appointment.Status status) throws SQLException
 //  {
 //    AppointmentList list = new AppointmentList();

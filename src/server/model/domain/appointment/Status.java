@@ -7,7 +7,7 @@ public abstract class Status implements Serializable {
         // overwritten in UpcomingStatus
     }
     
-    public void setResult(Appointment appointment) {
+    public void setResult(Appointment appointment, Result result) {
         // overwritten in FinishedStatus
     }
     
