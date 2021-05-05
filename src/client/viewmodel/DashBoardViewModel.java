@@ -46,13 +46,13 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     @Override
     public void reset() {
         username.set(viewState.getUser().getFirstName());
-        vaccinationLabel.set(((Patient)viewState.getUser()).getVaccineStatus().toString());
         if (viewState.getUser() instanceof Staff) {
             access.set("Logged in as: " + viewState.getUser().getClass().getSimpleName());
             accessVisibility.set(true);
         }
         else {
             accessVisibility.set(false);
+            vaccinationLabel.set(((Patient)viewState.getUser()).getVaccineStatus().toString());
         }
         // time and date are updated in propertyChange()
     }
