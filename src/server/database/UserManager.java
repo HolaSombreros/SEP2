@@ -55,8 +55,8 @@ public class UserManager {
     }
 
 
-    public User getPatient(String cpr) throws SQLException {
-        User patient = null;
+    public Patient getPatient(String cpr) throws SQLException {
+        Patient patient = null;
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM person WHERE cpr=?");

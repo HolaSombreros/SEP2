@@ -8,8 +8,8 @@ import java.time.LocalDate;
 public class TestAppointment extends Appointment {
     private Result result;
     
-    public TestAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) {
-        super(date, timeInterval, type, patient, nurse);
+    public TestAppointment(int id, LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) {
+        super(id, date, timeInterval, type, patient, nurse);
         result = Result.NORESULTSAVAILABLE;
     }
     

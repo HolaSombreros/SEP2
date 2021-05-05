@@ -6,8 +6,8 @@ import server.model.domain.user.Patient;
 import java.time.LocalDate;
 
 public class VaccineAppointment extends Appointment {
-    public VaccineAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) {
-        super(date, timeInterval, type, patient, nurse);
+    public VaccineAppointment(int id, LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) {
+        super(id, date, timeInterval, type, patient, nurse);
     }
     
     public String toString() {
