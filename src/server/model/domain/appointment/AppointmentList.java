@@ -26,4 +26,23 @@ public class AppointmentList implements Serializable {
     public int size() {
         return appointments.size();
     }
+
+    public boolean contains(Appointment appointment){
+        for(Appointment a : appointments)
+            if(a.equals(appointment))
+                return true;
+        return false;
+    }
+
+    public boolean equals(Object obj){
+        if(!(obj instanceof AppointmentList))
+            return false;
+        AppointmentList other = (AppointmentList) obj;
+        if(other.size() != size())
+            return false;
+        for(Appointment appointment: appointments)
+            if(!other.getAppointments().contains(appointment))
+                return false;
+        return true;
+    }
 }

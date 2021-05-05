@@ -45,15 +45,18 @@ public class ServerModelManager implements ServerModel {
             for (User user : managerFactory.getUserManager().getAllUsers().getUsers()) {
                 userList.add(user);
             }
-            for (User user : managerFactory.getUserManager().getAllPatients().getUsers()) {
-                patientList.add(user);
-            }
-            for (User user : managerFactory.getUserManager().getAllNurses().getUsers()) {
-                nurseList.add(user);
-            }
-            for (User user : managerFactory.getUserManager().getAllAdministrators().getUsers()) {
-                adminList.add(user);
-            }
+//            for (User user : managerFactory.getUserManager().getAllPatients().getUsers()) {
+//                patientList.add(user);
+//            }
+//            for (User user : managerFactory.getUserManager().getAllNurses().getUsers()) {
+//                nurseList.add(user);
+//            }
+//            for (User user : managerFactory.getUserManager().getAllAdministrators().getUsers()) {
+//                adminList.add(user);
+//            }
+            patientList = managerFactory.getUserManager().getAllPatients();
+            nurseList = managerFactory.getUserManager().getAllNurses();
+            adminList = managerFactory.getUserManager().getAllAdministrators();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -62,7 +65,12 @@ public class ServerModelManager implements ServerModel {
 
     private void loadAppointments() {
         // TODO : update appointment statuses where needed. isBefore()
-        // nevermind this one for now...
+        try {
+            appointmentTimeIntervalList = managerFactory.getAppointmentManager().getAllAppointments();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     
     private void addDummyData() {
@@ -90,7 +98,7 @@ public class ServerModelManager implements ServerModel {
                    managerFactory.getUserManager().addNurse(user);
                }
                else if (user instanceof Administrator && !managerFactory.getAdministratorManager().isAdmin((Administrator) user)){
-                   managerFactory.getUserManager().addAdministrtor(user);
+                   managerFactory.getUserManager().addAdministrator(user);
                }
 
        }
@@ -181,22 +189,11 @@ public class ServerModelManager implements ServerModel {
 
     @Override
     public synchronized Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) {
-        Appointment appointment;
-        
-        // TODO: assign nurse automatically based on their schedule, somehow
-        switch (type) {
-            case TEST:
-                appointment = new TestAppointment(date, timeInterval, type, patient, (Nurse) userList.getUserByCpr("1302026584"));
-                break;
-            case VACCINE:
-                appointment = new VaccineAppointment(date, timeInterval, type, patient, (Nurse) userList.getUserByCpr("1302026584"));
-                break;
-            default:
-                throw new IllegalStateException("Appointment type '" + type + "' is invalid");
-        }
-        appointmentTimeIntervalList.add(appointment, date, timeInterval);
+        Appointment appointment = null;
         try {
-            managerFactory.getAppointmentManager().addAppointment(appointment);
+            // TODO: assign nurse automatically based on their schedule, somehow
+            appointment = managerFactory.getAppointmentManager().addAppointment(date, timeInterval, type, patient, (Nurse) userList.getUserByCpr("1302026584"));
+            appointmentTimeIntervalList.add(appointment, date, timeInterval);
         }
         catch (SQLException e) {
             e.printStackTrace();

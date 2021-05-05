@@ -43,35 +43,35 @@ public class UserListViewController extends ViewController
     viewModel.reset();
   }
 
-  @FXML public void goToChat()
+  @FXML private void goToChat()
   {
     getViewHandler().openView(View.USERLIST);
   }
 
-  @FXML public void seeDetails()
+  @FXML private void seeDetails()
   {
     boolean openWindow = viewModel.seeDetails();
     if (openWindow)
       getViewHandler().openView(View.USERLIST);
   }
 
-  @FXML public void logout()
+  @FXML private void logout()
   {
     viewModel.logout();
     getViewHandler().openView(View.LOGIN);
   }
 
-  @FXML public void seePatients()
+  @FXML private void seePatients()
   {
     viewModel.seePatients();
   }
 
-  @FXML public void seeNurses()
+  @FXML private void seeNurses()
   {
     viewModel.seeNurses();
   }
 
-  @FXML public void seeAdmins()
+  @FXML private void seeAdmins()
   {
     viewModel.seeAdmins();
   }
