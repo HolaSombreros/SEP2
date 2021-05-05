@@ -16,6 +16,7 @@ public interface PersonalDataViewModelInterface
     StringProperty getErrorLabel();
     StringProperty getPassword();
     IntegerProperty getZipCode();
+    StringProperty getVaccineStatus();
 
     void reset();
     void editDetails();

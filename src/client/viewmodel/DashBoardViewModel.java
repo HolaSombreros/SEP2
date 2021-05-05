@@ -39,6 +39,7 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
         accessVisibility = new SimpleBooleanProperty();
         time = new SimpleStringProperty();
         date = new SimpleStringProperty();
+        this.vaccination = new SimpleStringProperty();
     }
     
     @Override

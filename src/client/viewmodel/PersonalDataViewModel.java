@@ -7,7 +7,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import server.model.domain.user.Address;
 import server.model.domain.user.User;
 
 
@@ -26,6 +25,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     private StringProperty password;
     private StringProperty errorLabel;
     private IntegerProperty zipCode;
+    private StringProperty vaccineStatus;
 
     private Model model;
     private ViewState viewState;
@@ -44,6 +44,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         this.password = new SimpleStringProperty();
         this.zipCode = new SimpleIntegerProperty();
         this.errorLabel = new SimpleStringProperty();
+        this.vaccineStatus = new SimpleStringProperty();
     }
     @Override
     public void reset()
@@ -173,6 +174,12 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     @Override
     public IntegerProperty getZipCode(){
         return zipCode;
+    }
+
+    @Override
+    public StringProperty getVaccineStatus()
+    {
+        return vaccineStatus;
     }
 
 

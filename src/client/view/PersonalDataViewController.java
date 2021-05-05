@@ -4,14 +4,12 @@ import client.viewmodel.PersonalDataViewModelInterface;
 import javafx.fxml.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.util.converter.NumberStringConverter;
 import util.IntStringConverter;
 
 
 public class PersonalDataViewController extends ViewController
 {
-    @FXML
-    private TextField firstName;
+    @FXML private TextField firstName;
     @FXML private TextField middleName;
     @FXML private TextField lastName;
     @FXML private TextField cpr;
@@ -22,13 +20,12 @@ public class PersonalDataViewController extends ViewController
     @FXML private TextField zipCode;
     @FXML private TextField number;
     @FXML private Label errorLabel;
+    @FXML private Label vaccineStatus;
 
     private PersonalDataViewModelInterface viewModel;
 
-
     public PersonalDataViewController(){}
-
-
+    
     @Override
     protected void init() {
         viewModel = getViewModelFactory().getPersonalDataViewModel();
@@ -43,6 +40,7 @@ public class PersonalDataViewController extends ViewController
         zipCode.textProperty().bindBidirectional(viewModel.getZipCode(), new IntStringConverter());
         number.textProperty().bindBidirectional(viewModel.getNumber());
         errorLabel.textProperty().bindBidirectional(viewModel.getErrorLabel());
+        vaccineStatus.textProperty().bind(viewModel.getVaccineStatus());
         reset();
     }
 
