@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="813.0" stylesheets="@../../util/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.UserListViewController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="813.0" stylesheets="@../../util/style.css" userData="Manage users" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.UserListViewController">
    <children>
       <Label fx:id="roleLabel" styleClass="header" text="Role">
          <VBox.margin>
@@ -51,13 +51,13 @@
                   </Button>
                </children>
             </VBox>
-            <TableView fx:id="userTable" prefHeight="317.0" prefWidth="637.0">
+            <TableView fx:id="userTable" prefHeight="317.0" prefWidth="638.0">
               <columns>
-                <TableColumn fx:id="cprColumn" prefWidth="102.0" text="CPR" />
-                <TableColumn fx:id="nameColumn" minWidth="7.0" prefWidth="199.0" text="Name" />
-                  <TableColumn fx:id="phoneColumn" minWidth="0.0" prefWidth="128.0" text="Phone" />
-                  <TableColumn fx:id="emailColumn" prefWidth="107.0" text="Email" />
-                  <TableColumn fx:id="vaccineColumn" minWidth="0.0" prefWidth="100.0" text="Vaccine Status" />
+                <TableColumn fx:id="cprColumn" prefWidth="86.0" text="CPR" />
+                <TableColumn fx:id="nameColumn" minWidth="7.0" prefWidth="194.0" text="Name" />
+                  <TableColumn fx:id="phoneColumn" minWidth="0.0" prefWidth="70.0" text="Phone" />
+                  <TableColumn fx:id="emailColumn" prefWidth="178.0" text="Email" />
+                  <TableColumn fx:id="vaccineColumn" minWidth="0.0" prefWidth="96.0" text="Vaccine Status" />
               </columns>
             </TableView>
          </children>

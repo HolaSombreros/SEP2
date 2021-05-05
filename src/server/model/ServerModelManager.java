@@ -92,8 +92,8 @@ public class ServerModelManager implements ServerModel {
     }
     
     private void addDummyTimeIntervals() {
-        // from 8:00 -> 8:20  'til  15:00 -> 15:20 on current day
-        for (int i = 8; i < 16; i++) {
+        // from 8:00 -> 8:20  'til  19:00 -> 19:20 on current day
+        for (int i = 8; i < 20; i++) {
             appointmentTimeIntervalList.add(new AppointmentTimeInterval(LocalDate.now(), new TimeInterval(LocalTime.of(i, 0), LocalTime.of(i, 20))));
         }
     }

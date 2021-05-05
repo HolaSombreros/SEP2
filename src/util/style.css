@@ -4,4 +4,11 @@
 
 .error {
   -fx-font-weight: bold;
+  -fx-font-size: 14px;
+  -fx-text-fill: #ff3300;
+}
+
+.link {
+  -fx-underline: true;
+  -fx-text-fill: #0062ff;
 }
