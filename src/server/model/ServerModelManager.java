@@ -168,7 +168,7 @@ public class ServerModelManager implements ServerModel {
         User user2 = null;
         try{
             user2 = userList.getUserByCpr(user.getCpr());
-            String city = managerFactory.getAddressManager().getCityByZipcode(zip);
+            String city = managerFactory.getAddressManager().getCity(zip);
             user2.editUserInformation(password, firstName, middleName, lastName, new Address(street, number, zip,city),phone, email);
             System.out.println(user2.getPassword());
             managerFactory.getUserManager().updateUserInformation(user2, password, firstName, middleName, lastName, phone, email, street, number, zip);
