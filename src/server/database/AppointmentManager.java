@@ -22,7 +22,7 @@ public class AppointmentManager {
             PreparedStatement statement = connection.prepareStatement("SELECT COUNT(appointment_id) FROM appointment;");
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-                return rs.getInt("count");
+                return rs.getInt("count") + 1;
             }
             else {
                 throw new SQLException("Something went very wrong...");

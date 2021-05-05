@@ -20,11 +20,9 @@ public class ServerModelManager implements ServerModel {
     private UserList onlineList;
     private AppointmentTimeIntervalList appointmentTimeIntervalList;
     private ManagerFactory managerFactory;
-    
     private PropertyChangeAction<User, Appointment> property;
     
     // TODO - figure out a way to update statuses in the database based on current time
-    
     public ServerModelManager() {
         property = new PropertyChangeProxy<>(this);
         onlineList = new UserList();
@@ -178,12 +176,13 @@ public class ServerModelManager implements ServerModel {
             // TODO: assign nurse automatically based on their schedule, somehow
             Nurse nurse = (Nurse) userList.getUserByCpr("1302026584");
             int id = managerFactory.getAppointmentManager().getNextId();
-            System.out.println("Id: " + id);
             switch (type) {
                 case TEST:
                     appointment = new TestAppointment(id, date, timeInterval, type, patient, nurse);
+                    break;
                 case VACCINE:
                     appointment = new VaccineAppointment(id, date, timeInterval, type, patient, nurse);
+                    break;
             }
             appointmentTimeIntervalList.add(appointment, date, timeInterval);
             managerFactory.getAppointmentManager().addAppointment(appointment);
