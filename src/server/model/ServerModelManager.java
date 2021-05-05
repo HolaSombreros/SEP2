@@ -31,7 +31,7 @@ public class ServerModelManager implements ServerModel {
         managerFactory = new ManagerFactory();
         loadUsers();
         loadAppointments();
-        addDummyData();
+       // addDummyData();
         addDummyTimeIntervals();
     }
     
