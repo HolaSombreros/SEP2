@@ -35,7 +35,6 @@ public class AddAppointmentViewModel implements AddAppointmentViewModelInterface
         type = new SimpleObjectProperty<>(Type.values()[0]);
         timeIntervals = FXCollections.observableArrayList();
         timeInterval = new SimpleObjectProperty<>();
-        loadTypes();
         error = new SimpleStringProperty();
         errorFill = new SimpleObjectProperty<>(Color.RED);
     }
@@ -80,6 +79,8 @@ public class AddAppointmentViewModel implements AddAppointmentViewModelInterface
     }
     
     private void resetInputs() {
+        types.clear();
+        loadTypes();
         date.set(null);
         type.set(types.get(0));
         timeIntervals.clear();
