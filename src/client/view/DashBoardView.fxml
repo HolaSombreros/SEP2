@@ -8,16 +8,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="500.0" prefWidth="900.0" stylesheets="@../../util/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.DashboardViewController">
+<BorderPane prefHeight="500.0" prefWidth="900.0" stylesheets="@../../util/style.css" userData="Main page" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.DashboardViewController">
    <left>
       <VBox alignment="TOP_CENTER" prefWidth="175.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#myAppointments" text="Mah Appoinmentz">
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#myAppointments" text="My Appoinments">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#personalData" text="My Personal Data">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#applyForVaccination" text="Apply For Vaccination">
                <font>
                   <Font size="14.0" />
                </font>
@@ -83,7 +88,7 @@
    <bottom>
       <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Next appointment in ...">
+            <Label prefHeight="20.0" prefWidth="333.0" text="Next appointment in ...">
                <font>
                   <Font size="14.0" />
                </font>
@@ -94,8 +99,13 @@
    <center>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Something here, mayhaps?" />
+            <Label />
             <Label text="Notifications? (-:" />
+            <Label fx:id="vaccinationLabel" alignment="CENTER" prefHeight="17.0" prefWidth="512.0" text="VaccinationLabel" textFill="#f20303">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
          </children>
       </VBox>
    </center>

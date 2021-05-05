@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public abstract class Appointment implements Serializable {
-    public static int idCounter = 1;
     private int id;
     private Type type;
     private Status status;
@@ -17,16 +16,15 @@ public abstract class Appointment implements Serializable {
     private LocalDate date;
     private TimeInterval timeInterval;
     
-    public Appointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) {
+    public Appointment(int id, LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) {
         AppointmentValidator.appointmentValidator(date, timeInterval, patient, nurse);
-        id = idCounter;
+        this.id = id;
         this.type = type;
         this.status = new UpcomingStatus(this);
         this.patient = patient;
         this.nurse = nurse;
         this.date = date;
         this.timeInterval = timeInterval;
-        idCounter++;
     }
     
     public int getId() {

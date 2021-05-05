@@ -18,7 +18,7 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     private Model model;
     private ViewState viewState;
     private ObservableClock observableClock;
-    
+    private StringProperty vaccination;
     private StringProperty username;
     private StringProperty access;
     private BooleanProperty accessVisibility;
@@ -59,7 +59,13 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
         model.logout(viewState.getUser());
         viewState.removeUser();
     }
-    
+
+    @Override
+    public void applyForVaccination()
+    {
+
+    }
+
     @Override
     public StringProperty getUsernameProperty() {
         return username;
@@ -84,7 +90,13 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     public StringProperty getDateProperty() {
         return date;
     }
-    
+
+    @Override
+    public StringProperty getVaccinationApproval()
+    {
+        return vaccination;
+    }
+
     @Override
     public void propertyChange(ObserverEvent<String, String> event) {
         Platform.runLater(() -> {

@@ -55,8 +55,8 @@ public class UserManager {
     }
 
 
-    public User getPatient(String cpr) throws SQLException {
-        User patient = null;
+    public Patient getPatient(String cpr) throws SQLException {
+        Patient patient = null;
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM person WHERE cpr=?");
@@ -121,7 +121,7 @@ public class UserManager {
         nurseManager.addNurse((Nurse)user);
     }
 
-    public void addAdministrtor(User user) throws SQLException{
+    public void addAdministrator(User user) throws SQLException{
         if(!isUser(user.getCpr()))
             addPerson(user);
         administratorManager.addAdministrator((Administrator) user);

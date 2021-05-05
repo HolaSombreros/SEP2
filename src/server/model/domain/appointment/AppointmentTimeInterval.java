@@ -38,7 +38,8 @@ public class AppointmentTimeInterval implements Serializable {
         if (size() >= maxAppointmentCount) {
             throw new IllegalStateException("This time interval is unavailable");
         }
-        appointmentList.add(appointment);
+        if(!appointmentList.contains(appointment))
+            appointmentList.add(appointment);
     }
     
     public AppointmentList getAppointmentsByUser(User user) {
@@ -65,5 +66,12 @@ public class AppointmentTimeInterval implements Serializable {
             result += appointment + " ";
         }
         return result;
+    }
+
+    public boolean equals(Object obj){
+        if(!(obj instanceof AppointmentTimeIntervalList))
+            return false;
+        AppointmentTimeInterval other = (AppointmentTimeInterval) obj;
+        return appointmentList.equals(other.appointmentList) && date.equals(other.date) && timeInterval.equals(other.timeInterval);
     }
 }

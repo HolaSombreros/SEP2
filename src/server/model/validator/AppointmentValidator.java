@@ -30,9 +30,9 @@ public class AppointmentValidator {
         if (date == null) {
             throw new IllegalArgumentException("Please specify a date");
         }
-        if (date.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("You cannot book an appointment for the previous days");
-        }
+//        if (date.isBefore(LocalDate.now())) {
+//            throw new IllegalArgumentException("You cannot book an appointment for the previous days");
+//        }
     }
     
     public static void validateTimeInterval(TimeInterval timeInterval) {

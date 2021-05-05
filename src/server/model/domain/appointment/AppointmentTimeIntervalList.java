@@ -15,8 +15,13 @@ public class AppointmentTimeIntervalList {
         appointmentTimeIntervals = new ArrayList<>();
     }
     
+    public List<AppointmentTimeInterval> getAppointmentTimeIntervals() {
+        return appointmentTimeIntervals;
+    }
+    
     public void add(AppointmentTimeInterval appointmentTimeInterval) {
-        appointmentTimeIntervals.add(appointmentTimeInterval);
+        if(!appointmentTimeIntervals.contains(appointmentTimeInterval))
+            appointmentTimeIntervals.add(appointmentTimeInterval);
     }
     
     public void add(Appointment appointment, LocalDate date, TimeInterval timeInterval) {
@@ -29,7 +34,7 @@ public class AppointmentTimeIntervalList {
                 }
             }
         }
-        else throw new IllegalArgumentException("You cannot book another appointment in this time interval");
+            else throw new IllegalArgumentException("You cannot book another appointment in this time interval");
     }
     
     public boolean checkAppointmentOnTimeInterval(TimeInterval timeInterval, LocalDate date, Patient patient){
@@ -84,5 +89,21 @@ public class AppointmentTimeIntervalList {
             }
         }
         return list;
+    }
+    
+    @Override
+    public String toString() {
+        String str = "";
+        for (AppointmentTimeInterval appointmentTimeInterval : appointmentTimeIntervals) {
+            str += "\n" + appointmentTimeInterval.toString();
+        }
+        return str;
+    }
+
+    public boolean contains(AppointmentTimeInterval appointmentTimeInterval){
+        for(AppointmentTimeInterval a: appointmentTimeIntervals)
+            if(a.equals(appointmentTimeInterval))
+                return true;
+        return false;
     }
 }
