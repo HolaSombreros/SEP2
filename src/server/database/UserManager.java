@@ -206,7 +206,7 @@ public class UserManager {
                     users.add(new Nurse(cpr, password, firstName, middleName, lastName, address, phone, email, nurse_id));
                 }
                 else if (admin_id != null) {
-                    users.add(new Nurse(cpr, password, firstName, middleName, lastName, address, phone, email, admin_id));
+                    users.add(new Administrator(cpr, password, firstName, middleName, lastName, address, phone, email, admin_id));
                 }
                 else {
                     users.add(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, status));
