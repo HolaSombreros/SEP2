@@ -53,11 +53,11 @@
             </VBox>
             <TableView fx:id="userTable" prefHeight="317.0" prefWidth="638.0">
               <columns>
-                <TableColumn fx:id="cprColumn" prefWidth="86.0" text="CPR" />
-                <TableColumn fx:id="nameColumn" minWidth="7.0" prefWidth="194.0" text="Name" />
-                  <TableColumn fx:id="phoneColumn" minWidth="0.0" prefWidth="70.0" text="Phone" />
-                  <TableColumn fx:id="emailColumn" prefWidth="178.0" text="Email" />
-                  <TableColumn fx:id="vaccineColumn" minWidth="0.0" prefWidth="96.0" text="Vaccine Status" />
+                <TableColumn fx:id="cprColumn" editable="false" prefWidth="86.0" text="CPR" />
+                <TableColumn fx:id="nameColumn" editable="false" minWidth="7.0" prefWidth="194.0" text="Name" />
+                  <TableColumn fx:id="phoneColumn" editable="false" minWidth="0.0" prefWidth="70.0" text="Phone" />
+                  <TableColumn fx:id="emailColumn" editable="false" prefWidth="178.0" text="Email" />
+                  <TableColumn fx:id="vaccineColumn" editable="false" minWidth="0.0" prefWidth="96.0" text="Vaccine Status" />
               </columns>
             </TableView>
          </children>

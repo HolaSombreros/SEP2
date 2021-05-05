@@ -77,7 +77,7 @@ public class UserListViewModel implements UserListViewModelInterface
     else
     {
       viewState.removeSelectedUser();
-      errorProperty.set("Please select an user");
+      errorProperty.set("Please select a user");
       return false;
     }
   }

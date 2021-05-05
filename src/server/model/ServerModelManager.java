@@ -178,11 +178,12 @@ public class ServerModelManager implements ServerModel {
             // TODO: assign nurse automatically based on their schedule, somehow
             Nurse nurse = (Nurse) userList.getUserByCpr("1302026584");
             int id = managerFactory.getAppointmentManager().getNextId();
+            System.out.println("Id: " + id);
             switch (type) {
                 case TEST:
-                    return new TestAppointment(id, date, timeInterval, type, patient, nurse);
+                    appointment = new TestAppointment(id, date, timeInterval, type, patient, nurse);
                 case VACCINE:
-                    return new VaccineAppointment(id, date, timeInterval, type, patient, nurse);
+                    appointment = new VaccineAppointment(id, date, timeInterval, type, patient, nurse);
             }
             appointmentTimeIntervalList.add(appointment, date, timeInterval);
             managerFactory.getAppointmentManager().addAppointment(appointment);
