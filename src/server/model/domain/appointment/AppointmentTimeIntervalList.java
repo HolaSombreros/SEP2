@@ -20,7 +20,8 @@ public class AppointmentTimeIntervalList {
     }
     
     public void add(AppointmentTimeInterval appointmentTimeInterval) {
-        appointmentTimeIntervals.add(appointmentTimeInterval);
+        if(!appointmentTimeIntervals.contains(appointmentTimeInterval))
+            appointmentTimeIntervals.add(appointmentTimeInterval);
     }
     
     public void add(Appointment appointment, LocalDate date, TimeInterval timeInterval) {
@@ -97,5 +98,12 @@ public class AppointmentTimeIntervalList {
             str += "\n" + appointmentTimeInterval.toString();
         }
         return str;
+    }
+
+    public boolean contains(AppointmentTimeInterval appointmentTimeInterval){
+        for(AppointmentTimeInterval a: appointmentTimeIntervals)
+            if(a.equals(appointmentTimeInterval))
+                return true;
+        return false;
     }
 }

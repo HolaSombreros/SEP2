@@ -121,7 +121,7 @@ public class UserManager {
         nurseManager.addNurse((Nurse)user);
     }
 
-    public void addAdministrtor(User user) throws SQLException{
+    public void addAdministrator(User user) throws SQLException{
         if(!isUser(user.getCpr()))
             addPerson(user);
         administratorManager.addAdministrator((Administrator) user);
