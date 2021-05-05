@@ -27,11 +27,11 @@ public class LoginChoiceViewController extends ViewController{
         viewModel.reset();
     }
 
-    @FXML public void loginPatient() {
+    @FXML private void loginPatient() {
         getViewHandler().openView(View.DASHBOARD);
     }
 
-    @FXML public void loginSpecialRole() {
+    @FXML private void loginSpecialRole() {
         getViewHandler().openView(View.USERLIST);
     }
 }
