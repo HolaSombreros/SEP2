@@ -19,9 +19,7 @@ public class UserListViewController extends ViewController
   @FXML private TableColumn<UserTableViewModel, String> vaccineColumn;
   @FXML private Label errorLabel;
 
-  public UserListViewController()
-  {
-  }
+  public UserListViewController() {}
 
   @Override protected void init()
   {
