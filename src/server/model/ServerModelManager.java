@@ -231,6 +231,12 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
+    public void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval)
+    {
+        appointmentTimeIntervalList.getAppointmentById(id).rescheduleAppointment(date, timeInterval);
+    }
+
+    @Override
     public synchronized void logout(User user) {
         if (userList.contains(user)) {
             if (onlineList.contains(user)) {

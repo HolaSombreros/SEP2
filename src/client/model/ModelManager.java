@@ -73,6 +73,12 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
         client.cancelAppointment(id);
     }
 
+    @Override
+    public void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval)
+    {
+        client.rescheduleAppointment(id, date, timeInterval);
+    }
+
     @Override public UserList getPatients()
     {
         return client.getPatients();

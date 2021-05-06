@@ -122,6 +122,17 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
     }
 
     @Override
+    public void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval)
+    {
+        try {
+            server.rescheduleAppointment(id, date, timeInterval);
+        }
+        catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void logout(User user) {
         try {
             server.logout(user);
@@ -133,36 +144,30 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
 
     @Override public UserList getPatients()
     {
-        try
-        {
+        try {
             return server.getPatients();
         }
-        catch (RemoteException e)
-        {
+        catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
     @Override public UserList getNurses()
     {
-        try
-        {
+        try {
             return server.getNurses();
         }
-        catch (RemoteException e)
-        {
+        catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
     @Override public UserList getAdministrators()
     {
-        try
-        {
+        try {
             return server.getAdministrators();
         }
-        catch (RemoteException e)
-        {
+        catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }

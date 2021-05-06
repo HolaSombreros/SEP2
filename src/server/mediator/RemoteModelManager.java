@@ -77,6 +77,12 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     }
 
     @Override
+    public void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) throws RemoteException
+    {
+        serverModel.rescheduleAppointment(id, date, timeInterval);
+    }
+
+    @Override
     public void logout(User user) throws RemoteException {
         serverModel.logout(user);
     }

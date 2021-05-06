@@ -5,6 +5,7 @@ import server.model.domain.user.Patient;
 import server.model.validator.AppointmentValidator;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.time.LocalDate;
 
 public abstract class Appointment implements Serializable {
@@ -85,6 +86,11 @@ public abstract class Appointment implements Serializable {
     public boolean cancel() {
         status.cancel(this);
         return status instanceof CanceledAppointment;
+    }
+    public void rescheduleAppointment(LocalDate localDate, TimeInterval timeInterval){
+        //TODO: DOUBLE CHECK IT
+       setDate(localDate);
+       setTimeInterval(timeInterval);
     }
     
     @Override
