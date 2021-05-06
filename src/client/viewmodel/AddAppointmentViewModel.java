@@ -43,7 +43,7 @@ public class AddAppointmentViewModel implements AddAppointmentViewModelInterface
         types.clear();
         for (Type type : Type.values()) {
             if (type == Type.VACCINE) {
-                if (((Patient) viewState.getUser()).getVaccineStatus() instanceof ApprovedStatus) {
+                if (viewState.getPatient().getVaccineStatus() instanceof ApprovedStatus) {
                     types.add(type);
                 }
             }
@@ -122,7 +122,7 @@ public class AddAppointmentViewModel implements AddAppointmentViewModelInterface
     @Override
     public void createAppointment() {
         try {
-            model.addAppointment((date.get()), timeInterval.get(), type.get(), (Patient) viewState.getUser());
+            model.addAppointment((date.get()), timeInterval.get(), type.get(), viewState.getPatient());
             errorFill.set(Color.GREEN);
             error.set("Appointment booked for " + date.get().toString() + " (" + timeInterval.get() + ")");
             resetInputs();

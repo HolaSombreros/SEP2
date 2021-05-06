@@ -53,6 +53,7 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     public void logout() {
         model.logout(viewState.getUser());
         viewState.removeUser();
+        viewState.removePatient();
     }
 
     @Override

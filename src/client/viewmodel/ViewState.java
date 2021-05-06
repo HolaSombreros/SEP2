@@ -60,8 +60,11 @@ public class ViewState {
         return patient;
     }
 
-    public ViewState setPatient(Patient patient) {
+    public void setPatient(Patient patient) {
         this.patient = patient;
-        return this;
+    }
+    
+    public void removePatient() {
+        patient = null;
     }
 }
