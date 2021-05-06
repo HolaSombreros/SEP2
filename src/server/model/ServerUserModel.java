@@ -14,6 +14,6 @@ public interface ServerUserModel
     UserList getNurseList();
     UserList getAdministratorList();
     User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip);
-
+    Patient getPatient(String cpr);
 
 }

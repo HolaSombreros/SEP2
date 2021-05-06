@@ -95,6 +95,11 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
         return serverModel.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
     }
 
+    @Override
+    public Patient getPatient(String cpr) throws RemoteException {
+        return serverModel.getPatient(cpr);
+    }
+
     private void startRegistry() throws RemoteException {
         try {
             LocateRegistry.createRegistry(1099);

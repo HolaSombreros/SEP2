@@ -218,7 +218,15 @@ public class ServerModelManager implements ServerModel {
             throw new IllegalArgumentException("No such user found");
         }
     }
-    
+
+    @Override
+    public Patient getPatient(String cpr) {
+        if(patientList.contains(cpr))
+            return (Patient) patientList.getUserByCpr(cpr);
+        else
+            return null;
+    }
+
     @Override
     public synchronized void close() {
         property.close();

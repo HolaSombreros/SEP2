@@ -6,8 +6,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import server.model.domain.user.Patient;
-import server.model.domain.user.Staff;
 import util.ObservableClock;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
@@ -46,14 +44,8 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     @Override
     public void reset() {
         username.set(viewState.getUser().getFirstName());
-        if (viewState.getUser() instanceof Staff) {
-            access.set("Logged in as: " + viewState.getUser().getClass().getSimpleName());
-            accessVisibility.set(true);
-        }
-        else {
-            accessVisibility.set(false);
-            vaccinationLabel.set(((Patient)viewState.getUser()).getVaccineStatus().toString());
-        }
+        vaccinationLabel.set(viewState.getPatient().getVaccineStatus().toString());
+
         // time and date are updated in propertyChange()
     }
     
