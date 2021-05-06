@@ -13,4 +13,5 @@ public interface AppointmentModel extends LocalSubject<User, Appointment>
     AppointmentList getAppointmentsByUser(User patient);
     TimeIntervalList getAvailableTimeIntervals(LocalDate date);
     Appointment getAppointmentById(int id);
+    void cancelAppointment( int id);
 }

@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox userData="AppointmentDetails" fx:controller="client.view.AppointmentDetailsController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="786.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="786.0" userData="AppointmentDetails" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.AppointmentDetailsController">
    <children>
       <HBox prefHeight="101.0" prefWidth="600.0">
          <children>
@@ -69,7 +68,7 @@
          <children>
             <VBox prefHeight="104.0" prefWidth="781.0" spacing="25.0">
                <children>
-                  <Label fx:id = "resultLabel" alignment="TOP_CENTER" prefHeight="26.0" prefWidth="766.0" text="Result">
+                  <Label fx:id="resultLabel" alignment="TOP_CENTER" prefHeight="26.0" prefWidth="766.0" text="Result">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font>
@@ -94,7 +93,7 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#cancelAppointment" prefHeight="31.0" prefWidth="84.0" text="Cancel">
+            <Button mnemonicParsing="false" onAction="#cancelAppointment" prefHeight="31.0" prefWidth="163.0" text="Cancel Appointment">
                <font>
                   <Font size="15.0" />
                </font>

@@ -4,7 +4,6 @@ import server.model.domain.appointment.*;
 import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 import utility.observer.subject.LocalSubject;
-
 import java.time.LocalDate;
 
 public interface LocalClientAppointmentModel extends LocalSubject<User, Appointment>
@@ -13,4 +12,6 @@ public interface LocalClientAppointmentModel extends LocalSubject<User, Appointm
     AppointmentList getAppointmentsByUser(User patient);
     TimeIntervalList getAvailableTimeIntervals(LocalDate date);
     Appointment getAppointmentById(int id);
+    void cancelAppointment(int id);
+
 }

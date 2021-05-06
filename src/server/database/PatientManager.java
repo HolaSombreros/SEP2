@@ -59,7 +59,7 @@ public class PatientManager{
 
   public void setVaccineStatus(String cpr, VaccineStatus status) throws SQLException{
     try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-      PreparedStatement statement = connection.prepareStatement("UPDATE patient vaccine_status = ? WHERE cpr = ?");
+      PreparedStatement statement = connection.prepareStatement("UPDATE patient set vaccine_status = ? WHERE cpr = ?");
       statement.setString(1,status.toString());
       statement.setString(2,cpr);
       statement.executeUpdate();

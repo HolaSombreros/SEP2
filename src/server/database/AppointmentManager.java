@@ -82,13 +82,13 @@ public class AppointmentManager {
                 Status status = null;
                 switch (rs.getString("status")) {
                     case "Finished":
-                        appointment.setStatus(new FinishedStatus());
+                        appointment.setStatus(new FinishedAppointment());
                         break;
                     case "Results given":
-                        appointment.setStatus(new ResultGivenStatus());
+                        appointment.setStatus(new ResultGivenAppointment());
                         break;
                     case "Cancelled":
-                        appointment.setStatus(new CancelledStatus());
+                        appointment.setStatus(new CanceledAppointment());
                         break;
                 }
                 appointmentTimeIntervalList.add(appointment, date, timeInterval);
@@ -97,11 +97,11 @@ public class AppointmentManager {
         }
     }
     
-    public void updateStatus(Appointment appointment) throws SQLException {
+    public void cancelStatus(int id) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("UPDATE appointment SET status = ? WHERE appointment_id = ?;");
-            statement.setString(1, appointment.getStatus().toString());
-            statement.setInt(2, appointment.getId());
+            statement.setString(1, new CanceledAppointment().toString());
+            statement.setInt(2, id);
             statement.executeUpdate();
         }
     }

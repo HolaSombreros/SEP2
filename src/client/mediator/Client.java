@@ -109,7 +109,18 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
-    
+
+    @Override
+    public void cancelAppointment(int id)
+    {
+        try{
+            server.cancelAppointment(id);
+        }
+        catch (RemoteException e){
+            throw new IllegalStateException(getExceptionMessage(e),e);
+        }
+    }
+
     @Override
     public void logout(User user) {
         try {

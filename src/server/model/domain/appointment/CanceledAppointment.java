@@ -1,9 +1,9 @@
 package server.model.domain.appointment;
 
-public class CancelledStatus extends Status {
+public class CanceledAppointment extends Status {
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof CancelledStatus;
+        return obj instanceof CanceledAppointment;
     }
     
     @Override

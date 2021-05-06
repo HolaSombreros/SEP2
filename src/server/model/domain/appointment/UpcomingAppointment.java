@@ -1,9 +1,9 @@
 package server.model.domain.appointment;
 
-public class UpcomingStatus extends Status {
+public class UpcomingAppointment extends Status {
     private CountDown timer;
     
-    public UpcomingStatus(Appointment appointment) {
+    public UpcomingAppointment(Appointment appointment) {
         // TODO : Perhaps disable timer when patient logs off so its not running on the server. can then check and update when they log in
         timer = new CountDown(appointment);
         timer.start();
@@ -11,12 +11,12 @@ public class UpcomingStatus extends Status {
     
     @Override
     public void cancel(Appointment appointment) {
-        appointment.setStatus(new CancelledStatus());
+        appointment.setStatus(new CanceledAppointment());
     }
     
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof UpcomingStatus;
+        return obj instanceof UpcomingAppointment;
     }
     
     @Override

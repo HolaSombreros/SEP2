@@ -18,7 +18,7 @@ public class TestAppointment extends Appointment {
     }
     
     public void setResult(Result result) {
-        if (getStatus() instanceof FinishedStatus) {
+        if (getStatus() instanceof FinishedAppointment) {
             this.result = result;
         }
         else {

@@ -7,11 +7,15 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import server.model.domain.appointment.Appointment;
+import server.model.domain.appointment.CanceledAppointment;
 import server.model.domain.appointment.TestAppointment;
 import server.model.domain.appointment.TimeInterval;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelInterface {
     private StringProperty type;
@@ -42,6 +46,7 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
     @Override
     public void reset() {
         listOfTimeIntervals.clear();
+        errorLabel.set("");
         loadAppointmentDetails();
     }
     
@@ -63,6 +68,18 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
                 result.set("");
             }
         }
+    }
+    private boolean confirmEditing()
+    {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm cancelling the appointment");
+            alert.setHeaderText("Are you sure you want to cancel this appointment? \n\n" +
+                    "Type: " + type.get() + "\n" +
+                    "Date: " + date.get() + "\n" +
+                    "Status: " + status.get() + "\n"+
+                    "Time interval: " + timeInterval.get());
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.OK;
     }
     
     @Override
@@ -107,7 +124,16 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
     
     @Override
     public void cancelAppointment() {
-        //TODO: Next sprints
+        Appointment appointment = model.getAppointmentById(viewState.getSelectedAppointment());
+        if(!(appointment.getStatus() instanceof CanceledAppointment)) {
+            if (confirmEditing()) {
+                model.cancelAppointment(viewState.getSelectedAppointment());
+                errorLabel.set("Appointment has been cancelled");
+                loadAppointmentDetails();
+            }
+        }
+        else
+            errorLabel.set("This appointment is already cancelled!");
     }
     
     @Override

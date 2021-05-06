@@ -168,8 +168,15 @@ public class ServerModelManager implements ServerModel {
     @Override
     public VaccineStatus applyForVaccination(Patient patient)
     {
-        patient.getVaccineStatus().apply(patient);
-        return patient.getVaccineStatus();
+        try{
+            patient.getVaccineStatus().apply(patient);
+            managerFactory.getPatientManager().setVaccineStatus(patient.getCpr(),patient.getVaccineStatus());
+            return patient.getVaccineStatus();
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+       return null;
     }
 
     @Override
@@ -210,7 +217,19 @@ public class ServerModelManager implements ServerModel {
     public synchronized TimeIntervalList getAvailableTimeIntervals(LocalDate date) {
         return appointmentTimeIntervalList.getAvailableTimeIntervals(date);
     }
-    
+
+    @Override
+    public void cancelAppointment(int id)
+    {
+        try{
+            if(appointmentTimeIntervalList.getAppointmentById(id).cancel())
+                managerFactory.getAppointmentManager().cancelStatus(id);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public synchronized void logout(User user) {
         if (userList.contains(user)) {

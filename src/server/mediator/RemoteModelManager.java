@@ -69,7 +69,13 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     public Appointment getAppointmentById(int id) throws RemoteException {
         return serverModel.getAppointmentById(id);
     }
-    
+
+    @Override
+    public void cancelAppointment(int id) throws RemoteException
+    {
+        serverModel.cancelAppointment(id);
+    }
+
     @Override
     public void logout(User user) throws RemoteException {
         serverModel.logout(user);

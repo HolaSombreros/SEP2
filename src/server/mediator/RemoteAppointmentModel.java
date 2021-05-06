@@ -14,4 +14,6 @@ public interface RemoteAppointmentModel extends RemoteSubject<User, Appointment>
     AppointmentList getAppointmentsByUser(User patient) throws RemoteException;
     TimeIntervalList getAvailableTimeIntervals(LocalDate date) throws RemoteException;
     Appointment getAppointmentById(int id) throws RemoteException;
+    void cancelAppointment(int id) throws RemoteException;
+
 }

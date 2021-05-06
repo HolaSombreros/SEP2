@@ -17,7 +17,7 @@ public class CountDown extends Thread implements Serializable {
             while (!appointment.getDate().isBefore(LocalDate.now()) && !appointment.getTimeInterval().getTo().isBefore(LocalTime.now())) {
                 Thread.sleep(1000);
             }
-            appointment.setStatus(new FinishedStatus());
+            appointment.setStatus(new FinishedAppointment());
         }
         catch (InterruptedException e) {
         }

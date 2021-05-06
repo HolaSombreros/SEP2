@@ -20,7 +20,7 @@ public abstract class Appointment implements Serializable {
         AppointmentValidator.appointmentValidator(date, timeInterval, patient, nurse);
         this.id = id;
         this.type = type;
-        this.status = new UpcomingStatus(this);
+        this.status = new UpcomingAppointment(this);
         this.patient = patient;
         this.nurse = nurse;
         this.date = date;
@@ -82,8 +82,9 @@ public abstract class Appointment implements Serializable {
         this.timeInterval = timeInterval;
     }
     
-    public void cancel() {
+    public boolean cancel() {
         status.cancel(this);
+        return status instanceof CanceledAppointment;
     }
     
     @Override

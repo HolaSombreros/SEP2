@@ -12,4 +12,5 @@ public interface ServerAppointmentModel
     AppointmentList getAppointmentsByUser(User user);
     Appointment getAppointmentById(int id);
     TimeIntervalList getAvailableTimeIntervals(LocalDate date);
+    void cancelAppointment(int id);
 }
