@@ -6,6 +6,7 @@ import server.model.domain.appointment.*;
 import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 import server.model.domain.user.UserList;
+import server.model.domain.user.VaccineStatus;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.LocalListener;
@@ -86,6 +87,13 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     {
         return client.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
     }
+
+    @Override
+    public VaccineStatus applyForVaccination(Patient patient)
+    {
+       return client.applyForVaccination(patient);
+    }
+
     @Override
     public void logout(User user) {
         client.logout(user);

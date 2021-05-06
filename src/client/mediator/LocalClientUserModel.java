@@ -1,19 +1,21 @@
-package server.model;
+package client.mediator;
 
+import server.model.domain.appointment.Appointment;
 import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 import server.model.domain.user.UserList;
 import server.model.domain.user.VaccineStatus;
+import utility.observer.subject.LocalSubject;
 
-public interface ServerUserModel
+public interface LocalClientUserModel extends LocalSubject<User, Appointment>
 {
-    User login(String cpr, String password);
     void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city);
-    void logout(User user);
+    User login(String cpr, String password);
     UserList getUserList();
-    UserList getPatientList();
-    UserList getNurseList();
-    UserList getAdministratorList();
+    void logout(User user);
+    UserList getPatients();
+    UserList getNurses();
+    UserList getAdministrators();
     User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip);
     VaccineStatus applyForVaccination(Patient patient);
 

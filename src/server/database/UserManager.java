@@ -192,6 +192,9 @@ public class UserManager {
                 String admin_id = rs.getString("admin_id");
                 VaccineStatus status = null;
                 switch (vaccine){
+                    case "Not Applied":
+                        status = new NotAppliedStatus();
+                        break;
                     case "Approved":
                         status = new ApprovedStatus();
                         break;
@@ -239,6 +242,9 @@ public class UserManager {
                 String vaccine = resultSet.getString("vaccine_status");
                 VaccineStatus status = null;
                 switch (vaccine){
+                    case "Not Applied":
+                        status = new NotAppliedStatus();
+                        break;
                     case "Approved":
                         status = new ApprovedStatus();
                         break;

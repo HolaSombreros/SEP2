@@ -25,6 +25,7 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     private StringProperty time;
     private StringProperty date;
     private StringProperty vaccinationLabel;
+    private BooleanProperty disableButton;
     
     public DashBoardViewModel(Model model, ViewState viewState) {
         this.model = model;
@@ -35,12 +36,13 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
         timer.setDaemon(true);
         timer.start();
         
-        username = new SimpleStringProperty();
-        access = new SimpleStringProperty();
-        accessVisibility = new SimpleBooleanProperty();
-        time = new SimpleStringProperty();
-        date = new SimpleStringProperty();
+        this.username = new SimpleStringProperty();
+        this.access = new SimpleStringProperty();
+        this.accessVisibility = new SimpleBooleanProperty();
+        this.time = new SimpleStringProperty();
+        this.date = new SimpleStringProperty();
         this.vaccinationLabel = new SimpleStringProperty();
+        this.disableButton = new SimpleBooleanProperty();
     }
     
     @Override
@@ -66,7 +68,9 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     @Override
     public void applyForVaccination()
     {
-
+        ((Patient) viewState.getUser()).setVaccineStatus(model.applyForVaccination((Patient)viewState.getUser()));
+        vaccinationLabel.set(((Patient) viewState.getUser()).getVaccineStatus().toString());
+        disableButton.set(true);
     }
 
     @Override
@@ -99,6 +103,12 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     public StringProperty getVaccinationLabelProperty()
     {
         return vaccinationLabel;
+    }
+
+    @Override
+    public BooleanProperty getDisableButtonProperty()
+    {
+        return disableButton;
     }
 
     @Override

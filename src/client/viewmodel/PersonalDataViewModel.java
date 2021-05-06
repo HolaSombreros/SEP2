@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 
 
@@ -64,6 +65,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         zipCode.set(viewState.getUser().getAddress().getZipcode());
         email.set(viewState.getUser().getEmail());
         street.set(viewState.getUser().getAddress().getStreet());
+        vaccineStatus.set(((Patient)viewState.getUser()).getVaccineStatus().toString());
     }
 
     @Override

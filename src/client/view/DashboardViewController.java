@@ -1,7 +1,9 @@
 package client.view;
 
 import client.viewmodel.DashBoardViewModelInterface;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 public class DashboardViewController extends ViewController {
@@ -12,6 +14,7 @@ public class DashboardViewController extends ViewController {
     @FXML private Label timeLabel;
     @FXML private Label dateLabel;
     @FXML private Label vaccinationLabel;
+    @FXML private Button applyButton;
     
     public DashboardViewController() {
         // empty - called by FXMLLoader
@@ -26,6 +29,7 @@ public class DashboardViewController extends ViewController {
         timeLabel.textProperty().bind(viewModel.getTimeProperty());
         dateLabel.textProperty().bind(viewModel.getDateProperty());
         vaccinationLabel.textProperty().bind(viewModel.getVaccinationLabelProperty());
+        viewModel.getDisableButtonProperty().addListener((obs,oldVal,newVal) -> applyButton.setDisable(newVal));
         reset();
     }
     

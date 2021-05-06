@@ -20,7 +20,7 @@ public class PatientManager{
     try (Connection connection = DatabaseManager.getInstance().getConnection()) {
       PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO patient VALUES (?,?)");
       insertStatement.setString(1, patient.getCpr());
-      insertStatement.setString(2, new NotApprovedStatus().toString());
+      insertStatement.setString(2, new NotAppliedStatus().toString());
       insertStatement.executeUpdate();
     }
   }
@@ -37,6 +37,9 @@ public class PatientManager{
         String vaccineStatus = resultSet.getString("vaccine_status");
         VaccineStatus status = null;
         switch (vaccineStatus){
+          case "Not Applied":
+            status =  new NotAppliedStatus();
+            break;
           case "Approved":
             status = new ApprovedStatus();
             break;

@@ -59,7 +59,7 @@ public class ServerModelManager implements ServerModel {
         addresses.add(new Address("Sesame Street", "2", 8700, "Horsens"));
         addresses.add(new Address("Sesame Street", "7A", 8700, "Horsens"));
         addresses.add(new Address("Via Street", "25B", 8700, "Horsens"));
-        VaccineStatus status = new NotApprovedStatus();
+        VaccineStatus status = new NotAppliedStatus();
         UserList userList = new UserList();
         userList.add(new Patient("2003036532", "password", "Hello", null, "World", addresses.get(1), "12587463", "elmo@email.com", status));
         userList.add(new Patient("2003045698", "password", "Maria", null, "Magdalena", addresses.get(2), "12587464", "holy@email.com", status));
@@ -116,7 +116,7 @@ public class ServerModelManager implements ServerModel {
         String city) {
         if (!userList.contains(cpr)) {
             Address address = new Address(street, number, zip, city);
-            User user = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, new NotApprovedStatus());
+            User user = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, new NotAppliedStatus());
             userList.add(user);
             try {
                 managerFactory.getUserManager().addPerson(user);
@@ -164,7 +164,14 @@ public class ServerModelManager implements ServerModel {
         }
         return user2;
     }
-    
+
+    @Override
+    public VaccineStatus applyForVaccination(Patient patient)
+    {
+        patient.getVaccineStatus().apply(patient);
+        return patient.getVaccineStatus();
+    }
+
     @Override
     public synchronized Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) {
         Appointment appointment = null;

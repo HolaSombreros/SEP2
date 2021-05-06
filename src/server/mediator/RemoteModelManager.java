@@ -5,6 +5,7 @@ import server.model.domain.appointment.*;
 import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 import server.model.domain.user.UserList;
+import server.model.domain.user.VaccineStatus;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.LocalListener;
@@ -93,6 +94,12 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     public User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws RemoteException
     {
         return serverModel.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
+    }
+
+    @Override
+    public VaccineStatus applyForVaccination(Patient patient) throws RemoteException
+    {
+       return serverModel.applyForVaccination(patient);
     }
 
     private void startRegistry() throws RemoteException {

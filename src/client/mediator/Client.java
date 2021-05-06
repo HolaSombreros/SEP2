@@ -4,6 +4,7 @@ import server.model.domain.appointment.*;
 import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 import server.model.domain.user.UserList;
+import server.model.domain.user.VaccineStatus;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.RemoteListener;
@@ -162,6 +163,17 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
             return server.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
         }
         catch (RemoteException e){
+            throw new IllegalStateException(getExceptionMessage(e), e);
+        }
+    }
+
+    @Override
+    public VaccineStatus applyForVaccination(Patient patient)
+    {
+        try {
+            return server.applyForVaccination(patient);
+        }
+        catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
