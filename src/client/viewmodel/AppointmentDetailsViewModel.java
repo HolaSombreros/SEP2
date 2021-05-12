@@ -46,7 +46,9 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
         loadAppointmentDetails();
         loadTimeIntervals();
     }
-    private void loadTimeIntervals(){
+
+    @Override
+    public void loadTimeIntervals(){
         listOfTimeIntervals.clear();
         if(date.get() != null){
             listOfTimeIntervals.addAll(model.getAvailableTimeIntervals(date.get()).getTimeIntervals());

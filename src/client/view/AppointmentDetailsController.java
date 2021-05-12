@@ -29,7 +29,7 @@ public class AppointmentDetailsController extends ViewController
         type.textProperty().bind(viewModel.getTypeProperty());
         status.textProperty().bind(viewModel.statusProperty());
         date.valueProperty().addListener((obs, oldVal, newVal) -> {
-        //    viewModel.;
+          viewModel.loadTimeIntervals();
         });
         date.valueProperty().bindBidirectional(viewModel.dateProperty());
         timeInterval.valueProperty().bindBidirectional(viewModel.getTimeInterval());

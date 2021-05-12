@@ -11,6 +11,7 @@ public interface AppointmentDetailsViewModelInterface {
     void reset();
     void cancelAppointment();
     void rescheduleAppointment();
+    void loadTimeIntervals();
     
     StringProperty getTypeProperty();
     ObjectProperty<LocalDate> dateProperty();
