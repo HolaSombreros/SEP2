@@ -6,12 +6,10 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import server.model.domain.appointment.CancelledAppointment;
+import server.model.domain.appointment.*;
 import server.model.domain.user.ApprovedStatus;
 import server.model.domain.user.Patient;
 import server.model.domain.user.PendingStatus;
-import server.model.domain.appointment.Appointment;
-import server.model.domain.appointment.AppointmentList;
 import util.ObservableClock;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
@@ -19,7 +17,6 @@ import utility.observer.listener.LocalListener;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 
 import static java.time.temporal.ChronoUnit.*;
 
@@ -69,13 +66,15 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
         
         nextAppointment.set("You do not have any upcoming appointments");
         for (Appointment appointment : appointmentList.getAppointments()) {
-            if (!(appointment.getStatus() instanceof CancelledAppointment)) {
+            if (appointment.getStatus() instanceof UpcomingAppointment) {
                 long daysBetween = DAYS.between(LocalDate.now(), appointment.getDate());
                 if (daysBetween < 1) {
                     long hoursBetween = HOURS.between(LocalTime.now(), appointment.getTimeInterval().getFrom());
-                    nextAppointment.set("Your next appointment is in " + hoursBetween + " hour");
-                    if (hoursBetween > 1) {
-                        nextAppointment.set(nextAppointment.get() + "s");
+                    if (hoursBetween > 0) {
+                        nextAppointment.set("Your next appointment is in " + hoursBetween + " hour");
+                        if (hoursBetween > 1) {
+                            nextAppointment.set(nextAppointment.get() + "s");
+                        }
                     }
                 }
                 else {

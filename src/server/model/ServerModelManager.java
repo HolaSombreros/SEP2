@@ -30,7 +30,7 @@ public class ServerModelManager implements ServerModel {
         loadUsers();
         loadAppointments();
 //        addDummyData();
-        addDummyTimeIntervals();
+//        addDummyTimeIntervals();
     }
     
     private void loadUsers() {
@@ -123,6 +123,7 @@ public class ServerModelManager implements ServerModel {
             Address address = new Address(street, number, zip, city);
             User user = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, new NotAppliedStatus());
             userList.add(user);
+            patientList.add(user);
             try {
                 managerFactory.getUserManager().addPerson(user);
             }
@@ -271,7 +272,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public Patient getPatient(String cpr) {
+    public synchronized Patient getPatient(String cpr) {
         if(patientList.contains(cpr))
             return (Patient) patientList.getUserByCpr(cpr);
         else
