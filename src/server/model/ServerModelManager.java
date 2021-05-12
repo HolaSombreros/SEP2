@@ -30,7 +30,7 @@ public class ServerModelManager implements ServerModel {
         loadUsers();
         loadAppointments();
 //        addDummyData();
-        addDummyTimeIntervals();
+//        addDummyTimeIntervals();
     }
     
     private void loadUsers() {

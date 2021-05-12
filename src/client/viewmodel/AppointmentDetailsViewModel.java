@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import server.model.domain.appointment.Appointment;
-import server.model.domain.appointment.CanceledAppointment;
+import server.model.domain.appointment.CancelledAppointment;
 import server.model.domain.appointment.TestAppointment;
 import server.model.domain.appointment.TimeInterval;
 
@@ -125,7 +125,7 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
     @Override
     public void cancelAppointment() {
         Appointment appointment = model.getAppointmentById(viewState.getSelectedAppointment());
-        if(!(appointment.getStatus() instanceof CanceledAppointment)) {
+        if(!(appointment.getStatus() instanceof CancelledAppointment)) {
             if (confirmEditing()) {
                 model.cancelAppointment(viewState.getSelectedAppointment());
                 errorLabel.set("Appointment has been cancelled");
