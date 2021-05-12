@@ -14,4 +14,5 @@ public interface DashBoardViewModelInterface {
     StringProperty getTimeProperty();
     StringProperty getDateProperty();
     StringProperty getVaccinationLabelProperty();
+    StringProperty getNextAppointmentProperty();
 }
