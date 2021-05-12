@@ -105,6 +105,16 @@ public class AppointmentManager {
             statement.executeUpdate();
         }
     }
+    public void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) throws SQLException{
+        try(Connection connection = DatabaseManager.getInstance().getConnection()){
+            PreparedStatement statement = connection.prepareStatement("UPDATE appointment SET date = ?, time_from = ?, time_to = ? WHERE appointment_id = ?;");
+            statement.setDate(1,  Date.valueOf(date));
+            statement.setTime(2, Time.valueOf(timeInterval.getFrom()));
+            statement.setTime(3, Time.valueOf(timeInterval.getTo()));
+            statement.setInt(4, id);
+            statement.executeUpdate();
+        }
+    }
     
 //    public AppointmentList getAppointmentsByPatient(Patient patient) throws SQLException {
 //        try (Connection connection = DatabaseManager.getInstance().getConnection()) {

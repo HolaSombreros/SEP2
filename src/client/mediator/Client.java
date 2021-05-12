@@ -128,7 +128,7 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
             server.rescheduleAppointment(id, date, timeInterval);
         }
         catch (RemoteException e) {
-            e.printStackTrace();
+           throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 

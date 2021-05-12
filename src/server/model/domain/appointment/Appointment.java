@@ -108,7 +108,7 @@ public abstract class Appointment implements Serializable {
     
     @Override
     public String toString() {
-        return String.format("#%d: %s (%s) - %s\n", id, patient, type, status);
+        return String.format("#%d: %s (%s) - %s, Date: %s, Time %s\n", id, patient, type, status, date, timeInterval);
     }
 
 

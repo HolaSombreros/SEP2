@@ -166,7 +166,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public VaccineStatus applyForVaccination(Patient patient)
+    public synchronized VaccineStatus applyForVaccination(Patient patient)
     {
         try{
             patient.getVaccineStatus().apply(patient);
@@ -219,11 +219,14 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public void cancelAppointment(int id)
+    public synchronized void cancelAppointment(int id)
     {
+        Appointment appointment = appointmentTimeIntervalList.getAppointmentById(id);
         try{
-            if(appointmentTimeIntervalList.getAppointmentById(id).cancel())
+            if(appointment.cancel() && appointment.getStatus() instanceof UpcomingAppointment)
                 managerFactory.getAppointmentManager().cancelStatus(id);
+            else
+                throw new IllegalStateException("You cannot cancel a finished appointment");
         }
         catch (SQLException e){
             e.printStackTrace();
@@ -231,9 +234,18 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval)
-    {
-        appointmentTimeIntervalList.getAppointmentById(id).rescheduleAppointment(date, timeInterval);
+    public synchronized void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) {
+        try {
+            if(appointmentTimeIntervalList.getAppointmentById(id).getStatus() instanceof UpcomingAppointment) {
+                appointmentTimeIntervalList.getAppointmentById(id).rescheduleAppointment(date, timeInterval);
+                managerFactory.getAppointmentManager().rescheduleAppointment(id, date, timeInterval);
+            }
+            else
+                throw new IllegalStateException("You cannot reschedule a finished or cancelled appointment");
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @Override

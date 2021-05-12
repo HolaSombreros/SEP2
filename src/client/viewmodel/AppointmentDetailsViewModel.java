@@ -9,10 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import server.model.domain.appointment.Appointment;
-import server.model.domain.appointment.CanceledAppointment;
-import server.model.domain.appointment.TestAppointment;
-import server.model.domain.appointment.TimeInterval;
+import server.model.domain.appointment.*;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -69,19 +66,33 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
             }
         }
     }
-    private boolean confirmEditing()
-    {
+    private boolean typeOfConfirmation(int number){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirm cancelling the appointment");
-            alert.setHeaderText("Are you sure you want to cancel this appointment? \n\n" +
-                    "Type: " + type.get() + "\n" +
-                    "Date: " + date.get() + "\n" +
-                    "Status: " + status.get() + "\n"+
-                    "Time interval: " + timeInterval.get());
-        Optional<ButtonType> result = alert.showAndWait();
+        Optional<ButtonType> result = null;
+        switch (number)
+        {
+            case 1:
+                alert.setTitle("Confirm cancelling the appointment");
+                alert.setHeaderText("Are you sure you want to cancel this appointment? \n\n" +
+                        "Type: " + type.get() + "\n" +
+                        "Date: " + date.get() + "\n" +
+                        "Status: " + status.get() + "\n" +
+                        "Time interval: " + timeInterval.get());
+                result = alert.showAndWait();
+                break;
+            case 2:
+                alert.setTitle("Confirm rescheduling the appointment");
+                alert.setHeaderText("Are you sure you want to reschedule this appointment? \n\n" +
+                        "Type: " + type.get() + "\n" +
+                        "Date: " + date.get() + "\n" +
+                        "Status: " + status.get() + "\n" +
+                        "Time interval: " + timeInterval.get());
+                result = alert.showAndWait();
+                break;
+        }
         return result.isPresent() && result.get() == ButtonType.OK;
     }
-    
+
     @Override
     public StringProperty getTypeProperty() {
         return type;
@@ -126,18 +137,44 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
     public void cancelAppointment() {
         Appointment appointment = model.getAppointmentById(viewState.getSelectedAppointment());
         if(!(appointment.getStatus() instanceof CanceledAppointment)) {
-            if (confirmEditing()) {
+            if (typeOfConfirmation(1)) {
                 model.cancelAppointment(viewState.getSelectedAppointment());
                 errorLabel.set("Appointment has been cancelled");
                 loadAppointmentDetails();
             }
         }
-        else
-            errorLabel.set("This appointment is already cancelled!");
+        else{
+            try{
+                model.cancelAppointment(appointment.getId());
+            }
+            catch (Exception e){
+                errorLabel.set(e.getMessage());
+            }
+        }
     }
     
     @Override
     public void rescheduleAppointment() {
-        //TODO: Next sprints
+        Appointment appointment = model.getAppointmentById(viewState.getSelectedAppointment());
+        if((appointment.getStatus() instanceof UpcomingAppointment)){
+            if(typeOfConfirmation(2)) {
+                try{
+                    model.rescheduleAppointment(appointment.getId(), date.get(), timeInterval.get());
+                    errorLabel.set("Appointment has been rescheduled");
+                    loadAppointmentDetails();
+                }
+                catch (IllegalStateException e){
+                    errorLabel.set(e.getMessage());
+                }
+            }
+        }
+        else{
+            try{
+                model.rescheduleAppointment(appointment.getId(), date.get(), timeInterval.get());
+            }
+            catch (Exception e){
+                errorLabel.set(e.getMessage());
+            }
+        }
     }
 }
