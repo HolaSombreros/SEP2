@@ -6,6 +6,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import server.model.domain.appointment.CancelledAppointment;
 import server.model.domain.user.ApprovedStatus;
 import server.model.domain.user.Patient;
 import server.model.domain.user.PendingStatus;
@@ -18,9 +19,9 @@ import utility.observer.listener.LocalListener;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.HOURS;
+import static java.time.temporal.ChronoUnit.*;
 
 public class DashBoardViewModel implements DashBoardViewModelInterface, LocalListener<String, String> {
     private Model model;
@@ -58,28 +59,32 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     public void reset() {
         username.set(viewState.getUser().getFirstName());
         vaccinationLabel.set(viewState.getPatient().getVaccineStatus().toString());
-        
         AppointmentList appointmentList = model.getAppointmentsByUser(viewState.getPatient());
-        if (appointmentList.size() < 1) {
-            nextAppointment.set("Empty (:");
+        Patient patient = viewState.getPatient();
+        accessVisibility.set(false);
+        vaccinationLabel.set(patient.getVaccineStatus().toString());
+        if (patient.getVaccineStatus() instanceof PendingStatus || patient.getVaccineStatus() instanceof ApprovedStatus) {
+            disableButton.set(true);
         }
-        else {
-            accessVisibility.set(false);
-            vaccinationLabel.set(((Patient) viewState.getUser()).getVaccineStatus().toString());
-            Patient patient = (Patient) viewState.getUser();
-            if (patient.getVaccineStatus() instanceof PendingStatus || patient.getVaccineStatus() instanceof ApprovedStatus) {
-                disableButton.set(true);
-                
-                Appointment appointment = appointmentList.get(0);
+        
+        nextAppointment.set("You do not have any upcoming appointments");
+        for (Appointment appointment : appointmentList.getAppointments()) {
+            if (!(appointment.getStatus() instanceof CancelledAppointment)) {
                 long daysBetween = DAYS.between(LocalDate.now(), appointment.getDate());
                 if (daysBetween < 1) {
-                    nextAppointment.set("Next appointment is in: " + HOURS.between(LocalTime.now(), appointment.getTimeInterval().getFrom()) + " hours...");
+                    long hoursBetween = HOURS.between(LocalTime.now(), appointment.getTimeInterval().getFrom());
+                    nextAppointment.set("Your next appointment is in " + hoursBetween + " hour");
+                    if (hoursBetween > 1) {
+                        nextAppointment.set(nextAppointment.get() + "s");
+                    }
                 }
                 else {
-                    nextAppointment.set(
-                        "Next appointment is in: " + DAYS.between(LocalDate.now(), appointment.getDate()) + " day(s) and " + HOURS.between(LocalTime.now(), appointment.getTimeInterval().getFrom())
-                            + " hours...");
+                    nextAppointment.set("Your next appointment is in " + daysBetween + " day");
+                    if (daysBetween > 1) {
+                        nextAppointment.set(nextAppointment.get() + "s");
+                    }
                 }
+                break;
             }
         }
     }
@@ -93,8 +98,9 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     
     @Override
     public void applyForVaccination() {
-        ((Patient) viewState.getUser()).setVaccineStatus(model.applyForVaccination((Patient) viewState.getUser()));
-        vaccinationLabel.set(((Patient) viewState.getUser()).getVaccineStatus().toString());
+        Patient patient = viewState.getPatient();
+        patient.setVaccineStatus(model.applyForVaccination(patient));
+        vaccinationLabel.set(patient.getVaccineStatus().toString());
         disableButton.set(true);
     }
     

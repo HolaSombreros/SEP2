@@ -7,15 +7,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
-public class AdministratorManager{
-
-
-
+public class AdministratorManager {
     public AdministratorManager() {
-
+    
     }
-
+    
     public void addAdministrator(Administrator administrator) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO administrator VALUES (?,?)");
@@ -24,8 +20,7 @@ public class AdministratorManager{
             insertStatement.executeUpdate();
         }
     }
-
-
+    
     public void removeAdministrator(Administrator administrator) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM administrator WHERE cpr = ?");
@@ -33,7 +28,16 @@ public class AdministratorManager{
             statement.executeQuery();
         }
     }
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public boolean isAdmin(Administrator administrator) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM administrator WHERE cpr = ?");
@@ -45,7 +49,7 @@ public class AdministratorManager{
                 return false;
         }
     }
-
+    
     public boolean isAdmin(String cpr) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM administrator WHERE cpr = ?");
@@ -57,6 +61,4 @@ public class AdministratorManager{
                 return false;
         }
     }
-
-
 }

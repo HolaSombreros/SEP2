@@ -1,9 +1,5 @@
 package server.database;
 
-import server.model.domain.user.User;
-
-import java.sql.SQLException;
-
 public class ManagerFactory {
     private PatientManager patientManager;
     private NurseManager nurseManager;
@@ -16,9 +12,9 @@ public class ManagerFactory {
         patientManager = new PatientManager();
         administratorManager = new AdministratorManager();
         nurseManager = new NurseManager();
-        appointmentManager = new AppointmentManager();
         addressManager = new AddressManager();
-        userManager = new UserManager();
+        userManager = new UserManager(addressManager, patientManager, nurseManager, administratorManager);
+        appointmentManager = new AppointmentManager(userManager);
     }
     public PatientManager getPatientManager() {
         return patientManager;
@@ -43,6 +39,4 @@ public class ManagerFactory {
     public UserManager getUserManager() {
         return userManager;
     }
-
-
 }

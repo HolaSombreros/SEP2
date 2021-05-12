@@ -65,7 +65,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         zipCode.set(viewState.getUser().getAddress().getZipcode());
         email.set(viewState.getUser().getEmail());
         street.set(viewState.getUser().getAddress().getStreet());
-        vaccineStatus.set(((Patient)viewState.getUser()).getVaccineStatus().toString());
+        vaccineStatus.set(viewState.getPatient().getVaccineStatus().toString());
     }
 
     @Override

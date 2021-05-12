@@ -52,6 +52,7 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
         listOfTimeIntervals.clear();
         if(date.get() != null){
             listOfTimeIntervals.addAll(model.getAvailableTimeIntervals(date.get()).getTimeIntervals());
+            // TODO - revisit this
             if(listOfTimeIntervals.size() > 0){
                 timeInterval.set(listOfTimeIntervals.get(0));
                 errorLabel.set("");

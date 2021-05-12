@@ -30,7 +30,7 @@ public class ServerModelManager implements ServerModel {
         loadUsers();
         loadAppointments();
 //        addDummyData();
-//        addDummyTimeIntervals();
+        addDummyTimeIntervals();
     }
     
     private void loadUsers() {
@@ -48,8 +48,6 @@ public class ServerModelManager implements ServerModel {
     private void loadAppointments() {
         try {
             appointmentTimeIntervalList = managerFactory.getAppointmentManager().getAllAppointments();
-
-
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -77,10 +75,10 @@ public class ServerModelManager implements ServerModel {
                     managerFactory.getUserManager().addPerson(user);
                 }
                 else if (user instanceof Nurse && !managerFactory.getNurseManager().isNurse((Nurse) user)) {
-                    managerFactory.getUserManager().addNurse(user);
+                    managerFactory.getUserManager().addNurse((Nurse)user);
                 }
                 else if (user instanceof Administrator && !managerFactory.getAdministratorManager().isAdmin((Administrator) user)) {
-                    managerFactory.getUserManager().addAdministrator(user);
+                    managerFactory.getUserManager().addAdministrator((Administrator)user);
                 }
             
         }

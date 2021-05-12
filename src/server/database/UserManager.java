@@ -8,17 +8,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserManager {
-
     private AddressManager addressManager;
     private PatientManager patientManager;
     private NurseManager nurseManager;
     private AdministratorManager administratorManager;
 
-    public UserManager() {
-        addressManager = new AddressManager();
-        patientManager = new PatientManager();
-        nurseManager = new NurseManager();
-        administratorManager = new AdministratorManager();
+    public UserManager(AddressManager addressManager, PatientManager patientManager, NurseManager nurseManager, AdministratorManager administratorManager) {
+        this.addressManager = addressManager;
+        this.patientManager = patientManager;
+        this.nurseManager = nurseManager;
+        this.administratorManager = administratorManager;
     }
 
     public void addPerson(User user) throws SQLException {
@@ -41,25 +40,9 @@ public class UserManager {
         }
     }
 
-
-
-    public User getUser(String cpr) throws SQLException {
-        User user = null;
-        if (nurseManager.isNurse(cpr))
-            user = getNurse(cpr);
-        else if (administratorManager.isAdmin(cpr))
-            user = getAdministrator(cpr);
-        else
-            user = getPatient(cpr);
-        return user;
-    }
-
-
     public Patient getPatient(String cpr) throws SQLException {
-        Patient patient = null;
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM person WHERE cpr=?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM person JOIN city USING(zip_code) WHERE cpr=?");
             statement.setString(1, cpr);
             ResultSet resultSet = statement.executeQuery();
 
@@ -72,13 +55,13 @@ public class UserManager {
                 String street = resultSet.getString("street");
                 String number = resultSet.getString("number");
                 int zipcode = resultSet.getInt("zip_code");
-                String city = addressManager.getCity(zipcode);
+                String city = resultSet.getString("city");
                 Address address = new Address(street, number, zipcode, city);
                 String phone = resultSet.getString("phone");
                 String email = resultSet.getString("email");
-                patient = new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email, patientManager.getVaccineStatus(cpr));
-                return patient;
-            } else {
+                return new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email, patientManager.getVaccineStatus(cpr));
+            }
+            else {
                 throw new IllegalStateException("User not in database");
             }
         }
@@ -114,31 +97,16 @@ public class UserManager {
         }
     }
 
-
-    public void addNurse(User user) throws SQLException{
-        if(!isUser(user.getCpr()))
-            addPerson(user);
-        nurseManager.addNurse((Nurse)user);
+    public void addNurse(Nurse nurse) throws SQLException{
+        if(!isUser(nurse.getCpr()))
+            addPerson(nurse);
+        nurseManager.addNurse(nurse);
     }
 
-    public void addAdministrator(User user) throws SQLException{
-        if(!isUser(user.getCpr()))
-            addPerson(user);
-        administratorManager.addAdministrator((Administrator) user);
-    }
-
-    public String getPassword(String cpr) throws SQLException {
-        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement selectStatement = connection.prepareStatement("SELECT password FROM person WHERE cpr = ?");
-            selectStatement.setString(1, cpr);
-            ResultSet resultSet = selectStatement.executeQuery();
-            if (resultSet.next()) {
-                String password = resultSet.getString("password");
-                return password;
-            } else {
-                throw new IllegalStateException("User not in database");
-            }
-        }
+    public void addAdministrator(Administrator administrator) throws SQLException{
+        if(!isUser(administrator.getCpr()))
+            addPerson(administrator);
+        administratorManager.addAdministrator(administrator);
     }
 
     public void updateUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws SQLException {
@@ -158,22 +126,11 @@ public class UserManager {
             //TODO: zipcode and city
         }
     }
-
-
-    public void updateVaccineStatus(Patient patient) throws SQLException {
-        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE person set valid_for_vaccine = ? where cpr = ?");
-            statement.setString(1, patient.getVaccineStatus().toString());
-            statement.setString(2, patient.getCpr());
-            statement.executeUpdate();
-        }
-    }
-
     
     public UserList getAllUsers() throws SQLException {
         UserList users = new UserList();
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT person.*, patient.vaccine_status, nurse.employee_id AS nurse_id, administrator.employee_id AS admin_id FROM person JOIN patient USING(cpr) LEFT JOIN nurse ON person.cpr = nurse.cpr LEFT JOIN administrator ON person.cpr = administrator.cpr;");
+            PreparedStatement statement = connection.prepareStatement("SELECT person.*, city.city, patient.vaccine_status, nurse.employee_id AS nurse_id, administrator.employee_id AS admin_id FROM person LEFT JOIN city USING (zip_code) LEFT JOIN patient USING(cpr) LEFT JOIN nurse ON person.cpr = nurse.cpr LEFT JOIN administrator ON person.cpr = administrator.cpr;");
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 String cpr = rs.getString("cpr");
@@ -184,7 +141,8 @@ public class UserManager {
                 String street = rs.getString("street");
                 String number = rs.getString("number");
                 int zipcode = rs.getInt("zip_code");
-                Address address = new Address(street, number, zipcode, addressManager.getCity(zipcode));
+                String city = rs.getString("city");
+                Address address = new Address(street, number, zipcode, city);
                 String phone = rs.getString("phone");
                 String email = rs.getString("email");
                 String vaccine = rs.getString("vaccine_status");
@@ -218,13 +176,12 @@ public class UserManager {
             return users;
         }
     }
-
-
+    
     public UserList getAllPatients() throws SQLException {
         UserList registeredUsers = new UserList();
         try (Connection connection = DatabaseManager.getInstance().getConnection())
         {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM person JOIN patient USING(cpr)");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM person JOIN city USING(zip_code) JOIN patient USING(cpr)");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next())
             {
@@ -236,7 +193,8 @@ public class UserManager {
                 String street = resultSet.getString("street");
                 String number = resultSet.getString("number");
                 int zipcode = resultSet.getInt("zip_code");
-                Address address = new Address(street, number, zipcode, addressManager.getCity(zipcode));
+                String city = resultSet.getString("city");
+                Address address = new Address(street, number, zipcode, city);
                 String phone = resultSet.getString("phone");
                 String email = resultSet.getString("email");
                 String vaccine = resultSet.getString("vaccine_status");
@@ -290,6 +248,10 @@ public class UserManager {
         }
     }
 
+    
+    
+    
+    
     public boolean isUser(String cpr) throws SQLException{
         try(Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM person WHERE cpr = ?");
@@ -301,7 +263,4 @@ public class UserManager {
                 return false;
         }
     }
-
-    //TODO: add methods for remove
-
 }

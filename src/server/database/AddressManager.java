@@ -6,43 +6,43 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class AddressManager {
-
-
     public AddressManager() {
     }
+    
     public void addAddress(Address address) throws SQLException {
-        try(Connection connection = DatabaseManager.getInstance().getConnection()){
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO address VALUES (?,?,?)");
-            insertStatement.setString(1,address.getStreet());
-            insertStatement.setString(2,address.getNumber());
-            insertStatement.setInt(3,address.getZipcode());
-            if(!isCity(address))
+            insertStatement.setString(1, address.getStreet());
+            insertStatement.setString(2, address.getNumber());
+            insertStatement.setInt(3, address.getZipcode());
+            if (!isCity(address))
                 addCity(address);
             insertStatement.executeUpdate();
         }
     }
-
-    public boolean isAddress(String street, String number, int zipcode)throws SQLException{
-        try(Connection connection = DatabaseManager.getInstance().getConnection()){
+    
+    public boolean isAddress(String street, String number, int zipcode) throws SQLException {
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement selectStatement = connection.prepareStatement("SELECT * FROM address WHERE zip_code = ? AND street = ? AND number = ?");
-            selectStatement.setInt(1,zipcode);
-            selectStatement.setString(2,street);
-            selectStatement.setString(3,number);
+            selectStatement.setInt(1, zipcode);
+            selectStatement.setString(2, street);
+            selectStatement.setString(3, number);
             ResultSet resultSet = selectStatement.executeQuery();
             if (resultSet.next()) {
                 return true;
-            } else {
+            }
+            else {
                 return false;
             }
         }
     }
-
-    public String getCity(int zipcode)throws SQLException{
-        try(Connection connection = DatabaseManager.getInstance().getConnection()){
+    
+    public String getCity(int zipcode) throws SQLException {
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement selectStatement = connection.prepareStatement("SELECT city FROM city WHERE zip_code = ?");
-            selectStatement.setInt(1,zipcode);
+            selectStatement.setInt(1, zipcode);
             ResultSet resultSet = selectStatement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 String city = resultSet.getString("city");
                 return city;
             }
@@ -51,13 +51,13 @@ public class AddressManager {
             }
         }
     }
-
-    public int getZipcode(String city)throws SQLException{
-        try(Connection connection = DatabaseManager.getInstance().getConnection()){
+    
+    public int getZipcode(String city) throws SQLException {
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement selectStatement = connection.prepareStatement("SELECT zip_code FROM city WHERE city = ?");
-            selectStatement.setString(1,city);
+            selectStatement.setString(1, city);
             ResultSet resultSet = selectStatement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 int zipCode = resultSet.getInt("zip_code");
                 return zipCode;
             }
@@ -66,33 +66,33 @@ public class AddressManager {
             }
         }
     }
-
-    public void removeAddress(Address address) throws SQLException
-    {
+    
+    public void removeAddress(Address address) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM address WHERE zip_code = ?");
-            statement.setInt(1,address.getZipcode());
+            statement.setInt(1, address.getZipcode());
             statement.executeQuery();
         }
     }
-
-    public void addCity(Address address)throws SQLException{
-        try(Connection connection = DatabaseManager.getInstance().getConnection()) {
+    
+    public void addCity(Address address) throws SQLException {
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO city VALUES (?,?)");
-            statement.setString(1,address.getCity());
-            statement.setInt(2,address.getZipcode());
+            statement.setString(1, address.getCity());
+            statement.setInt(2, address.getZipcode());
             statement.executeUpdate();
         }
     }
-
-    public boolean isCity(Address address) throws SQLException{
-        try(Connection connection = DatabaseManager.getInstance().getConnection()) {
+    
+    public boolean isCity(Address address) throws SQLException {
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement selectStatement = connection.prepareStatement("SELECT * FROM city WHERE zip_code = ?");
-            selectStatement.setInt(1,address.getZipcode());
+            selectStatement.setInt(1, address.getZipcode());
             ResultSet resultSet = selectStatement.executeQuery();
             if (resultSet.next()) {
                 return true;
-            } else {
+            }
+            else {
                 return false;
             }
         }
