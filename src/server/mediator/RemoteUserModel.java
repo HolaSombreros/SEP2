@@ -20,4 +20,5 @@ public interface RemoteUserModel extends RemoteSubject<User, Appointment>
     UserList getAdministrators() throws RemoteException;
     User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws RemoteException;
     VaccineStatus applyForVaccination(Patient patient) throws RemoteException;
+    Patient getPatient(String cpr) throws RemoteException;
 }
