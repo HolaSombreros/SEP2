@@ -44,6 +44,21 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
         listOfTimeIntervals.clear();
         errorLabel.set("");
         loadAppointmentDetails();
+        loadTimeIntervals();
+    }
+    private void loadTimeIntervals(){
+        listOfTimeIntervals.clear();
+        if(date.get() != null){
+            listOfTimeIntervals.addAll(model.getAvailableTimeIntervals(date.get()).getTimeIntervals());
+            if(listOfTimeIntervals.size() > 0){
+                timeInterval.set(listOfTimeIntervals.get(0));
+                errorLabel.set("");
+            }
+            else{
+                timeInterval.set(null);
+                errorLabel.set("No time intervals available this day");
+            }
+        }
     }
     
     private void loadAppointmentDetails() {
@@ -135,14 +150,14 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
     @Override
     public void cancelAppointment() {
         Appointment appointment = model.getAppointmentById(viewState.getSelectedAppointment());
-        if(!(appointment.getStatus() instanceof CancelledAppointment)) {
+        if((appointment.getStatus() instanceof UpcomingAppointment)) {
             if (typeOfConfirmation(1)) {
                 model.cancelAppointment(viewState.getSelectedAppointment());
                 errorLabel.set("Appointment has been cancelled");
                 loadAppointmentDetails();
             }
         }
-        else{
+        else {
             try{
                 model.cancelAppointment(appointment.getId());
             }

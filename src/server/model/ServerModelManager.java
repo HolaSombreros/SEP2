@@ -48,6 +48,8 @@ public class ServerModelManager implements ServerModel {
     private void loadAppointments() {
         try {
             appointmentTimeIntervalList = managerFactory.getAppointmentManager().getAllAppointments();
+
+
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -222,10 +224,12 @@ public class ServerModelManager implements ServerModel {
     {
         Appointment appointment = appointmentTimeIntervalList.getAppointmentById(id);
         try{
-            if(appointment.cancel() && appointment.getStatus() instanceof UpcomingAppointment)
+            if(appointment.getStatus() instanceof UpcomingAppointment){
+                appointment.cancel();
                 managerFactory.getAppointmentManager().cancelStatus(id);
+            }
             else
-                throw new IllegalStateException("You cannot cancel a finished appointment");
+                throw new IllegalStateException("You cannot cancel a finished or cancelled appointment");
         }
         catch (SQLException e){
             e.printStackTrace();
