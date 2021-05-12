@@ -6,7 +6,9 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import server.model.domain.user.ApprovedStatus;
 import server.model.domain.user.Patient;
+import server.model.domain.user.PendingStatus;
 import server.model.domain.user.Staff;
 import util.ObservableClock;
 import utility.observer.event.ObserverEvent;
@@ -42,7 +44,7 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
         this.time = new SimpleStringProperty();
         this.date = new SimpleStringProperty();
         this.vaccinationLabel = new SimpleStringProperty();
-        this.disableButton = new SimpleBooleanProperty();
+        this.disableButton = new SimpleBooleanProperty(false);
     }
     
     @Override
@@ -55,8 +57,12 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
         else {
             accessVisibility.set(false);
             vaccinationLabel.set(((Patient)viewState.getUser()).getVaccineStatus().toString());
+            Patient patient = (Patient) viewState.getUser();
+            if (patient.getVaccineStatus() instanceof PendingStatus ||
+                patient.getVaccineStatus() instanceof ApprovedStatus) {
+                disableButton.set(true);
+            }
         }
-        // time and date are updated in propertyChange()
     }
     
     @Override

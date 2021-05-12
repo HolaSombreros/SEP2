@@ -88,7 +88,7 @@ public class AppointmentManager {
                         appointment.setStatus(new ResultGivenAppointment());
                         break;
                     case "Cancelled":
-                        appointment.setStatus(new CanceledAppointment());
+                        appointment.setStatus(new CancelledAppointment());
                         break;
                 }
                 appointmentTimeIntervalList.add(appointment, date, timeInterval);
@@ -100,7 +100,7 @@ public class AppointmentManager {
     public void cancelStatus(int id) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("UPDATE appointment SET status = ? WHERE appointment_id = ?;");
-            statement.setString(1, new CanceledAppointment().toString());
+            statement.setString(1, new CancelledAppointment().toString());
             statement.setInt(2, id);
             statement.executeUpdate();
         }

@@ -4,7 +4,6 @@ import server.model.domain.user.User;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 public class AppointmentTimeInterval implements Serializable {
     private AppointmentList appointmentList;
@@ -38,7 +37,7 @@ public class AppointmentTimeInterval implements Serializable {
         if (size() >= maxAppointmentCount) {
             throw new IllegalStateException("This time interval is unavailable");
         }
-        if(!appointmentList.contains(appointment))
+        if (!appointmentList.contains(appointment))
             appointmentList.add(appointment);
     }
     
@@ -59,6 +58,20 @@ public class AppointmentTimeInterval implements Serializable {
         return appointmentList.size();
     }
     
+    /**
+     * Only counts appointments that are not Cancelled.
+     * @return The amount of (not-Cancelled) appointments in the list.
+     */
+    public int getAppointmentCount() {
+        int count = 0;
+        for (Appointment appointment : appointmentList.getAppointments()) {
+            if (!(appointment.getStatus() instanceof CancelledAppointment)) {
+                count++;
+            }
+        }
+        return count;
+    }
+    
     @Override
     public String toString() {
         String result = "";
@@ -68,6 +81,7 @@ public class AppointmentTimeInterval implements Serializable {
         return result;
     }
 
+    @Override
     public boolean equals(Object obj){
         if(!(obj instanceof AppointmentTimeInterval))
             return false;

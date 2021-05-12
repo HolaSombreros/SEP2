@@ -11,7 +11,7 @@ public class UpcomingAppointment extends Status {
     
     @Override
     public void cancel(Appointment appointment) {
-        appointment.setStatus(new CanceledAppointment());
+        appointment.setStatus(new CancelledAppointment());
     }
     
     @Override

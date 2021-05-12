@@ -30,7 +30,7 @@ public class ServerModelManager implements ServerModel {
         loadUsers();
         loadAppointments();
 //        addDummyData();
-        addDummyTimeIntervals();
+//        addDummyTimeIntervals();
     }
     
     private void loadUsers() {
@@ -59,12 +59,11 @@ public class ServerModelManager implements ServerModel {
         addresses.add(new Address("Sesame Street", "2", 8700, "Horsens"));
         addresses.add(new Address("Sesame Street", "7A", 8700, "Horsens"));
         addresses.add(new Address("Via Street", "25B", 8700, "Horsens"));
-        VaccineStatus status = new NotAppliedStatus();
         UserList userList = new UserList();
-        userList.add(new Patient("2003036532", "password", "Hello", null, "World", addresses.get(1), "12587463", "elmo@email.com", status));
-        userList.add(new Patient("2003045698", "password", "Maria", null, "Magdalena", addresses.get(2), "12587464", "holy@email.com", status));
-        userList.add(new Patient("3105026358", "password", "Elmo", null, "Popescu", addresses.get(1), "12587465", "popescu@email.com", status));
-        userList.add(new Patient("2504012368", "password", "Vaseline", null, "Veselin", addresses.get(0), "12587466", "vaseline@email.com", status));
+        userList.add(new Patient("2003036532", "password", "Hello", null, "World", addresses.get(1), "12587463", "elmo@email.com", new ApprovedStatus()));
+        userList.add(new Patient("2003045698", "password", "Maria", null, "Magdalena", addresses.get(2), "12587464", "holy@email.com", new PendingStatus()));
+        userList.add(new Patient("3105026358", "password", "Elmo", null, "Popescu", addresses.get(1), "12587465", "popescu@email.com", new NotAppliedStatus()));
+        userList.add(new Patient("2504012368", "password", "Vaseline", null, "Veselin", addresses.get(0), "12587466", "vaseline@email.com", new NotApprovedStatus()));
         userList.add(new Nurse("1302026584", "password", "Mikasa", null, "Ackerman", addresses.get(0), "12587467", "aot@email.com", "mikasa_nurse"));
         userList.add(new Administrator("1407026358", "password", "Nico", null, "Robin", addresses.get(0), "12569873", "nicoRobin@email.com", "nicoRobin_admin"));
         try {

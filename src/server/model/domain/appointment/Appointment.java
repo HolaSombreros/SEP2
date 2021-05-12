@@ -5,7 +5,6 @@ import server.model.domain.user.Patient;
 import server.model.validator.AppointmentValidator;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.time.LocalDate;
 
 public abstract class Appointment implements Serializable {
@@ -85,7 +84,7 @@ public abstract class Appointment implements Serializable {
     
     public boolean cancel() {
         status.cancel(this);
-        return status instanceof CanceledAppointment;
+        return status instanceof CancelledAppointment;
     }
     public void rescheduleAppointment(LocalDate localDate, TimeInterval timeInterval){
         //TODO: DOUBLE CHECK IT
@@ -110,6 +109,4 @@ public abstract class Appointment implements Serializable {
     public String toString() {
         return String.format("#%d: %s (%s) - %s, Date: %s, Time %s\n", id, patient, type, status, date, timeInterval);
     }
-
-
 }

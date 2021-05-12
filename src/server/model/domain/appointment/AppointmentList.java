@@ -34,6 +34,7 @@ public class AppointmentList implements Serializable {
         return false;
     }
 
+    @Override
     public boolean equals(Object obj){
         if(!(obj instanceof AppointmentList))
             return false;
