@@ -35,7 +35,17 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
     public Client() throws RemoteException, NotBoundException, MalformedURLException {
         this(HOST);
     }
-    
+
+    @Override
+    public Patient getPatient(String cpr) {
+        try{
+            return server.getPatient(cpr);
+        }
+        catch (RemoteException e){
+            throw new IllegalStateException(getExceptionMessage(e),e);
+        }
+    }
+
     @Override
     public void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city) {
         try {

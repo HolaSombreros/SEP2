@@ -109,9 +109,13 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     }
 
     @Override
-    public VaccineStatus applyForVaccination(Patient patient) throws RemoteException
-    {
-       return serverModel.applyForVaccination(patient);
+    public VaccineStatus applyForVaccination(Patient patient) throws RemoteException {
+        return serverModel.applyForVaccination(patient);
+    }
+    
+    @Override
+    public Patient getPatient(String cpr) throws RemoteException {
+        return serverModel.getPatient(cpr);
     }
 
     private void startRegistry() throws RemoteException {

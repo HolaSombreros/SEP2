@@ -1,5 +1,7 @@
 package server.model.domain.appointment;
 
+import server.model.domain.user.Nurse;
+import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 
 import java.io.Serializable;
@@ -47,7 +49,10 @@ public class AppointmentTimeInterval implements Serializable {
         }
         AppointmentList appointments = new AppointmentList();
         for (Appointment appointment : appointmentList.getAppointments()) {
-            if (appointment.getPatient().equals(user) || appointment.getNurse().equals(user)) {
+            if (appointment.getPatient().equals(user) && user instanceof Patient) {
+                appointments.add(appointment);
+            }
+            else if (appointment.getNurse().equals(user) && user instanceof Nurse) {
                 appointments.add(appointment);
             }
         }

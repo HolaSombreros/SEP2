@@ -25,10 +25,10 @@ public class AppointmentListViewController extends ViewController
     protected void init()
     {
         viewModel = getViewModelFactory().getAppointmentListViewModel();
-        dateColumn.setCellValueFactory(cellData -> cellData.getValue().datePropertyProperty());
-        statusColumn.setCellValueFactory(cellData -> cellData.getValue().resultPropertyProperty());
-        timeColumn.setCellValueFactory(cellData -> cellData.getValue().timePropertyProperty());
-        typeColumn.setCellValueFactory(cellData -> cellData.getValue().typePropertyProperty());
+        dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDateProperty());
+        statusColumn.setCellValueFactory(cellData -> cellData.getValue().getStatusProperty());
+        timeColumn.setCellValueFactory(cellData -> cellData.getValue().getTimeProperty());
+        typeColumn.setCellValueFactory(cellData -> cellData.getValue().getTypeProperty());
         errorLabel.textProperty().bind(viewModel.getErrorProperty());
         appointmentTable.setItems(viewModel.getAppointments());
         appointmentTable.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> viewModel.setSelectedAppointment(newValue));

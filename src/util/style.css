@@ -12,3 +12,7 @@
   -fx-underline: true;
   -fx-text-fill: #0062ff;
 }
+
+.button {
+  -fx-font-size: 14px;
+}

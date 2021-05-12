@@ -86,14 +86,17 @@
       </HBox>
    </top>
    <bottom>
-      <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
          <children>
-            <Label prefHeight="20.0" prefWidth="333.0" text="Next appointment in forever">
+            <Label fx:id="nextAppointmentLabel" text="Next appointment in ">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
          </children>
+         <BorderPane.margin>
+            <Insets top="10.0" />
+         </BorderPane.margin>
       </HBox>
    </bottom>
    <center>

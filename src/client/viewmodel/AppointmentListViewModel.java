@@ -9,6 +9,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import server.model.domain.appointment.Appointment;
 import server.model.domain.appointment.AppointmentList;
+import server.model.domain.user.Nurse;
+import server.model.domain.user.Patient;
 
 public class AppointmentListViewModel implements AppointmentListViewModelInterface {
     private ObservableList<AppointmentTableViewModel> appointments;
@@ -44,7 +46,7 @@ public class AppointmentListViewModel implements AppointmentListViewModelInterfa
     
     private void updateList() {
         appointments.clear();
-        AppointmentList appointmentList = model.getAppointmentsByUser(viewState.getUser());
+        AppointmentList appointmentList = model.getAppointmentsByUser(viewState.getPatient());
         for (Appointment appointment : appointmentList.getAppointments()) {
             appointments.add(new AppointmentTableViewModel(appointment));
         }

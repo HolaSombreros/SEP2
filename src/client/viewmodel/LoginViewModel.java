@@ -33,6 +33,7 @@ public class LoginViewModel implements LoginViewModelInterface {
         try {
             User loggedIn = model.login(cprProperty.get(), passwordProperty.get());
             viewState.setUser(loggedIn);
+            viewState.setPatient(model.getPatient(cprProperty.get()));
             if (loggedIn instanceof Staff) {
                 // Account is a Admin / Nurse
                 return 2;

@@ -23,6 +23,13 @@ public class AppointmentList implements Serializable {
         this.appointments.addAll(appointments);
     }
     
+    public Appointment get(int index) {
+        if (index < 0 || index > size()) {
+            throw new IllegalArgumentException("Please specify a valid index");
+        }
+        return appointments.get(index);
+    }
+    
     public int size() {
         return appointments.size();
     }

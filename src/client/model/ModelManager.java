@@ -35,7 +35,12 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     public void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city) {
         client.register(cpr, password, firstName, middleName, lastName, phone, email, street, number, zip, city);
     }
-    
+
+    @Override
+    public Patient getPatient(String cpr) {
+        return client.getPatient(cpr);
+    }
+
     @Override
     public User login(String cpr, String password) {
         return client.login(cpr, password);

@@ -10,7 +10,8 @@ public enum View {
     DASHBOARD("DashBoardView.fxml"),
     USERLIST("UserListView.fxml"),
     PERSONALDATA("PersonalData.fxml"),
-    NURSEDETAILS("NurseDetailsView.fxml");
+    NURSEDETAILS("NurseDetailsView.fxml"),
+    NURSEAPPOINTMENTLIST("NurseDashBoardView.fxml");
     
     private String fxmlFile;
     

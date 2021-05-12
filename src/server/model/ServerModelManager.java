@@ -99,17 +99,23 @@ public class ServerModelManager implements ServerModel {
     @Override
     public synchronized User login(String cpr, String password) {
         User user = userList.getUserByCpr(cpr);
-        if (userList.getUserByCpr(cpr).getPassword().equals(password)) {
-            if (onlineList.contains(cpr)) {
-                throw new IllegalStateException("That user is already logged in");
+        if (user != null) {
+            if (userList.getUserByCpr(cpr).getPassword().equals(password)) {
+                if (onlineList.contains(cpr)) {
+                    throw new IllegalStateException("That user is already logged in");
+                }
+                else {
+                    onlineList.add(user);
+                    return user;
+                }
             }
             else {
-                onlineList.add(user);
-                return user;
+                throw new IllegalArgumentException("That CPR/password combination does not match");
             }
         }
-        else
-            throw new IllegalArgumentException("That username/password combination does not match");
+        else {
+            throw new IllegalArgumentException("That CPR is not registered in the system");
+        }
     }
     
     @Override
@@ -265,7 +271,15 @@ public class ServerModelManager implements ServerModel {
             throw new IllegalArgumentException("No such user found");
         }
     }
-    
+
+    @Override
+    public Patient getPatient(String cpr) {
+        if(patientList.contains(cpr))
+            return (Patient) patientList.getUserByCpr(cpr);
+        else
+            return null;
+    }
+
     @Override
     public synchronized void close() {
         property.close();

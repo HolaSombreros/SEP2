@@ -1,5 +1,6 @@
 package server.model.domain.appointment;
 
+import server.model.domain.user.Nurse;
 import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 
