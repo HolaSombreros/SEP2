@@ -32,6 +32,6 @@ public class LoginChoiceViewController extends ViewController{
     }
 
     @FXML private void loginSpecialRole() {
-        getViewHandler().openView(View.NURSEAPPOINTMENTLIST);
+        getViewHandler().openView(View.NURSEDASHBOARD);
     }
 }

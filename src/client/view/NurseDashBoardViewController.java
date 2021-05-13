@@ -76,7 +76,8 @@ public class NurseDashBoardViewController extends ViewController {
     @FXML
     private void details() {
         if (viewModel.updateViewState()) {
-            // open view
+            //TODO: Make new view for nurse appointment details
+            getViewHandler().openView(View.NURSETEST);
         }
     }
     

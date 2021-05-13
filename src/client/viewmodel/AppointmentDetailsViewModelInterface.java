@@ -21,4 +21,5 @@ public interface AppointmentDetailsViewModelInterface {
     ObjectProperty<TimeInterval> getTimeInterval();
     StringProperty resultProperty();
     StringProperty resultLabelProperty();
+
 }

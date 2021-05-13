@@ -194,4 +194,5 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
             }
         }
     }
+
 }
