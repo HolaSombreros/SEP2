@@ -2,6 +2,7 @@ package client.view;
 
 import client.viewmodel.NurseDetailsViewModelInterface;
 import javafx.beans.binding.Bindings;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import util.IntStringConverter;
@@ -35,10 +36,10 @@ public class NurseDetailsViewController extends ViewController
     phoneLabel.textProperty().bind(viewModel.getPhoneProperty());
     emailLabel.textProperty().bind(viewModel.getEmailProperty());
     daySelector.valueProperty().bindBidirectional(viewModel.getDateProperty());
-    Bindings.bindBidirectional(fromHour.textProperty(), viewModel.getFromHourProperty(),new IntStringConverter());
-    Bindings.bindBidirectional(fromMinute.textProperty(), viewModel.getFromMinuteProperty(),new IntStringConverter());
-    Bindings.bindBidirectional(toHour.textProperty(), viewModel.getToHourProperty(),new IntStringConverter());
-    Bindings.bindBidirectional(toMinute.textProperty(), viewModel.getToMinuteProperty(),new IntStringConverter());
+    Bindings.bindBidirectional(fromHour.textProperty(), viewModel.getFromHourProperty(), new IntStringConverter());
+    Bindings.bindBidirectional(fromMinute.textProperty(), viewModel.getFromMinuteProperty(), new IntStringConverter());
+    Bindings.bindBidirectional(toHour.textProperty(), viewModel.getToHourProperty(), new IntStringConverter());
+    Bindings.bindBidirectional(toMinute.textProperty(), viewModel.getToMinuteProperty(), new IntStringConverter());
     daySelector.valueProperty().addListener((obs, oldVal, newVal) -> viewModel.loadTimeInterval());
     errorLabel.textProperty().bind(viewModel.getErrorProperty());
     reset();
@@ -58,5 +59,21 @@ public class NurseDetailsViewController extends ViewController
   {
     viewModel.back();
     getViewHandler().openView(View.USERLIST);
+  }
+
+  @FXML private void onEnter(Event event)
+  {
+    if (event.getSource() == fromHour)
+    {
+      fromMinute.requestFocus();
+    }
+    else if (event.getSource() == fromMinute)
+    {
+      toHour.requestFocus();
+    }
+    else if (event.getSource() == toHour)
+    {
+      toMinute.requestFocus();
+    }
   }
 }

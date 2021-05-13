@@ -20,14 +20,12 @@ public class Nurse extends Staff {
 
     public void addSchedule(Schedule schedule) {
         schedules.add(schedule);
-        System.out.println(Arrays.toString(schedules.toArray()));
     }
 
     public void editSchedule(Schedule schedule) {
         for (Schedule schedule1 : schedules)
             if (schedule1.getDay().equals(schedule.getDay()))
                 schedule1.setTimeInterval(schedule.getTimeInterval());
-        System.out.println(Arrays.toString(schedules.toArray()));
     }
 
     public void removeSchedule(Schedule schedule)
@@ -35,7 +33,6 @@ public class Nurse extends Staff {
         for (Schedule schedule1 : schedules)
             if (schedule1.getDay().equals(schedule.getDay()))
                 schedules.remove(schedule1);
-        System.out.println(Arrays.toString(schedules.toArray()));
     }
 
     public Schedule getSchedule(LocalDate date)
@@ -64,6 +61,6 @@ public class Nurse extends Staff {
 
     @Override
     public String toString() {
-        return super.toString();
+        return super.toString() + getEmployeeId() + Arrays.toString(schedules.toArray());
     }
 }

@@ -73,4 +73,12 @@ public class ViewModelFactory {
     {
         return userListViewModel;
     }
+
+    public NurseDetailsViewModelInterface getNurseDetailsViewModel() {
+        return nurseDetailsViewModel;
+    }
+
+    public NurseDashBoardViewModelInterface getNurseDashBoardViewModel() {
+        return nurseDashBoardViewModel;
+    }
 }

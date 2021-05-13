@@ -26,6 +26,7 @@ public class ServerModelManager implements ServerModel {
     public ServerModelManager() {
         property = new PropertyChangeProxy<>(this);
         onlineList = new UserList();
+        userList = new UserList();
         managerFactory = new ManagerFactory();
         loadUsers();
         loadAppointments();
@@ -35,10 +36,10 @@ public class ServerModelManager implements ServerModel {
 
     private void loadUsers() {
         try {
-            userList = managerFactory.getUserManager().getAllUsers();
             patientList = managerFactory.getUserManager().getAllPatients();
             nurseList = managerFactory.getUserManager().getAllNurses();
             adminList = managerFactory.getUserManager().getAllAdministrators();
+            userList = managerFactory.getUserManager().getAllUsers();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -186,13 +187,32 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override public void addSchedule(Nurse nurse, Schedule schedule) {
-        if (nurse.worksThatDay(schedule))
-            nurse.editSchedule(schedule);
-        else nurse.addSchedule(schedule);
+        try {
+            nurse = (Nurse) nurseList.getUserByCpr(nurse.getCpr());
+            if (nurse.worksThatDay(schedule)) {
+                nurse.editSchedule(schedule);
+                managerFactory.getNurseScheduleManager().editNurseSchedule(nurse, schedule);
+            }
+            else {
+                nurse.addSchedule(schedule);
+                managerFactory.getNurseScheduleManager().addNurseSchedule(nurse,schedule);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override public void removeSchedule(Nurse nurse, Schedule schedule) {
-        nurse.removeSchedule(schedule);
+        try
+        {
+            nurse = (Nurse) nurseList.getUserByCpr(nurse.getCpr());
+            nurse.removeSchedule(schedule);
+            managerFactory.getNurseScheduleManager().removeNurseSchedule(nurse,schedule);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

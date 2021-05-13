@@ -71,15 +71,25 @@ public class UserListViewModel implements UserListViewModelInterface
   {
     if (selectedUser.get() != null)
     {
-      viewState.setSelectedUser(model.getUserList().getUserByCpr(selectedUser.get().getCprProperty().get()));
-      return true;
+      switch (roleProperty.get())
+      {
+        case "Patient List":
+          viewState.setSelectedUser(model.getPatients().getUserByCpr(selectedUser.get().getCprProperty().get()));
+          return true;
+        case "Nurse List":
+          viewState.setSelectedUser(model.getNurses().getUserByCpr(selectedUser.get().getCprProperty().get()));
+          return true;
+        case "Administrator List":
+          viewState.setSelectedUser(model.getAdministrators().getUserByCpr(selectedUser.get().getCprProperty().get()));
+          return true;
+      }
     }
     else
     {
       viewState.removeSelectedUser();
       errorProperty.set("Please select a user");
-      return false;
     }
+    return false;
   }
 
   @Override public void setSelectedUser(UserTableViewModel selectedUser)

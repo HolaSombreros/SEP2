@@ -44,7 +44,8 @@ public class NurseDetailsViewModel implements NurseDetailsViewModelInterface
 
   @Override public void reset()
   {
-    Nurse nurse = (Nurse) viewState.getSelectedUser();
+    Nurse nurse = (Nurse) model.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr());
+    viewState.setSelectedUser(nurse);
     nameProperty.set(nurse.getFullName());
     cprProperty.set("CPR: " + nurse.getCpr());
     idProperty.set("ID: " + nurse.getEmployeeId());
@@ -64,16 +65,22 @@ public class NurseDetailsViewModel implements NurseDetailsViewModelInterface
     {
       Schedule schedule = new Schedule(dateProperty.get(),
           new TimeInterval(LocalTime.of(fromHourProperty.get(), fromMinuteProperty.get()), LocalTime.of(toHourProperty.get(), toMinuteProperty.get())));
-      Nurse nurse = (Nurse)model.getUserList().getUserByCpr(viewState.getSelectedUser().getCpr());
+      Nurse nurse = (Nurse) model.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr());
+      if (dateProperty.get() == null)
+        throw new IllegalStateException("Select a date");
       if (fromHourProperty.get() == 0 || fromMinuteProperty.get() == 0 || toHourProperty.get() == 0 || toMinuteProperty.get() == 0)
       {
         if (fromHourProperty.get() == 0 && fromMinuteProperty.get() == 0 && toHourProperty.get() == 0 && toMinuteProperty.get() == 0)
+        {
           model.removeSchedule(nurse, schedule);
+        }
         else
           throw new IllegalStateException("Invalid time");
       }
       else
+      {
         model.addSchedule(nurse, schedule);
+      }
       errorProperty.set("Schedule successfully changed");
     }
     catch (Exception e)
@@ -89,7 +96,8 @@ public class NurseDetailsViewModel implements NurseDetailsViewModelInterface
 
   @Override public void loadTimeInterval()
   {
-    Schedule schedule = ((Nurse)model.getUserList().getUserByCpr(viewState.getSelectedUser().getCpr())).getSchedule(dateProperty.get());
+    Nurse nurse = (Nurse) model.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr());
+    Schedule schedule = nurse.getSchedule(dateProperty.get());
     if (schedule != null)
     {
       fromHourProperty.set(schedule.getTimeInterval().getFrom().getHour());

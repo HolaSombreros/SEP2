@@ -12,6 +12,8 @@ public class Schedule implements Serializable
 
   public Schedule (LocalDate day, TimeInterval timeInterval)
   {
+    if (day.isBefore(LocalDate.now()))
+      throw new IllegalArgumentException("Not valid date");
     this.day = day;
     this.timeInterval = timeInterval;
   }
