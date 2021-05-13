@@ -12,7 +12,9 @@ public class ViewModelFactory {
     private DashBoardViewModelInterface dashBoardViewModel;
     private PersonalDataViewModelInterface personalDataViewModel;
     private UserListViewModelInterface userListViewModel;
+    private NurseDetailsViewModelInterface nurseDetailsViewModel;
     private NurseDashBoardViewModelInterface nurseDashBoardViewModel;
+
 
     private ViewState viewState;
     
@@ -27,6 +29,7 @@ public class ViewModelFactory {
         dashBoardViewModel = new DashBoardViewModel(model, viewState);
         personalDataViewModel = new PersonalDataViewModel(model,viewState);
         userListViewModel = new UserListViewModel(model,viewState);
+        nurseDetailsViewModel = new NurseDetailsViewModel(model,viewState);
         nurseDashBoardViewModel = new NurseDashBoardViewModel(model, viewState);
     }
     
@@ -69,9 +72,5 @@ public class ViewModelFactory {
     public UserListViewModelInterface getUserListViewModel()
     {
         return userListViewModel;
-    }
-    
-    public NurseDashBoardViewModelInterface getNurseDashBoardViewModel() {
-        return nurseDashBoardViewModel;
     }
 }

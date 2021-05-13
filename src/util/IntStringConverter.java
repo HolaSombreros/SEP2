@@ -15,11 +15,13 @@ public class IntStringConverter extends StringConverter<Number> {
     
     @Override
     public Number fromString(String string) {
+        if (string.isEmpty())
+            return 0;
         try {
             return Integer.parseInt(string);
         }
         catch (Exception e) {
-            return 0;
+            return -1;
         }
     }
 }

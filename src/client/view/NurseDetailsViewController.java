@@ -1,10 +1,10 @@
 package client.view;
 
 import client.viewmodel.NurseDetailsViewModelInterface;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import util.IntStringConverter;
 
 public class NurseDetailsViewController extends ViewController
 {
@@ -15,25 +15,43 @@ public class NurseDetailsViewController extends ViewController
   @FXML private Label phoneLabel;
   @FXML private Label emailLabel;
   @FXML private DatePicker daySelector;
-  @FXML private TextField fromField;
-  @FXML private TextField toField;
+  @FXML private TextField fromHour;
+  @FXML private TextField fromMinute;
+  @FXML private TextField toHour;
+  @FXML private TextField toMinute;
   @FXML private Label errorLabel;
 
-  public NurseDetailsViewController() {}
+  public NurseDetailsViewController()
+  {
+
+  }
 
   @Override protected void init()
   {
-
+    viewModel = getViewModelFactory().getNurseDetailsViewModel();
+    nameLabel.textProperty().bind(viewModel.getNameProperty());
+    cprLabel.textProperty().bind(viewModel.getCprProperty());
+    idLabel.textProperty().bind(viewModel.getIdProperty());
+    phoneLabel.textProperty().bind(viewModel.getPhoneProperty());
+    emailLabel.textProperty().bind(viewModel.getEmailProperty());
+    daySelector.valueProperty().bindBidirectional(viewModel.getDateProperty());
+    Bindings.bindBidirectional(fromHour.textProperty(), viewModel.getFromHourProperty(),new IntStringConverter());
+    Bindings.bindBidirectional(fromMinute.textProperty(), viewModel.getFromMinuteProperty(),new IntStringConverter());
+    Bindings.bindBidirectional(toHour.textProperty(), viewModel.getToHourProperty(),new IntStringConverter());
+    Bindings.bindBidirectional(toMinute.textProperty(), viewModel.getToMinuteProperty(),new IntStringConverter());
+    daySelector.valueProperty().addListener((obs, oldVal, newVal) -> viewModel.loadTimeInterval());
+    errorLabel.textProperty().bind(viewModel.getErrorProperty());
+    reset();
   }
 
   @Override public void reset()
   {
-
+    viewModel.reset();
   }
 
   @FXML private void confirm()
   {
-
+    viewModel.confirm();
   }
 
   @FXML private void back()

@@ -21,7 +21,7 @@ public class ServerModelManager implements ServerModel {
     private AppointmentTimeIntervalList appointmentTimeIntervalList;
     private ManagerFactory managerFactory;
     private PropertyChangeAction<User, Appointment> property;
-    
+
     // TODO - figure out a way to update statuses in the database based on current time
     public ServerModelManager() {
         property = new PropertyChangeProxy<>(this);
@@ -32,7 +32,7 @@ public class ServerModelManager implements ServerModel {
 //        addDummyData();
 //        addDummyTimeIntervals();
     }
-    
+
     private void loadUsers() {
         try {
             userList = managerFactory.getUserManager().getAllUsers();
@@ -44,7 +44,7 @@ public class ServerModelManager implements ServerModel {
             e.printStackTrace();
         }
     }
-    
+
     private void loadAppointments() {
         try {
             appointmentTimeIntervalList = managerFactory.getAppointmentManager().getAllAppointments();
@@ -53,7 +53,7 @@ public class ServerModelManager implements ServerModel {
             e.printStackTrace();
         }
     }
-    
+
     private void addDummyData() {
         ArrayList<Address> addresses = new ArrayList<>();
         addresses.add(new Address("Sesame Street", "2", 8700, "Horsens"));
@@ -80,20 +80,20 @@ public class ServerModelManager implements ServerModel {
                 else if (user instanceof Administrator && !managerFactory.getAdministratorManager().isAdmin((Administrator) user)) {
                     managerFactory.getUserManager().addAdministrator((Administrator)user);
                 }
-            
+
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
+
     private void addDummyTimeIntervals() {
         // from 8:00 -> 8:20  'til  19:00 -> 19:20 on current day
         for (int i = 8; i < 20; i++) {
             appointmentTimeIntervalList.add(new AppointmentTimeInterval(LocalDate.now(), new TimeInterval(LocalTime.of(i, 0), LocalTime.of(i, 20))));
         }
     }
-    
+
     @Override
     public synchronized User login(String cpr, String password) {
         User user = userList.getUserByCpr(cpr);
@@ -115,7 +115,7 @@ public class ServerModelManager implements ServerModel {
             throw new IllegalArgumentException("That CPR is not registered in the system");
         }
     }
-    
+
     @Override
     public synchronized void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip,
         String city) {
@@ -135,27 +135,27 @@ public class ServerModelManager implements ServerModel {
             throw new IllegalStateException("That CPR is already registered in the system");
         }
     }
-    
+
     @Override
     public synchronized UserList getUserList() {
         return userList;
     }
-    
+
     @Override
     public synchronized UserList getPatientList() {
         return patientList;
     }
-    
+
     @Override
     public synchronized UserList getNurseList() {
         return nurseList;
     }
-    
+
     @Override
     public synchronized UserList getAdministratorList() {
         return adminList;
     }
-    
+
     @Override
     public synchronized User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) {
         User user2 = null;
@@ -185,6 +185,16 @@ public class ServerModelManager implements ServerModel {
        return null;
     }
 
+    @Override public void addSchedule(Nurse nurse, Schedule schedule) {
+        if (nurse.worksThatDay(schedule))
+            nurse.editSchedule(schedule);
+        else nurse.addSchedule(schedule);
+    }
+
+    @Override public void removeSchedule(Nurse nurse, Schedule schedule) {
+        nurse.removeSchedule(schedule);
+    }
+
     @Override
     public synchronized Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) {
         Appointment appointment = null;
@@ -208,17 +218,17 @@ public class ServerModelManager implements ServerModel {
         }
         return appointment;
     }
-    
+
     @Override
     public synchronized AppointmentList getAppointmentsByUser(User user) {
         return appointmentTimeIntervalList.getAppointmentsByUser(user);
     }
-    
+
     @Override
     public synchronized Appointment getAppointmentById(int id) {
         return appointmentTimeIntervalList.getAppointmentById(id);
     }
-    
+
     @Override
     public synchronized TimeIntervalList getAvailableTimeIntervals(LocalDate date) {
         return appointmentTimeIntervalList.getAvailableTimeIntervals(date);
@@ -283,12 +293,12 @@ public class ServerModelManager implements ServerModel {
     public synchronized void close() {
         property.close();
     }
-    
+
     @Override
     public boolean addListener(GeneralListener<User, Appointment> listener, String... propertyNames) {
         return property.addListener(listener, propertyNames);
     }
-    
+
     @Override
     public boolean removeListener(GeneralListener<User, Appointment> listener, String... propertyNames) {
         return property.removeListener(listener, propertyNames);

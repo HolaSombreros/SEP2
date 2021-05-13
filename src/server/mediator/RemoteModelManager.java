@@ -2,10 +2,7 @@ package server.mediator;
 
 import server.model.*;
 import server.model.domain.appointment.*;
-import server.model.domain.user.Patient;
-import server.model.domain.user.User;
-import server.model.domain.user.UserList;
-import server.model.domain.user.VaccineStatus;
+import server.model.domain.user.*;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.LocalListener;
@@ -116,6 +113,16 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     @Override
     public Patient getPatient(String cpr) throws RemoteException {
         return serverModel.getPatient(cpr);
+    }
+
+    @Override public void addSchedule(Nurse nurse, Schedule schedule) throws RemoteException
+    {
+        serverModel.addSchedule(nurse,schedule);
+    }
+
+    @Override public void removeSchedule(Nurse nurse, Schedule schedule) throws RemoteException
+    {
+        serverModel.removeSchedule(nurse,schedule);
     }
 
     private void startRegistry() throws RemoteException {

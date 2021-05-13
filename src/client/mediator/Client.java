@@ -1,10 +1,7 @@
 package client.mediator;
 
 import server.model.domain.appointment.*;
-import server.model.domain.user.Patient;
-import server.model.domain.user.User;
-import server.model.domain.user.UserList;
-import server.model.domain.user.VaccineStatus;
+import server.model.domain.user.*;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.RemoteListener;
@@ -201,6 +198,30 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
         }
         catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
+        }
+    }
+
+    @Override public void addSchedule(Nurse nurse, Schedule schedule)
+    {
+        try
+        {
+            server.addSchedule(nurse,schedule);
+        }
+        catch (RemoteException e)
+        {
+            throw new IllegalStateException(getExceptionMessage(e),e);
+        }
+    }
+
+    @Override public void removeSchedule(Nurse nurse, Schedule schedule)
+    {
+        try
+        {
+            server.removeSchedule(nurse,schedule);
+        }
+        catch (RemoteException e)
+        {
+            throw new IllegalStateException(getExceptionMessage(e),e);
         }
     }
 

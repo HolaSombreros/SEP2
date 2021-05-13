@@ -19,7 +19,9 @@ public class UserListViewController extends ViewController
   @FXML private TableColumn<UserTableViewModel, String> vaccineColumn;
   @FXML private Label errorLabel;
 
-  public UserListViewController() {}
+  public UserListViewController()
+  {
+  }
 
   @Override protected void init()
   {
@@ -50,7 +52,12 @@ public class UserListViewController extends ViewController
   {
     boolean openWindow = viewModel.seeDetails();
     if (openWindow)
-      getViewHandler().openView(View.USERLIST);
+      switch (roleLabel.textProperty().get())
+      {
+        case "Nurse List":
+          getViewHandler().openView(View.NURSEDETAILS);
+          break;
+      }
   }
 
   @FXML private void logout()

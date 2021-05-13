@@ -3,10 +3,7 @@ package client.model;
 import client.mediator.Client;
 import client.mediator.LocalClientModel;
 import server.model.domain.appointment.*;
-import server.model.domain.user.Patient;
-import server.model.domain.user.User;
-import server.model.domain.user.UserList;
-import server.model.domain.user.VaccineStatus;
+import server.model.domain.user.*;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.LocalListener;
@@ -109,6 +106,16 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     public VaccineStatus applyForVaccination(Patient patient)
     {
        return client.applyForVaccination(patient);
+    }
+
+    @Override public void addSchedule(Nurse nurse, Schedule schedule)
+    {
+        client.addSchedule(nurse,schedule);
+    }
+
+    @Override public void removeSchedule(Nurse nurse, Schedule schedule)
+    {
+        client.removeSchedule(nurse,schedule);
     }
 
     @Override

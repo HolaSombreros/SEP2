@@ -8,51 +8,50 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
-      xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.NurseDetailsViewController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.NurseDetailsViewController">
     <children>
         <Label fx:id="nameLabel" text="Nurse name">
             <font>
-                <Font name="System Bold" size="20.0"/>
+                <Font name="System Bold" size="20.0" />
             </font>
             <VBox.margin>
-                <Insets bottom="20.0"/>
+                <Insets bottom="20.0" />
             </VBox.margin>
         </Label>
         <VBox alignment="CENTER_LEFT" prefHeight="170.0" prefWidth="600.0">
             <children>
                 <Label fx:id="cprLabel" text="CPR">
                     <VBox.margin>
-                        <Insets bottom="20.0" left="30.0"/>
+                        <Insets bottom="20.0" left="30.0" />
                     </VBox.margin>
                     <font>
-                        <Font size="16.0"/>
+                        <Font size="16.0" />
                     </font>
                 </Label>
                 <Label fx:id="idLabel" text="ID">
                     <font>
-                        <Font size="16.0"/>
+                        <Font size="16.0" />
                     </font>
                     <VBox.margin>
-                        <Insets bottom="20.0" left="30.0"/>
+                        <Insets bottom="20.0" left="30.0" />
                     </VBox.margin>
                 </Label>
                 <Label fx:id="phoneLabel" text="Phone number ">
                     <VBox.margin>
-                        <Insets bottom="20.0" left="30.0"/>
+                        <Insets bottom="20.0" left="30.0" />
                     </VBox.margin>
                     <font>
-                        <Font size="16.0"/>
+                        <Font size="16.0" />
                     </font>
                 </Label>
                 <Label fx:id="emailLabel" text="Email">
                     <VBox.margin>
-                        <Insets bottom="20.0" left="30.0"/>
+                        <Insets bottom="20.0" left="30.0" />
                     </VBox.margin>
                     <font>
-                        <Font size="16.0"/>
+                        <Font size="16.0" />
                     </font>
                 </Label>
             </children>
@@ -61,15 +60,15 @@
             <children>
                 <Label text="Day:">
                     <HBox.margin>
-                        <Insets left="30.0"/>
+                        <Insets left="30.0" />
                     </HBox.margin>
                     <font>
-                        <Font size="16.0"/>
+                        <Font size="16.0" />
                     </font>
                 </Label>
                 <DatePicker fx:id="daySelector" prefHeight="25.0" prefWidth="148.0">
                     <HBox.margin>
-                        <Insets left="40.0"/>
+                        <Insets left="30.0" />
                     </HBox.margin>
                 </DatePicker>
             </children>
@@ -78,61 +77,82 @@
             <children>
                 <Label text="From:">
                     <HBox.margin>
-                        <Insets left="30.0"/>
+                        <Insets left="30.0" />
                     </HBox.margin>
                     <font>
-                        <Font size="16.0"/>
+                        <Font size="16.0" />
                     </font>
                 </Label>
-                <TextField fx:id="fromField">
-                    <HBox.margin>
-                        <Insets left="30.0"/>
-                    </HBox.margin>
-                </TextField>
+            <TextField fx:id="fromHour" prefHeight="25.0" prefWidth="75.0">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </TextField>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text=":">
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <TextField fx:id="fromMinute" prefHeight="25.0" prefWidth="75.0" />
                 <Label text="To:">
                     <HBox.margin>
-                        <Insets left="30.0"/>
+                        <Insets left="30.0" />
                     </HBox.margin>
                     <font>
-                        <Font size="16.0"/>
+                        <Font size="16.0" />
                     </font>
                 </Label>
-                <TextField fx:id="toField">
-                    <HBox.margin>
-                        <Insets left="30.0"/>
-                    </HBox.margin>
-                </TextField>
+            <TextField fx:id="toHour" prefHeight="25.0" prefWidth="75.0">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </TextField>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text=":">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin>
+            </Text>
+            <TextField fx:id="toMinute" prefHeight="25.0" prefWidth="75.0" />
             </children>
             <VBox.margin>
-                <Insets top="20.0"/>
+                <Insets top="20.0" />
             </VBox.margin>
         </HBox>
         <Label fx:id="errorLabel" text="Error Label" textFill="RED">
             <font>
-                <Font size="14.0"/>
+                <Font size="14.0" />
             </font>
             <VBox.margin>
-                <Insets top="20.0"/>
+                <Insets top="20.0" />
             </VBox.margin>
         </Label>
         <HBox alignment="CENTER" prefHeight="18.0" prefWidth="600.0">
             <children>
                 <Button mnemonicParsing="false" onAction="#confirm" text="Confirm">
                     <HBox.margin>
-                        <Insets right="100.0"/>
+                        <Insets right="50.0" />
                     </HBox.margin>
                     <font>
-                        <Font size="14.0"/>
+                        <Font size="14.0" />
                     </font>
                 </Button>
                 <Button mnemonicParsing="false" onAction="#back" text="Back">
                     <font>
-                        <Font size="14.0"/>
+                        <Font size="14.0" />
                     </font>
+               <HBox.margin>
+                  <Insets left="50.0" />
+               </HBox.margin>
                 </Button>
             </children>
             <VBox.margin>
-                <Insets/>
+                <Insets />
             </VBox.margin>
         </HBox>
     </children>
