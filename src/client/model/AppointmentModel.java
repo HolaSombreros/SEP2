@@ -15,4 +15,5 @@ public interface AppointmentModel extends LocalSubject<User, Appointment>
     Appointment getAppointmentById(int id);
     void cancelAppointment( int id);
     void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval);
+    void changeResult(int id,Result result);
 }

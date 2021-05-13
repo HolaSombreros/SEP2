@@ -37,6 +37,11 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     }
 
     @Override
+    public void changeResult(int id,Result result) {
+        client.changeResult(id,result);
+    }
+
+    @Override
     public Patient getPatient(String cpr) {
         return client.getPatient(cpr);
     }

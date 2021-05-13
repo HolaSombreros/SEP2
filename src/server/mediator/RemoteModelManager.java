@@ -118,6 +118,11 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
         return serverModel.getPatient(cpr);
     }
 
+    @Override
+    public void changeResult(int id,Result result) throws RemoteException {
+        serverModel.changeResult(id,result);
+    }
+
     private void startRegistry() throws RemoteException {
         try {
             LocateRegistry.createRegistry(1099);

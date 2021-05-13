@@ -46,6 +46,7 @@ public class NurseTestAppointmentViewController extends ViewController {
 
 
     @FXML private void saveChangesAppointment() {
+        viewModel.saveChanges();
     }
 
     @FXML private void goBack() {

@@ -7,10 +7,13 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import server.model.domain.appointment.Result;
 import server.model.domain.appointment.TestAppointment;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 
 public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewModelInterface {
@@ -43,16 +46,17 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
     @Override
     public void reset() {
         errorProperty.set("");
-        result.set(Result.NORESULTSAVAILABLE.toString());
+
         loadAppointmentDetails();
         loadResultTypes();
+        result.set(((TestAppointment)model.getAppointmentById(viewState.getSelectedAppointment())).getResult().toString());
     }
 
     public void loadResultTypes() {
         resultList.clear();
+        resultList.add(Result.NORESULTSAVAILABLE.toString());
         resultList.add(Result.INCONCLUSIVE.toString());
         resultList.add(Result.NEGATIVE.toString());
-        resultList.add(Result.NORESULTSAVAILABLE.toString());
         resultList.add(Result.POSITIVE.toString());
 
     }
@@ -70,6 +74,32 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
             result.set("");
         }
 
+    }
+
+    public void changeResult(){
+        if(!status.get().equals("Finished")) {
+            errorProperty.set("Appointment has to be finished first!");
+        }
+        else{
+            TestAppointment appointment = (TestAppointment) model.getAppointmentById(viewState.getSelectedAppointment());
+            model.changeResult(appointment.getId(),Result.fromString(result.get()));
+
+        }
+
+    }
+    private boolean typeOfConfirmation(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Optional<ButtonType> resultButton = null;
+        alert.setHeaderText("Are you sure you want to edit the result? \n\n" +
+                        "Result: " + result.get());
+        resultButton = alert.showAndWait();
+        return resultButton.isPresent() && resultButton.get() == ButtonType.OK;
+    }
+
+    @Override
+    public void saveChanges() {
+        typeOfConfirmation();
+        changeResult();
     }
 
     public StringProperty getPatientNameProperty() {

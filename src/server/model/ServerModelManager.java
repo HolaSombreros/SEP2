@@ -279,6 +279,19 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
+    public void changeResult(int id,Result result) {
+        try {
+            ((TestAppointment)appointmentTimeIntervalList.getAppointmentById(id)).setResult(result);
+            TestAppointment appointment = (TestAppointment)appointmentTimeIntervalList.getAppointmentById(id);
+            managerFactory.getAppointmentManager().changeResult(appointment);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
     public synchronized void close() {
         property.close();
     }

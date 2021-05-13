@@ -15,6 +15,8 @@ public interface NurseTestAppointmentViewModelInterface {
     StringProperty timeIntervalProperty();
     StringProperty dateProperty();
     void loadResultTypes();
+    void changeResult();
+    void saveChanges();
 
 
 }
