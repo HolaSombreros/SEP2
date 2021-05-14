@@ -11,7 +11,7 @@ public class AppointmentTimeInterval implements Serializable {
     private AppointmentList appointmentList;
     private LocalDate date;
     private TimeInterval timeInterval;
-    public static final int maxAppointmentCount = 3;
+    public static final int MAX_APPOINTMENT_COUNT = 3;
     
     public AppointmentTimeInterval(LocalDate date, TimeInterval timeInterval) {
         this.appointmentList = new AppointmentList();
@@ -20,7 +20,7 @@ public class AppointmentTimeInterval implements Serializable {
     }
     
     public int getMaxAppointmentCount() {
-        return maxAppointmentCount;
+        return MAX_APPOINTMENT_COUNT;
     }
     
     public AppointmentList getAppointmentList() {
@@ -36,7 +36,7 @@ public class AppointmentTimeInterval implements Serializable {
     }
     
     public void add(Appointment appointment) {
-        if (size() >= maxAppointmentCount) {
+        if (size() >= getMaxAppointmentCount()) {
             throw new IllegalStateException("This time interval is already fully occupied");
         }
         
@@ -52,6 +52,7 @@ public class AppointmentTimeInterval implements Serializable {
         if (user == null) {
             throw new IllegalArgumentException("The user cannot be null");
         }
+        
         AppointmentList appointments = new AppointmentList();
         for (Appointment appointment : appointmentList.getAppointments()) {
             if (appointment.getPatient().equals(user) && user instanceof Patient) {

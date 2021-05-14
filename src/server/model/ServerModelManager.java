@@ -9,7 +9,6 @@ import utility.observer.subject.PropertyChangeProxy;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class ServerModelManager implements ServerModel {
@@ -21,19 +20,18 @@ public class ServerModelManager implements ServerModel {
     private AppointmentTimeIntervalList appointmentTimeIntervalList;
     private ManagerFactory managerFactory;
     private PropertyChangeAction<User, Appointment> property;
-
-    // TODO - figure out a way to update statuses in the database based on current time
+    
     public ServerModelManager() {
         property = new PropertyChangeProxy<>(this);
         onlineList = new UserList();
         userList = new UserList();
         managerFactory = new ManagerFactory();
         loadUsers();
+        loadTimeIntervals();
         loadAppointments();
-//        addDummyData();
-        addDummyTimeIntervals();
+        //        addDummyData();
     }
-
+    
     private void loadUsers() {
         try {
             patientList = managerFactory.getUserManager().getAllPatients();
@@ -45,7 +43,16 @@ public class ServerModelManager implements ServerModel {
             e.printStackTrace();
         }
     }
-
+    
+    private void loadTimeIntervals() {
+        //        from 8:00 -> 8:20  'til  19:00 -> 19:20 on current day
+        //        for (int i = 8; i < 20; i++) {
+        //            appointmentTimeIntervalList.add(new AppointmentTimeInterval(LocalDate.now(), new TimeInterval(LocalTime.of(i, 0), LocalTime.of(i, 20))));
+        //        }
+        
+        // TODO - Load nurse schedules
+    }
+    
     private void loadAppointments() {
         try {
             appointmentTimeIntervalList = managerFactory.getAppointmentManager().getAllAppointments();
@@ -54,7 +61,7 @@ public class ServerModelManager implements ServerModel {
             e.printStackTrace();
         }
     }
-
+    
     private void addDummyData() {
         ArrayList<Address> addresses = new ArrayList<>();
         addresses.add(new Address("Sesame Street", "2", 8700, "Horsens"));
@@ -76,25 +83,18 @@ public class ServerModelManager implements ServerModel {
                     managerFactory.getUserManager().addPerson(user);
                 }
                 else if (user instanceof Nurse && !managerFactory.getNurseManager().isNurse((Nurse) user)) {
-                    managerFactory.getUserManager().addNurse((Nurse)user);
+                    managerFactory.getUserManager().addNurse((Nurse) user);
                 }
                 else if (user instanceof Administrator && !managerFactory.getAdministratorManager().isAdmin((Administrator) user)) {
-                    managerFactory.getUserManager().addAdministrator((Administrator)user);
+                    managerFactory.getUserManager().addAdministrator((Administrator) user);
                 }
-
+            
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-    private void addDummyTimeIntervals() {
-        // from 8:00 -> 8:20  'til  19:00 -> 19:20 on current day
-        for (int i = 8; i < 20; i++) {
-            appointmentTimeIntervalList.add(new AppointmentTimeInterval(LocalDate.now(), new TimeInterval(LocalTime.of(i, 0), LocalTime.of(i, 20))));
-        }
-    }
-
+    
     @Override
     public synchronized User login(String cpr, String password) {
         User user = userList.getUserByCpr(cpr);
@@ -116,7 +116,7 @@ public class ServerModelManager implements ServerModel {
             throw new IllegalArgumentException("That CPR is not registered in the system");
         }
     }
-
+    
     @Override
     public synchronized void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip,
         String city) {
@@ -136,27 +136,27 @@ public class ServerModelManager implements ServerModel {
             throw new IllegalStateException("That CPR is already registered in the system");
         }
     }
-
+    
     @Override
     public synchronized UserList getUserList() {
         return userList;
     }
-
+    
     @Override
     public synchronized UserList getPatientList() {
         return patientList;
     }
-
+    
     @Override
     public synchronized UserList getNurseList() {
         return nurseList;
     }
-
+    
     @Override
     public synchronized UserList getAdministratorList() {
         return adminList;
     }
-
+    
     @Override
     public synchronized User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) {
         User user2 = null;
@@ -171,22 +171,22 @@ public class ServerModelManager implements ServerModel {
         }
         return user2;
     }
-
+    
     @Override
-    public synchronized VaccineStatus applyForVaccination(Patient patient)
-    {
-        try{
+    public synchronized VaccineStatus applyForVaccination(Patient patient) {
+        try {
             patient.getVaccineStatus().apply(patient);
-            managerFactory.getPatientManager().setVaccineStatus(patient.getCpr(),patient.getVaccineStatus());
+            managerFactory.getPatientManager().setVaccineStatus(patient.getCpr(), patient.getVaccineStatus());
             return patient.getVaccineStatus();
         }
-        catch (SQLException e){
+        catch (SQLException e) {
             e.printStackTrace();
         }
-       return null;
+        return null;
     }
-
-    @Override public synchronized void addSchedule(Nurse nurse, Schedule schedule) {
+    
+    @Override
+    public synchronized void addSchedule(Nurse nurse, Schedule schedule) {
         try {
             nurse = (Nurse) nurseList.getUserByCpr(nurse.getCpr());
             if (nurse.worksThatDay(schedule)) {
@@ -195,26 +195,26 @@ public class ServerModelManager implements ServerModel {
             }
             else {
                 nurse.addSchedule(schedule);
-                managerFactory.getNurseScheduleManager().addNurseSchedule(nurse,schedule);
+                managerFactory.getNurseScheduleManager().addNurseSchedule(nurse, schedule);
             }
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-    @Override public synchronized void removeSchedule(Nurse nurse, Schedule schedule) {
-        try
-        {
+    
+    @Override
+    public synchronized void removeSchedule(Nurse nurse, Schedule schedule) {
+        try {
             nurse = (Nurse) nurseList.getUserByCpr(nurse.getCpr());
             nurse.removeSchedule(schedule);
-            managerFactory.getNurseScheduleManager().removeNurseSchedule(nurse,schedule);
+            managerFactory.getNurseScheduleManager().removeNurseSchedule(nurse, schedule);
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
+    
     @Override
     public synchronized Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) {
         Appointment appointment = null;
@@ -238,54 +238,53 @@ public class ServerModelManager implements ServerModel {
         }
         return appointment;
     }
-
+    
     @Override
     public synchronized AppointmentList getAppointmentsByUser(User user) {
         return appointmentTimeIntervalList.getAppointmentsByUser(user);
     }
-
+    
     @Override
     public synchronized Appointment getAppointmentById(int id) {
         return appointmentTimeIntervalList.getAppointmentById(id);
     }
-
+    
     @Override
     public synchronized TimeIntervalList getAvailableTimeIntervals(LocalDate date) {
         return appointmentTimeIntervalList.getAvailableTimeIntervals(date);
     }
-
+    
     @Override
-    public synchronized void cancelAppointment(int id)
-    {
+    public synchronized void cancelAppointment(int id) {
         Appointment appointment = appointmentTimeIntervalList.getAppointmentById(id);
-        try{
-            if(appointment.getStatus() instanceof UpcomingAppointment){
+        try {
+            if (appointment.getStatus() instanceof UpcomingAppointment) {
                 appointment.cancel();
                 managerFactory.getAppointmentManager().cancelStatus(id);
             }
             else
                 throw new IllegalStateException("You cannot cancel a finished or cancelled appointment");
         }
-        catch (SQLException e){
+        catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
+    
     @Override
     public synchronized void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) {
         try {
-            if(appointmentTimeIntervalList.getAppointmentById(id).getStatus() instanceof UpcomingAppointment) {
+            if (appointmentTimeIntervalList.getAppointmentById(id).getStatus() instanceof UpcomingAppointment) {
                 appointmentTimeIntervalList.getAppointmentById(id).rescheduleAppointment(date, timeInterval);
                 managerFactory.getAppointmentManager().rescheduleAppointment(id, date, timeInterval);
             }
             else
                 throw new IllegalStateException("You cannot reschedule a finished or cancelled appointment");
         }
-        catch (SQLException e){
+        catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
+    
     @Override
     public synchronized void logout(User user) {
         if (userList.contains(user)) {
@@ -300,38 +299,38 @@ public class ServerModelManager implements ServerModel {
             throw new IllegalArgumentException("No such user found");
         }
     }
-
+    
     @Override
     public synchronized Patient getPatient(String cpr) {
-        if(patientList.contains(cpr))
+        if (patientList.contains(cpr))
             return (Patient) patientList.getUserByCpr(cpr);
         else
             return null;
     }
-
+    
     @Override
-    public synchronized void changeResult(int id,Result result) {
+    public synchronized void changeResult(int id, Result result) {
         try {
-            ((TestAppointment)appointmentTimeIntervalList.getAppointmentById(id)).setResult(result);
-            TestAppointment appointment = (TestAppointment)appointmentTimeIntervalList.getAppointmentById(id);
+            ((TestAppointment) appointmentTimeIntervalList.getAppointmentById(id)).setResult(result);
+            TestAppointment appointment = (TestAppointment) appointmentTimeIntervalList.getAppointmentById(id);
             managerFactory.getAppointmentManager().changeResult(appointment);
         }
-        catch (SQLException e){
+        catch (SQLException e) {
             e.printStackTrace();
         }
-
+        
     }
-
+    
     @Override
     public synchronized void close() {
         property.close();
     }
-
+    
     @Override
     public boolean addListener(GeneralListener<User, Appointment> listener, String... propertyNames) {
         return property.addListener(listener, propertyNames);
     }
-
+    
     @Override
     public boolean removeListener(GeneralListener<User, Appointment> listener, String... propertyNames) {
         return property.removeListener(listener, propertyNames);

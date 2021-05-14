@@ -17,6 +17,10 @@ public class Nurse extends Staff {
     public Nurse(String cpr, String password, String firstName, String lastName, Address address, String phone, String email, String employeeId) {
         this(cpr, password, firstName, null, lastName, address, phone, email, employeeId);
     }
+    
+    public List<Schedule> getSchedules() {
+        return schedules;
+    }
 
     public void addSchedule(Schedule schedule) {
         schedules.add(schedule);
