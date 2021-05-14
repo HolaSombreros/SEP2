@@ -20,7 +20,8 @@ import java.time.format.DateTimeFormatter;
 
 import static java.time.temporal.ChronoUnit.*;
 
-public class DashBoardViewModel implements DashBoardViewModelInterface, LocalListener<String, String> {
+public class DashBoardViewModel implements DashBoardViewModelInterface, LocalListener<String, String>
+{
     private Model model;
     private ViewState viewState;
     private ObservableClock observableClock;
@@ -32,8 +33,9 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     private StringProperty vaccinationLabel;
     private BooleanProperty disableButton;
     private StringProperty nextAppointment;
-    
-    public DashBoardViewModel(Model model, ViewState viewState) {
+
+    public DashBoardViewModel(Model model, ViewState viewState)
+    {
         this.model = model;
         this.viewState = viewState;
         observableClock = new ObservableClock();
@@ -41,7 +43,7 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
         Thread timer = new Thread(observableClock);
         timer.setDaemon(true);
         timer.start();
-        
+
         this.username = new SimpleStringProperty();
         this.access = new SimpleStringProperty();
         this.accessVisibility = new SimpleBooleanProperty();
@@ -51,41 +53,46 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
         this.disableButton = new SimpleBooleanProperty(false);
         nextAppointment = new SimpleStringProperty();
     }
-    
+
     @Override
-    public void reset() {
+    public void reset()
+    {
         username.set(viewState.getUser().getFirstName());
         AppointmentList appointmentList = model.getAppointmentsByUser(viewState.getPatient());
         Patient patient = viewState.getPatient();
         accessVisibility.set(false);
         vaccinationLabel.set(patient.getVaccineStatus().toString());
-        if (patient.getVaccineStatus() instanceof PendingStatus || patient.getVaccineStatus() instanceof ApprovedStatus) {
+        if (patient.getVaccineStatus() instanceof PendingStatus || patient.getVaccineStatus() instanceof ApprovedStatus)
             disableButton.set(true);
-        }
-        
+
         nextAppointment.set("You do not have any upcoming appointments");
+        AppointmentList list = new AppointmentList();
         for (Appointment appointment : appointmentList.getAppointments()) {
-            if (appointment.getStatus() instanceof UpcomingAppointment) {
-                long daysBetween = DAYS.between(LocalDate.now(), appointment.getDate());
-                if (daysBetween < 1) {
-                    long hoursBetween = HOURS.between(LocalTime.now(), appointment.getTimeInterval().getFrom());
-                    if (hoursBetween > 0) {
-                        nextAppointment.set("Your next appointment is in " + hoursBetween + " hour");
-                        if (hoursBetween > 1) {
-                            nextAppointment.set(nextAppointment.get() + "s");
-                        }
-                    }
-                }
-                else {
-                    nextAppointment.set("Your next appointment is in " + daysBetween + " day");
-                    if (daysBetween > 1) {
-                        nextAppointment.set(nextAppointment.get() + "s");
-                    }
-                }
-                break;
+            if (appointment.getStatus() instanceof UpcomingAppointment)
+                list.add(appointment);
+        }
+
+        Appointment recentAppointment = list.get(0);
+
+        for (int i = 1; i < list.getAppointments().size(); i++) {
+            if ((list.get(i).getDate().isBefore(recentAppointment.getDate())) || (list.get(i).getDate().isBefore(recentAppointment.getDate()) &&
+                    (list.get(i).getTimeInterval().getFrom().isBefore(recentAppointment.getTimeInterval().getFrom())))) {
+                recentAppointment = list.get(i);
+            }
+        }
+
+        if(recentAppointment != null) {
+            long daysBetween = DAYS.between( recentAppointment.getDate(), LocalDate.now());
+            if (daysBetween < 1)
+                nextAppointment.set("Your next appointment is in less than a day");
+            else {
+                nextAppointment.set("Your next appointment is in " + daysBetween + " day");
+                if (daysBetween > 1)
+                    nextAppointment.set(nextAppointment.get() + "s");
             }
         }
     }
+
     
     @Override
     public void logout() {
