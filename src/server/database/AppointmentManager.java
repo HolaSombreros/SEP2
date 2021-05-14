@@ -15,6 +15,12 @@ public class AppointmentManager {
     
     public AppointmentManager(UserManager userManager) {
         this.userManager = userManager;
+        try{
+            updateAppointments();
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
     }
     
     public int getNextId() throws SQLException {
@@ -117,6 +123,23 @@ public class AppointmentManager {
             statement.setString(1, new CancelledAppointment().toString());
             statement.setInt(2, id);
             statement.executeUpdate();
+        }
+    }
+    public void updateAppointments() throws SQLException{
+        try (Connection connection = DatabaseManager.getInstance().getConnection()){
+            PreparedStatement statement = connection.prepareStatement("SELECT date, time_to, appointment_id FROM appointment WHERE status = 'Upcoming';");
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                LocalDate date = rs.getDate("date").toLocalDate();
+                LocalTime timeTo = rs.getTime("time_to").toLocalTime();
+                int id = rs.getInt("appointment_id");
+                if(date.isBefore(LocalDate.now()) || (date.equals(LocalDate.now()) && timeTo.isBefore(LocalTime.now()))){
+                    PreparedStatement statement1 = connection.prepareStatement("UPDATE appointment SET status = ? WHERE appointment_id = ?;");
+                    statement1.setString(1, new FinishedAppointment().toString());
+                    statement1.setInt(2, id);
+                    statement1.executeUpdate();
+                }
+            }
         }
     }
     
