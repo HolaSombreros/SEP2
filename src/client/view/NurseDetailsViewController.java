@@ -15,11 +15,10 @@ public class NurseDetailsViewController extends ViewController
   @FXML private Label idLabel;
   @FXML private Label phoneLabel;
   @FXML private Label emailLabel;
-  @FXML private DatePicker daySelector;
-  @FXML private TextField fromHour;
-  @FXML private TextField fromMinute;
-  @FXML private TextField toHour;
-  @FXML private TextField toMinute;
+  @FXML private DatePicker weekSelector;
+  @FXML private RadioButton shift0;
+  @FXML private RadioButton shift1;
+  @FXML private RadioButton shift2;
   @FXML private Label errorLabel;
 
   public NurseDetailsViewController()
@@ -35,12 +34,16 @@ public class NurseDetailsViewController extends ViewController
     idLabel.textProperty().bind(viewModel.getIdProperty());
     phoneLabel.textProperty().bind(viewModel.getPhoneProperty());
     emailLabel.textProperty().bind(viewModel.getEmailProperty());
-    daySelector.valueProperty().bindBidirectional(viewModel.getDateProperty());
-    Bindings.bindBidirectional(fromHour.textProperty(), viewModel.getFromHourProperty(), new IntStringConverter());
-    Bindings.bindBidirectional(fromMinute.textProperty(), viewModel.getFromMinuteProperty(), new IntStringConverter());
-    Bindings.bindBidirectional(toHour.textProperty(), viewModel.getToHourProperty(), new IntStringConverter());
-    Bindings.bindBidirectional(toMinute.textProperty(), viewModel.getToMinuteProperty(), new IntStringConverter());
-    daySelector.valueProperty().addListener((obs, oldVal, newVal) -> viewModel.loadTimeInterval());
+    weekSelector.valueProperty().bindBidirectional(viewModel.getDateProperty());
+    weekSelector.valueProperty().addListener((obs, oldVal, newVal) -> viewModel.loadShift());
+    viewModel.disableDays(weekSelector);
+    shift0.selectedProperty().bindBidirectional(viewModel.getShift0());
+    shift1.selectedProperty().bindBidirectional(viewModel.getShift1());
+    shift2.selectedProperty().bindBidirectional(viewModel.getShift2());
+    ToggleGroup shift = new ToggleGroup();
+    shift0.setToggleGroup(shift);
+    shift1.setToggleGroup(shift);
+    shift2.setToggleGroup(shift);
     errorLabel.textProperty().bind(viewModel.getErrorProperty());
     reset();
   }
@@ -59,21 +62,5 @@ public class NurseDetailsViewController extends ViewController
   {
     viewModel.back();
     getViewHandler().openView(View.USERLIST);
-  }
-
-  @FXML private void onEnter(Event event)
-  {
-    if (event.getSource() == fromHour)
-    {
-      fromMinute.requestFocus();
-    }
-    else if (event.getSource() == fromMinute)
-    {
-      toHour.requestFocus();
-    }
-    else if (event.getSource() == toHour)
-    {
-      toMinute.requestFocus();
-    }
   }
 }

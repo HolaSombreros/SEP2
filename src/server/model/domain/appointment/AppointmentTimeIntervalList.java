@@ -1,6 +1,5 @@
 package server.model.domain.appointment;
 
-import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 
 import java.time.LocalDate;
@@ -13,10 +12,6 @@ public class AppointmentTimeIntervalList {
     
     public AppointmentTimeIntervalList() {
         appointmentTimeIntervals = new ArrayList<>();
-    }
-    
-    public List<AppointmentTimeInterval> getAppointmentTimeIntervals() {
-        return appointmentTimeIntervals;
     }
     
     public void add(AppointmentTimeInterval appointmentTimeInterval) {
@@ -65,7 +60,7 @@ public class AppointmentTimeIntervalList {
             if (date.equals(LocalDate.now())) {
                 if (appointmentTimeInterval.getDate().equals(date) && !appointmentTimeInterval.getTimeInterval().getFrom().isBefore(LocalTime.now())) {
                     
-                    // filter based on max appointments per time interval (which is filtered by cancelled appointments):
+                    // filter based on max appointments per time interval (excluding cancelled appointments):
                     if (appointmentTimeInterval.getAppointmentCount() < appointmentTimeInterval.getMaxAppointmentCount()) {
                         list.add(appointmentTimeInterval.getTimeInterval());
                     }

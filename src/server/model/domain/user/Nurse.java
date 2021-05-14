@@ -17,6 +17,10 @@ public class Nurse extends Staff {
     public Nurse(String cpr, String password, String firstName, String lastName, Address address, String phone, String email, String employeeId) {
         this(cpr, password, firstName, null, lastName, address, phone, email, employeeId);
     }
+    
+    public List<Schedule> getSchedules() {
+        return schedules;
+    }
 
     public void addSchedule(Schedule schedule) {
         schedules.add(schedule);
@@ -30,9 +34,15 @@ public class Nurse extends Staff {
 
     public void removeSchedule(Schedule schedule)
     {
+        boolean remove = false;
         for (Schedule schedule1 : schedules)
             if (schedule1.getDay().equals(schedule.getDay()))
-                schedules.remove(schedule1);
+            {
+                schedule = schedule1;
+                remove = true;
+            }
+        if (remove)
+        schedules.remove(schedule);
     }
 
     public Schedule getSchedule(LocalDate date)
