@@ -59,4 +59,13 @@ public class AppointmentList implements Serializable {
         }
         return true;
     }
+    
+    @Override
+    public String toString() {
+        String str = "";
+        for (Appointment appointment : appointments) {
+            str += "\n" + appointment.toString();
+        }
+        return str;
+    }
 }

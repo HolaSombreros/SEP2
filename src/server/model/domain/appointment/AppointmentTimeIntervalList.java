@@ -21,7 +21,6 @@ public class AppointmentTimeIntervalList {
     
     public void add(AppointmentTimeInterval appointmentTimeInterval) {
         if (!contains(appointmentTimeInterval))
-            System.out.println("Added one");
             appointmentTimeIntervals.add(appointmentTimeInterval);
     }
     
@@ -36,7 +35,6 @@ public class AppointmentTimeIntervalList {
     public AppointmentList getAppointmentsByUser(User user) {
         AppointmentList appointments = new AppointmentList();
         for (AppointmentTimeInterval appointmentTimeInterval : appointmentTimeIntervals) {
-            System.out.println(appointmentTimeInterval);
             appointments.addAll(appointmentTimeInterval.getAppointmentsByUser(user).getAppointments());
         }
         return appointments;

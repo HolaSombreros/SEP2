@@ -91,9 +91,9 @@ public class AppointmentTimeInterval implements Serializable {
     
     @Override
     public String toString() {
-        String result = "";
+        String result = "Date: " + date + " | Time interval: " + timeInterval;
         for (Appointment appointment : appointmentList.getAppointments()) {
-            result += appointment + " ";
+            result += "\n\t" + appointment;
         }
         return result;
     }
