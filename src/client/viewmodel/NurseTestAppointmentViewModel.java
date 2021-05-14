@@ -50,7 +50,6 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
         loadAppointmentDetails();
         loadResultTypes();
         result.set(((TestAppointment)model.getAppointmentById(viewState.getSelectedAppointment())).getResult().toString());
-
     }
 
     public void loadResultTypes() {
@@ -59,7 +58,6 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
         resultList.add(Result.INCONCLUSIVE.toString());
         resultList.add(Result.NEGATIVE.toString());
         resultList.add(Result.POSITIVE.toString());
-
     }
 
     //TODO: make it so only when status is finished you can edit the result
@@ -79,25 +77,21 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
                 choiceBox.set(false);
                 changeButton.set(false);
             }
-        } else {
-            result.set("");
         }
-
-
+        else
+            result.set("");
     }
-
 
     private void changeResult(){
         TestAppointment appointment = (TestAppointment) model.getAppointmentById(viewState.getSelectedAppointment());
         model.changeResult(appointment.getId(),Result.fromString(result.get()));
 
     }
-    private boolean typeOfConfirmation(){
+    private boolean confirmation(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        Optional<ButtonType> resultButton = null;
         alert.setHeaderText("Are you sure you want to edit the result? \n\n" +
                         "Result: " + result.get());
-        resultButton = alert.showAndWait();
+        Optional<ButtonType> resultButton = alert.showAndWait();
         return resultButton.isPresent() && resultButton.get() == ButtonType.OK;
     }
 
@@ -107,8 +101,12 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
 
     @Override
     public void saveChanges() {
-        typeOfConfirmation();
-        changeResult();
+        if(confirmation()) {
+            changeResult();
+            errorProperty.set("Result changed successfully!");
+        }
+        else
+            errorProperty.set("No changes were saved");
     }
 
     public BooleanProperty changeButtonProperty() {

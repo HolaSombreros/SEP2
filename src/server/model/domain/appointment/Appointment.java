@@ -17,7 +17,7 @@ public abstract class Appointment implements Serializable {
     private TimeInterval timeInterval;
     
     public Appointment(int id, LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) {
-        AppointmentValidator.appointmentValidator(date, timeInterval, patient, nurse);
+        AppointmentValidator.validateAppointment(date, timeInterval, patient, nurse);
         this.id = id;
         this.type = type;
         this.status = new UpcomingAppointment(this);
@@ -28,7 +28,7 @@ public abstract class Appointment implements Serializable {
     }
     
     public Appointment(int id, LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse, Status status) {
-        AppointmentValidator.appointmentValidator(date, timeInterval, patient, nurse);
+        AppointmentValidator.validateAppointment(date, timeInterval, patient, nurse);
         this.id = id;
         this.type = type;
         this.status = status;
@@ -44,35 +44,6 @@ public abstract class Appointment implements Serializable {
     
     public void setId(int id) {
         this.id = id;
-    }
-    
-    public Type getType() {
-        return type;
-    }
-    
-    public Status getStatus() {
-        return status;
-    }
-    
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public void setNurse(Nurse nurse){
-        AppointmentValidator.validateNurse(nurse);
-        this.nurse = nurse;
-    }
-    public void setPatient(Patient patient){
-        AppointmentValidator.validatePatient(patient);
-        this.patient = patient;
-    }
-    
-    public Patient getPatient() {
-        return patient;
-    }
-    
-    public Nurse getNurse() {
-        return nurse;
     }
     
     public LocalDate getDate() {
@@ -93,13 +64,44 @@ public abstract class Appointment implements Serializable {
         this.timeInterval = timeInterval;
     }
     
+    public Type getType() {
+        return type;
+    }
+    
+    public Status getStatus() {
+        return status;
+    }
+    
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+    
+    public Patient getPatient() {
+        return patient;
+    }
+    
+    public void setPatient(Patient patient){
+        AppointmentValidator.validatePatient(patient);
+        this.patient = patient;
+    }
+    
+    public Nurse getNurse() {
+        return nurse;
+    }
+    
+    public void setNurse(Nurse nurse){
+        AppointmentValidator.validateNurse(nurse);
+        this.nurse = nurse;
+    }
+    
     public boolean cancel() {
         status.cancel(this);
         return status instanceof CancelledAppointment;
     }
-    public void rescheduleAppointment(LocalDate localDate, TimeInterval timeInterval){
+    
+    public void reschedule(LocalDate date, TimeInterval timeInterval){
         //TODO: DOUBLE CHECK IT
-       setDate(localDate);
+       setDate(date);
        setTimeInterval(timeInterval);
     }
     
@@ -108,6 +110,7 @@ public abstract class Appointment implements Serializable {
         if (!(obj instanceof Appointment)) {
             return false;
         }
+        
         Appointment appointment = (Appointment) obj;
         return id == appointment.id &&
             type.equals(appointment.type) &&

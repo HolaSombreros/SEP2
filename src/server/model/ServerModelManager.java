@@ -259,8 +259,9 @@ public class ServerModelManager implements ServerModel {
         Appointment appointment = appointmentTimeIntervalList.getAppointmentById(id);
         try {
             if (appointment.getStatus() instanceof UpcomingAppointment) {
-                appointment.cancel();
-                managerFactory.getAppointmentManager().cancelStatus(id);
+                if (appointment.cancel()) {
+                    managerFactory.getAppointmentManager().cancelStatus(id);
+                }
             }
             else
                 throw new IllegalStateException("You cannot cancel a finished or cancelled appointment");
@@ -274,7 +275,7 @@ public class ServerModelManager implements ServerModel {
     public synchronized void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) {
         try {
             if (appointmentTimeIntervalList.getAppointmentById(id).getStatus() instanceof UpcomingAppointment) {
-                appointmentTimeIntervalList.getAppointmentById(id).rescheduleAppointment(date, timeInterval);
+                appointmentTimeIntervalList.getAppointmentById(id).reschedule(date, timeInterval);
                 managerFactory.getAppointmentManager().rescheduleAppointment(id, date, timeInterval);
             }
             else

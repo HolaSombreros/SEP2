@@ -2,6 +2,8 @@ package client.viewmodel;
 
 import client.model.Model;
 import javafx.beans.property.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.util.Callback;
@@ -12,6 +14,7 @@ import server.model.domain.user.Schedule;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Optional;
 
 public class NurseDetailsViewModel implements NurseDetailsViewModelInterface
 {
@@ -62,20 +65,23 @@ public class NurseDetailsViewModel implements NurseDetailsViewModelInterface
 
   @Override public void confirm()
   {
-    Nurse nurse = (Nurse) model.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr());
-    if (dateProperty.get() == null)
-      errorProperty.set("Select the week first");
-    else
+    if (confirmEditing())
     {
-      if (shift0.get())
-        model.removeSchedule(nurse, new Schedule(dateProperty.get(), new TimeInterval(LocalTime.of(8, 0), LocalTime.of(9, 0))));
-      else if (shift1.get())
-        model.addSchedule(nurse, new Schedule(dateProperty.get(), new TimeInterval(LocalTime.of(8, 0), LocalTime.of(14, 0))));
-      else if (shift2.get())
-        model.addSchedule(nurse, new Schedule(dateProperty.get(), new TimeInterval(LocalTime.of(14, 0), LocalTime.of(20, 0))));
-      errorProperty.set("Schedule successfully changed");
-      if (!shift0.get() && !shift1.get() && !shift2.get())
-        errorProperty.set("Option not selected");
+      Nurse nurse = (Nurse) model.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr());
+      if (dateProperty.get() == null)
+        errorProperty.set("Select the week first");
+      else
+      {
+        if (shift0.get())
+          model.removeSchedule(nurse, new Schedule(dateProperty.get(), new TimeInterval(LocalTime.of(8, 0), LocalTime.of(9, 0))));
+        else if (shift1.get())
+          model.addSchedule(nurse, new Schedule(dateProperty.get(), new TimeInterval(LocalTime.of(8, 0), LocalTime.of(14, 0))));
+        else if (shift2.get())
+          model.addSchedule(nurse, new Schedule(dateProperty.get(), new TimeInterval(LocalTime.of(14, 0), LocalTime.of(20, 0))));
+        errorProperty.set("Schedule successfully changed");
+        if (!shift0.get() && !shift1.get() && !shift2.get())
+          errorProperty.set("Option not selected");
+      }
     }
   }
 
@@ -115,6 +121,24 @@ public class NurseDetailsViewModel implements NurseDetailsViewModelInterface
       }
     };
     week.setDayCellFactory(callB);
+  }
+
+  private boolean confirmEditing()
+  {
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    alert.setTitle("Confirm editing");
+    String shift = "";
+    if (shift0.get())
+      shift = "Remove the schedule";
+    else if (shift1.get())
+      shift = "Time: 08:00 - 14:00";
+    else if (shift0.get())
+      shift = "Time: 14:00 - 20:00";
+      alert.setHeaderText("Are you sure you want to edit the nurse's schedule? \n\n" +
+          "Date: " + dateProperty.get() + "\n" +
+          shift);
+    Optional<ButtonType> result = alert.showAndWait();
+    return result.isPresent() && result.get() == ButtonType.OK;
   }
 
   @Override public StringProperty getNameProperty()
