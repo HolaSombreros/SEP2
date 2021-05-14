@@ -2,10 +2,14 @@ package client.viewmodel;
 
 import client.model.Model;
 import javafx.beans.property.*;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
+import javafx.util.Callback;
 import server.model.domain.appointment.TimeInterval;
 import server.model.domain.user.Nurse;
 import server.model.domain.user.Schedule;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -19,10 +23,9 @@ public class NurseDetailsViewModel implements NurseDetailsViewModelInterface
   private StringProperty phoneProperty;
   private StringProperty emailProperty;
   private ObjectProperty<LocalDate> dateProperty;
-  private IntegerProperty fromHourProperty;
-  private IntegerProperty fromMinuteProperty;
-  private IntegerProperty toHourProperty;
-  private IntegerProperty toMinuteProperty;
+  private ObjectProperty<Boolean> shift0;
+  private ObjectProperty<Boolean> shift1;
+  private ObjectProperty<Boolean> shift2;
   private StringProperty errorProperty;
 
   public NurseDetailsViewModel(Model model, ViewState viewState)
@@ -35,10 +38,9 @@ public class NurseDetailsViewModel implements NurseDetailsViewModelInterface
     phoneProperty = new SimpleStringProperty();
     emailProperty = new SimpleStringProperty();
     dateProperty = new SimpleObjectProperty<>();
-    fromHourProperty = new SimpleIntegerProperty();
-    fromMinuteProperty = new SimpleIntegerProperty();
-    toHourProperty = new SimpleIntegerProperty();
-    toMinuteProperty = new SimpleIntegerProperty();
+    shift0 = new SimpleObjectProperty<>();
+    shift1 = new SimpleObjectProperty<>();
+    shift2 = new SimpleObjectProperty<>();
     errorProperty = new SimpleStringProperty();
   }
 
@@ -52,40 +54,28 @@ public class NurseDetailsViewModel implements NurseDetailsViewModelInterface
     phoneProperty.set("Phone: " + nurse.getPhone());
     emailProperty.set("Email: " + nurse.getEmail());
     dateProperty.set(null);
-    fromHourProperty.set(0);
-    fromMinuteProperty.set(0);
-    toHourProperty.set(0);
-    toMinuteProperty.set(0);
+    shift0.set(false);
+    shift1.set(false);
+    shift2.set(false);
     errorProperty.set("");
   }
 
   @Override public void confirm()
   {
-    try
+    Nurse nurse = (Nurse) model.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr());
+    if (dateProperty.get() == null)
+      errorProperty.set("Select the week first");
+    else
     {
-      Schedule schedule = new Schedule(dateProperty.get(),
-          new TimeInterval(LocalTime.of(fromHourProperty.get(), fromMinuteProperty.get()), LocalTime.of(toHourProperty.get(), toMinuteProperty.get())));
-      Nurse nurse = (Nurse) model.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr());
-      if (dateProperty.get() == null)
-        throw new IllegalStateException("Select a date");
-      if (fromHourProperty.get() == 0 || fromMinuteProperty.get() == 0 || toHourProperty.get() == 0 || toMinuteProperty.get() == 0)
-      {
-        if (fromHourProperty.get() == 0 && fromMinuteProperty.get() == 0 && toHourProperty.get() == 0 && toMinuteProperty.get() == 0)
-        {
-          model.removeSchedule(nurse, schedule);
-        }
-        else
-          throw new IllegalStateException("Invalid time");
-      }
-      else
-      {
-        model.addSchedule(nurse, schedule);
-      }
+      if (shift0.get())
+        model.removeSchedule(nurse, new Schedule(dateProperty.get(), new TimeInterval(LocalTime.of(8, 0), LocalTime.of(9, 0))));
+      else if (shift1.get())
+        model.addSchedule(nurse, new Schedule(dateProperty.get(), new TimeInterval(LocalTime.of(8, 0), LocalTime.of(14, 0))));
+      else if (shift2.get())
+        model.addSchedule(nurse, new Schedule(dateProperty.get(), new TimeInterval(LocalTime.of(14, 0), LocalTime.of(20, 0))));
       errorProperty.set("Schedule successfully changed");
-    }
-    catch (Exception e)
-    {
-      errorProperty.set("Invalid time");
+      if (!shift0.get() && !shift1.get() && !shift2.get())
+        errorProperty.set("Option not selected");
     }
   }
 
@@ -94,24 +84,37 @@ public class NurseDetailsViewModel implements NurseDetailsViewModelInterface
     viewState.removeSelectedUser();
   }
 
-  @Override public void loadTimeInterval()
+  @Override public void loadShift()
   {
     Nurse nurse = (Nurse) model.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr());
     Schedule schedule = nurse.getSchedule(dateProperty.get());
-    if (schedule != null)
-    {
-      fromHourProperty.set(schedule.getTimeInterval().getFrom().getHour());
-      fromMinuteProperty.set(schedule.getTimeInterval().getFrom().getMinute());
-      toHourProperty.set(schedule.getTimeInterval().getTo().getHour());
-      toMinuteProperty.set(schedule.getTimeInterval().getTo().getMinute());
-    }
+    if (schedule == null)
+      shift0.set(true);
+    else if (schedule.getTimeInterval().getFrom().equals(LocalTime.of(8, 0)))
+      shift1.set(true);
     else
+      shift2.set(true);
+  }
+
+  @Override public void disableDays(DatePicker week)
+  {
+    Callback<DatePicker, DateCell> callB = new Callback<>()
     {
-      fromHourProperty.set(0);
-      fromMinuteProperty.set(0);
-      toHourProperty.set(0);
-      toMinuteProperty.set(0);
-    }
+      @Override public DateCell call(final DatePicker param)
+      {
+        return new DateCell()
+        {
+          @Override public void updateItem(LocalDate item, boolean empty)
+          {
+            super.updateItem(item, empty);
+            LocalDate today = LocalDate.now();
+            if (item.compareTo(today) < 0 || item.getDayOfWeek() != DayOfWeek.MONDAY)
+              setDisable(true);
+          }
+        };
+      }
+    };
+    week.setDayCellFactory(callB);
   }
 
   @Override public StringProperty getNameProperty()
@@ -144,28 +147,25 @@ public class NurseDetailsViewModel implements NurseDetailsViewModelInterface
     return dateProperty;
   }
 
-  @Override public IntegerProperty getFromHourProperty()
+  @Override public ObjectProperty<Boolean> getShift0()
   {
-    return fromHourProperty;
+    return shift0;
   }
 
-  @Override public IntegerProperty getFromMinuteProperty()
+  @Override public ObjectProperty<Boolean> getShift1()
   {
-    return fromMinuteProperty;
+    return shift1;
   }
 
-  @Override public IntegerProperty getToHourProperty()
+  @Override public ObjectProperty<Boolean> getShift2()
   {
-    return toHourProperty;
-  }
-
-  @Override public IntegerProperty getToMinuteProperty()
-  {
-    return toMinuteProperty;
+    return shift2;
   }
 
   @Override public StringProperty getErrorProperty()
   {
     return errorProperty;
   }
+
 }
+

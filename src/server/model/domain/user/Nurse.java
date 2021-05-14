@@ -30,9 +30,15 @@ public class Nurse extends Staff {
 
     public void removeSchedule(Schedule schedule)
     {
+        boolean remove = false;
         for (Schedule schedule1 : schedules)
             if (schedule1.getDay().equals(schedule.getDay()))
-                schedules.remove(schedule1);
+            {
+                schedule = schedule1;
+                remove = true;
+            }
+        if (remove)
+        schedules.remove(schedule);
     }
 
     public Schedule getSchedule(LocalDate date)
