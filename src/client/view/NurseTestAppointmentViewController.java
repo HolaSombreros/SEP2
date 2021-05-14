@@ -3,6 +3,7 @@ package client.view;
 
 import client.viewmodel.NurseTestAppointmentViewModelInterface;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 
@@ -16,6 +17,7 @@ public class NurseTestAppointmentViewController extends ViewController {
    @FXML private Label dateLabel;
    @FXML private Label timeIntervalLabel;
    @FXML private Label errorLabel;
+   @FXML private Button saveChangesButton;
 
 
    private NurseTestAppointmentViewModelInterface viewModel;
@@ -36,6 +38,8 @@ public class NurseTestAppointmentViewController extends ViewController {
         timeIntervalLabel.textProperty().bind(viewModel.timeIntervalProperty());
         resultChoiceBox.setItems(viewModel.getResultList());
         resultChoiceBox.valueProperty().bindBidirectional(viewModel.resultProperty());
+        viewModel.choiceBoxProperty().addListener((obs, oldVal, newVal) -> resultChoiceBox.setDisable(newVal));
+        viewModel.changeButtonProperty().addListener((obs, oldVal, newVal) -> saveChangesButton.setDisable(newVal));
         reset();
     }
 
@@ -50,6 +54,7 @@ public class NurseTestAppointmentViewController extends ViewController {
     }
 
     @FXML private void goBack() {
+        viewModel.back();
         getViewHandler().openView(View.NURSEDASHBOARD);
     }
 }

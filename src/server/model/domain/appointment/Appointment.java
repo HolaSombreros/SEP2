@@ -27,6 +27,17 @@ public abstract class Appointment implements Serializable {
         this.timeInterval = timeInterval;
     }
     
+    public Appointment(int id, LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse, Status status) {
+        AppointmentValidator.appointmentValidator(date, timeInterval, patient, nurse);
+        this.id = id;
+        this.type = type;
+        this.status = status;
+        this.patient = patient;
+        this.nurse = nurse;
+        this.date = date;
+        this.timeInterval = timeInterval;
+    }
+    
     public int getId() {
         return id;
     }
@@ -107,6 +118,6 @@ public abstract class Appointment implements Serializable {
     
     @Override
     public String toString() {
-        return String.format("#%d: %s (%s) - %s, Date: %s, Time %s\n", id, patient, type, status, date, timeInterval);
+        return String.format("#%d: %s (%s) - %s, Date: %s, Time %s", id, patient, type, status, date, timeInterval);
     }
 }

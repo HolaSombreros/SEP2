@@ -12,12 +12,16 @@ public class TestAppointment extends Appointment {
         super(id, date, timeInterval, type, patient, nurse);
         result = Result.NORESULTSAVAILABLE;
     }
-
-    public TestAppointment(int id, LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse,Result result) {
+    
+    public TestAppointment(int id, LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse, Result result) {
         super(id, date, timeInterval, type, patient, nurse);
         this.result = result;
     }
 
+    public TestAppointment(int id, LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse, Result result, Status status) {
+        super(id, date, timeInterval, type, patient, nurse, status);
+        this.result = result;
+    }
     
     public Result getResult() {
         return result;
