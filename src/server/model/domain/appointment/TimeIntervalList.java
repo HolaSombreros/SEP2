@@ -26,4 +26,27 @@ public class TimeIntervalList implements Serializable {
     public void remove(TimeInterval timeInterval) {
         timeIntervals.remove(timeInterval);
     }
+
+    @Override
+    public boolean equals(Object obj){
+        if(!(obj instanceof TimeIntervalList))
+            return false;
+        TimeIntervalList other = (TimeIntervalList) obj;
+        if(other.timeIntervals.size() != timeIntervals.size())
+            return false;
+        for(int i =0; i < timeIntervals.size();i++){
+            if(!timeIntervals.get(i).equals(other.timeIntervals.get(i)))
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString(){
+        String all = "";
+        for(TimeInterval timeInterval : timeIntervals){
+            all += timeInterval.toString() + " \n";
+        }
+        return all;
+    }
 }
