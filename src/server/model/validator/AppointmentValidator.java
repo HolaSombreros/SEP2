@@ -7,7 +7,7 @@ import server.model.domain.user.Patient;
 import java.time.LocalDate;
 
 public class AppointmentValidator {
-    public static void appointmentValidator(LocalDate date, TimeInterval timeInterval, Patient patient, Nurse nurse) {
+    public static void validateAppointment(LocalDate date, TimeInterval timeInterval, Patient patient, Nurse nurse) {
         validateDate(date);
         validateTimeInterval(timeInterval);
         validatePatient(patient);
@@ -21,18 +21,15 @@ public class AppointmentValidator {
     }
     
     public static void validateNurse(Nurse nurse) {
-//        if (nurse == null) {
-//            throw new IllegalArgumentException("Please specify a nurse");
-//        }
+        if (nurse == null) {
+            throw new IllegalArgumentException("Please specify a nurse");
+        }
     }
     
     public static void validateDate(LocalDate date) {
         if (date == null) {
             throw new IllegalArgumentException("Please specify a date");
         }
-//        if (date.isBefore(LocalDate.now())) {
-//            throw new IllegalArgumentException("You cannot book an appointment for the previous days");
-//        }
     }
     
     public static void validateTimeInterval(TimeInterval timeInterval) {

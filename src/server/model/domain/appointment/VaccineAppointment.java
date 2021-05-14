@@ -14,6 +14,7 @@ public class VaccineAppointment extends Appointment {
         super(id, date, timeInterval, type, patient, nurse, status);
     }
     
+    @Override
     public String toString() {
         return super.toString();
     }

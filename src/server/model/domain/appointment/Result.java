@@ -10,7 +10,7 @@ public enum Result implements Serializable {
 
     private String result;
 
-    Result(String result) {
+    private Result(String result) {
         this.result = result;
     }
 

@@ -36,6 +36,7 @@ public class TestAppointment extends Appointment {
         }
     }
 
+    @Override
     public String toString(){
         return super.toString() + " " + result;
     }
