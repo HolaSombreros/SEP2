@@ -10,6 +10,10 @@ public class VaccineAppointment extends Appointment {
         super(id, date, timeInterval, type, patient, nurse);
     }
     
+    public VaccineAppointment(int id, LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse, Status status) {
+        super(id, date, timeInterval, type, patient, nurse, status);
+    }
+    
     public String toString() {
         return super.toString();
     }

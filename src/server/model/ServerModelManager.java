@@ -241,7 +241,9 @@ public class ServerModelManager implements ServerModel {
 
     @Override
     public synchronized AppointmentList getAppointmentsByUser(User user) {
-        return appointmentTimeIntervalList.getAppointmentsByUser(user);
+        AppointmentList al = appointmentTimeIntervalList.getAppointmentsByUser(user);
+        System.out.println(al.toString());
+        return al;
     }
 
     @Override

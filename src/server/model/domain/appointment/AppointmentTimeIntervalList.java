@@ -20,33 +20,16 @@ public class AppointmentTimeIntervalList {
     }
     
     public void add(AppointmentTimeInterval appointmentTimeInterval) {
-        if (!appointmentTimeIntervals.contains(appointmentTimeInterval))
+        if (!contains(appointmentTimeInterval))
             appointmentTimeIntervals.add(appointmentTimeInterval);
     }
     
     public void add(Appointment appointment, LocalDate date, TimeInterval timeInterval) {
-        // Make sure the patient doesn't already have an appointment at this specific day and time
-        if (!checkAppointmentOnTimeInterval(timeInterval, date, appointment.getPatient())) {
-            
-            // Add the appointment to the correct appointmenttimeinterval
-            for (AppointmentTimeInterval appointmentTimeInterval : appointmentTimeIntervals) {
-                if (appointmentTimeInterval.getDate().equals(date) && appointmentTimeInterval.getTimeInterval().equals(timeInterval)) {
-                    appointmentTimeInterval.add(appointment);
-                }
+        for (AppointmentTimeInterval appointmentTimeInterval : appointmentTimeIntervals) {
+            if (appointmentTimeInterval.getDate().equals(date) && appointmentTimeInterval.getTimeInterval().equals(timeInterval)) {
+                appointmentTimeInterval.add(appointment);
             }
         }
-        else {
-            throw new IllegalArgumentException("You cannot book another appointment in this time interval");
-        }
-    }
-    
-    public boolean checkAppointmentOnTimeInterval(TimeInterval timeInterval, LocalDate date, Patient patient) {
-        for (Appointment appointment : getAppointmentsByUser(patient).getAppointments()) {
-            if (appointment.getTimeInterval().equals(timeInterval) && appointment.getDate().equals(date) && !(appointment.getStatus() instanceof CancelledAppointment)) {
-                return true;
-            }
-        }
-        return false;
     }
     
     public AppointmentList getAppointmentsByUser(User user) {
@@ -99,9 +82,11 @@ public class AppointmentTimeIntervalList {
     }
     
     public boolean contains(AppointmentTimeInterval appointmentTimeInterval) {
-        for (AppointmentTimeInterval a : appointmentTimeIntervals)
-            if (a.equals(appointmentTimeInterval))
+        for (AppointmentTimeInterval a : appointmentTimeIntervals) {
+            if (a.getDate().equals(appointmentTimeInterval.getDate()) && a.getTimeInterval().equals(appointmentTimeInterval.getTimeInterval())) {
                 return true;
+            }
+        }
         return false;
     }
     
@@ -114,10 +99,12 @@ public class AppointmentTimeIntervalList {
         if (!(obj instanceof AppointmentTimeIntervalList)) {
             return false;
         }
+        
         AppointmentTimeIntervalList atil = (AppointmentTimeIntervalList) obj;
         if (appointmentTimeIntervals.size() != atil.size()) {
             return false;
         }
+        
         for (int i = 0; i < appointmentTimeIntervals.size(); i++) {
             if (!appointmentTimeIntervals.get(i).equals(atil.appointmentTimeIntervals.get(i))) {
                 return false;
