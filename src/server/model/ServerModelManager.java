@@ -186,7 +186,7 @@ public class ServerModelManager implements ServerModel {
        return null;
     }
 
-    @Override public void addSchedule(Nurse nurse, Schedule schedule) {
+    @Override public synchronized void addSchedule(Nurse nurse, Schedule schedule) {
         try {
             nurse = (Nurse) nurseList.getUserByCpr(nurse.getCpr());
             if (nurse.worksThatDay(schedule)) {
@@ -203,7 +203,7 @@ public class ServerModelManager implements ServerModel {
         }
     }
 
-    @Override public void removeSchedule(Nurse nurse, Schedule schedule) {
+    @Override public synchronized void removeSchedule(Nurse nurse, Schedule schedule) {
         try
         {
             nurse = (Nurse) nurseList.getUserByCpr(nurse.getCpr());
@@ -310,7 +310,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public void changeResult(int id,Result result) {
+    public synchronized void changeResult(int id,Result result) {
         try {
             ((TestAppointment)appointmentTimeIntervalList.getAppointmentById(id)).setResult(result);
             TestAppointment appointment = (TestAppointment)appointmentTimeIntervalList.getAppointmentById(id);
