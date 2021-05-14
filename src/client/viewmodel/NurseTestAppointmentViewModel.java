@@ -107,6 +107,7 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
 
     @Override
     public void saveChanges() {
+        errorProperty.set("Result changed successfully!");
         typeOfConfirmation();
         changeResult();
     }
