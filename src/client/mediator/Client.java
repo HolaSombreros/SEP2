@@ -34,6 +34,16 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
     }
 
     @Override
+    public void changeResult(int id,Result result) {
+        try{
+            server.changeResult(id,result);
+        }
+        catch (RemoteException e){
+            throw new IllegalStateException(getExceptionMessage(e),e);
+        }
+    }
+
+    @Override
     public Patient getPatient(String cpr) {
         try{
             return server.getPatient(cpr);

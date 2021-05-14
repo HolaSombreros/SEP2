@@ -52,6 +52,6 @@ public class AppointmentDetailsController extends ViewController
         viewModel.rescheduleAppointment();
     }
     @FXML private void goBack(){
-        getViewHandler().openView(View.APPOINTMENTLIST);
+            getViewHandler().openView(View.APPOINTMENTLIST);
     }
 }

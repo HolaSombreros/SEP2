@@ -69,10 +69,11 @@ public class AppointmentManager {
                 Patient patient = userManager.getPatient(rs.getString("patient_cpr"));
                 Nurse nurse = userManager.getNurse(rs.getString("nurse_cpr"));
                 Type type = Type.fromString(rs.getString("type"));
+                Result result = Result.fromString(rs.getString("result"));
                 Appointment appointment = null;
                 switch (type) {
                     case TEST:
-                        appointment = new TestAppointment(id, date, timeInterval, Type.TEST, patient, nurse);
+                        appointment = new TestAppointment(id, date, timeInterval, Type.TEST, patient, nurse,result);
                         break;
                     case VACCINE:
                         appointment = new VaccineAppointment(id, date, timeInterval, Type.VACCINE, patient, nurse);
@@ -114,6 +115,15 @@ public class AppointmentManager {
             statement.setTime(2, Time.valueOf(timeInterval.getFrom()));
             statement.setTime(3, Time.valueOf(timeInterval.getTo()));
             statement.setInt(4, id);
+            statement.executeUpdate();
+        }
+    }
+
+    public void changeResult(TestAppointment appointment) throws SQLException{
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("UPDATE appointment SET result = ? WHERE appointment_id = ?;");
+            statement.setString(1,appointment.getResult().toString());
+            statement.setInt(2,appointment.getId());
             statement.executeUpdate();
         }
     }

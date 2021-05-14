@@ -28,15 +28,7 @@ public class AdministratorManager {
             statement.executeQuery();
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     public boolean isAdmin(Administrator administrator) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {

@@ -14,4 +14,5 @@ public interface ServerAppointmentModel
     TimeIntervalList getAvailableTimeIntervals(LocalDate date);
     void cancelAppointment(int id);
     void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval);
+    void changeResult(int id ,Result result);
 }
