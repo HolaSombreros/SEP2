@@ -55,7 +55,6 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     @Override
     public void reset() {
         username.set(viewState.getUser().getFirstName());
-        vaccinationLabel.set(viewState.getPatient().getVaccineStatus().toString());
         AppointmentList appointmentList = model.getAppointmentsByUser(viewState.getPatient());
         Patient patient = viewState.getPatient();
         accessVisibility.set(false);
