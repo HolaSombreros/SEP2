@@ -1,10 +1,7 @@
 package client.viewmodel;
 
 import client.model.Model;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -26,6 +23,8 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
     private ObjectProperty<String> result;
     private StringProperty timeInterval;
     private StringProperty date;
+    private BooleanProperty choiceBox;
+    private BooleanProperty changeButton;
 
     private Model model;
     private ViewState viewState;
@@ -41,15 +40,17 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
         result = new SimpleObjectProperty<>();
         timeInterval = new SimpleStringProperty();
         date = new SimpleStringProperty();
+        choiceBox = new SimpleBooleanProperty(false);
+        changeButton = new SimpleBooleanProperty(false);
     }
 
     @Override
     public void reset() {
         errorProperty.set("");
-
         loadAppointmentDetails();
         loadResultTypes();
         result.set(((TestAppointment)model.getAppointmentById(viewState.getSelectedAppointment())).getResult().toString());
+
     }
 
     public void loadResultTypes() {
@@ -70,21 +71,25 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
             status.set(appointment.getStatus().toString());
             patientName.set(appointment.getPatient().getFullName());
             patientCpr.set(appointment.getPatient().getCpr());
+            if(!status.get().equals("Finished")){
+                choiceBox.set(true);
+                changeButton.set(true);
+            }
+            else {
+                choiceBox.set(false);
+                changeButton.set(false);
+            }
         } else {
             result.set("");
         }
 
+
     }
 
-    public void changeResult(){
-        if(!status.get().equals("Finished")) {
-            errorProperty.set("Appointment has to be finished first!");
-        }
-        else{
-            TestAppointment appointment = (TestAppointment) model.getAppointmentById(viewState.getSelectedAppointment());
-            model.changeResult(appointment.getId(),Result.fromString(result.get()));
 
-        }
+    private void changeResult(){
+        TestAppointment appointment = (TestAppointment) model.getAppointmentById(viewState.getSelectedAppointment());
+        model.changeResult(appointment.getId(),Result.fromString(result.get()));
 
     }
     private boolean typeOfConfirmation(){
@@ -96,10 +101,22 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
         return resultButton.isPresent() && resultButton.get() == ButtonType.OK;
     }
 
+    public void back(){
+        viewState.removeSelectedAppointment();
+    }
+
     @Override
     public void saveChanges() {
         typeOfConfirmation();
         changeResult();
+    }
+
+    public BooleanProperty changeButtonProperty() {
+        return changeButton;
+    }
+
+    public BooleanProperty choiceBoxProperty() {
+        return choiceBox;
     }
 
     public StringProperty getPatientNameProperty() {
