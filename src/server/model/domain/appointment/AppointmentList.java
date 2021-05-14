@@ -35,9 +35,11 @@ public class AppointmentList implements Serializable {
     }
 
     public boolean contains(Appointment appointment){
-        for(Appointment a : appointments)
-            if(a.equals(appointment))
+        for (Appointment a : appointments) {
+            if (a.equals(appointment)) {
                 return true;
+            }
+        }
         return false;
     }
 
@@ -45,12 +47,16 @@ public class AppointmentList implements Serializable {
     public boolean equals(Object obj){
         if(!(obj instanceof AppointmentList))
             return false;
+        
         AppointmentList other = (AppointmentList) obj;
-        if(other.size() != size())
+        if (other.size() != size())
             return false;
-        for(Appointment appointment: appointments)
-            if(!other.getAppointments().contains(appointment))
+        
+        for (int i = 0; i < size(); i++) {
+            if (!appointments.get(i).equals(other.appointments.get(i))) {
                 return false;
+            }
+        }
         return true;
     }
 }
