@@ -89,15 +89,6 @@ public class AppointmentTimeInterval implements Serializable {
         }
         return appointmentList.contains(appointment);
     }
-    
-    @Override
-    public String toString() {
-        String result = "Date: " + date + " | Time interval: " + timeInterval;
-        for (Appointment appointment : appointmentList.getAppointments()) {
-            result += "\n\t" + appointment;
-        }
-        return result;
-    }
 
     @Override
     public boolean equals(Object obj){
@@ -106,5 +97,14 @@ public class AppointmentTimeInterval implements Serializable {
         
         AppointmentTimeInterval other = (AppointmentTimeInterval) obj;
         return appointmentList.equals(other.appointmentList) && date.equals(other.date) && timeInterval.equals(other.timeInterval);
+    }
+    
+    @Override
+    public String toString() {
+        String result = "Date: " + date + " | Time interval: " + timeInterval;
+        for (Appointment appointment : appointmentList.getAppointments()) {
+            result += "\n\t" + appointment;
+        }
+        return result;
     }
 }
