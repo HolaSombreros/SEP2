@@ -9,7 +9,7 @@ public enum Type implements Serializable
 
     private String type;
 
-    Type(String type) {
+    private Type(String type) {
         this.type = type;
     }
 
