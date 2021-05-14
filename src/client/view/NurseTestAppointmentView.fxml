@@ -113,7 +113,7 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#saveChangesAppointment" prefHeight="31.0" prefWidth="133.0" text="Save Changes">
+            <Button fx:id="saveChangesButton" mnemonicParsing="false" onAction="#saveChangesAppointment" prefHeight="31.0" prefWidth="133.0" text="Save Changes">
                <font>
                   <Font size="15.0" />
                </font>

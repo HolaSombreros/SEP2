@@ -70,29 +70,41 @@ public class AppointmentManager {
                 Nurse nurse = userManager.getNurse(rs.getString("nurse_cpr"));
                 Type type = Type.fromString(rs.getString("type"));
                 Result result = Result.fromString(rs.getString("result"));
-                Appointment appointment = null;
-                switch (type) {
-                    case TEST:
-                        appointment = new TestAppointment(id, date, timeInterval, Type.TEST, patient, nurse,result);
-                        break;
-                    case VACCINE:
-                        appointment = new VaccineAppointment(id, date, timeInterval, Type.VACCINE, patient, nurse);
-                        break;
-                }
                 
                 // switching on this for now - might not be the proper way of doing this (:
                 Status status = null;
                 switch (rs.getString("status")) {
                     case "Finished":
-                        appointment.setStatus(new FinishedAppointment());
+                        status = new FinishedAppointment();
                         break;
                     case "Results given":
-                        appointment.setStatus(new ResultGivenAppointment());
+                        status = new ResultGivenAppointment();
                         break;
                     case "Cancelled":
-                        appointment.setStatus(new CancelledAppointment());
+                        status = new CancelledAppointment();
                         break;
                 }
+                
+                Appointment appointment = null;
+                switch (type) {
+                    case TEST:
+                        if (rs.getString("status").equals("Upcoming")) {
+                            appointment = new TestAppointment(id, date, timeInterval, Type.TEST, patient, nurse, result);
+                        }
+                        else {
+                            appointment = new TestAppointment(id, date, timeInterval, Type.TEST, patient, nurse, result, status);
+                        }
+                        break;
+                    case VACCINE:
+                        if (rs.getString("status").equals("Upcoming")) {
+                            appointment = new VaccineAppointment(id, date, timeInterval, Type.VACCINE, patient, nurse);
+                        }
+                        else {
+                            appointment = new VaccineAppointment(id, date, timeInterval, Type.VACCINE, patient, nurse, status);
+                        }
+                        break;
+                }
+    
                 appointmentTimeIntervalList.add(appointment, date, timeInterval);
             }
             return appointmentTimeIntervalList;
