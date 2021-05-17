@@ -119,10 +119,14 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         else
             reset();
     }
+
     private boolean confirmEditing() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm editing");
         String header1 = "Are you sure you want to edit your personal information? \n\n" +
+                "Password: " + password.get() + "\n" +
+                "First Name: " + firstName.get() + "\n";
+        String adminHeader = "Are you sure you want to edit user information? \n\n" +
                 "Password: " + password.get() + "\n" +
                 "First Name: " + firstName.get() + "\n";
         String middleHeader = "Middle Name: " + middleName.get() + "\n";
@@ -132,12 +136,12 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
                 "Phone Number: " + phoneNumber.get() + "\n" +
                 "Street: " + street.get() + "\n" +
                 "Number: " + number.get() + "\n";
-        String addForAdmin = "Vaccine Status: " + ((Patient) viewState.getSelectedUser()).getVaccineStatus().toString() + "\n";
         if((viewState.getUser() instanceof Administrator)){
+            String addForAdmin = "Vaccine Status: " + ((Patient) viewState.getSelectedUser()).getVaccineStatus().toString() + "\n";
             if(middleName.get() != null)
-                alert.setHeaderText(header1 + middleHeader + thirdPart + addForAdmin);
+                alert.setHeaderText(adminHeader + middleHeader + thirdPart + addForAdmin);
             else
-                alert.setHeaderText(header1 + thirdPart+ addForAdmin);
+                alert.setHeaderText(adminHeader + thirdPart+ addForAdmin);
         }
         else {
             if(middleName.get() != null)
@@ -235,22 +239,28 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
 
 
     public void approve(){
+        ((Patient) viewState.getSelectedUser()).getVaccineStatus().approve((Patient) viewState.getSelectedUser());
         if(confirmEditing()) {
-            ((Patient) viewState.getSelectedUser()).getVaccineStatus().approve((Patient) viewState.getSelectedUser());
             model.updateVaccineStatus(((Patient) viewState.getSelectedUser()));
             vaccineStatus.set(((Patient) viewState.getSelectedUser()).getVaccineStatus().toString());
             approveButton.set(true);
             declineButton.set(true);
-        }
+            errorLabel.set("Patient was " + ((Patient) viewState.getSelectedUser()).getVaccineStatus().toString() + " for vaccination");
+        }else
+            ((Patient) viewState.getSelectedUser()).setVaccineStatus(new PendingStatus());
     }
 
     public void decline(){
+        ((Patient) viewState.getSelectedUser()).getVaccineStatus().decline((Patient) viewState.getSelectedUser());
         if(confirmEditing()){
-            ((Patient) viewState.getSelectedUser()).getVaccineStatus().decline((Patient) viewState.getSelectedUser());
             model.updateVaccineStatus(((Patient) viewState.getSelectedUser()));
             vaccineStatus.set(((Patient) viewState.getSelectedUser()).getVaccineStatus().toString());
             approveButton.set(true);
             declineButton.set(true);
+            errorLabel.set("Patient was " + ((Patient) viewState.getSelectedUser()).getVaccineStatus().toString() + " for vaccination");
         }
+        else
+            ((Patient) viewState.getSelectedUser()).getVaccineStatus().apply((Patient) viewState.getSelectedUser());
+
     }
 }
