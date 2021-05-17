@@ -76,8 +76,7 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
     @Override
     public UserList getUserList()
     {
-        try
-        {
+        try {
             return server.getUserList();
         }
         catch (RemoteException e)
@@ -130,7 +129,7 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
     @Override
     public void cancelAppointment(int id)
     {
-        try{
+        try {
             server.cancelAppointment(id);
         }
         catch (RemoteException e){
