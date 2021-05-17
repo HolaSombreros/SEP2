@@ -236,7 +236,8 @@ public class UserManager {
 
     public UserList getAllAdministrators() throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM administrator");
+            //PreparedStatement statement = connection.prepareStatement("SELECT * FROM administrator");
+            PreparedStatement statement = connection.prepareStatement("Select * from administrators");
             ResultSet resultSet = statement.executeQuery();
             UserList result = new UserList();
             while (resultSet.next()) {
