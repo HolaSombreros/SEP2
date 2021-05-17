@@ -99,10 +99,14 @@ public class NurseDashBoardViewModel implements NurseDashBoardViewModelInterface
     public void setSelectedAppointment(AppointmentTableViewModel appointmentTableViewModel) {
         selectedAppointment.set(appointmentTableViewModel);
     }
-    
     @Override
-    public void filterTable() {
-        // filter table based on criteria - search bar, choicebox and button
+    public void filterByNameOrCpr(){
+        appointmentTable.clear();
+        String criteria = searchBar.get();
+        if(criteria != null) {
+            for(Appointment appointment: model.filterAppointmentsByNameAndCpr(criteria).getAppointments())
+            appointmentTable.add(new AppointmentTableViewModel(appointment));
+        }
     }
     
     @Override

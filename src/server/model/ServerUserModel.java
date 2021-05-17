@@ -7,6 +7,7 @@ public interface ServerUserModel
     User login(String cpr, String password);
     void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city);
     void logout(User user);
+    UserList getUsersByCprAndName(String criteria);
     UserList getUserList();
     UserList getPatientList();
     UserList getNurseList();

@@ -34,6 +34,14 @@ public class AppointmentTimeIntervalList {
         }
         return appointments;
     }
+
+    public AppointmentList filterAppointmentsByNameAndCpr(String criteria) {
+        AppointmentList appointments = new AppointmentList();
+        for(AppointmentTimeInterval appointmentTimeInterval : appointmentTimeIntervals){
+            appointments.addAll(appointmentTimeInterval.filterAppointmentsByNameAndCpr(criteria).getAppointments());
+        }
+        return appointments;
+    }
     
     public Appointment getAppointmentById(int id) {
         if (id < 1) {

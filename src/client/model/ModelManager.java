@@ -48,6 +48,12 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     }
 
     @Override
+    public UserList getUsersByCprAndName(String criteria)
+    {
+        return client.getUsersByCprAndName(criteria);
+    }
+
+    @Override
     public UserList getUserList()
     {
         return client.getUserList();
@@ -71,6 +77,12 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     @Override
     public Appointment getAppointmentById(int id) {
         return client.getAppointmentById(id);
+    }
+
+    @Override
+    public AppointmentList filterAppointmentsByNameAndCpr(String criteria)
+    {
+        return client.filterAppointmentsByNameAndCpr(criteria);
     }
 
     @Override

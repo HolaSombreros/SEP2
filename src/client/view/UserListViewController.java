@@ -6,11 +6,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 public class UserListViewController extends ViewController
 {
   private UserListViewModelInterface viewModel;
   @FXML private Label roleLabel;
+  @FXML private TextField searchBar;
   @FXML private TableView<UserTableViewModel> userTable;
   @FXML private TableColumn<UserTableViewModel, String> cprColumn;
   @FXML private TableColumn<UserTableViewModel, String> nameColumn;
@@ -19,14 +21,12 @@ public class UserListViewController extends ViewController
   @FXML private TableColumn<UserTableViewModel, String> vaccineColumn;
   @FXML private Label errorLabel;
 
-  public UserListViewController()
-  {
-  }
+  public UserListViewController() {}
 
-  @Override protected void init()
-  {
+  @Override protected void init() {
     viewModel = getViewModelFactory().getUserListViewModel();
     roleLabel.textProperty().bind(viewModel.getRoleProperty());
+    searchBar.textProperty().bindBidirectional(viewModel.getSearchBarProperty());
     cprColumn.setCellValueFactory(cellData -> cellData.getValue().getCprProperty());
     nameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
     phoneColumn.setCellValueFactory(cellData -> cellData.getValue().getPhoneProperty());
@@ -48,8 +48,7 @@ public class UserListViewController extends ViewController
     getViewHandler().openView(View.USERLIST);
   }
 
-  @FXML private void seeDetails()
-  {
+  @FXML private void seeDetails() {
     boolean openWindow = viewModel.seeDetails();
     if (openWindow)
       switch (roleLabel.textProperty().get())
@@ -60,10 +59,13 @@ public class UserListViewController extends ViewController
       }
   }
 
-  @FXML private void logout()
-  {
+  @FXML private void logout() {
     viewModel.logout();
     getViewHandler().openView(View.LOGIN);
+  }
+
+  @FXML private void keyReleased() {
+    viewModel.filterUsers();
   }
 
   @FXML private void seePatients()

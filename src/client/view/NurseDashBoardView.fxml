@@ -102,7 +102,7 @@
             </TableView>
             <HBox alignment="CENTER_LEFT" spacing="20.0">
                <children>
-                  <TextField fx:id="searchBar" maxWidth="200.0" onKeyTyped="#filterTable" promptText="Search bar" HBox.hgrow="ALWAYS">
+                  <TextField fx:id="searchBar" maxWidth="200.0" onKeyReleased="#handleKeyReleased" promptText="Search bar" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="14.0" />
                      </font>

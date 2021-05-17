@@ -13,8 +13,7 @@ public class UserTableViewModel
   private StringProperty emailProperty;
   private StringProperty vaccineProperty;
 
-  public UserTableViewModel(User user)
-  {
+  public UserTableViewModel(User user) {
     cprProperty = new SimpleStringProperty(user.getCpr());
     nameProperty = new SimpleStringProperty(user.getFullName());
     phoneProperty = new SimpleStringProperty(user.getPhone());

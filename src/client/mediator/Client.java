@@ -75,6 +75,17 @@ public class Client implements Model, RemoteListener<User, Appointment> {
     }
 
     @Override
+    public UserList getUsersByCprAndName(String criteria)
+    {
+        try {
+            return server.getUsersByCprAndName(criteria);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
+        }
+    }
+
+    @Override
     public UserList getUserList()
     {
         try
@@ -122,6 +133,17 @@ public class Client implements Model, RemoteListener<User, Appointment> {
     public Appointment getAppointmentById(int id) {
         try {
             return server.getAppointmentById(id);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
+        }
+    }
+
+    @Override
+    public AppointmentList filterAppointmentsByNameAndCpr(String criteria)
+    {
+        try {
+            return server.filterAppointmentsByNameAndCpr(criteria);
         }
         catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
