@@ -1,5 +1,6 @@
 package client.mediator;
 
+import client.model.Model;
 import server.model.domain.appointment.*;
 import server.model.domain.user.*;
 import utility.observer.event.ObserverEvent;
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 
 import server.mediator.RemoteModel;
 
-public class Client implements LocalClientModel, RemoteListener<User, Appointment> {
+public class Client implements Model, RemoteListener<User, Appointment> {
     public static final String HOST = "localhost";
     private RemoteModel server;
     private PropertyChangeAction<User, Appointment> property;

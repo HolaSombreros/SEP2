@@ -72,11 +72,11 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
                 list.add(appointment);
         }
 
-        Appointment recentAppointment = list.get(0);
+        Appointment recentAppointment = null;
 
-        for (int i = 1; i < list.getAppointments().size(); i++) {
-            if ((list.get(i).getDate().isBefore(recentAppointment.getDate())) || (list.get(i).getDate().isBefore(recentAppointment.getDate()) &&
-                    (list.get(i).getTimeInterval().getFrom().isBefore(recentAppointment.getTimeInterval().getFrom())))) {
+        for (int i = 0; i < list.getAppointments().size()-1; i++) {
+            if ((list.get(i).getDate().isBefore(list.get(i+1).getDate())) || (list.get(i).getDate().isBefore(list.get(i+1).getDate()) &&
+                    (list.get(i).getTimeInterval().getFrom().isBefore(list.get(i+1).getTimeInterval().getFrom())))) {
                 recentAppointment = list.get(i);
             }
         }
