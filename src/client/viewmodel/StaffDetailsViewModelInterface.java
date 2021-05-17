@@ -6,7 +6,7 @@ import javafx.scene.control.DatePicker;
 
 import java.time.LocalDate;
 
-public interface NurseDetailsViewModelInterface
+public interface StaffDetailsViewModelInterface
 {
   void reset();
   void confirm();
@@ -23,4 +23,5 @@ public interface NurseDetailsViewModelInterface
   ObjectProperty<Boolean> getShift1();
   ObjectProperty<Boolean> getShift2();
   StringProperty getErrorProperty();
+  ObjectProperty<Boolean> getDisplayProperty();
 }

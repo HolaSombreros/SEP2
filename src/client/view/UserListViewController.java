@@ -55,7 +55,8 @@ public class UserListViewController extends ViewController
       switch (roleLabel.textProperty().get())
       {
         case "Nurse List":
-          getViewHandler().openView(View.NURSEDETAILS);
+        case "Administrator List":
+          getViewHandler().openView(View.STAFFDETAILS);
           break;
       }
   }
