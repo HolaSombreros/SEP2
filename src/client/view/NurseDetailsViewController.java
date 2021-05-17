@@ -1,11 +1,8 @@
 package client.view;
 
 import client.viewmodel.NurseDetailsViewModelInterface;
-import javafx.beans.binding.Bindings;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import util.IntStringConverter;
 
 public class NurseDetailsViewController extends ViewController
 {
