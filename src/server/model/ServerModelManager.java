@@ -2,7 +2,9 @@ package server.model;
 
 import server.database.*;
 import server.model.domain.appointment.*;
-import server.model.domain.faq.FAQContent;
+import server.model.domain.faq.Category;
+import server.model.domain.faq.FAQ;
+import server.model.domain.faq.FAQList;
 import server.model.domain.user.*;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
@@ -18,7 +20,7 @@ public class ServerModelManager implements ServerModel {
     private UserList nurseList;
     private UserList adminList;
     private UserList onlineList;
-    private FAQContent faqContent;
+    private FAQList faqList;
     private AppointmentTimeIntervalList appointmentTimeIntervalList;
     private ManagerFactory managerFactory;
     private PropertyChangeAction<User, Appointment> property;
@@ -32,7 +34,7 @@ public class ServerModelManager implements ServerModel {
         loadTimeIntervals();
         loadAppointments();
         loadFAQs();
-        //        addDummyData();
+                addDummyData();
     }
     
     private void loadUsers() {
@@ -67,15 +69,18 @@ public class ServerModelManager implements ServerModel {
     
     private void loadFAQs() {
         try {
-            faqContent = managerFactory.getFAQManager().getAllFAQs();
+            faqList = managerFactory.getFAQManager().getAllFAQs();
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
-//        faqContent.add(FAQType.GENERAL, new FAQ("What is the Coronavirus?", "It's a virus that does some hippity hoppity"));
-//        faqContent.add(FAQType.GENERAL, new FAQ("What is the Corona passport?", "It's some...thing. I don't even know now what even happens if this label is super duper long. I would assume it goes to the next line but I need to make sure that this is in fact what actually happens"));
-//        faqContent.add(FAQType.PASSPORT, new FAQ("What is the Corona passport?", "It's some...thing. I don't even know now what even happens if this label is super duper long. I would assume it goes to the next line but I need to make sure that this is in fact what actually happens"));
-//        faqContent.add(FAQType.PASSPORT, new FAQ("What is the Coronavirus?", "It's a virus that does some hippity hoppity"));
+        
+//        faqList = new FAQList();
+
+//        faqList.add(new FAQ(1, "What is the Coronavirus?", "It's a virus that does some hippity hoppity", Category.GENERAL));
+//        faqList.add(new FAQ(2, "What is the Corona passport?", "It's some...thing. I don't even know now what even happens if this label is super duper long. I would assume it goes to the next line but I need to make sure that this is in fact what actually happens", Category.GENERAL));
+//        faqList.add(new FAQ(3, "What is the Coronavirus?", "It's a virus that does some hippity hoppity", Category.PASSPORT));
+//        faqList.add(new FAQ(4, "What is the Corona passport?", "It's some...thing. I don't even know now what even happens if this label is super duper long. I would assume it goes to the next line but I need to make sure that this is in fact what actually happens", Category.PASSPORT));
     }
     
     private void addDummyData() {
@@ -351,8 +356,20 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
-    public synchronized FAQContent getFaqContent() {
-        return faqContent;
+    public void addFAQ(String question, String answer, Category category, Administrator creator) {
+        try {
+            // validate data...
+            FAQ faq = managerFactory.getFAQManager().addFAQ(question, answer, category, creator);
+            faqList.add(faq);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @Override
+    public synchronized FAQList getFAQList() {
+        return faqList;
     }
     
     @Override

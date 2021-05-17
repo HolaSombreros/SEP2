@@ -20,6 +20,7 @@ public class ManagerFactory {
         nurseScheduleManager = new NurseScheduleManager();
         faqManager = new FAQManager();
     }
+    
     public PatientManager getPatientManager() {
         return patientManager;
     }

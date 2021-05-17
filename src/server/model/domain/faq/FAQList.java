@@ -23,8 +23,8 @@ public class FAQList implements Serializable {
         questions.remove(faq);
     }
     
-    public boolean contains(FAQ faq) {
-        return questions.contains(faq);
+    public int size() {
+        return questions.size();
     }
     
     @Override

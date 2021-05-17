@@ -1,10 +1,10 @@
 package server.mediator;
 
-import server.model.domain.faq.FAQContent;
+import server.model.domain.faq.FAQList;
 
 import java.rmi.RemoteException;
 
 public interface RemoteModel extends RemoteAppointmentModel, RemoteUserModel
 {
-    FAQContent getFaqContent() throws RemoteException;
+    FAQList getFAQList() throws RemoteException;
 }

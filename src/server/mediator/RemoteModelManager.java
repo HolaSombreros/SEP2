@@ -2,7 +2,6 @@ package server.mediator;
 
 import server.model.*;
 import server.model.domain.appointment.*;
-import server.model.domain.faq.FAQContent;
 import server.model.domain.faq.FAQList;
 import server.model.domain.user.*;
 import utility.observer.event.ObserverEvent;
@@ -143,8 +142,8 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     }
     
     @Override
-    public FAQContent getFaqContent() throws RemoteException {
-        return serverModel.getFaqContent();
+    public FAQList getFAQList() throws RemoteException {
+        return serverModel.getFAQList();
     }
 
     private void startRegistry() throws RemoteException {

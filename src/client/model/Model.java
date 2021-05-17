@@ -1,8 +1,8 @@
 package client.model;
 
-import server.model.domain.faq.FAQContent;
+import server.model.domain.faq.FAQList;
 
 public interface Model extends AppointmentModel, UserModel {
-    FAQContent getFaqContent();
+    FAQList getFAQList();
     void close();
 }
