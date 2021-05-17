@@ -2,6 +2,8 @@ package server.mediator;
 
 import server.model.*;
 import server.model.domain.appointment.*;
+import server.model.domain.faq.FAQContent;
+import server.model.domain.faq.FAQList;
 import server.model.domain.user.*;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
@@ -18,7 +20,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDate;
 
 public class RemoteModelManager implements RemoteModel, LocalListener<User, Appointment> {
-    
     private ServerModel serverModel;
     private PropertyChangeAction<User, Appointment> property;
     
@@ -127,6 +128,11 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     @Override
     public void changeResult(int id,Result result) throws RemoteException {
         serverModel.changeResult(id,result);
+    }
+    
+    @Override
+    public FAQContent getFaqContent() throws RemoteException {
+        return serverModel.getFaqContent();
     }
 
     private void startRegistry() throws RemoteException {

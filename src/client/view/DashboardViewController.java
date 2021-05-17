@@ -58,4 +58,9 @@ public class DashboardViewController extends ViewController {
     private void personalData() {
         getViewHandler().openView(View.PERSONALDATA);
     }
+    
+    @FXML
+    private void viewFAQ() {
+        getViewHandler().openView(View.FAQ);
+    }
 }

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="500.0" prefWidth="900.0" stylesheets="@../../util/style.css" userData="Main page" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.DashboardViewController">
+<BorderPane prefHeight="500.0" prefWidth="900.0" stylesheets="@../../util/style.css" userData="Main page" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.DashboardViewController">
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="390.0" prefWidth="195.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
@@ -23,6 +23,11 @@
                </font>
             </Button>
             <Button fx:id="applyButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#applyForVaccination" prefHeight="30.0" prefWidth="173.0" text="Apply For Vaccination">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#viewFAQ" prefHeight="30.0" prefWidth="173.0" text="View FAQ">
                <font>
                   <Font size="14.0" />
                </font>

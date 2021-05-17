@@ -2,6 +2,8 @@ package client.mediator;
 
 import client.model.Model;
 import server.model.domain.appointment.*;
+import server.model.domain.faq.FAQContent;
+import server.model.domain.faq.FAQList;
 import server.model.domain.user.*;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
@@ -235,7 +237,17 @@ public class Client implements Model, RemoteListener<User, Appointment> {
             throw new IllegalStateException(getExceptionMessage(e),e);
         }
     }
-
+    
+    @Override
+    public FAQContent getFaqContent() {
+        try {
+            return server.getFaqContent();
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
+        }
+    }
+    
     @Override
     public void close() {
         try {
