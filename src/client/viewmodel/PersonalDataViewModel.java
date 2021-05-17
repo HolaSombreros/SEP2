@@ -55,8 +55,9 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     @Override
     public void reset()
     {
-        loadInformation();
+
         errorLabel.set("");
+        loadInformation();
 
     }
     private void loadInformation(){
@@ -73,7 +74,13 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
             email.set(viewState.getSelectedUser().getEmail());
             street.set(viewState.getSelectedUser().getAddress().getStreet());
             vaccineStatus.set(((Patient)viewState.getSelectedUser()).getVaccineStatus().toString());
-            if(!vaccineStatus.get().equals("Pending")){
+            if(viewState.getAdmin().getCpr().equals(viewState.getSelectedUser().getCpr())){
+                approveButton.set(true);
+                declineButton.set(true);
+                System.out.println(viewState.getAdmin().getCpr().equals(viewState.getSelectedUser().getCpr()));
+                errorLabel.set("Cannot approve vaccine for self");
+            }
+            else if(!vaccineStatus.get().equals("Pending")){
                 approveButton.set(true);
                 declineButton.set(true);
             }
@@ -131,7 +138,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
                         "Phone Number: " + phoneNumber.get() + "\n" +
                         "Street: " + street.get() + "\n" +
                         "Number: " + number.get() + "\n" +
-                        "Vaccine Status: " + vaccineStatus.get() + "\n");
+                        "Vaccine Status: " + ((Patient) viewState.getSelectedUser()).getVaccineStatus().toString() + "\n");
             } else {
                 alert.setHeaderText("Are you sure you want to edit your personal information? \n\n" +
                         "Password: " + password.get() + "\n" +
@@ -143,7 +150,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
                         "Phone Number: " + phoneNumber.get() + "\n" +
                         "Street: " + street.get() + "\n" +
                         "Number: " + number.get() + "\n" +
-                        "Vaccine Status: " + vaccineStatus.get() + "\n");
+                        "Vaccine Status: " + ((Patient) viewState.getSelectedUser()).getVaccineStatus().toString() + "\n");
             }
         }
         else {
@@ -259,18 +266,22 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
 
 
     public void approve(){
-        ((Patient) viewState.getSelectedUser()).setVaccineStatus(new ApprovedStatus());
         if(confirmEditing()) {
+            ((Patient) viewState.getSelectedUser()).getVaccineStatus().approve((Patient) viewState.getSelectedUser());
             model.updateVaccineStatus(((Patient) viewState.getSelectedUser()));
             vaccineStatus.set(((Patient) viewState.getSelectedUser()).getVaccineStatus().toString());
+            approveButton.set(true);
+            declineButton.set(true);
         }
     }
 
     public void decline(){
-        ((Patient) viewState.getSelectedUser()).setVaccineStatus(new NotApprovedStatus());
         if(confirmEditing()){
+            ((Patient) viewState.getSelectedUser()).getVaccineStatus().decline((Patient) viewState.getSelectedUser());
             model.updateVaccineStatus(((Patient) viewState.getSelectedUser()));
             vaccineStatus.set(((Patient) viewState.getSelectedUser()).getVaccineStatus().toString());
+            approveButton.set(true);
+            declineButton.set(true);
         }
     }
 }
