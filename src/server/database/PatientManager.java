@@ -65,13 +65,7 @@ public class PatientManager {
             statement.executeQuery();
         }
     }
-    
-    
-    
-    
-    
-    
-    
+
     
     public boolean isPatient(User patient) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {

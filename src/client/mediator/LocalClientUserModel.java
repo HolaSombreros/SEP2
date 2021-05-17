@@ -16,6 +16,7 @@ public interface LocalClientUserModel extends LocalSubject<User, Appointment>
     User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip);
     VaccineStatus applyForVaccination(Patient patient);
     Patient getPatient(String cpr);
+    VaccineStatus updateVaccineStatus(Patient patient);
 
     void addSchedule(Nurse nurse, Schedule schedule);
     void removeSchedule(Nurse nurse, Schedule schedule);

@@ -16,4 +16,5 @@ public interface ServerUserModel
     Patient getPatient(String cpr);
     void addSchedule(Nurse nurse, Schedule schedule);
     void removeSchedule(Nurse nurse, Schedule schedule);
+    VaccineStatus updateVaccineStatus(Patient patient);
 }

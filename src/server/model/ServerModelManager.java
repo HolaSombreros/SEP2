@@ -136,9 +136,23 @@ public class ServerModelManager implements ServerModel {
             throw new IllegalStateException("That CPR is already registered in the system");
         }
     }
+    private void updateList(){
+        try {
+            patientList = managerFactory.getUserManager().getAllPatients();
+            nurseList = managerFactory.getUserManager().getAllNurses();
+            adminList = managerFactory.getUserManager().getAllAdministrators();
+            userList = managerFactory.getUserManager().getAllUsers();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     
     @Override
     public synchronized UserList getUserList() {
+//        userList.getUsers().addAll(patientList.getUsers());
+//        userList.getUsers().addAll(nurseList.getUsers());
+//        userList.getUsers().addAll(adminList.getUsers());
         return userList;
     }
     
@@ -321,7 +335,19 @@ public class ServerModelManager implements ServerModel {
         }
         
     }
-    
+
+    @Override
+    public synchronized VaccineStatus updateVaccineStatus(Patient patient) {
+        try{
+            managerFactory.getPatientManager().setVaccineStatus(patient.getCpr(), patient.getVaccineStatus());
+            return patient.getVaccineStatus();
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @Override
     public synchronized void close() {
         property.close();

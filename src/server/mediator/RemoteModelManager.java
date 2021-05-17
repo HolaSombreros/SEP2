@@ -129,6 +129,11 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
         serverModel.changeResult(id,result);
     }
 
+    @Override
+    public VaccineStatus updateVaccineStatus(Patient patient) throws RemoteException {
+        return serverModel.updateVaccineStatus(patient);
+    }
+
     private void startRegistry() throws RemoteException {
         try {
             LocateRegistry.createRegistry(1099);

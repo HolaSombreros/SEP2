@@ -1,7 +1,9 @@
 package client.view;
 
 import client.viewmodel.PersonalDataViewModelInterface;
+import javafx.event.ActionEvent;
 import javafx.fxml.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import util.IntStringConverter;
@@ -21,6 +23,9 @@ public class PersonalDataViewController extends ViewController
     @FXML private TextField number;
     @FXML private Label errorLabel;
     @FXML private Label vaccineStatus;
+    @FXML private Label titleLabel;
+    @FXML private Button approveButton;
+    @FXML private Button declineButton;
 
     private PersonalDataViewModelInterface viewModel;
 
@@ -41,6 +46,16 @@ public class PersonalDataViewController extends ViewController
         number.textProperty().bindBidirectional(viewModel.getNumberProperty());
         errorLabel.textProperty().bindBidirectional(viewModel.getErrorLabelProperty());
         vaccineStatus.textProperty().bind(viewModel.getVaccineStatusProperty());
+        titleLabel.textProperty().bind(viewModel.titleProperty());
+        if(viewModel.isAdmin()) {
+            viewModel.approveButtonProperty().addListener((obs, oldVal, newVal) -> approveButton.setDisable(newVal));
+            viewModel.declineButtonProperty().addListener((obs, oldVal, newVal) -> declineButton.setDisable(newVal));
+        }
+        else{
+            approveButton.setVisible(false);
+            declineButton.setVisible(false);
+
+        }
         reset();
     }
 
@@ -52,7 +67,17 @@ public class PersonalDataViewController extends ViewController
         viewModel.editDetails();
     }
     @FXML private void backButton(){
-        getViewHandler().openView(View.DASHBOARD);
+        if(!viewModel.isAdmin())
+            getViewHandler().openView(View.DASHBOARD);
+        else
+            getViewHandler().openView(View.USERLIST);
     }
 
+    @FXML private void approve() {
+        viewModel.approve();
+    }
+
+    @FXML private void decline() {
+        viewModel.decline();
+    }
 }

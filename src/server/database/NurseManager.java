@@ -28,14 +28,6 @@ public class NurseManager {
         }
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
     public boolean isNurse(Nurse nurse) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM nurse WHERE cpr = ?");

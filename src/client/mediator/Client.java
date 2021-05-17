@@ -210,6 +210,16 @@ public class Client implements LocalClientModel, RemoteListener<User, Appointmen
         }
     }
 
+    @Override
+    public VaccineStatus updateVaccineStatus(Patient patient) {
+        try {
+            return server.updateVaccineStatus(patient);
+        }
+        catch (RemoteException e){
+            throw new IllegalStateException(getExceptionMessage(e),e);
+        }
+    }
+
     @Override public void addSchedule(Nurse nurse, Schedule schedule)
     {
         try

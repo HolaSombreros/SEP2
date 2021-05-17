@@ -124,6 +124,11 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     }
 
     @Override
+    public VaccineStatus updateVaccineStatus(Patient patient) {
+        return client.updateVaccineStatus(patient);
+    }
+
+    @Override
     public void logout(User user) {
         client.logout(user);
     }

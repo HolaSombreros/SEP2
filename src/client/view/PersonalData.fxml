@@ -8,11 +8,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="471.0" prefWidth="840.0" spacing="10.0" userData="My Personal Information" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.PersonalDataViewController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="471.0" prefWidth="840.0" spacing="10.0" userData="My Personal Information" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.PersonalDataViewController">
    <children>
       <HBox prefHeight="81.0" prefWidth="600.0">
          <children>
-            <Label alignment="CENTER" prefHeight="39.0" prefWidth="943.0" text="My Personal Details">
+            <Label fx:id="titleLabel" alignment="CENTER" prefHeight="39.0" prefWidth="943.0" text="My Personal Details">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -99,9 +99,9 @@
             </VBox>
          </children>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <Label alignment="CENTER" prefHeight="37.0" prefWidth="204.0" text="Vaccination Status:">
+            <Label fx:id="vaccineLabel" alignment="CENTER" prefHeight="37.0" prefWidth="204.0" text="Vaccination Status:">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
@@ -111,6 +111,22 @@
                   <Font name="System Bold Italic" size="17.0" />
                </font>
             </Label>
+            <Button fx:id="approveButton" mnemonicParsing="false" onAction="#approve" text="Approve">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="declineButton" mnemonicParsing="false" onAction="#decline" text="Decline">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="25.0" />
+               </HBox.margin>
+            </Button>
          </children>
       </HBox>
       <HBox prefHeight="36.0" prefWidth="696.0">
