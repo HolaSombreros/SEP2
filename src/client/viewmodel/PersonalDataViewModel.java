@@ -4,10 +4,7 @@ import client.model.Model;
 import javafx.beans.property.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import server.model.domain.user.ApprovedStatus;
-import server.model.domain.user.NotApprovedStatus;
-import server.model.domain.user.Patient;
-import server.model.domain.user.User;
+import server.model.domain.user.*;
 
 
 import java.util.Optional;
@@ -122,64 +119,36 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         else
             reset();
     }
-
-    private boolean confirmEditing()
-    {
+    private boolean confirmEditing() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm editing");
-        if(viewState.getAdmin() != null){
-            if (middleName.get() == null) {
-                alert.setHeaderText("Are you sure you want to edit your personal information? \n\n" +
-                        "Password: " + password.get() + "\n" +
-                        "First Name: " + firstName.get() + "\n" +
-                        "Last Name: " + lastName.get() + "\n" +
-                        "CPR: " + cpr.get() + "\n" +
-                        "Email: " + email.get() + "\n" +
-                        "Phone Number: " + phoneNumber.get() + "\n" +
-                        "Street: " + street.get() + "\n" +
-                        "Number: " + number.get() + "\n" +
-                        "Vaccine Status: " + ((Patient) viewState.getSelectedUser()).getVaccineStatus().toString() + "\n");
-            } else {
-                alert.setHeaderText("Are you sure you want to edit your personal information? \n\n" +
-                        "Password: " + password.get() + "\n" +
-                        "First Name: " + firstName.get() + "\n" +
-                        "Middle Name: " + middleName.get() + "\n" +
-                        "Last Name: " + lastName.get() + "\n" +
-                        "CPR: " + cpr.get() + "\n" +
-                        "Email: " + email.get() + "\n" +
-                        "Phone Number: " + phoneNumber.get() + "\n" +
-                        "Street: " + street.get() + "\n" +
-                        "Number: " + number.get() + "\n" +
-                        "Vaccine Status: " + ((Patient) viewState.getSelectedUser()).getVaccineStatus().toString() + "\n");
-            }
+        String header1 = "Are you sure you want to edit your personal information? \n\n" +
+                "Password: " + password.get() + "\n" +
+                "First Name: " + firstName.get() + "\n";
+        String middleHeader = "Middle Name: " + middleName.get() + "\n";
+        String thirdPart = "Last Name: " + lastName.get() + "\n" +
+                "CPR: " + cpr.get() + "\n" +
+                "Email: " + email.get() + "\n" +
+                "Phone Number: " + phoneNumber.get() + "\n" +
+                "Street: " + street.get() + "\n" +
+                "Number: " + number.get() + "\n";
+        String addForAdmin = "Vaccine Status: " + ((Patient) viewState.getSelectedUser()).getVaccineStatus().toString() + "\n";
+        if((viewState.getUser() instanceof Administrator)){
+            if(middleName.get() != null)
+                alert.setHeaderText(header1 + middleHeader + thirdPart + addForAdmin);
+            else
+                alert.setHeaderText(header1 + thirdPart+ addForAdmin);
         }
         else {
-            if (middleName.get() == null) {
-                alert.setHeaderText("Are you sure you want to edit your personal information? \n\n" +
-                        "Password: " + password.get() + "\n" +
-                        "First Name: " + firstName.get() + "\n" +
-                        "Last Name: " + lastName.get() + "\n" +
-                        "CPR: " + cpr.get() + "\n" +
-                        "Email: " + email.get() + "\n" +
-                        "Phone Number: " + phoneNumber.get() + "\n" +
-                        "Street: " + street.get() + "\n" +
-                        "Number: " + number.get() + "\n");
-            } else {
-                alert.setHeaderText("Are you sure you want to edit your personal information? \n\n" +
-                        "Password: " + password.get() + "\n" +
-                        "First Name: " + firstName.get() + "\n" +
-                        "Middle Name: " + middleName.get() + "\n" +
-                        "Last Name: " + lastName.get() + "\n" +
-                        "CPR: " + cpr.get() + "\n" +
-                        "Email: " + email.get() + "\n" +
-                        "Phone Number: " + phoneNumber.get() + "\n" +
-                        "Street: " + street.get() + "\n" +
-                        "Number: " + number.get() + "\n");
-            }
+            if(middleName.get() != null)
+                alert.setHeaderText(header1 + middleHeader + thirdPart );
+            else
+                alert.setHeaderText(header1 +  thirdPart);
         }
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
     }
+
     @Override
     public StringProperty getFirstNameProperty()
     {
