@@ -6,6 +6,5 @@ import java.rmi.RemoteException;
 
 public interface RemoteModel extends RemoteAppointmentModel, RemoteUserModel
 {
-    
     FAQContent getFaqContent() throws RemoteException;
 }
