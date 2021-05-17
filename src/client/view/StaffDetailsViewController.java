@@ -1,27 +1,25 @@
 package client.view;
 
-import client.viewmodel.NurseDetailsViewModelInterface;
-import javafx.beans.binding.Bindings;
-import javafx.event.Event;
+import client.viewmodel.StaffDetailsViewModelInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import util.IntStringConverter;
 
-public class NurseDetailsViewController extends ViewController
+public class StaffDetailsViewController extends ViewController
 {
-  private NurseDetailsViewModelInterface viewModel;
+  private StaffDetailsViewModelInterface viewModel;
   @FXML private Label nameLabel;
   @FXML private Label cprLabel;
   @FXML private Label idLabel;
   @FXML private Label phoneLabel;
   @FXML private Label emailLabel;
   @FXML private DatePicker weekSelector;
+  @FXML private Label weekLabel;
   @FXML private RadioButton shift0;
   @FXML private RadioButton shift1;
   @FXML private RadioButton shift2;
   @FXML private Label errorLabel;
 
-  public NurseDetailsViewController()
+  public StaffDetailsViewController()
   {
 
   }
@@ -45,6 +43,11 @@ public class NurseDetailsViewController extends ViewController
     shift1.setToggleGroup(shift);
     shift2.setToggleGroup(shift);
     errorLabel.textProperty().bind(viewModel.getErrorProperty());
+    weekSelector.visibleProperty().bind(viewModel.getDisplayProperty());
+    shift0.visibleProperty().bind(viewModel.getDisplayProperty());
+    shift1.visibleProperty().bind(viewModel.getDisplayProperty());
+    shift2.visibleProperty().bind(viewModel.getDisplayProperty());
+    weekLabel.visibleProperty().bind(viewModel.getDisplayProperty());
     reset();
   }
 

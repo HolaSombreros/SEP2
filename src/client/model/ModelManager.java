@@ -1,7 +1,6 @@
 package client.model;
 
 import client.mediator.Client;
-import client.mediator.LocalClientModel;
 import server.model.domain.appointment.*;
 import server.model.domain.user.*;
 import utility.observer.event.ObserverEvent;
@@ -15,7 +14,7 @@ import java.time.LocalDate;
 public class ModelManager implements Model, LocalListener<User, Appointment> {
     
     private PropertyChangeAction<User, Appointment> property;
-    private LocalClientModel client;
+    private Client client;
     
     public ModelManager() {
         try {
