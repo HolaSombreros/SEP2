@@ -57,7 +57,13 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     public AppointmentList getAppointmentsByUser(User patient) throws RemoteException {
         return serverModel.getAppointmentsByUser(patient);
     }
-    
+
+    @Override
+    public AppointmentList filterAppointmentsByNameAndCpr(String criteria) throws RemoteException
+    {
+        return serverModel.filterAppointmentsByNameAndCpr(criteria);
+    }
+
     @Override
     public TimeIntervalList getAvailableTimeIntervals(LocalDate date) throws RemoteException {
         return serverModel.getAvailableTimeIntervals(date);
@@ -83,6 +89,12 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     @Override
     public void logout(User user) throws RemoteException {
         serverModel.logout(user);
+    }
+
+    @Override
+    public UserList getUsersByCprAndName(String criteria) throws RemoteException
+    {
+        return serverModel.getUsersByCprAndName(criteria);
     }
 
     @Override public UserList getPatients() throws RemoteException

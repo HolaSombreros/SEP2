@@ -55,17 +55,17 @@ public class NurseDashBoardViewController extends ViewController {
         viewModel.reset();
         appointmentTable.getSelectionModel().clearSelection();
     }
-    
+
     @FXML
     private void filterTable() {
         // update table
-        viewModel.filterTable();
+        //viewModel.filterTable();
     }
     
     @FXML
     private void filterTableButton() {
         // update button text
-        viewModel.filterTable();
+        //viewModel.filterTable();
     }
     
     @FXML
@@ -79,6 +79,9 @@ public class NurseDashBoardViewController extends ViewController {
             //TODO: Make new view for nurse appointment details
             getViewHandler().openView(View.NURSETEST);
         }
+    }
+    @FXML private void handleKeyReleased() {
+        viewModel.filterByNameOrCpr();
     }
     
     @FXML

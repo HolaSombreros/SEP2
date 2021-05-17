@@ -10,35 +10,36 @@ import javafx.collections.ObservableList;
 import server.model.domain.user.User;
 import server.model.domain.user.UserList;
 
+import java.util.List;
+
 public class UserListViewModel implements UserListViewModelInterface
 {
   private ObservableList<UserTableViewModel> users;
   private ObjectProperty<UserTableViewModel> selectedUser;
+  private StringProperty searchBar;
   private ViewState viewState;
   private Model model;
   private StringProperty roleProperty;
   private StringProperty errorProperty;
 
-  public UserListViewModel(Model model, ViewState viewState)
-  {
+  public UserListViewModel(Model model, ViewState viewState) {
     this.model = model;
     this.viewState = viewState;
     this.users = FXCollections.observableArrayList();
     this.errorProperty = new SimpleStringProperty();
     this.roleProperty = new SimpleStringProperty();
     this.selectedUser = new SimpleObjectProperty<>();
+    this.searchBar = new SimpleStringProperty();
   }
 
-  @Override public void reset()
-  {
+  @Override public void reset() {
     viewState.removeSelectedUser();
     errorProperty.set("");
     users.clear();
     updateList("patients");
   }
 
-  private void updateList(String role)
-  {
+  private void updateList(String role) {
     users.clear();
     UserList userList = new UserList();
     switch (role)
@@ -60,6 +61,7 @@ public class UserListViewModel implements UserListViewModelInterface
       users.add(new UserTableViewModel(user));
 
   }
+
 
   @Override public void logout()
   {
@@ -90,6 +92,22 @@ public class UserListViewModel implements UserListViewModelInterface
       errorProperty.set("Please select a user");
     }
     return false;
+  }
+
+  @Override
+  public void filterUsers()
+  {
+    try{
+      users.clear();
+      String criteria = searchBar.get();
+      UserList filteredUsers = model.getUsersByCprAndName(criteria);
+      for(User user: filteredUsers.getUsers()){
+        users.add(new UserTableViewModel(user));
+      }
+    }
+    catch (Exception e) {
+      errorProperty.set(e.getMessage());
+    }
   }
 
   @Override public void setSelectedUser(UserTableViewModel selectedUser)
@@ -125,5 +143,9 @@ public class UserListViewModel implements UserListViewModelInterface
   @Override public void seeAdmins()
   {
     updateList("admins");
+  }
+
+  @Override public StringProperty getSearchBarProperty() {
+    return searchBar;
   }
 }

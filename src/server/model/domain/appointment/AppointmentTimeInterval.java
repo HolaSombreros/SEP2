@@ -64,6 +64,22 @@ public class AppointmentTimeInterval implements Serializable {
         }
         return appointments;
     }
+    public AppointmentList filterAppointmentsByNameAndCpr(String criteria) {
+        AppointmentList appointments = new AppointmentList();
+        if(criteria.equals("")) {
+            for(Appointment appointment : appointmentList.getAppointments())
+                appointments.add(appointment);
+        }
+        else{
+            for(Appointment appointment : appointmentList.getAppointments()) {
+                if(appointment.getPatient().getCpr().contains(criteria) || appointment.getPatient().getFirstName().contains(criteria) || appointment.getPatient().getLastName().contains(criteria) ||
+                appointment.getPatient().getLastName().toLowerCase().contains(criteria) || appointment.getPatient().getFirstName().toLowerCase().contains(criteria)) {
+                    appointments.add(appointment);
+                }
+            }
+        }
+        return appointments;
+    }
     
     public int size() {
         return appointmentList.size();

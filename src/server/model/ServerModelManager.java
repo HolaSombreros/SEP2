@@ -261,7 +261,13 @@ public class ServerModelManager implements ServerModel {
     public synchronized AppointmentList getAppointmentsByUser(User user) {
         return appointmentTimeIntervalList.getAppointmentsByUser(user);
     }
-    
+
+
+    @Override
+    public AppointmentList filterAppointmentsByNameAndCpr(String criteria) {
+        return appointmentTimeIntervalList.filterAppointmentsByNameAndCpr(criteria);
+    }
+
     @Override
     public synchronized Appointment getAppointmentById(int id) {
         return appointmentTimeIntervalList.getAppointmentById(id);
@@ -318,7 +324,13 @@ public class ServerModelManager implements ServerModel {
             throw new IllegalArgumentException("No such user found");
         }
     }
-    
+
+    @Override
+    public UserList getUsersByCprAndName(String criteria)
+    {
+        return userList.getUsersByCprAndName(criteria);
+    }
+
     @Override
     public synchronized Patient getPatient(String cpr) {
         if (patientList.contains(cpr))
