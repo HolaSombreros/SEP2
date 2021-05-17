@@ -2,9 +2,7 @@ package server.model;
 
 import server.database.*;
 import server.model.domain.appointment.*;
-import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQContent;
-import server.model.domain.faq.FAQType;
 import server.model.domain.user.*;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
@@ -68,16 +66,16 @@ public class ServerModelManager implements ServerModel {
     }
     
     private void loadFAQs() {
-//        try {
-            faqContent = new FAQContent();//managerFactory.getFAQManager().getAllFAQs();
-//        }
-//        catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-        faqContent.add(FAQType.GENERAL, new FAQ("What is the Coronavirus?", "It's a virus that does some hippity hoppity"));
-        faqContent.add(FAQType.GENERAL, new FAQ("What is the Corona passport?", "It's some...thing. I don't even know now what even happens if this label is super duper long. I would assume it goes to the next line but I need to make sure that this is in fact what actually happens"));
-        faqContent.add(FAQType.PASSPORT, new FAQ("What is the Corona passport?", "It's some...thing. I don't even know now what even happens if this label is super duper long. I would assume it goes to the next line but I need to make sure that this is in fact what actually happens"));
-        faqContent.add(FAQType.PASSPORT, new FAQ("What is the Coronavirus?", "It's a virus that does some hippity hoppity"));
+        try {
+            faqContent = managerFactory.getFAQManager().getAllFAQs();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+//        faqContent.add(FAQType.GENERAL, new FAQ("What is the Coronavirus?", "It's a virus that does some hippity hoppity"));
+//        faqContent.add(FAQType.GENERAL, new FAQ("What is the Corona passport?", "It's some...thing. I don't even know now what even happens if this label is super duper long. I would assume it goes to the next line but I need to make sure that this is in fact what actually happens"));
+//        faqContent.add(FAQType.PASSPORT, new FAQ("What is the Corona passport?", "It's some...thing. I don't even know now what even happens if this label is super duper long. I would assume it goes to the next line but I need to make sure that this is in fact what actually happens"));
+//        faqContent.add(FAQType.PASSPORT, new FAQ("What is the Coronavirus?", "It's a virus that does some hippity hoppity"));
     }
     
     private void addDummyData() {

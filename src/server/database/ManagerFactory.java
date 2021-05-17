@@ -8,6 +8,7 @@ public class ManagerFactory {
     private AdministratorManager administratorManager;
     private UserManager userManager;
     private NurseScheduleManager nurseScheduleManager;
+    private FAQManager faqManager;
 
     public ManagerFactory() {
         patientManager = new PatientManager();
@@ -17,6 +18,7 @@ public class ManagerFactory {
         userManager = new UserManager(addressManager, patientManager, nurseManager, administratorManager);
         appointmentManager = new AppointmentManager(userManager);
         nurseScheduleManager = new NurseScheduleManager();
+        faqManager = new FAQManager();
     }
     public PatientManager getPatientManager() {
         return patientManager;
@@ -44,5 +46,9 @@ public class ManagerFactory {
 
     public NurseScheduleManager getNurseScheduleManager() {
         return nurseScheduleManager;
+    }
+    
+    public FAQManager getFAQManager() {
+        return faqManager;
     }
 }
