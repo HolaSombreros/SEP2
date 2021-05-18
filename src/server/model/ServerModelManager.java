@@ -313,7 +313,12 @@ public class ServerModelManager implements ServerModel {
             throw new IllegalArgumentException("No such user found");
         }
     }
-    
+
+    @Override
+    public synchronized void removeUser(User user) {
+        
+    }
+
     @Override
     public synchronized Patient getPatient(String cpr) {
         if (patientList.contains(cpr))
