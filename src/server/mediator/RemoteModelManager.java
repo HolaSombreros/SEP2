@@ -90,6 +90,12 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     public void logout(User user) throws RemoteException {
         serverModel.logout(user);
     }
+/*
+
+    public void removeUser(User user) throws RemoteException
+    {
+        serverModel.removeUser(user);
+    }*/
 
     @Override
     public UserList getUsersByCprAndName(String criteria) throws RemoteException
@@ -154,6 +160,18 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     @Override
     public FAQList getFAQList() throws RemoteException {
         return serverModel.getFAQList();
+    }
+    @Override
+    public VaccineStatus updateVaccineStatus(Patient patient) throws RemoteException {
+        return serverModel.updateVaccineStatus(patient);
+    }
+
+    @Override public void setRole(User user, String role) throws RemoteException {
+        serverModel.setRole(user,role);
+    }
+
+    @Override public void removeRole(User user) throws RemoteException {
+        serverModel.RemoveRole(user);
     }
 
     private void startRegistry() throws RemoteException {

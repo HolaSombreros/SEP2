@@ -1,5 +1,6 @@
 package client.viewmodel;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 
@@ -17,8 +18,18 @@ public interface PersonalDataViewModelInterface
     StringProperty getPasswordProperty();
     IntegerProperty getZipCodeProperty();
     StringProperty getVaccineStatusProperty();
-
+    BooleanProperty approveButtonProperty();
+    BooleanProperty declineButtonProperty();
+    BooleanProperty changeRoleProperty();
+    BooleanProperty removeButtonProperty();
+    StringProperty titleProperty();
+    void back();
+    boolean isAdmin();
+    void approve();
+    void decline();
+    boolean changeRole();
     void reset();
     void editDetails();
-
+    boolean isLoggedInAsNurse();
+//    boolean removeUser();
 }

@@ -3,6 +3,7 @@ package client.viewmodel;
 import client.model.Model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import server.model.domain.user.Administrator;
 
 public class LoginChoiceViewModel implements LoginChoiceViewModelInterface {
     
@@ -18,9 +19,11 @@ public class LoginChoiceViewModel implements LoginChoiceViewModelInterface {
     
     @Override
     public void reset() {
-        roleProperty.set("");
         roleProperty.set(viewState.getUser().getClass().getSimpleName());
+        if(roleProperty.get().equals("Administrator"))
+            viewState.setAdmin((Administrator) viewState.getUser());
     }
+
     
     @Override
     public StringProperty roleProperty() {

@@ -50,13 +50,18 @@ public class UserListViewController extends ViewController
 
   @FXML private void seeDetails() {
     boolean openWindow = viewModel.seeDetails();
-    if (openWindow)
+    if (openWindow) {
       switch (roleLabel.textProperty().get())
       {
+        case "Patient List":
+          getViewHandler().openView(View.PERSONALDATA);
+          break;
         case "Nurse List":
-          getViewHandler().openView(View.NURSEDETAILS);
+        case "Administrator List":
+          getViewHandler().openView(View.STAFFDETAILS);
           break;
       }
+    }
   }
 
   @FXML private void logout() {

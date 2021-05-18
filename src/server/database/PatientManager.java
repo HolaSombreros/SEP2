@@ -11,7 +11,7 @@ public class PatientManager {
     public PatientManager() {
     }
     
-    public void addPatient(User patient) throws SQLException {
+    public void addPatient(Patient patient) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO patient VALUES (?,?)");
             insertStatement.setString(1, patient.getCpr());
@@ -58,33 +58,6 @@ public class PatientManager {
         }
     }
     
-    public void removePatient(User patient) throws SQLException {
-        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM patient WHERE cpr = ?");
-            statement.setString(1, patient.getCpr());
-            statement.executeQuery();
-        }
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    public boolean isPatient(User patient) throws SQLException {
-        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM patient WHERE cpr = ?");
-            statement.setString(1, patient.getCpr());
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next())
-                return true;
-            else
-                return false;
-        }
-    }
-    
     public boolean isPatient(String cpr) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM patient WHERE cpr = ?");
@@ -95,5 +68,17 @@ public class PatientManager {
             else
                 return false;
         }
+    }
+
+    public void removePatient(Patient patient) throws SQLException {
+        if(patient != null) {
+            try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM patient WHERE cpr = ?;");
+                statement.setString(1, patient.getCpr());
+                statement.executeUpdate();
+            }
+        }
+        else
+            throw new IllegalArgumentException("You cannot remove a null patient");
     }
 }

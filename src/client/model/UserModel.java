@@ -10,6 +10,7 @@ public interface UserModel extends LocalSubject<User, Appointment>
     User login(String cpr, String password);
     UserList getUsersByCprAndName(String criteria);
     void logout(User user);
+//    void removeUser(User user);
     UserList getUserList();
     UserList getPatients();
     UserList getNurses();
@@ -19,8 +20,7 @@ public interface UserModel extends LocalSubject<User, Appointment>
     Patient getPatient(String cpr);
     void addSchedule(Nurse nurse, Schedule schedule);
     void removeSchedule(Nurse nurse, Schedule schedule);
-
-
-
-
+    VaccineStatus updateVaccineStatus(Patient patient);
+    void setRole (User user, String role);
+    void removeRole(User user);
 }

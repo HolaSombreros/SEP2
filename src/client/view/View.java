@@ -10,12 +10,13 @@ public enum View {
     DASHBOARD("DashBoardView.fxml"),
     USERLIST("UserListView.fxml"),
     PERSONALDATA("PersonalData.fxml"),
-    NURSEDETAILS("NurseDetailsView.fxml"),
+    STAFFDETAILS("StaffDetailsView.fxml"),
     NURSEDASHBOARD("NurseDashBoardView.fxml"),
     NURSETEST("NurseTestAppointmentView.fxml"),
     FAQ("FAQView.fxml"),
-    ADDFAQ("AddFAQView.fxml");
-    
+    ADDFAQ("AddFAQView.fxml"),
+    SETROLE("SetRoleView.fxml");
+
     private String fxmlFile;
     
     View(String fxmlFile) {

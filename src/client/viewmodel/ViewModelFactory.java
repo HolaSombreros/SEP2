@@ -12,11 +12,12 @@ public class ViewModelFactory {
     private DashBoardViewModelInterface dashBoardViewModel;
     private PersonalDataViewModelInterface personalDataViewModel;
     private UserListViewModelInterface userListViewModel;
-    private NurseDetailsViewModelInterface nurseDetailsViewModel;
+    private StaffDetailsViewModelInterface nurseDetailsViewModel;
     private NurseDashBoardViewModelInterface nurseDashBoardViewModel;
     private NurseTestAppointmentViewModelInterface nurseTestViewModel;
     private FAQViewModelInterface faqViewModel;
     private AddFAQViewModelInterface addFAQViewModel;
+    private SetRoleViewModelInterface setRoleViewModel;
 
     private ViewState viewState;
     
@@ -31,11 +32,12 @@ public class ViewModelFactory {
         dashBoardViewModel = new DashBoardViewModel(model, viewState);
         personalDataViewModel = new PersonalDataViewModel(model,viewState);
         userListViewModel = new UserListViewModel(model,viewState);
-        nurseDetailsViewModel = new NurseDetailsViewModel(model,viewState);
+        nurseDetailsViewModel = new StaffDetailsViewModel(model,viewState);
         nurseDashBoardViewModel = new NurseDashBoardViewModel(model, viewState);
         nurseTestViewModel = new NurseTestAppointmentViewModel(model, viewState);
         faqViewModel = new FAQViewModel(model, viewState);
         addFAQViewModel = new AddFAQViewModel(model,viewState);
+        setRoleViewModel = new SetRoleViewModel(model,viewState);
     }
     
     public ViewState getViewState() {
@@ -79,7 +81,7 @@ public class ViewModelFactory {
         return userListViewModel;
     }
 
-    public NurseDetailsViewModelInterface getNurseDetailsViewModel() {
+    public StaffDetailsViewModelInterface getNurseDetailsViewModel() {
         return nurseDetailsViewModel;
     }
 
@@ -90,12 +92,16 @@ public class ViewModelFactory {
     public NurseTestAppointmentViewModelInterface getNurseTestViewModel() {
         return nurseTestViewModel;
     }
-    
+
     public FAQViewModelInterface getFaqViewModel() {
         return faqViewModel;
     }
 
     public AddFAQViewModelInterface getAddFAQViewModel() {
         return addFAQViewModel;
+    }
+
+    public SetRoleViewModelInterface getSetRoleViewModel() {
+        return setRoleViewModel;
     }
 }
