@@ -2,6 +2,7 @@ package client.model;
 
 import client.mediator.Client;
 import server.model.domain.appointment.*;
+import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQList;
 import server.model.domain.user.*;
 import utility.observer.event.ObserverEvent;
@@ -144,7 +145,11 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     public void logout(User user) {
         client.logout(user);
     }
-    
+
+    @Override public void addFAQ(String question, String answer, Category category, Administrator creator) {
+        client.addFAQ(question, answer, category, creator);
+    }
+
     @Override
     public FAQList getFAQList() {
         return client.getFAQList();

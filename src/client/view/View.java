@@ -13,7 +13,8 @@ public enum View {
     NURSEDETAILS("NurseDetailsView.fxml"),
     NURSEDASHBOARD("NurseDashBoardView.fxml"),
     NURSETEST("NurseTestAppointmentView.fxml"),
-    FAQ("FAQView.fxml");
+    FAQ("FAQView.fxml"),
+    ADDFAQ("AddFAQView.fxml");
     
     private String fxmlFile;
     

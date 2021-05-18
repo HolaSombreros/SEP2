@@ -1,6 +1,8 @@
 package client.viewmodel;
 
 import client.model.Model;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -11,17 +13,19 @@ import javafx.scene.layout.VBox;
 import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQList;
+import server.model.domain.user.Administrator;
 
 public class FAQViewModel implements FAQViewModelInterface {
     private Model model;
     private ViewState viewState;
     private ObservableList<Node> content;
-    
+    private BooleanProperty adminProperty;
+
     public FAQViewModel(Model model, ViewState viewState) {
         this.model = model;
         this.viewState = viewState;
         content = FXCollections.observableArrayList();
-        
+        adminProperty = new SimpleBooleanProperty();
         loadFromModel();
     }
     
@@ -64,10 +68,15 @@ public class FAQViewModel implements FAQViewModelInterface {
     @Override
     public void reset() {
         loadFromModel();
+        isAdminProperty().set(viewState.getUser() instanceof Administrator);
     }
     
     @Override
     public ObservableList<Node> getFAQContent() {
         return content;
+    }
+
+    @Override public BooleanProperty isAdminProperty() {
+        return adminProperty;
     }
 }
