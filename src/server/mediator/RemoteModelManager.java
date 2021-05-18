@@ -83,6 +83,12 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     public void logout(User user) throws RemoteException {
         serverModel.logout(user);
     }
+/*
+
+    public void removeUser(User user) throws RemoteException
+    {
+        serverModel.removeUser(user);
+    }*/
 
     @Override public UserList getPatients() throws RemoteException
     {

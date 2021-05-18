@@ -11,6 +11,7 @@ public interface RemoteUserModel extends RemoteSubject<User, Appointment>
     void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city) throws RemoteException;
     User login(String cpr, String password) throws RemoteException;
     void logout(User user) throws RemoteException;
+//    void removeUser(User user) throws RemoteException;
     UserList getUserList() throws RemoteException;
     UserList getPatients() throws RemoteException;
     UserList getNurses() throws RemoteException;

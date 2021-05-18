@@ -194,7 +194,7 @@ public class UserManager {
         try (Connection connection = DatabaseManager.getInstance().getConnection())
         {
             //PreparedStatement statement = connection.prepareStatement("SELECT * FROM person JOIN city USING(zip_code) JOIN patient USING(cpr)");
-            PreparedStatement statement = connection.prepareStatement("Select * from patient");
+            PreparedStatement statement = connection.prepareStatement("Select * from patients");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next())
             {

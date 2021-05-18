@@ -27,7 +27,7 @@ public class NurseManager {
             {
                 PreparedStatement statement = connection.prepareStatement("DELETE FROM nurse WHERE cpr = ?");
                 statement.setString(1, nurse.getCpr());
-                statement.executeQuery();
+                statement.executeUpdate();
             }
         }
         else throw new IllegalArgumentException("You cannot remove a non existing nurse");

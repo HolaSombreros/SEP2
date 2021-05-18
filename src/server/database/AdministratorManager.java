@@ -23,7 +23,7 @@ public class AdministratorManager {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM administrator WHERE cpr = ?");
             statement.setString(1, administrator.getCpr());
-            statement.executeQuery();
+            statement.executeUpdate();
         }
     }
 

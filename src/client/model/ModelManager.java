@@ -139,7 +139,14 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     public void logout(User user) {
         client.logout(user);
     }
-    
+
+    /*
+    @Override
+    public void removeUser(User user)
+    {
+        client.removeUser(user);
+    }*/
+
     @Override
     public void close() {
         property.close();

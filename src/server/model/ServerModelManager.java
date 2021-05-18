@@ -318,10 +318,29 @@ public class ServerModelManager implements ServerModel {
         }
     }
 
-    @Override
+    /*
     public synchronized void removeUser(User user) {
-        
+        try {
+                if(user instanceof Nurse) {
+                    managerFactory.getNurseManager().removeNurse((Nurse) user);
+                    nurseList.remove(user);
+                }
+                else if (user instanceof Administrator) {
+                    managerFactory.getAdministratorManager().removeAdministrator((Administrator) user);
+                    adminList.remove(user);
+                }
+                else if (user instanceof Patient) {
+                    managerFactory.getPatientManager().removePatient((Patient) user);
+                    patientList.remove(user);
+                }
+                managerFactory.getUserManager().removeUser(user);
+                userList.remove(user);
+            }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+ */
 
     @Override
     public synchronized Patient getPatient(String cpr) {

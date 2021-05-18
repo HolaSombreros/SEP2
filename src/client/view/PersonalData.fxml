@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="471.0" prefWidth="840.0" spacing="10.0" userData="My Personal Information" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.PersonalDataViewController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="471.0" prefWidth="840.0" spacing="10.0" userData="My Personal Information" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.PersonalDataViewController">
    <children>
       <HBox prefHeight="81.0" prefWidth="600.0">
          <children>
@@ -138,19 +138,24 @@
             </Label>
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="250.0">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
          <children>
            
-            <Button mnemonicParsing="false" onAction="#editDetails" prefHeight="30.0" prefWidth="157.0" text="Edit Personal Details">
+            <Button mnemonicParsing="false" onAction="#editDetails" prefHeight="30.0" prefWidth="172.0" text="Edit Personal Details">
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Button fx:id="changeRole" mnemonicParsing="false" onAction="#changeRole" prefHeight="30.0" prefWidth="106.0" text="ChangeRole">
+            <Button fx:id="removeButton" mnemonicParsing="false" onAction="#removeUser" prefHeight="25.0" prefWidth="153.0" text="Remove user">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#backButton" prefHeight="30.0" prefWidth="61.0" text="Back">
+            <Button fx:id="changeRole" mnemonicParsing="false" onAction="#changeRole" prefHeight="30.0" prefWidth="153.0" text="Change Role">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#backButton" prefHeight="30.0" prefWidth="120.0" text="Back">
                <font>
                   <Font size="14.0" />
                </font></Button>

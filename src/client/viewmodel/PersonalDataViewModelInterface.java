@@ -21,6 +21,7 @@ public interface PersonalDataViewModelInterface
     BooleanProperty approveButtonProperty();
     BooleanProperty declineButtonProperty();
     BooleanProperty changeRoleProperty();
+    BooleanProperty removeButtonProperty();
     StringProperty titleProperty();
     boolean isAdmin();
     void approve();
@@ -28,5 +29,6 @@ public interface PersonalDataViewModelInterface
     boolean changeRole();
     void reset();
     void editDetails();
+//    boolean removeUser();
 
 }

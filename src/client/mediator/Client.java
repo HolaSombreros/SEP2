@@ -158,6 +158,16 @@ public class Client implements Model, RemoteListener<User, Appointment> {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
+/*
+    @Override
+    public void removeUser(User user) {
+        try {
+            server.removeUser(user);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
+        }
+    }*/
 
     @Override public UserList getPatients()
     {

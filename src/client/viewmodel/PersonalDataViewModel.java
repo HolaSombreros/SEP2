@@ -26,6 +26,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     private BooleanProperty approveButton;
     private BooleanProperty declineButton;
     private BooleanProperty changeRole;
+    private BooleanProperty removeButton;
     private StringProperty title;
 
     private Model model;
@@ -49,12 +50,11 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         this.approveButton = new SimpleBooleanProperty(false);
         this.declineButton = new SimpleBooleanProperty(false);
         this.changeRole = new SimpleBooleanProperty(false);
+        this.removeButton = new SimpleBooleanProperty(false);
         this.title = new SimpleStringProperty("My Personal Data");
     }
     @Override
-    public void reset()
-    {
-
+    public void reset() {
         errorLabel.set("");
         loadInformation();
 
@@ -77,7 +77,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
             if(viewState.getAdmin().getCpr().equals(viewState.getSelectedUser().getCpr())){
                 approveButton.set(true);
                 declineButton.set(true);
-                System.out.println(viewState.getAdmin().getCpr().equals(viewState.getSelectedUser().getCpr()));
+                removeButton.set(true);
                 errorLabel.set("Cannot approve vaccine for self");
             }
             else if(!vaccineStatus.get().equals("Pending")){
@@ -87,6 +87,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
             else{
                 approveButton.set(false);
                 declineButton.set(false);
+                removeButton.set(false);
             }
         }
         else{
@@ -101,15 +102,13 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
             email.set(viewState.getUser().getEmail());
             street.set(viewState.getUser().getAddress().getStreet());
             vaccineStatus.set(viewState.getPatient().getVaccineStatus().toString());
-
         }
     }
 
     @Override
-    public void editDetails()
-    {
+    public void editDetails() {
         errorLabel.set("");
-        if(confirmEditing()){
+        if(confirmEditingType(1)){
            try{
                User user = model.editUserInformation(viewState.getUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(),number.get(), zipCode.get());
                viewState.setUser(user);
@@ -122,16 +121,30 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         else
             reset();
     }
+/*
+    @Override
+    public boolean removeUser() {
+        if(confirmEditingType(2)) {
+            try {
+                model.removeUser(viewState.getSelectedUser());
+                errorLabel.set("User was removed");
+                return true;
+            }
+            catch (Exception e) {
+                errorLabel.set(e.getMessage());
+            }
+        }
+        return false;
+    }
+*/
 
-    private boolean confirmEditing() {
+    private boolean confirmEditingType(int criteria) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm editing");
-        String header1 = "Are you sure you want to edit your personal information? \n\n" +
-                "Password: " + password.get() + "\n" +
-                "First Name: " + firstName.get() + "\n";
-        String adminHeader = "Are you sure you want to edit user information? \n\n" +
-                "Password: " + password.get() + "\n" +
-                "First Name: " + firstName.get() + "\n";
+        String userHeader = "Are you sure you want to edit your personal information? \n\n";
+        String adminHeader = "Are you sure you want to edit user information? \n\n";
+        String removeUser = "Are you sure you want to remove this user? \n\n";
+        String secondHeader = "Password: " + password.get() + "\n" + "First Name: " + firstName.get() + "\n";
         String middleHeader = "Middle Name: " + middleName.get() + "\n";
         String thirdPart = "Last Name: " + lastName.get() + "\n" +
                 "CPR: " + cpr.get() + "\n" +
@@ -139,18 +152,31 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
                 "Phone Number: " + phoneNumber.get() + "\n" +
                 "Street: " + street.get() + "\n" +
                 "Number: " + number.get() + "\n";
-        if((viewState.getUser() instanceof Administrator)){
-            String addForAdmin = "Vaccine Status: " + ((Patient) viewState.getSelectedUser()).getVaccineStatus().toString() + "\n";
-            if(middleName.get() != null)
-                alert.setHeaderText(adminHeader + middleHeader + thirdPart + addForAdmin);
-            else
-                alert.setHeaderText(adminHeader + thirdPart+ addForAdmin);
-        }
-        else {
-            if(middleName.get() != null)
-                alert.setHeaderText(header1 + middleHeader + thirdPart );
-            else
-                alert.setHeaderText(header1 +  thirdPart);
+        switch (criteria)
+        {
+            case 1:
+                if ((viewState.getUser() instanceof Administrator)) {
+                    String addForAdmin = "Vaccine Status: " + ((Patient) viewState.getSelectedUser()).getVaccineStatus().toString() + "\n";
+                    if (middleName.get() != null)
+                        alert.setHeaderText(adminHeader + secondHeader + middleHeader + thirdPart + addForAdmin);
+                    else
+                        alert.setHeaderText(adminHeader + secondHeader + thirdPart + addForAdmin);
+                }
+                else {
+                    if (middleName.get() != null)
+                        alert.setHeaderText(userHeader + secondHeader + middleHeader + thirdPart);
+                    else
+                        alert.setHeaderText(userHeader + secondHeader + thirdPart);
+                }
+            break;
+            case 2:
+                if ((viewState.getUser() instanceof Administrator)) {
+                    if (middleName.get() != null)
+                        alert.setHeaderText(removeUser + secondHeader + middleHeader + thirdPart);
+                    else
+                        alert.setHeaderText(removeUser + secondHeader + thirdPart);
+                }
+            break;
         }
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
@@ -237,6 +263,12 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         return changeRole;
     }
 
+    @Override
+    public BooleanProperty removeButtonProperty()
+    {
+        return removeButton;
+    }
+
     public StringProperty titleProperty() {
         return title;
     }
@@ -248,7 +280,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
 
     public void approve(){
         ((Patient) viewState.getSelectedUser()).getVaccineStatus().approve((Patient) viewState.getSelectedUser());
-        if(confirmEditing()) {
+        if(confirmEditingType(1)) {
             model.updateVaccineStatus(((Patient) viewState.getSelectedUser()));
             vaccineStatus.set(((Patient) viewState.getSelectedUser()).getVaccineStatus().toString());
             approveButton.set(true);
@@ -260,7 +292,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
 
     public void decline(){
         ((Patient) viewState.getSelectedUser()).getVaccineStatus().decline((Patient) viewState.getSelectedUser());
-        if(confirmEditing()){
+        if(confirmEditingType(1)){
             model.updateVaccineStatus(((Patient) viewState.getSelectedUser()));
             vaccineStatus.set(((Patient) viewState.getSelectedUser()).getVaccineStatus().toString());
             approveButton.set(true);
