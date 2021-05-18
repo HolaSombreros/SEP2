@@ -63,7 +63,7 @@ public class StaffDetailsViewController extends ViewController
 
   @FXML private void removeRole()
   {
-
+    viewModel.removeRole();
   }
 
   @FXML private void back()

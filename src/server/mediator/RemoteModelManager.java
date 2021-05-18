@@ -134,6 +134,14 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
         return serverModel.updateVaccineStatus(patient);
     }
 
+    @Override public void setRole(User user, String role) throws RemoteException {
+        serverModel.setRole(user,role);
+    }
+
+    @Override public void removeRole(User user) throws RemoteException {
+        serverModel.RemoveRole(user);
+    }
+
     private void startRegistry() throws RemoteException {
         try {
             LocateRegistry.createRegistry(1099);
