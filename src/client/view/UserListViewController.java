@@ -50,7 +50,7 @@ public class UserListViewController extends ViewController
 
   @FXML private void seeDetails() {
     boolean openWindow = viewModel.seeDetails();
-    if (openWindow)
+    if (openWindow) {
       switch (roleLabel.textProperty().get())
       {
         case "Patient List":
@@ -61,6 +61,7 @@ public class UserListViewController extends ViewController
           getViewHandler().openView(View.STAFFDETAILS);
           break;
       }
+    }
   }
 
   @FXML private void logout() {
