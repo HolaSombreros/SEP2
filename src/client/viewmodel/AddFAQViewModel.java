@@ -41,7 +41,12 @@ public class AddFAQViewModel implements AddFAQViewModelInterface
   }
 
   @Override public void addFAQ() {
-    model.addFAQ(questionProperty.get(), answerProperty.get(), categoryProperty.get(), (Administrator) viewState.getUser());
+    try {
+      model.addFAQ(questionProperty.get(), answerProperty.get(), categoryProperty.get(), (Administrator) viewState.getUser());
+    }
+    catch (Exception e) {
+      errorProperty.set(e.getMessage());
+    }
   }
 
   @Override public ObservableList<Category> getAllCategories()

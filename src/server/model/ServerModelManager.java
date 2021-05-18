@@ -6,6 +6,7 @@ import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQList;
 import server.model.domain.user.*;
+import server.model.validator.FAQValidator;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
@@ -358,7 +359,7 @@ public class ServerModelManager implements ServerModel {
     @Override
     public void addFAQ(String question, String answer, Category category, Administrator creator) {
         try {
-            // validate data...
+            FAQValidator.validateNewFAQ(question, answer, category, creator);
             FAQ faq = managerFactory.getFAQManager().addFAQ(question, answer, category, creator);
             faqList.add(faq);
         }

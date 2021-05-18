@@ -15,6 +15,7 @@ public class FAQViewController extends ViewController {
     protected void init() {
         viewModel = getViewModelFactory().getFaqViewModel();
         dynamicVBox.getChildren().setAll(viewModel.getFAQContent());
+        addFAQ.visibleProperty().bind(viewModel.isAdminProperty());
     }
     
     @Override
