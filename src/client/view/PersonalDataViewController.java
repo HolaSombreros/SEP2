@@ -52,7 +52,11 @@ public class PersonalDataViewController extends ViewController
         viewModel.editDetails();
     }
     @FXML private void backButton(){
-        getViewHandler().openView(View.DASHBOARD);
+        if (viewModel.isLoggedInAsNurse()) {
+            getViewHandler().openView(View.NURSEDASHBOARD);
+        }
+        else {
+            getViewHandler().openView(View.DASHBOARD);
+        }
     }
-
 }

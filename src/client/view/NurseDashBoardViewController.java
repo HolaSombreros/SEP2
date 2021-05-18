@@ -69,8 +69,7 @@ public class NurseDashBoardViewController extends ViewController {
     
     @FXML
     private void personalData() {
-        // open view
-        // TODO - ?
+        getViewHandler().openView(View.PERSONALDATA);
     }
     
     @FXML
