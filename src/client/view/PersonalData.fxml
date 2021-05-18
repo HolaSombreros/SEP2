@@ -141,10 +141,15 @@
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="250.0">
          <children>
            
-            <Button mnemonicParsing="false" onAction="#editDetails" text="Edit Personal Details">
+            <Button mnemonicParsing="false" onAction="#editDetails" prefHeight="30.0" prefWidth="157.0" text="Edit Personal Details">
                <font>
                   <Font size="14.0" />
                </font></Button>
+            <Button fx:id="changeRole" mnemonicParsing="false" onAction="#changeRole" prefHeight="30.0" prefWidth="106.0" text="ChangeRole">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
             <Button mnemonicParsing="false" onAction="#backButton" prefHeight="30.0" prefWidth="61.0" text="Back">
                <font>
                   <Font size="14.0" />

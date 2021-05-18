@@ -20,6 +20,7 @@ public interface PersonalDataViewModelInterface
     StringProperty getVaccineStatusProperty();
     BooleanProperty approveButtonProperty();
     BooleanProperty declineButtonProperty();
+    BooleanProperty changeRoleProperty();
     StringProperty titleProperty();
     boolean isAdmin();
     void approve();

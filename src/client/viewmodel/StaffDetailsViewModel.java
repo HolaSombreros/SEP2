@@ -136,6 +136,11 @@ public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
     week.setDayCellFactory(callB);
   }
 
+  @Override public void removeRole()
+  {
+
+  }
+
   private boolean confirmEditing()
   {
     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

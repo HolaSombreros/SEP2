@@ -28,6 +28,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     private StringProperty vaccineStatus;
     private BooleanProperty approveButton;
     private BooleanProperty declineButton;
+    private BooleanProperty changeRole;
     private StringProperty title;
 
     private Model model;
@@ -50,6 +51,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         this.vaccineStatus = new SimpleStringProperty();
         this.approveButton = new SimpleBooleanProperty(false);
         this.declineButton = new SimpleBooleanProperty(false);
+        changeRole = new SimpleBooleanProperty();
         this.title = new SimpleStringProperty("My Personal Data");
     }
     @Override
@@ -73,6 +75,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
             email.set(viewState.getSelectedUser().getEmail());
             street.set(viewState.getSelectedUser().getAddress().getStreet());
             vaccineStatus.set(((Patient)viewState.getSelectedUser()).getVaccineStatus().toString());
+            changeRole.set(true);
             if(!vaccineStatus.get().equals("Pending")){
                 approveButton.set(true);
                 declineButton.set(true);
@@ -94,7 +97,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
             email.set(viewState.getUser().getEmail());
             street.set(viewState.getUser().getAddress().getStreet());
             vaccineStatus.set(viewState.getPatient().getVaccineStatus().toString());
-
+            changeRole.set(false);
         }
     }
 
@@ -241,12 +244,19 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         return vaccineStatus;
     }
 
+    @Override
     public BooleanProperty approveButtonProperty() {
         return approveButton;
     }
 
+    @Override
     public BooleanProperty declineButtonProperty() {
         return declineButton;
+    }
+
+    @Override
+    public BooleanProperty changeRoleProperty() {
+        return changeRole;
     }
 
     public StringProperty titleProperty() {

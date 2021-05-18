@@ -1,7 +1,6 @@
 package client.view;
 
 import client.viewmodel.PersonalDataViewModelInterface;
-import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -26,6 +25,7 @@ public class PersonalDataViewController extends ViewController
     @FXML private Label titleLabel;
     @FXML private Button approveButton;
     @FXML private Button declineButton;
+    @FXML private Button changeRole;
 
     private PersonalDataViewModelInterface viewModel;
 
@@ -50,11 +50,12 @@ public class PersonalDataViewController extends ViewController
         if(viewModel.isAdmin()) {
             viewModel.approveButtonProperty().addListener((obs, oldVal, newVal) -> approveButton.setDisable(newVal));
             viewModel.declineButtonProperty().addListener((obs, oldVal, newVal) -> declineButton.setDisable(newVal));
+            viewModel.changeRoleProperty().addListener((obs, oldVal, newVal) -> changeRole.setDisable(newVal));
         }
         else{
             approveButton.setVisible(false);
             declineButton.setVisible(false);
-
+            changeRole.setVisible(false);
         }
         reset();
     }
@@ -63,9 +64,11 @@ public class PersonalDataViewController extends ViewController
     public void reset() {
         viewModel.reset();
     }
+
     @FXML private void editDetails(){
         viewModel.editDetails();
     }
+
     @FXML private void backButton(){
         if(!viewModel.isAdmin())
             getViewHandler().openView(View.DASHBOARD);
@@ -79,5 +82,9 @@ public class PersonalDataViewController extends ViewController
 
     @FXML private void decline() {
         viewModel.decline();
+    }
+
+    @FXML private void changeRole() {
+
     }
 }

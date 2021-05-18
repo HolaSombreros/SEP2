@@ -13,6 +13,7 @@ public interface StaffDetailsViewModelInterface
   void back();
   void loadShift();
   void disableDays(DatePicker week);
+  void removeRole();
   StringProperty getNameProperty();
   StringProperty getCprProperty();
   StringProperty getIdProperty();

@@ -61,6 +61,11 @@ public class StaffDetailsViewController extends ViewController
     viewModel.confirm();
   }
 
+  @FXML private void removeRole()
+  {
+
+  }
+
   @FXML private void back()
   {
     viewModel.back();
