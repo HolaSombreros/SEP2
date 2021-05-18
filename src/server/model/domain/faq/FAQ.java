@@ -39,4 +39,9 @@ public class FAQ implements Serializable {
         FAQ faq = (FAQ) obj;
         return id == faq.id && question.equals(faq.question) && answer.equals(faq.answer) && category.equals(faq.category);
     }
+    
+    @Override
+    public String toString() {
+        return String.format("[%s] (#%d) %s  -  %s", category.toString(), id, question, answer);
+    }
 }

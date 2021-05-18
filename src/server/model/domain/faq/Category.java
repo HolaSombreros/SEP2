@@ -6,23 +6,23 @@ public enum Category implements Serializable {
     GENERAL("General questions"),
     PASSPORT("How can I obtain my passport for the COVID-vaccination?");
     
-    private String text;
+    private String title;
     
-    private Category(String text) {
-        this.text = text;
+    private Category(String title) {
+        this.title = title;
     }
     
-    public static int getId(Category category) {
-        for (int i = 0; i < Category.values().length; i++) {
-            if (category.toString().equalsIgnoreCase(Category.values()[i].toString())) {
-                return i + 1;
+    public static Category fromString(String value) {
+        for (Category option : Category.values()) {
+            if (option.title.equalsIgnoreCase(value)) {
+                return option;
             }
         }
-        throw new IllegalStateException("Something went very wrong...");
+        return null;
     }
     
     @Override
     public String toString() {
-        return text;
+        return title;
     }
 }
