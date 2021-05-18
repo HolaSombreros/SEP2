@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import server.model.domain.user.Administrator;
 import server.model.domain.user.User;
 import server.model.domain.user.UserList;
 
