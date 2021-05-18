@@ -45,7 +45,7 @@ public class UserListViewController extends ViewController
 
   @FXML private void goToChat()
   {
-    getViewHandler().openView(View.USERLIST);
+    getViewHandler().openView(View.FAQ);
   }
 
   @FXML private void seeDetails() {

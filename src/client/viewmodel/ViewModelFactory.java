@@ -16,6 +16,7 @@ public class ViewModelFactory {
     private NurseDashBoardViewModelInterface nurseDashBoardViewModel;
     private NurseTestAppointmentViewModelInterface nurseTestViewModel;
     private FAQViewModelInterface faqViewModel;
+    private AddFAQViewModelInterface addFAQViewModel;
 
     private ViewState viewState;
     
@@ -34,6 +35,7 @@ public class ViewModelFactory {
         nurseDashBoardViewModel = new NurseDashBoardViewModel(model, viewState);
         nurseTestViewModel = new NurseTestAppointmentViewModel(model, viewState);
         faqViewModel = new FAQViewModel(model, viewState);
+        addFAQViewModel = new AddFAQViewModel(model,viewState);
     }
     
     public ViewState getViewState() {
@@ -91,5 +93,9 @@ public class ViewModelFactory {
     
     public FAQViewModelInterface getFaqViewModel() {
         return faqViewModel;
+    }
+
+    public AddFAQViewModelInterface getAddFAQViewModel() {
+        return addFAQViewModel;
     }
 }

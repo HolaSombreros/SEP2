@@ -2,6 +2,7 @@ package client.mediator;
 
 import client.model.Model;
 import server.model.domain.appointment.*;
+import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQList;
 import server.model.domain.user.*;
 import utility.observer.event.ObserverEvent;
@@ -98,7 +99,18 @@ public class Client implements Model, RemoteListener<User, Appointment> {
             throw new IllegalStateException(getExceptionMessage(e),e);
         }
     }
-    
+
+    @Override
+    public TimeIntervalList getTimeIntervalList() {
+        try{
+            return server.getTimeIntervalList();
+        }
+        catch (RemoteException e)
+        {
+            throw new IllegalStateException(getExceptionMessage(e),e);
+        }
+    }
+
     @Override
     public void addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) {
         try {
@@ -225,8 +237,7 @@ public class Client implements Model, RemoteListener<User, Appointment> {
     }
 
     @Override
-    public VaccineStatus applyForVaccination(Patient patient)
-    {
+    public VaccineStatus applyForVaccination(Patient patient) {
         try {
             return server.applyForVaccination(patient);
         }
@@ -235,30 +246,33 @@ public class Client implements Model, RemoteListener<User, Appointment> {
         }
     }
 
-    @Override public void addSchedule(Nurse nurse, Schedule schedule)
-    {
-        try
-        {
+    @Override public void addSchedule(Nurse nurse, Schedule schedule) {
+        try {
             server.addSchedule(nurse,schedule);
         }
-        catch (RemoteException e)
-        {
+        catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e),e);
         }
     }
 
-    @Override public void removeSchedule(Nurse nurse, Schedule schedule)
-    {
-        try
-        {
+    @Override public void removeSchedule(Nurse nurse, Schedule schedule) {
+        try {
             server.removeSchedule(nurse,schedule);
         }
-        catch (RemoteException e)
-        {
+        catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e),e);
         }
     }
-    
+
+    @Override public void addFAQ(String question, String answer, Category category, Administrator creator) {
+        try {
+            server.addFAQ(question, answer, category, creator);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e),e);
+        }
+    }
+
     @Override
     public FAQList getFAQList() {
         try {

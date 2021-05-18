@@ -2,6 +2,7 @@ package client.model;
 
 import client.mediator.Client;
 import server.model.domain.appointment.*;
+import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQList;
 import server.model.domain.user.*;
 import utility.observer.event.ObserverEvent;
@@ -109,6 +110,11 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     }
     
     @Override
+    public TimeIntervalList getTimeIntervalList() {
+        return client.getTimeIntervalList();
+    }
+    
+    @Override
     public User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) {
         return client.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
     }
@@ -132,7 +138,11 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     public void logout(User user) {
         client.logout(user);
     }
-    
+
+    @Override public void addFAQ(String question, String answer, Category category, Administrator creator) {
+        client.addFAQ(question, answer, category, creator);
+    }
+
     @Override
     public FAQList getFAQList() {
         return client.getFAQList();

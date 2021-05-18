@@ -1,12 +1,10 @@
 package server.model.validator;
 
 import server.model.domain.faq.Category;
+import server.model.domain.user.Administrator;
 
 public class FAQValidator {
-    public void validateNewFAQ(int id, String question, String answer, Category category) {
-        if (id < 0) {
-            throw new IllegalArgumentException("Please input a valid id equal to or higher than 1");
-        }
+    public static void validateNewFAQ(String question, String answer, Category category, Administrator creator) {
         if (question == null || question.isEmpty()) {
             throw new IllegalArgumentException("Please specify the question");
         }
@@ -15,6 +13,9 @@ public class FAQValidator {
         }
         if (category == null) {
             throw new IllegalArgumentException("Please specify the category for this FAQ");
+        }
+        if (creator == null) {
+            throw new IllegalStateException("Please specify the creator of this FAQ");
         }
     }
 }

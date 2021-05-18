@@ -130,7 +130,7 @@ public class UserManager {
     public UserList getAllUsers() throws SQLException {
         UserList users = new UserList();
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT person.*, city.city, patient.vaccine_status, nurse.employee_id AS nurse_id, administrator.employee_id AS admin_id FROM person LEFT JOIN city USING (zip_code) LEFT JOIN patient USING(cpr) LEFT JOIN nurse ON person.cpr = nurse.cpr LEFT JOIN administrator ON person.cpr = administrator.cpr;");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM user_view;");
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 String cpr = rs.getString("cpr");
@@ -181,7 +181,7 @@ public class UserManager {
         UserList registeredUsers = new UserList();
         try (Connection connection = DatabaseManager.getInstance().getConnection())
         {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM person JOIN city USING(zip_code) JOIN patient USING(cpr)");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM patient_view");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next())
             {
@@ -222,7 +222,7 @@ public class UserManager {
 
     public UserList getAllNurses() throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM nurse");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM nurse_view");
             ResultSet resultSet = statement.executeQuery();
             UserList result = new UserList();
             while (resultSet.next()) {
@@ -236,7 +236,7 @@ public class UserManager {
 
     public UserList getAllAdministrators() throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM administrator");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM administrator_view");
             ResultSet resultSet = statement.executeQuery();
             UserList result = new UserList();
             while (resultSet.next()) {

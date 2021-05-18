@@ -8,14 +8,20 @@ import java.time.LocalTime;
 public class TimeInterval implements Serializable {
     private LocalTime from;
     private LocalTime to;
+    private int id;
     
-    public TimeInterval(LocalTime from, LocalTime to) {
-        set(from, to);
+    public TimeInterval(int id,LocalTime from, LocalTime to) {
+        set(from, to, id);
     }
-    public void set(LocalTime from, LocalTime to){
+    public void set(LocalTime from, LocalTime to, int id){
         TimeIntervalValidator.set(from, to);
         this.from = from;
         this.to = to;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public LocalTime getFrom() {

@@ -50,10 +50,15 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </ScrollPane>
-      <HBox alignment="CENTER_RIGHT" maxWidth="500.0">
+      <HBox alignment="CENTER" maxWidth="500.0">
          <children>
             <Button minWidth="90.0" mnemonicParsing="false" onAction="#chat" text="Enter Chat" />
             <Label maxWidth="1.7976931348623157E308" text="hidden filler label" visible="false" HBox.hgrow="ALWAYS" />
+            <Button fx:id="addFAQ" minWidth="90.0" mnemonicParsing="false" onAction="#addFAQ" text="Add FAQ">
+               <HBox.margin>
+                  <Insets right="105.0" />
+               </HBox.margin>
+            </Button>
             <Button minWidth="90.0" mnemonicParsing="false" onAction="#back" text="Go Back" />
          </children>
       </HBox>

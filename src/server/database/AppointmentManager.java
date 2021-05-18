@@ -35,22 +35,66 @@ public class AppointmentManager {
             }
         }
     }
-    
+    //adds only if not in the table
+    public TimeInterval addTimeInterval(LocalTime timeFrom, LocalTime timeTo) throws SQLException{
+        try(Connection connection = DatabaseManager.getInstance().getConnection()){
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO time_interval (time_from,time_to) VALUES (?,?);",Statement.RETURN_GENERATED_KEYS);
+            statement.setTime(1,Time.valueOf(timeFrom));
+            statement.setTime(2,Time.valueOf(timeTo));
+            if(!isTimeInterval(timeFrom,timeTo)) {
+                statement.executeUpdate();
+                ResultSet keys = statement.getGeneratedKeys();
+                if (keys.next())
+                    return new TimeInterval(keys.getInt("time_interval_id"),timeFrom,timeTo);
+                else {
+                    throw new SQLException("No keys were generated");
+                }
+            }
+        }
+        return null;
+    }
+
+    //checks if is in the table
+    public boolean isTimeInterval(LocalTime timeFrom, LocalTime timeTo) throws SQLException{
+        try(Connection connection = DatabaseManager.getInstance().getConnection()){
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM time_interval WHERE time_from = ?, time_ to = ?");
+            statement.setTime(1,Time.valueOf(timeFrom));
+            statement.setTime(2,Time.valueOf(timeTo));
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next();
+        }
+    }
+
+    //gets the list of timeintervals from the table
+    public TimeIntervalList getTimeIntervals() throws SQLException{
+        try(Connection connection = DatabaseManager.getInstance().getConnection()){
+            TimeIntervalList list = new TimeIntervalList();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM time_interval");
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                LocalTime time_to = resultSet.getTime("time_to").toLocalTime();
+                LocalTime time_from = resultSet.getTime("time_from").toLocalTime();
+                int id = resultSet.getInt("time_interval_id");
+                list.add(new TimeInterval(id, time_from, time_to));
+            }
+            return list;
+        }
+    }
+
     public void addAppointment(Appointment appointment) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO appointment (date,time_from,time_to,patient_cpr,nurse_cpr,type,status,result) VALUES (?,?,?,?,?,?,?,?)");
+            PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO appointment (date,time_interval_id,patient_cpr,nurse_cpr,type,status,result) VALUES (?,?,?,?,?,?,?)");
             insertStatement.setDate(1, Date.valueOf(appointment.getDate()));
-            insertStatement.setTime(2, Time.valueOf(appointment.getTimeInterval().getFrom()));
-            insertStatement.setTime(3, Time.valueOf(appointment.getTimeInterval().getTo()));
-            insertStatement.setString(4, appointment.getPatient().getCpr());
-            insertStatement.setString(5, appointment.getNurse().getCpr());
-            insertStatement.setString(6, appointment.getType().toString());
-            insertStatement.setString(7, appointment.getStatus().toString());
+            insertStatement.setInt(2, appointment.getTimeInterval().getId());
+            insertStatement.setString(3, appointment.getPatient().getCpr());
+            insertStatement.setString(4, appointment.getNurse().getCpr());
+            insertStatement.setString(5, appointment.getType().toString());
+            insertStatement.setString(6, appointment.getStatus().toString());
             if (appointment.getType().equals(Type.TEST)) {
-                insertStatement.setString(8, (Result.NORESULTSAVAILABLE.toString()));
+                insertStatement.setString(7, (Result.NORESULTSAVAILABLE.toString()));
             }
             else {
-                insertStatement.setString(8, null);
+                insertStatement.setString(7, null);
             }
             insertStatement.executeUpdate();
         }
@@ -59,14 +103,15 @@ public class AppointmentManager {
     public AppointmentTimeIntervalList getAllAppointments() throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             AppointmentTimeIntervalList appointmentTimeIntervalList = new AppointmentTimeIntervalList();
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM appointment ORDER BY appointment_id;");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM appointment_view ORDER BY appointment_id;");
             ResultSet rs = statement.executeQuery();
             
             while (rs.next()) {
                 LocalDate date = rs.getDate("date").toLocalDate();
                 LocalTime from = rs.getTime("time_from").toLocalTime();
                 LocalTime to = rs.getTime("time_to").toLocalTime();
-                TimeInterval timeInterval = new TimeInterval(from, to);
+                int time_interval_id = rs.getInt("time_interval_id");
+                TimeInterval timeInterval = new TimeInterval(time_interval_id,from, to);
                 
                 // Will only happen if the specified date and time interval doesn't already exist in the system
                 appointmentTimeIntervalList.add(new AppointmentTimeInterval(date, timeInterval));
@@ -127,7 +172,7 @@ public class AppointmentManager {
     }
     public void updateAppointments() throws SQLException{
         try (Connection connection = DatabaseManager.getInstance().getConnection()){
-            PreparedStatement statement = connection.prepareStatement("SELECT date, time_to, appointment_id FROM appointment WHERE status = 'Upcoming';");
+            PreparedStatement statement = connection.prepareStatement("SELECT date, time_to, appointment_id FROM appointment_view WHERE status = 'Upcoming';");
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 LocalDate date = rs.getDate("date").toLocalDate();
@@ -145,11 +190,10 @@ public class AppointmentManager {
     
     public void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE appointment SET date = ?, time_from = ?, time_to = ? WHERE appointment_id = ?;");
+            PreparedStatement statement = connection.prepareStatement("UPDATE appointment SET date = ?, time_interval_id = ? WHERE appointment_id = ?;");
             statement.setDate(1, Date.valueOf(date));
-            statement.setTime(2, Time.valueOf(timeInterval.getFrom()));
-            statement.setTime(3, Time.valueOf(timeInterval.getTo()));
-            statement.setInt(4, id);
+            statement.setInt(2,timeInterval.getId());
+            statement.setInt(3, id);
             statement.executeUpdate();
         }
     }
