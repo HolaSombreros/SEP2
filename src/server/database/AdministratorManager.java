@@ -8,9 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AdministratorManager {
-    public AdministratorManager() {
-    
-    }
+    public AdministratorManager() {}
     
     public void addAdministrator(Administrator administrator) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
@@ -34,18 +32,6 @@ public class AdministratorManager {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM administrator WHERE cpr = ?");
             statement.setString(1, administrator.getCpr());
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next())
-                return true;
-            else
-                return false;
-        }
-    }
-    
-    public boolean isAdmin(String cpr) throws SQLException {
-        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM administrator WHERE cpr = ?");
-            statement.setString(1, cpr);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next())
                 return true;

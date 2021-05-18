@@ -36,7 +36,7 @@ public class UserManager {
             if (!addressManager.isAddress(user.getAddress().getStreet(), user.getAddress().getNumber(), user.getAddress().getZipcode()))
                 addressManager.addAddress(user.getAddress());
             insertStatement.executeUpdate();
-            patientManager.addPatient(user);
+            patientManager.addPatient((Patient)user);
         }
     }
 
@@ -125,6 +125,17 @@ public class UserManager {
             statement.executeUpdate();
             //TODO: zipcode and city
         }
+    }
+    public void removeUser(User user) throws SQLException {
+        if(user != null) {
+            try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM person WHERE cpr = ?;");
+                statement.setString(1, user.getCpr());
+                statement.executeUpdate();
+            }
+        }
+        else
+            throw new IllegalArgumentException("You cannot remove a null user");
     }
     
     public UserList getAllUsers() throws SQLException {
@@ -252,10 +263,6 @@ public class UserManager {
         }
     }
 
-    
-    
-    
-    
     public boolean isUser(String cpr) throws SQLException{
         try(Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM person WHERE cpr = ?");

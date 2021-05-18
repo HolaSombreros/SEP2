@@ -79,7 +79,7 @@ public class ServerModelManager implements ServerModel {
                 if (!managerFactory.getAddressManager().isAddress(address.getStreet(), address.getNumber(), address.getZipcode()))
                     managerFactory.getAddressManager().addAddress(address);
             for (User user : userList.getUsers())
-                if (user instanceof Patient && !managerFactory.getPatientManager().isPatient(user)) {
+                if (user instanceof Patient && !managerFactory.getPatientManager().isPatient(((Patient)user).getCpr())) {
                     managerFactory.getUserManager().addPerson(user);
                 }
                 else if (user instanceof Nurse && !managerFactory.getNurseManager().isNurse((Nurse) user)) {

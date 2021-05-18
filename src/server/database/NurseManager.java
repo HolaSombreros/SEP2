@@ -21,11 +21,16 @@ public class NurseManager {
     }
     
     public void removeNurse(Nurse nurse) throws SQLException {
-        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM nurse WHERE cpr = ?");
-            statement.setString(1, nurse.getCpr());
-            statement.executeQuery();
+        if(nurse != null)
+        {
+            try (Connection connection = DatabaseManager.getInstance().getConnection())
+            {
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM nurse WHERE cpr = ?");
+                statement.setString(1, nurse.getCpr());
+                statement.executeQuery();
+            }
         }
+        else throw new IllegalArgumentException("You cannot remove a non existing nurse");
     }
     
     public boolean isNurse(Nurse nurse) throws SQLException {
