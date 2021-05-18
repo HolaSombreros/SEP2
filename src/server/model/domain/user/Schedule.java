@@ -5,41 +5,51 @@ import server.model.domain.appointment.TimeInterval;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Schedule implements Serializable
-{
-  private LocalDate day;
-  private TimeInterval timeInterval;
+public class Schedule implements Serializable {
+    private LocalDate dateFrom;
+    private LocalDate dateTo;
+    private Shift shift;
+    private int id;
 
-  public Schedule (LocalDate day, TimeInterval timeInterval)
-  {
-    if (day.isBefore(LocalDate.now()))
-      throw new IllegalArgumentException("Not valid date");
-    this.day = day;
-    this.timeInterval = timeInterval;
-  }
+    public Schedule(int id, LocalDate dateFrom, LocalDate dateTo, Shift shift) {
+        if (dateFrom.isBefore(LocalDate.now()))
+            throw new IllegalArgumentException("Not valid date");
 
-  public LocalDate getDay()
-  {
-    return day;
-  }
+        this.shift = shift;
+        this.id = id;
+    }
 
-  public void setDay(LocalDate day)
-  {
-    this.day = day;
-  }
+    public void setDateFrom(LocalDate dateFrom) {
+        this.dateFrom = dateFrom;
 
-  public TimeInterval getTimeInterval()
-  {
-    return timeInterval;
-  }
+    }
 
-  public void setTimeInterval(TimeInterval timeInterval)
-  {
-    this.timeInterval = timeInterval;
-  }
+    public void setDateTo(LocalDate dateTo) {
+        this.dateTo = dateTo;
 
-  public String toString()
-  {
-    return day.toString() + " " + timeInterval.toString();
-  }
+    }
+
+    public LocalDate getDateFrom() {
+        return dateFrom;
+    }
+
+    public LocalDate getDateTo() {
+        return dateTo;
+    }
+
+    public void setShift(Shift shift) {
+        this.shift = shift;
+    }
+
+    public Shift getShift() {
+        return shift;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String toString() {
+        return dateFrom.toString() + " - " + dateTo.toString() + " " + shift.toString();
+    }
 }

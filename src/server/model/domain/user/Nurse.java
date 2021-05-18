@@ -7,18 +7,18 @@ import java.util.List;
 
 public class Nurse extends Staff {
 
-    private List<Schedule> schedules;
+    private ScheduleList schedules;
 
     public Nurse(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email, String employeeId) {
         super(cpr, password, firstName, middleName, lastName, address, phone, email, employeeId);
-        schedules = new ArrayList<>();
+        schedules = new ScheduleList();
     }
 
     public Nurse(String cpr, String password, String firstName, String lastName, Address address, String phone, String email, String employeeId) {
         this(cpr, password, firstName, null, lastName, address, phone, email, employeeId);
     }
     
-    public List<Schedule> getSchedules() {
+    public ScheduleList getSchedules() {
         return schedules;
     }
 
@@ -27,16 +27,16 @@ public class Nurse extends Staff {
     }
 
     public void editSchedule(Schedule schedule) {
-        for (Schedule schedule1 : schedules)
-            if (schedule1.getDay().equals(schedule.getDay()))
-                schedule1.setTimeInterval(schedule.getTimeInterval());
+        for (Schedule schedule1 : schedules.getSchedules())
+            if (schedule1.equals(schedule))
+                schedule1.setShift(schedule.getShift());
     }
 
     public void removeSchedule(Schedule schedule)
     {
         boolean remove = false;
-        for (Schedule schedule1 : schedules)
-            if (schedule1.getDay().equals(schedule.getDay()))
+        for (Schedule schedule1 : schedules.getSchedules())
+            if (schedule1.equals(schedule))
             {
                 schedule = schedule1;
                 remove = true;
@@ -47,7 +47,7 @@ public class Nurse extends Staff {
 
     public Schedule getSchedule(LocalDate date)
     {
-        for (Schedule schedule : schedules)
+        for (Schedule schedule : schedules.getSchedules())
             if (schedule.getDay().equals(date))
                 return schedule;
         return null;
@@ -55,8 +55,8 @@ public class Nurse extends Staff {
 
     public boolean worksThatDay(Schedule schedule)
     {
-        for (Schedule schedule1 : schedules)
-            if (schedule1.getDay().equals(schedule.getDay()))
+        for (Schedule schedule1 : schedules.getSchedules())
+            if ())
                 return true;
         return false;
     }
@@ -71,6 +71,6 @@ public class Nurse extends Staff {
 
     @Override
     public String toString() {
-        return super.toString() + getEmployeeId() + Arrays.toString(schedules.toArray());
+        return super.toString() + getEmployeeId() + schedules.toString();
     }
 }

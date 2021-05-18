@@ -24,6 +24,8 @@ public class ServerModelManager implements ServerModel {
     private FAQList faqList;
     private TimeIntervalList timeIntervalList;
     private AppointmentTimeIntervalList appointmentTimeIntervalList;
+    private ShiftList shiftList;
+    private ScheduleList scheduleList;
     private ManagerFactory managerFactory;
     private PropertyChangeAction<User, Appointment> property;
     
@@ -89,7 +91,16 @@ public class ServerModelManager implements ServerModel {
 //        faqList.add(new FAQ(3, "What is the Coronavirus?", "It's a virus that does some hippity hoppity", Category.PASSPORT));
 //        faqList.add(new FAQ(4, "What is the Corona passport?", "It's some...thing. I don't even know now what even happens if this label is super duper long. I would assume it goes to the next line but I need to make sure that this is in fact what actually happens", Category.PASSPORT));
     }
-    
+
+
+    private  void loadSchedules(){
+        try {
+            shiftList = managerFactory.getNurseScheduleManager().getAllShifts();
+            scheduleList = managerFactory.getNurseScheduleManager().getAllSchedules();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     private void addDummyData() {
         ArrayList<Address> addresses = new ArrayList<>();
         addresses.add(new Address("Sesame Street", "2", 8700, "Horsens"));
@@ -176,7 +187,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public TimeIntervalList getTimeIntervalList() {
+    public synchronized TimeIntervalList getTimeIntervalList() {
         return timeIntervalList;
     }
 
@@ -189,7 +200,15 @@ public class ServerModelManager implements ServerModel {
     public synchronized UserList getAdministratorList() {
         return adminList;
     }
-    
+
+    public synchronized ShiftList getShiftList() {
+        return shiftList;
+    }
+
+    public synchronized ScheduleList getScheduleList() {
+        return scheduleList;
+    }
+
     @Override
     public synchronized User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) {
         User user2 = null;
