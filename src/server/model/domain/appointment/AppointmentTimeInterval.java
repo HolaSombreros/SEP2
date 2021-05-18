@@ -3,6 +3,7 @@ package server.model.domain.appointment;
 import server.model.domain.user.Nurse;
 import server.model.domain.user.Patient;
 import server.model.domain.user.User;
+import server.model.domain.user.VaccineStatus;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -64,17 +65,40 @@ public class AppointmentTimeInterval implements Serializable {
         }
         return appointments;
     }
-    public AppointmentList filterAppointmentsByNameAndCpr(String criteria) {
-        AppointmentList appointments = new AppointmentList();
-        if(criteria.equals("")) {
-            for(Appointment appointment : appointmentList.getAppointments())
-                appointments.add(appointment);
-        }
-        else{
-            for(Appointment appointment : appointmentList.getAppointments()) {
-                if(appointment.getPatient().getCpr().contains(criteria) || appointment.getPatient().getFirstName().contains(criteria) || appointment.getPatient().getLastName().contains(criteria) ||
-                appointment.getPatient().getLastName().toLowerCase().contains(criteria) || appointment.getPatient().getFirstName().toLowerCase().contains(criteria)) {
-                    appointments.add(appointment);
+    
+    public AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType) {
+        AppointmentList appointments = appointmentList;
+        for (Appointment appointment : appointments.getAppointments()) {
+            
+            // Filter by finished appointments
+            if (showFinished) {
+                if (!(appointment.getStatus() instanceof FinishedAppointment)) {
+                    appointments.remove(appointment);
+                }
+            }
+    
+            // Filter by type of appointment
+            if (appointments.contains(appointment)) {
+                switch (appointmentType.toLowerCase()) {
+                    case "test":
+                        if (appointment instanceof TestAppointment) {
+                            appointments.remove(appointment);
+                        }
+                        break;
+                    case "vaccine":
+                        if (appointment instanceof VaccineAppointment) {
+                            appointments.remove(appointment);
+                        }
+                        break;
+                }
+            }
+            
+            // Filter by search criteria
+            if (appointments.contains(appointment) && criteria != null && !criteria.isEmpty()) {
+                criteria = criteria.toLowerCase();
+                if (appointment.getPatient().getCpr().contains(criteria) || appointment.getPatient().getFirstName().toLowerCase().contains(criteria) || appointment.getPatient().getLastName()
+                    .toLowerCase().contains(criteria)) {
+                    appointments.remove(appointment);
                 }
             }
         }
@@ -87,6 +111,7 @@ public class AppointmentTimeInterval implements Serializable {
     
     /**
      * Only counts appointments that are not Cancelled.
+     *
      * @return The amount of (not-Cancelled) appointments in the list.
      */
     public int getAppointmentCount() {
@@ -105,10 +130,10 @@ public class AppointmentTimeInterval implements Serializable {
         }
         return appointmentList.contains(appointment);
     }
-
+    
     @Override
-    public boolean equals(Object obj){
-        if(!(obj instanceof AppointmentTimeInterval))
+    public boolean equals(Object obj) {
+        if (!(obj instanceof AppointmentTimeInterval))
             return false;
         
         AppointmentTimeInterval other = (AppointmentTimeInterval) obj;

@@ -19,6 +19,10 @@ public class AppointmentList implements Serializable {
         appointments.add(appointment);
     }
     
+    public void remove(Appointment appointment) {
+        appointments.remove(appointment);
+    }
+    
     public void addAll(List<Appointment> appointments) {
         this.appointments.addAll(appointments);
     }

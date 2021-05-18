@@ -57,31 +57,31 @@ public class NurseDashBoardViewController extends ViewController {
     }
 
     @FXML
-    private void filterTable() {
-        // update table
-        //viewModel.filterTable();
+    private void toggleFinishedAppointments() {
+        viewModel.filterAppointments();
     }
     
     @FXML
     private void filterTableButton() {
-        // update button text
-        //viewModel.filterTable();
+        viewModel.toggleTypeButton();
+        viewModel.filterAppointments();
     }
     
     @FXML
     private void personalData() {
         // open view
+        // TODO - ?
     }
     
     @FXML
     private void details() {
         if (viewModel.updateViewState()) {
-            //TODO: Make new view for nurse appointment details
             getViewHandler().openView(View.NURSETEST);
         }
     }
+    
     @FXML private void handleKeyReleased() {
-        viewModel.filterByNameOrCpr();
+        viewModel.filterAppointments();
     }
     
     @FXML

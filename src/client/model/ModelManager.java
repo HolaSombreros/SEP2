@@ -32,31 +32,29 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     public void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city) {
         client.register(cpr, password, firstName, middleName, lastName, phone, email, street, number, zip, city);
     }
-
+    
     @Override
-    public void changeResult(int id,Result result) {
-        client.changeResult(id,result);
+    public void changeResult(int id, Result result) {
+        client.changeResult(id, result);
     }
-
+    
     @Override
     public Patient getPatient(String cpr) {
         return client.getPatient(cpr);
     }
-
+    
     @Override
     public User login(String cpr, String password) {
         return client.login(cpr, password);
     }
-
+    
     @Override
-    public UserList getUsersByCprAndName(String criteria)
-    {
+    public UserList getUsersByCprAndName(String criteria) {
         return client.getUsersByCprAndName(criteria);
     }
-
+    
     @Override
-    public UserList getUserList()
-    {
+    public UserList getUserList() {
         return client.getUserList();
     }
     
@@ -79,62 +77,57 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     public Appointment getAppointmentById(int id) {
         return client.getAppointmentById(id);
     }
-
+    
     @Override
-    public AppointmentList filterAppointmentsByNameAndCpr(String criteria)
-    {
-        return client.filterAppointmentsByNameAndCpr(criteria);
+    public AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType) {
+        return client.filterAppointmentsByNameAndCpr(criteria, showFinished, appointmentType);
     }
-
+    
     @Override
-    public void cancelAppointment(int id)
-    {
+    public void cancelAppointment(int id) {
         client.cancelAppointment(id);
     }
-
+    
     @Override
-    public void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval)
-    {
+    public void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) {
         client.rescheduleAppointment(id, date, timeInterval);
     }
-
-    @Override public UserList getPatients()
-    {
+    
+    @Override
+    public UserList getPatients() {
         return client.getPatients();
     }
-
-    @Override public UserList getNurses()
-    {
+    
+    @Override
+    public UserList getNurses() {
         return client.getNurses();
     }
-
-    @Override public UserList getAdministrators()
-    {
+    
+    @Override
+    public UserList getAdministrators() {
         return client.getAdministrators();
     }
-
+    
     @Override
-    public User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip)
-    {
+    public User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) {
         return client.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
     }
-
+    
     @Override
-    public VaccineStatus applyForVaccination(Patient patient)
-    {
-       return client.applyForVaccination(patient);
+    public VaccineStatus applyForVaccination(Patient patient) {
+        return client.applyForVaccination(patient);
     }
-
-    @Override public void addSchedule(Nurse nurse, Schedule schedule)
-    {
-        client.addSchedule(nurse,schedule);
+    
+    @Override
+    public void addSchedule(Nurse nurse, Schedule schedule) {
+        client.addSchedule(nurse, schedule);
     }
-
-    @Override public void removeSchedule(Nurse nurse, Schedule schedule)
-    {
-        client.removeSchedule(nurse,schedule);
+    
+    @Override
+    public void removeSchedule(Nurse nurse, Schedule schedule) {
+        client.removeSchedule(nurse, schedule);
     }
-
+    
     @Override
     public void logout(User user) {
         client.logout(user);

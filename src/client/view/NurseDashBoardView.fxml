@@ -107,7 +107,7 @@
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <CheckBox fx:id="showFinishedAppointments" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#filterTable" text="Show finished appointments" HBox.hgrow="ALWAYS">
+                  <CheckBox fx:id="showFinishedAppointments" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#toggleFinishedAppointments" text="Show finished appointments" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="14.0" />
                      </font>

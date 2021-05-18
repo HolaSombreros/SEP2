@@ -10,7 +10,7 @@ public interface ServerAppointmentModel
 {
     Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient);
     AppointmentList getAppointmentsByUser(User user);
-    AppointmentList filterAppointmentsByNameAndCpr(String criteria);
+    AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType);
     Appointment getAppointmentById(int id);
     TimeIntervalList getAvailableTimeIntervals(LocalDate date);
     void cancelAppointment(int id);

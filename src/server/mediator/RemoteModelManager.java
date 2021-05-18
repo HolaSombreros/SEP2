@@ -58,9 +58,9 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     }
 
     @Override
-    public AppointmentList filterAppointmentsByNameAndCpr(String criteria) throws RemoteException
+    public AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType) throws RemoteException
     {
-        return serverModel.filterAppointmentsByNameAndCpr(criteria);
+        return serverModel.filterAppointmentsByNameAndCpr(criteria, showFinished, appointmentType);
     }
 
     @Override

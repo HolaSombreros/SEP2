@@ -141,10 +141,10 @@ public class Client implements Model, RemoteListener<User, Appointment> {
     }
 
     @Override
-    public AppointmentList filterAppointmentsByNameAndCpr(String criteria)
+    public AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType)
     {
         try {
-            return server.filterAppointmentsByNameAndCpr(criteria);
+            return server.filterAppointmentsByNameAndCpr(criteria, showFinished, appointmentType);
         }
         catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);

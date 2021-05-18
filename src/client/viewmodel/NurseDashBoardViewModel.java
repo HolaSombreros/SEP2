@@ -49,7 +49,7 @@ public class NurseDashBoardViewModel implements NurseDashBoardViewModelInterface
         
         appointmentTable = FXCollections.observableArrayList();
         selectedAppointment = new SimpleObjectProperty<>();
-    
+        
         observableClock = new ObservableClock();
         observableClock.addListener(this, "ObservableClock");
         Thread timer = new Thread(observableClock);
@@ -99,13 +99,29 @@ public class NurseDashBoardViewModel implements NurseDashBoardViewModelInterface
     public void setSelectedAppointment(AppointmentTableViewModel appointmentTableViewModel) {
         selectedAppointment.set(appointmentTableViewModel);
     }
+    
     @Override
-    public void filterByNameOrCpr(){
+    public void filterAppointments() {
         appointmentTable.clear();
-        String criteria = searchBar.get();
-        if(criteria != null) {
-            for(Appointment appointment: model.filterAppointmentsByNameAndCpr(criteria).getAppointments())
+        String search = searchBar.get();
+        for (Appointment appointment : model.filterAppointmentsByNameAndCpr(search, showFinishedAppointments.get(), filterButtonText.get().split(" ")[1]).getAppointments()) {
             appointmentTable.add(new AppointmentTableViewModel(appointment));
+        }
+    }
+    
+    @Override
+    public void toggleTypeButton() {
+        String type = filterButtonText.get().split(" ")[1];
+        switch (type.toLowerCase()) {
+            case "all":
+                filterButtonText.set("Show test appointments");
+                break;
+            case "test":
+                filterButtonText.set("Show vaccine appointments");
+                break;
+            case "vaccine":
+                filterButtonText.set("Show all appointments");
+                break;
         }
     }
     

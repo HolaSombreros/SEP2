@@ -267,8 +267,8 @@ public class ServerModelManager implements ServerModel {
 
 
     @Override
-    public AppointmentList filterAppointmentsByNameAndCpr(String criteria) {
-        return appointmentTimeIntervalList.filterAppointmentsByNameAndCpr(criteria);
+    public AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType) {
+        return appointmentTimeIntervalList.filterAppointmentsByNameAndCpr(criteria, showFinished, appointmentType);
     }
 
     @Override

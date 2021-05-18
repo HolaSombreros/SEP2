@@ -11,7 +11,8 @@ public interface NurseDashBoardViewModelInterface {
     boolean updateViewState();
     void logout();
     void setSelectedAppointment(AppointmentTableViewModel appointmentTableViewModel);
-    void filterByNameOrCpr();
+    void filterAppointments();
+    void toggleTypeButton();
     
     StringProperty getUsernameProperty();
     StringProperty getRoleProperty();
