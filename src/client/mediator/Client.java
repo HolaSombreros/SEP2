@@ -90,8 +90,7 @@ public class Client implements Model, RemoteListener<User, Appointment> {
     @Override
     public UserList getUserList()
     {
-        try
-        {
+        try {
             return server.getUserList();
         }
         catch (RemoteException e)
@@ -166,7 +165,7 @@ public class Client implements Model, RemoteListener<User, Appointment> {
     @Override
     public void cancelAppointment(int id)
     {
-        try{
+        try {
             server.cancelAppointment(id);
         }
         catch (RemoteException e){
@@ -194,6 +193,16 @@ public class Client implements Model, RemoteListener<User, Appointment> {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
+/*
+    @Override
+    public void removeUser(User user) {
+        try {
+            server.removeUser(user);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
+        }
+    }*/
 
     @Override public UserList getPatients()
     {
@@ -245,8 +254,36 @@ public class Client implements Model, RemoteListener<User, Appointment> {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
+    @Override
+    public VaccineStatus updateVaccineStatus(Patient patient) {
+        try {
+            return server.updateVaccineStatus(patient);
+        }
+        catch (RemoteException e){
+            throw new IllegalStateException(getExceptionMessage(e),e);
+        }
+    }
 
-    @Override public void addSchedule(Nurse nurse, Schedule schedule) {
+    @Override public void setRole(User user, String role) {
+        try {
+            server.setRole(user,role);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e),e);
+        }
+    }
+
+    @Override public void removeRole(User user) {
+        try {
+            server.removeRole(user);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e),e);
+        }
+    }
+
+    @Override public void addSchedule(Nurse nurse, Schedule schedule)
+    {
         try {
             server.addSchedule(nurse,schedule);
         }

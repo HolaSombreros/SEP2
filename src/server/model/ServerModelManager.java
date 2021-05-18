@@ -107,7 +107,7 @@ public class ServerModelManager implements ServerModel {
                 if (!managerFactory.getAddressManager().isAddress(address.getStreet(), address.getNumber(), address.getZipcode()))
                     managerFactory.getAddressManager().addAddress(address);
             for (User user : userList.getUsers())
-                if (user instanceof Patient && !managerFactory.getPatientManager().isPatient(user)) {
+                if (user instanceof Patient && !managerFactory.getPatientManager().isPatient(((Patient)user).getCpr())) {
                     managerFactory.getUserManager().addPerson(user);
                 }
                 else if (user instanceof Nurse && !managerFactory.getNurseManager().isNurse((Nurse) user)) {
@@ -121,6 +121,10 @@ public class ServerModelManager implements ServerModel {
         catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private String generateRandomId() {
+        return "AAAA";
     }
     
     @Override
@@ -165,6 +169,17 @@ public class ServerModelManager implements ServerModel {
             throw new IllegalStateException("That CPR is already registered in the system");
         }
     }
+    private void updateList(){
+        try {
+            patientList = managerFactory.getUserManager().getAllPatients();
+            nurseList = managerFactory.getUserManager().getAllNurses();
+            adminList = managerFactory.getUserManager().getAllAdministrators();
+            userList = managerFactory.getUserManager().getAllUsers();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     
     @Override
     public synchronized UserList getUserList() {
@@ -199,6 +214,7 @@ public class ServerModelManager implements ServerModel {
             String city = managerFactory.getAddressManager().getCity(zip);
             user2.editUserInformation(password, firstName, middleName, lastName, new Address(street, number, zip, city), phone, email);
             managerFactory.getUserManager().updateUserInformation(user2, password, firstName, middleName, lastName, phone, email, street, number, zip);
+            updateList();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -211,6 +227,7 @@ public class ServerModelManager implements ServerModel {
         try {
             patient.getVaccineStatus().apply(patient);
             managerFactory.getPatientManager().setVaccineStatus(patient.getCpr(), patient.getVaccineStatus());
+            updateList();
             return patient.getVaccineStatus();
         }
         catch (SQLException e) {
@@ -341,11 +358,37 @@ public class ServerModelManager implements ServerModel {
         }
     }
 
+
     @Override
     public UserList getUsersByCprAndName(String criteria)
     {
         return userList.getUsersByCprAndName(criteria);
     }
+
+    /*
+    public synchronized void removeUser(User user) {
+        try {
+                if(user instanceof Nurse) {
+                    managerFactory.getNurseManager().removeNurse((Nurse) user);
+                    nurseList.remove(user);
+                }
+                else if (user instanceof Administrator) {
+                    managerFactory.getAdministratorManager().removeAdministrator((Administrator) user);
+                    adminList.remove(user);
+                }
+                else if (user instanceof Patient) {
+                    managerFactory.getPatientManager().removePatient((Patient) user);
+                    patientList.remove(user);
+                }
+                managerFactory.getUserManager().removeUser(user);
+                userList.remove(user);
+            }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+ */
+
 
     @Override
     public synchronized Patient getPatient(String cpr) {
@@ -361,13 +404,77 @@ public class ServerModelManager implements ServerModel {
             ((TestAppointment) appointmentTimeIntervalList.getAppointmentById(id)).setResult(result);
             TestAppointment appointment = (TestAppointment) appointmentTimeIntervalList.getAppointmentById(id);
             managerFactory.getAppointmentManager().changeResult(appointment);
+            updateList();
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
         
     }
-    
+
+    @Override
+    public synchronized VaccineStatus updateVaccineStatus(Patient patient) {
+        try{
+            managerFactory.getPatientManager().setVaccineStatus(patient.getCpr(), patient.getVaccineStatus());
+            updateList();
+            return patient.getVaccineStatus();
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override public void setRole(User user, String role) {
+        switch (role) {
+            case "Nurse":
+                Nurse nurse = new Nurse(user.getCpr(), user.getPassword(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getAddress(), user.getPhone(),
+                    user.getEmail(), generateRandomId());
+                nurseList.add(nurse);
+                try {
+                    managerFactory.getNurseManager().addNurse(nurse);
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "Administrator":
+                Administrator administrator = new Administrator(user.getCpr(), user.getPassword(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getAddress(),
+                    user.getPhone(), user.getEmail(),generateRandomId());
+                adminList.add(administrator);
+                try {
+                    managerFactory.getAdministratorManager().addAdministrator(administrator);
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
+
+    @Override public void RemoveRole(User user) {
+        switch (user.getClass().getSimpleName()) {
+            case "Nurse":
+                nurseList.remove(user);
+                try {
+                    managerFactory.getNurseManager().removeNurse((Nurse) user);
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "Administrator":
+                adminList.remove(user);
+                try {
+                    managerFactory.getAdministratorManager().removeAdministrator((Administrator) user);
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
+
     @Override
     public void addFAQ(String question, String answer, Category category, Administrator creator) {
         try {

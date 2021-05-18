@@ -13,6 +13,7 @@ public interface RemoteUserModel extends RemoteSubject<User, Appointment>
     User login(String cpr, String password) throws RemoteException;
     void logout(User user) throws RemoteException;
     UserList getUsersByCprAndName(String criteria) throws RemoteException;
+//    void removeUser(User user) throws RemoteException;
     UserList getUserList() throws RemoteException;
     UserList getPatients() throws RemoteException;
     UserList getNurses() throws RemoteException;
@@ -22,4 +23,7 @@ public interface RemoteUserModel extends RemoteSubject<User, Appointment>
     void addSchedule(Nurse nurse, Schedule schedule) throws RemoteException;
     void removeSchedule(Nurse nurse, Schedule schedule) throws RemoteException;
     Patient getPatient(String cpr) throws RemoteException;
+    VaccineStatus updateVaccineStatus(Patient patient) throws RemoteException;
+    void setRole (User user, String role) throws RemoteException;
+    void removeRole(User user) throws RemoteException;
 }

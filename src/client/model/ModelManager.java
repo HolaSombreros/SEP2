@@ -135,6 +135,19 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     }
     
     @Override
+    public VaccineStatus updateVaccineStatus(Patient patient) {
+        return client.updateVaccineStatus(patient);
+    }
+
+    @Override public void setRole(User user, String role) {
+        client.setRole(user,role);
+    }
+
+    @Override public void removeRole(User user) {
+        client.removeRole(user);
+    }
+
+    @Override
     public void logout(User user) {
         client.logout(user);
     }
@@ -147,7 +160,14 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     public FAQList getFAQList() {
         return client.getFAQList();
     }
-    
+
+    /*
+    @Override
+    public void removeUser(User user)
+    {
+        client.removeUser(user);
+    }*/
+
     @Override
     public void close() {
         property.close();

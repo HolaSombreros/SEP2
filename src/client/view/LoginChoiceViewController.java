@@ -18,7 +18,6 @@ public class LoginChoiceViewController extends ViewController{
     protected void init() {
         viewModel = getViewModelFactory().getLoginChoiceViewModel();
         roleLabel.textProperty().bind(viewModel.roleProperty());
-        
         viewModel.reset();
     }
 

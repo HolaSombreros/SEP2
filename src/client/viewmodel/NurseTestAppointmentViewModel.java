@@ -60,7 +60,7 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
         resultList.add(Result.POSITIVE.toString());
     }
 
-    //TODO: make it so only when status is finished you can edit the result
+
     private void loadAppointmentDetails() {
         TestAppointment appointment = (TestAppointment) model.getAppointmentById(viewState.getSelectedAppointment());
         if (appointment != null) {

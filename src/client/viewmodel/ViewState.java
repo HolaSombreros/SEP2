@@ -1,5 +1,6 @@
 package client.viewmodel;
 
+import server.model.domain.user.Administrator;
 import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 
@@ -9,11 +10,14 @@ public class ViewState {
     private User selectedUser;
     private int selectedAppointment;
     private Patient patient;
+    private Administrator admin;
     
     public ViewState() {
         user = null;
         selectedAppointment = -1;
+        selectedUser = null;
         patient = null;
+        admin = null;
     }
     
     public int getSelectedAppointment() {
@@ -65,5 +69,17 @@ public class ViewState {
     
     public void removePatient() {
         patient = null;
+    }
+
+    public Administrator getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Administrator admin) {
+        this.admin = admin;
+    }
+
+    public void removeAdmin(){
+        admin = null;
     }
 }
