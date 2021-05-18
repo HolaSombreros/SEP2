@@ -29,7 +29,7 @@ public class ServerModelManager implements ServerModel {
         loadUsers();
         loadTimeIntervals();
         loadAppointments();
-        //        addDummyData();
+        addDummyData();
     }
     
     private void loadUsers() {
@@ -150,9 +150,6 @@ public class ServerModelManager implements ServerModel {
     
     @Override
     public synchronized UserList getUserList() {
-//        userList.getUsers().addAll(patientList.getUsers());
-//        userList.getUsers().addAll(nurseList.getUsers());
-//        userList.getUsers().addAll(adminList.getUsers());
         return userList;
     }
     
@@ -179,6 +176,7 @@ public class ServerModelManager implements ServerModel {
             String city = managerFactory.getAddressManager().getCity(zip);
             user2.editUserInformation(password, firstName, middleName, lastName, new Address(street, number, zip, city), phone, email);
             managerFactory.getUserManager().updateUserInformation(user2, password, firstName, middleName, lastName, phone, email, street, number, zip);
+            updateList();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -191,6 +189,7 @@ public class ServerModelManager implements ServerModel {
         try {
             patient.getVaccineStatus().apply(patient);
             managerFactory.getPatientManager().setVaccineStatus(patient.getCpr(), patient.getVaccineStatus());
+            updateList();
             return patient.getVaccineStatus();
         }
         catch (SQLException e) {
@@ -329,6 +328,7 @@ public class ServerModelManager implements ServerModel {
             ((TestAppointment) appointmentTimeIntervalList.getAppointmentById(id)).setResult(result);
             TestAppointment appointment = (TestAppointment) appointmentTimeIntervalList.getAppointmentById(id);
             managerFactory.getAppointmentManager().changeResult(appointment);
+            updateList();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -340,6 +340,7 @@ public class ServerModelManager implements ServerModel {
     public synchronized VaccineStatus updateVaccineStatus(Patient patient) {
         try{
             managerFactory.getPatientManager().setVaccineStatus(patient.getCpr(), patient.getVaccineStatus());
+            updateList();
             return patient.getVaccineStatus();
         }
         catch (SQLException e){
