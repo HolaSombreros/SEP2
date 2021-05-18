@@ -19,7 +19,7 @@ public interface UserModel extends LocalSubject<User, Appointment>
     void addSchedule(Nurse nurse, Schedule schedule);
     void removeSchedule(Nurse nurse, Schedule schedule);
     VaccineStatus updateVaccineStatus(Patient patient);
-
+    void setRole (User user, String role);
 
 
 

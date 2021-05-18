@@ -25,7 +25,7 @@ public interface PersonalDataViewModelInterface
     boolean isAdmin();
     void approve();
     void decline();
-
+    boolean changeRole();
     void reset();
     void editDetails();
 

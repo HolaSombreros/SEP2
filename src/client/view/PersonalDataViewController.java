@@ -85,6 +85,7 @@ public class PersonalDataViewController extends ViewController
     }
 
     @FXML private void changeRole() {
-
+        if (viewModel.changeRole())
+            getViewHandler().openView(View.SETROLE);
     }
 }

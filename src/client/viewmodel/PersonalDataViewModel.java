@@ -271,4 +271,12 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
             ((Patient) viewState.getSelectedUser()).getVaccineStatus().apply((Patient) viewState.getSelectedUser());
 
     }
+
+    @Override public boolean changeRole() {
+        if (viewState.getSelectedUser() instanceof Nurse || viewState.getSelectedUser() instanceof Administrator) {
+            errorLabel.set("The User already has a role");
+            return false;
+        }
+        else return true;
+    }
 }

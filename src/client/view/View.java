@@ -12,7 +12,8 @@ public enum View {
     PERSONALDATA("PersonalData.fxml"),
     STAFFDETAILS("StaffDetailsView.fxml"),
     NURSEDASHBOARD("NurseDashBoardView.fxml"),
-    NURSETEST("NurseTestAppointmentView.fxml");
+    NURSETEST("NurseTestAppointmentView.fxml"),
+    SETROLE("SetRoleView.fxml");
     
     private String fxmlFile;
     
