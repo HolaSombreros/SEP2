@@ -21,4 +21,6 @@ public interface RemoteUserModel extends RemoteSubject<User, Appointment>
     void removeSchedule(Nurse nurse, Schedule schedule) throws RemoteException;
     Patient getPatient(String cpr) throws RemoteException;
     VaccineStatus updateVaccineStatus(Patient patient) throws RemoteException;
+    void setRole (User user, String role) throws RemoteException;
+    void removeRole(User user) throws RemoteException;
 }

@@ -221,9 +221,22 @@ public class Client implements Model, RemoteListener<User, Appointment> {
         }
     }
 
-    @Override public void setRole(User user, String role)
-    {
+    @Override public void setRole(User user, String role) {
+        try {
+            server.setRole(user,role);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e),e);
+        }
+    }
 
+    @Override public void removeRole(User user) {
+        try {
+            server.removeRole(user);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e),e);
+        }
     }
 
     @Override public void addSchedule(Nurse nurse, Schedule schedule)

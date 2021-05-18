@@ -22,5 +22,9 @@ public class SetRoleViewController extends ViewController
   @FXML private void adminButton() {
     viewModel.setToAdmin();
   }
+
+  @FXML private void back() {
+    getViewHandler().openView(View.PERSONALDATA);
+  }
 }
 

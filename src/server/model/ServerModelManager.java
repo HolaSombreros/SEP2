@@ -94,6 +94,10 @@ public class ServerModelManager implements ServerModel {
             e.printStackTrace();
         }
     }
+
+    private String generateRandomId() {
+        return "AAAA";
+    }
     
     @Override
     public synchronized User login(String cpr, String password) {
@@ -347,6 +351,56 @@ public class ServerModelManager implements ServerModel {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override public void setRole(User user, String role) {
+        switch (role) {
+            case "Nurse":
+                Nurse nurse = new Nurse(user.getCpr(), user.getPassword(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getAddress(), user.getPhone(),
+                    user.getEmail(), generateRandomId());
+                nurseList.add(nurse);
+                try {
+                    managerFactory.getNurseManager().addNurse(nurse);
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "Administrator":
+                Administrator administrator = new Administrator(user.getCpr(), user.getPassword(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getAddress(),
+                    user.getPhone(), user.getEmail(),generateRandomId());
+                adminList.add(administrator);
+                try {
+                    managerFactory.getAdministratorManager().addAdministrator(administrator);
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
+
+    @Override public void RemoveRole(User user) {
+        switch (user.getClass().getSimpleName()) {
+            case "Nurse":
+                nurseList.remove(user);
+                try {
+                    managerFactory.getNurseManager().removeNurse((Nurse) user);
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "Administrator":
+                adminList.remove(user);
+                try {
+                    managerFactory.getAdministratorManager().removeAdministrator((Administrator) user);
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
     }
 
     @Override
