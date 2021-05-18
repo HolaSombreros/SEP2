@@ -13,6 +13,7 @@ public interface ServerAppointmentModel
     AppointmentList filterAppointmentsByNameAndCpr(String criteria);
     Appointment getAppointmentById(int id);
     TimeIntervalList getAvailableTimeIntervals(LocalDate date);
+    TimeIntervalList getTimeIntervalList();
     void cancelAppointment(int id);
     void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval);
     void changeResult(int id ,Result result);

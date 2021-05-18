@@ -72,12 +72,15 @@ public class NurseDetailsViewModel implements NurseDetailsViewModelInterface
         errorProperty.set("Select the week first");
       else
       {
+        TimeInterval shift0Time = new TimeInterval(model.getTimeIntervalList().get(LocalTime.of(8, 0), LocalTime.of(9, 0)).getId(),LocalTime.of(8, 0), LocalTime.of(9, 0));
+        TimeInterval shift1Time = new TimeInterval(model.getTimeIntervalList().get(LocalTime.of(8, 0), LocalTime.of(14, 0)).getId(),LocalTime.of(8, 0), LocalTime.of(14, 0));
+        TimeInterval shift2Time = new TimeInterval(model.getTimeIntervalList().get(LocalTime.of(14, 0), LocalTime.of(20, 0)).getId(),LocalTime.of(14, 0), LocalTime.of(20, 0));
         if (shift0.get())
-          model.removeSchedule(nurse, new Schedule(dateProperty.get(), new TimeInterval(LocalTime.of(8, 0), LocalTime.of(9, 0))));
+          model.removeSchedule(nurse, new Schedule(dateProperty.get(), shift0Time));
         else if (shift1.get())
-          model.addSchedule(nurse, new Schedule(dateProperty.get(), new TimeInterval(LocalTime.of(8, 0), LocalTime.of(14, 0))));
+          model.addSchedule(nurse, new Schedule(dateProperty.get(), shift1Time));
         else if (shift2.get())
-          model.addSchedule(nurse, new Schedule(dateProperty.get(), new TimeInterval(LocalTime.of(14, 0), LocalTime.of(20, 0))));
+          model.addSchedule(nurse, new Schedule(dateProperty.get(), shift2Time));
         errorProperty.set("Schedule successfully changed");
         if (!shift0.get() && !shift1.get() && !shift2.get())
           errorProperty.set("Option not selected");

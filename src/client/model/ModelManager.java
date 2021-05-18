@@ -114,6 +114,11 @@ public class ModelManager implements Model, LocalListener<User, Appointment> {
     }
 
     @Override
+    public TimeIntervalList getTimeIntervalList() {
+        return client.getTimeIntervalList();
+    }
+
+    @Override
     public User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip)
     {
         return client.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);

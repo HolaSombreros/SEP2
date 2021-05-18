@@ -21,6 +21,7 @@ public class ServerModelManager implements ServerModel {
     private UserList adminList;
     private UserList onlineList;
     private FAQList faqList;
+    private TimeIntervalList timeIntervalList;
     private AppointmentTimeIntervalList appointmentTimeIntervalList;
     private ManagerFactory managerFactory;
     private PropertyChangeAction<User, Appointment> property;
@@ -34,7 +35,7 @@ public class ServerModelManager implements ServerModel {
         loadTimeIntervals();
         loadAppointments();
         loadFAQs();
-                addDummyData();
+        addDummyData();
     }
     
     private void loadUsers() {
@@ -54,7 +55,12 @@ public class ServerModelManager implements ServerModel {
         //        for (int i = 8; i < 20; i++) {
         //            appointmentTimeIntervalList.add(new AppointmentTimeInterval(LocalDate.now(), new TimeInterval(LocalTime.of(i, 0), LocalTime.of(i, 20))));
         //        }
-        
+        try {
+            timeIntervalList = managerFactory.getAppointmentManager().getTimeIntervals();
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
         // TODO - Load nurse schedules
     }
     
@@ -167,7 +173,12 @@ public class ServerModelManager implements ServerModel {
     public synchronized UserList getPatientList() {
         return patientList;
     }
-    
+
+    @Override
+    public TimeIntervalList getTimeIntervalList() {
+        return timeIntervalList;
+    }
+
     @Override
     public synchronized UserList getNurseList() {
         return nurseList;

@@ -98,7 +98,18 @@ public class Client implements Model, RemoteListener<User, Appointment> {
             throw new IllegalStateException(getExceptionMessage(e),e);
         }
     }
-    
+
+    @Override
+    public TimeIntervalList getTimeIntervalList() {
+        try{
+            return server.getTimeIntervalList();
+        }
+        catch (RemoteException e)
+        {
+            throw new IllegalStateException(getExceptionMessage(e),e);
+        }
+    }
+
     @Override
     public void addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) {
         try {

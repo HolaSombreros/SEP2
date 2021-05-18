@@ -1,6 +1,7 @@
 package server.model.domain.appointment;
 
 import java.io.Serializable;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,13 @@ public class TimeIntervalList implements Serializable {
     
     public void remove(TimeInterval timeInterval) {
         timeIntervals.remove(timeInterval);
+    }
+
+    public TimeInterval get(LocalTime timeTo, LocalTime timeFrom){
+        for(TimeInterval timeInterval: timeIntervals)
+            if(timeInterval.getFrom().equals(timeFrom) && timeInterval.getTo().equals(timeTo))
+                return timeInterval;
+        return null;
     }
 
     @Override

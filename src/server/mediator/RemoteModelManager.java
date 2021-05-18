@@ -132,6 +132,11 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
         serverModel.addSchedule(nurse,schedule);
     }
 
+    @Override
+    public TimeIntervalList getTimeIntervalList() throws RemoteException {
+        return serverModel.getTimeIntervalList();
+    }
+
     @Override public void removeSchedule(Nurse nurse, Schedule schedule) throws RemoteException {
         serverModel.removeSchedule(nurse, schedule);
     }

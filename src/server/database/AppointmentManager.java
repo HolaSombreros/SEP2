@@ -66,7 +66,7 @@ public class AppointmentManager {
     }
 
     //gets the list of timeintervals from the table
-    public TimeIntervalList getTimeInterval() throws SQLException{
+    public TimeIntervalList getTimeIntervals() throws SQLException{
         try(Connection connection = DatabaseManager.getInstance().getConnection()){
             TimeIntervalList list = new TimeIntervalList();
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM time_interval");
@@ -103,7 +103,7 @@ public class AppointmentManager {
     public AppointmentTimeIntervalList getAllAppointments() throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             AppointmentTimeIntervalList appointmentTimeIntervalList = new AppointmentTimeIntervalList();
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM appointments_view ORDER BY appointment_id;");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM appointment_view ORDER BY appointment_id;");
             ResultSet rs = statement.executeQuery();
             
             while (rs.next()) {
@@ -172,7 +172,7 @@ public class AppointmentManager {
     }
     public void updateAppointments() throws SQLException{
         try (Connection connection = DatabaseManager.getInstance().getConnection()){
-            PreparedStatement statement = connection.prepareStatement("SELECT date, time_to, appointment_id FROM appointments_view WHERE status = 'Upcoming';");
+            PreparedStatement statement = connection.prepareStatement("SELECT date, time_to, appointment_id FROM appointment_view WHERE status = 'Upcoming';");
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 LocalDate date = rs.getDate("date").toLocalDate();
