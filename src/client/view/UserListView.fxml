@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="519.0" prefWidth="813.0" stylesheets="@../../util/style.css" userData="Manage users" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.UserListViewController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="519.0" prefWidth="813.0" stylesheets="@../../util/style.css" userData="Manage users" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.UserListViewController">
    <children>
       <HBox alignment="CENTER" prefHeight="47.0" prefWidth="813.0">
          <children>
@@ -23,7 +23,7 @@
       </HBox>
       <HBox prefHeight="354.0" prefWidth="813.0" spacing="10.0">
          <children>
-            <VBox alignment="CENTER" prefHeight="285.0" prefWidth="166.0">
+            <VBox alignment="CENTER" prefHeight="334.0" prefWidth="211.0">
                <children>
                   <Label text="Filter by role:">
                      <VBox.margin>
@@ -62,10 +62,10 @@
                   <TableView fx:id="userTable" prefHeight="300.0" prefWidth="646.0">
                     <columns>
                       <TableColumn fx:id="cprColumn" editable="false" prefWidth="107.0" text="CPR" />
-                      <TableColumn fx:id="nameColumn" editable="false" minWidth="7.0" prefWidth="151.0" text="Name" />
-                        <TableColumn fx:id="phoneColumn" editable="false" minWidth="0.0" prefWidth="110.0" text="Phone" />
-                        <TableColumn fx:id="emailColumn" editable="false" prefWidth="164.0" text="Email" />
-                        <TableColumn fx:id="vaccineColumn" editable="false" minWidth="0.0" prefWidth="104.0" text="Vaccine Status" />
+                      <TableColumn fx:id="nameColumn" editable="false" minWidth="7.0" prefWidth="139.0" text="Name" />
+                        <TableColumn fx:id="phoneColumn" editable="false" minWidth="0.0" prefWidth="113.0" text="Phone" />
+                        <TableColumn fx:id="emailColumn" editable="false" prefWidth="103.0" text="Email" />
+                        <TableColumn fx:id="vaccineColumn" editable="false" minWidth="0.0" prefWidth="147.0" text="Vaccine Status" />
                     </columns>
                   </TableView>
                </children>

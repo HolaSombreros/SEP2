@@ -5,10 +5,11 @@ import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 import utility.observer.subject.RemoteSubject;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.time.LocalDate;
 
-public interface RemoteAppointmentModel
+public interface RemoteAppointmentModel extends Remote
 {
     Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) throws RemoteException;
     AppointmentList getAppointmentsByUser(User patient) throws RemoteException;

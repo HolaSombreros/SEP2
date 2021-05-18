@@ -83,12 +83,12 @@ public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
         TimeInterval shift0Time = new TimeInterval(model.getTimeIntervalList().get(LocalTime.of(8, 0), LocalTime.of(9, 0)).getId(),LocalTime.of(8, 0), LocalTime.of(9, 0));
         TimeInterval shift1Time = new TimeInterval(model.getTimeIntervalList().get(LocalTime.of(8, 0), LocalTime.of(14, 0)).getId(),LocalTime.of(8, 0), LocalTime.of(14, 0));
         TimeInterval shift2Time = new TimeInterval(model.getTimeIntervalList().get(LocalTime.of(14, 0), LocalTime.of(20, 0)).getId(),LocalTime.of(14, 0), LocalTime.of(20, 0));
-        if (shift0.get())
-          model.removeSchedule(nurse, new Schedule(dateProperty.get(), shift0Time));
-        else if (shift1.get())
-          model.addSchedule(nurse, new Schedule(dateProperty.get(), shift1Time));
-        else if (shift2.get())
-          model.addSchedule(nurse, new Schedule(dateProperty.get(), shift2Time));
+        //if (shift0.get())
+          //model.removeSchedule(nurse, new Schedule(dateProperty.get(), shift0Time));
+        //else if (shift1.get())
+          //model.addSchedule(nurse, new Schedule(dateProperty.get(), shift1Time));
+        //else if (shift2.get())
+          //model.addSchedule(nurse, new Schedule(dateProperty.get(), shift2Time));
         errorProperty.set("Schedule successfully changed");
         if (!shift0.get() && !shift1.get() && !shift2.get())
           errorProperty.set("Option not selected");
@@ -105,16 +105,16 @@ public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
 
   @Override public void loadShift()
   {
-    Nurse nurse = (Nurse) model.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr());
-    if (nurse!=null) {
-      Schedule schedule = nurse.getSchedule(dateProperty.get());
-      if (schedule == null)
-        shift0.set(true);
-      else if (schedule.getTimeInterval().getFrom().equals(LocalTime.of(8, 0)))
-        shift1.set(true);
-      else
-        shift2.set(true);
-    }
+//    Nurse nurse = (Nurse) model.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr());
+//    if (nurse!=null) {
+//      Schedule schedule = nurse.getSchedule(dateProperty.get());
+//      if (schedule == null)
+//        shift0.set(true);
+//      else if (schedule.getTimeInterval().getFrom().equals(LocalTime.of(8, 0)))
+//        shift1.set(true);
+//      else
+//        shift2.set(true);
+   // }
   }
 
   @Override public void disableDays(DatePicker week)

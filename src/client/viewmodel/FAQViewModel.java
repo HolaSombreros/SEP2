@@ -6,7 +6,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
@@ -22,7 +21,7 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ,FA
 {
     private Model model;
     private ViewState viewState;
-    private ObservableList<Node> content;
+    private ObservableList<VBox> content;
     private BooleanProperty adminProperty;
 
     public FAQViewModel(Model model, ViewState viewState) {
@@ -45,34 +44,64 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ,FA
     private void generateContent(FAQList faqList) {
         Category category = null;
         Accordion accordion = null;
-        
-        for (FAQ faq : faqList.getQuestions()) {
-            TitledPane titledPane = new TitledPane();
-            titledPane.setText(faq.getQuestion());
-            Label answer = new Label(faq.getAnswer());
-            answer.setWrapText(true);
-            titledPane.setContent(new VBox(answer));
-    
-            if (!faq.getCategory().equals(category)) {
-                VBox vBox = new VBox();
-                vBox.setSpacing(5);
-                category = faq.getCategory();
-                Label header = new Label(category.toString());
-                header.getStyleClass().add("sub-header");
-                vBox.getChildren().add(header);
-                accordion = new Accordion();
-                vBox.getChildren().add(accordion);
-                
-                // Add category section to content
-                content.add(vBox);
+
+        for (Category category1 : Category.values()) {
+            VBox vBox = new VBox();
+            vBox.setSpacing(5);
+            Label header = new Label(category1.toString());
+            header.getStyleClass().add("sub-header");
+            vBox.getChildren().add(header);
+            accordion = new Accordion();
+            vBox.getChildren().add(accordion);
+
+            for (FAQ faq : faqList.getQuestions()) {
+                if (faq.getCategory().equals(category1)) {
+                    TitledPane titledPane = new TitledPane();
+                    titledPane.setText(faq.getQuestion());
+                    Label answer = new Label(faq.getAnswer());
+                    answer.setWrapText(true);
+                    titledPane.setContent(new VBox(answer));
+                    accordion.getPanes().add(titledPane);
+                }
             }
-            accordion.getPanes().add(titledPane);
+            content.add(vBox);
         }
     }
 
     private void addFAQ(FAQ faq) {
-      //  for (int i=0; i < content.size(); i++)
-          //  content.
+        for (VBox vBox : content)
+        {
+            if (((Label) vBox.getChildren().get(0)).textProperty().get().equals(faq.getCategory().toString()))
+            {
+                TitledPane titledPane = new TitledPane();
+                titledPane.setText(faq.getQuestion());
+                Label answer = new Label(faq.getAnswer());
+                answer.setWrapText(true);
+                titledPane.setContent(new VBox(answer));
+                Accordion accordion = (Accordion) vBox.getChildren().get(1);
+                System.out.println(accordion.getPanes().size());
+                accordion.getPanes().add(titledPane);
+                System.out.println(accordion.getPanes().size());
+            }
+            else
+            {
+                TitledPane titledPane = new TitledPane();
+                titledPane.setText(faq.getQuestion());
+                Label answer = new Label(faq.getAnswer());
+                answer.setWrapText(true);
+                titledPane.setContent(new VBox(answer));
+                VBox vBox1 = new VBox();
+                vBox1.setSpacing(5);
+                Category category = faq.getCategory();
+                Label header = new Label(category.toString());
+                header.getStyleClass().add("sub-header");
+                vBox1.getChildren().add(header);
+                Accordion accordion = new Accordion();
+                vBox1.getChildren().add(accordion);
+                accordion.getPanes().add(titledPane);
+                content.add(vBox1);
+            }
+        }
     }
     
     @Override
@@ -82,7 +111,7 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ,FA
     }
     
     @Override
-    public ObservableList<Node> getFAQContent() {
+    public ObservableList<VBox> getFAQContent() {
         return content;
     }
 
@@ -92,6 +121,6 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ,FA
 
     @Override public void propertyChange(ObserverEvent<FAQ, FAQ> event)
     {
-        Platform.runLater(()->addFAQ(event.getValue2()));
+        //Platform.runLater(()->addFAQ(event.getValue2()));
     }
 }

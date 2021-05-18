@@ -73,8 +73,8 @@ public class Client implements Model, RemoteListener<FAQ,FAQ> {
             return server.login(cpr, password);
         }
         catch (RemoteException e) {
-            throw new IllegalStateException(getExceptionMessage(e), e);
-        }
+            e.printStackTrace();
+        return null;}
     }
 
     @Override
