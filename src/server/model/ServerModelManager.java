@@ -126,6 +126,7 @@ public class ServerModelManager implements ServerModel {
     @Override
     public synchronized User login(String cpr, String password) {
         User user = userList.getUserByCpr(cpr);
+        System.out.println(user);
         if (user != null) {
             if (userList.getUserByCpr(cpr).getPassword().equals(password)) {
                 if (onlineList.contains(cpr)) {

@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import server.model.domain.user.Nurse;
 import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 
@@ -116,6 +117,11 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
     }
+    
+    public boolean isLoggedInAsNurse() {
+        return viewState.getUser() instanceof Nurse;
+    }
+    
     @Override
     public StringProperty getFirstNameProperty()
     {
