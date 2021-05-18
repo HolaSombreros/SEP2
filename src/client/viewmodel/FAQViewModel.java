@@ -1,6 +1,7 @@
 package client.viewmodel;
 
 import client.model.Model;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -14,8 +15,11 @@ import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQList;
 import server.model.domain.user.Administrator;
+import utility.observer.event.ObserverEvent;
+import utility.observer.listener.LocalListener;
 
-public class FAQViewModel implements FAQViewModelInterface {
+public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ,FAQ>
+{
     private Model model;
     private ViewState viewState;
     private ObservableList<Node> content;
@@ -23,6 +27,7 @@ public class FAQViewModel implements FAQViewModelInterface {
 
     public FAQViewModel(Model model, ViewState viewState) {
         this.model = model;
+        model.addListener(this, "FAQ");
         this.viewState = viewState;
         content = FXCollections.observableArrayList();
         adminProperty = new SimpleBooleanProperty();
@@ -64,6 +69,11 @@ public class FAQViewModel implements FAQViewModelInterface {
             accordion.getPanes().add(titledPane);
         }
     }
+
+    private void addFAQ(FAQ faq) {
+      //  for (int i=0; i < content.size(); i++)
+          //  content.
+    }
     
     @Override
     public void reset() {
@@ -78,5 +88,10 @@ public class FAQViewModel implements FAQViewModelInterface {
 
     @Override public BooleanProperty isAdminProperty() {
         return adminProperty;
+    }
+
+    @Override public void propertyChange(ObserverEvent<FAQ, FAQ> event)
+    {
+        Platform.runLater(()->addFAQ(event.getValue2()));
     }
 }

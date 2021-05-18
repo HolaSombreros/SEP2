@@ -27,10 +27,10 @@ public class ServerModelManager implements ServerModel {
     private ShiftList shiftList;
     private ScheduleList scheduleList;
     private ManagerFactory managerFactory;
-    private PropertyChangeAction<User, Appointment> property;
+    private PropertyChangeAction<FAQ, FAQ> faqProperty;
     
     public ServerModelManager() {
-        property = new PropertyChangeProxy<>(this);
+        faqProperty = new PropertyChangeProxy<>(this);
         onlineList = new UserList();
         userList = new UserList();
         managerFactory = new ManagerFactory();
@@ -500,6 +500,7 @@ public class ServerModelManager implements ServerModel {
             FAQValidator.validateNewFAQ(question, answer, category, creator);
             FAQ faq = managerFactory.getFAQManager().addFAQ(question, answer, category, creator);
             faqList.add(faq);
+            faqProperty.firePropertyChange("FAQ",null, faq);
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -513,16 +514,14 @@ public class ServerModelManager implements ServerModel {
     
     @Override
     public synchronized void close() {
-        property.close();
+        faqProperty.close();
     }
-    
-    @Override
-    public boolean addListener(GeneralListener<User, Appointment> listener, String... propertyNames) {
-        return property.addListener(listener, propertyNames);
+
+    @Override public boolean addListener(GeneralListener<FAQ, FAQ> listener, String... propertyNames) {
+        return faqProperty.addListener(listener,propertyNames);
     }
-    
-    @Override
-    public boolean removeListener(GeneralListener<User, Appointment> listener, String... propertyNames) {
-        return property.removeListener(listener, propertyNames);
+
+    @Override public boolean removeListener(GeneralListener<FAQ, FAQ> listener, String... propertyNames) {
+        return faqProperty.removeListener(listener,propertyNames);
     }
 }

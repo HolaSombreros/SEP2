@@ -3,6 +3,7 @@ package client.mediator;
 import client.model.Model;
 import server.model.domain.appointment.*;
 import server.model.domain.faq.Category;
+import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQList;
 import server.model.domain.user.*;
 import utility.observer.event.ObserverEvent;
@@ -20,16 +21,16 @@ import java.time.LocalDate;
 
 import server.mediator.RemoteModel;
 
-public class Client implements Model, RemoteListener<User, Appointment> {
+public class Client implements Model, RemoteListener<FAQ,FAQ> {
     public static final String HOST = "localhost";
     private RemoteModel server;
-    private PropertyChangeAction<User, Appointment> property;
+    private PropertyChangeAction<FAQ, FAQ> faqProperty;
     
     public Client(String host) throws RemoteException, NotBoundException, MalformedURLException {
         server = (RemoteModel) Naming.lookup("rmi://" + host + ":1099/AppointmentSystem");
         UnicastRemoteObject.exportObject(this, 0);
         server.addListener(this);
-        property = new PropertyChangeProxy<>(this, true);
+        faqProperty = new PropertyChangeProxy<>(this, true);
     }
     
     public Client() throws RemoteException, NotBoundException, MalformedURLException {
@@ -114,7 +115,7 @@ public class Client implements Model, RemoteListener<User, Appointment> {
     public void addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) {
         try {
             Appointment appointment = server.addAppointment(date, timeInterval, type, patient);
-            property.firePropertyChange("NewAppointment", appointment.getPatient(), appointment);
+        //     faqProperty.firePropertyChange("NewAppointment", appointment.getPatient(), appointment);
         }
         catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
@@ -324,36 +325,30 @@ public class Client implements Model, RemoteListener<User, Appointment> {
     public void close() {
         try {
             UnicastRemoteObject.unexportObject(this, true);
-            property.close();
+            faqProperty.close();
         }
         catch (Exception e) {
             throw new IllegalStateException("Cannot unexport object RMI", e);
         }
     }
-    
-    @Override
-    public synchronized void propertyChange(ObserverEvent<User, Appointment> event) throws RemoteException
-    {
-        property.firePropertyChange(event);
-    }
-    
-    @Override
-    public boolean addListener(GeneralListener<User, Appointment> listener, String... propertyNames)
-    {
-        return property.addListener(listener, propertyNames);
-    }
-    
-    @Override
-    public boolean removeListener(GeneralListener<User, Appointment> listener, String... propertyNames)
-    {
-        return property.removeListener(listener, propertyNames);
-    }
-    
+
     private String getExceptionMessage(Exception e) {
         String message = e.getMessage();
         if (message != null) {
             message = message.split(";")[0];
         }
         return message;
+    }
+
+    @Override public void propertyChange(ObserverEvent<FAQ, FAQ> event) throws RemoteException {
+        faqProperty.firePropertyChange(event);
+    }
+
+    @Override public boolean addListener(GeneralListener<FAQ, FAQ> listener, String... propertyNames) {
+        return faqProperty.addListener(listener, propertyNames);
+    }
+
+    @Override public boolean removeListener(GeneralListener<FAQ, FAQ> listener, String... propertyNames) {
+        return faqProperty.removeListener(listener, propertyNames);
     }
 }

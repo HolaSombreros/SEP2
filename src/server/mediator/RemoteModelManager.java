@@ -3,6 +3,7 @@ package server.mediator;
 import server.model.*;
 import server.model.domain.appointment.*;
 import server.model.domain.faq.Category;
+import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQList;
 import server.model.domain.user.*;
 import utility.observer.event.ObserverEvent;
@@ -19,13 +20,13 @@ import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDate;
 
-public class RemoteModelManager implements RemoteModel, LocalListener<User, Appointment> {
+public class RemoteModelManager implements RemoteModel, LocalListener<FAQ, FAQ> {
     private ServerModel serverModel;
-    private PropertyChangeAction<User, Appointment> property;
+    private PropertyChangeAction<FAQ, FAQ> faqProperty;
     
     public RemoteModelManager(ServerModel serverModel) throws RemoteException, MalformedURLException {
         this.serverModel = serverModel;
-        property = new PropertyChangeProxy<>(this, true);
+        faqProperty = new PropertyChangeProxy<>(this, true);
         serverModel.addListener(this);
         startRegistry();
         startServer();
@@ -191,7 +192,7 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     }
     
     public void close() {
-        property.close();
+        faqProperty.close();
         try {
             UnicastRemoteObject.unexportObject(this, true);
         }
@@ -201,17 +202,17 @@ public class RemoteModelManager implements RemoteModel, LocalListener<User, Appo
     }
     
     @Override
-    public void propertyChange(ObserverEvent<User, Appointment> event) {
-        property.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
+    public void propertyChange(ObserverEvent<FAQ, FAQ> event) {
+        faqProperty.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
     }
     
     @Override
-    public boolean addListener(GeneralListener<User, Appointment> listener, String... propertyNames) throws RemoteException {
-        return property.addListener(listener, propertyNames);
+    public boolean addListener(GeneralListener<FAQ, FAQ> listener, String... propertyNames) throws RemoteException {
+        return faqProperty.addListener(listener, propertyNames);
     }
     
     @Override
-    public boolean removeListener(GeneralListener<User, Appointment> listener, String... propertyNames) throws RemoteException {
-        return property.removeListener(listener, propertyNames);
+    public boolean removeListener(GeneralListener<FAQ, FAQ> listener, String... propertyNames) throws RemoteException {
+        return faqProperty.removeListener(listener, propertyNames);
     }
 }

@@ -57,7 +57,6 @@ public class PersonalDataViewController extends ViewController
         else{
             approveButton.setVisible(false);
             declineButton.setVisible(false);
-            changeRole.setVisible(false);
         }
         reset();
     }
