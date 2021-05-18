@@ -43,4 +43,13 @@ public class FAQList implements Serializable {
         }
         return true;
     }
+    
+    @Override
+    public String toString() {
+        String str = "Questions: " + size();
+        for (FAQ faq : questions) {
+            str += "\n" + faq.toString();
+        }
+        return str;
+    }
 }

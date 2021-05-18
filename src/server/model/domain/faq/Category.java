@@ -6,10 +6,10 @@ public enum Category implements Serializable {
     GENERAL("General questions"),
     PASSPORT("How can I obtain my passport for the COVID-vaccination?");
     
-    private String text;
+    private String title;
     
-    private Category(String text) {
-        this.text = text;
+    private Category(String title) {
+        this.title = title;
     }
     
     public static int getId(Category category) {
@@ -23,6 +23,6 @@ public enum Category implements Serializable {
     
     @Override
     public String toString() {
-        return text;
+        return title;
     }
 }
