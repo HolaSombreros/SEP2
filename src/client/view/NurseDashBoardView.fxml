@@ -112,7 +112,7 @@
                         <Font size="14.0" />
                      </font>
                   </CheckBox>
-                  <Button mnemonicParsing="false" onAction="#filterTableButton" text="Show test appointments" fx:id="filterButton"/>
+                  <Button fx:id="filterButton" minWidth="200.0" mnemonicParsing="false" onAction="#filterTableButton" text="Show test appointments" />
                </children>
             </HBox>
                 <Label fx:id="errorLabel" styleClass="error" text="Error Label">
