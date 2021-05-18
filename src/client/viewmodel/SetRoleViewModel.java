@@ -16,14 +16,20 @@ public class SetRoleViewModel implements SetRoleViewModelInterface
     this.viewState = viewState;
   }
 
-  @Override public void setToNurse() {
-    if (confirmEditing("Nurse"))
-      model.setRole(viewState.getUser(),"Nurse");
+  @Override public boolean setToNurse() {
+    if (confirmEditing("Nurse")) {
+      model.setRole(viewState.getSelectedUser(),"Nurse");
+      return true;
+    }
+    return false;
   }
 
-  @Override public void setToAdmin() {
-    if (confirmEditing("Administrator"))
-      model.setRole(viewState.getUser(),"Administrator");
+  @Override public boolean setToAdmin() {
+    if (confirmEditing("Administrator")) {
+      model.setRole(viewState.getSelectedUser(), "Administrator");
+      return true;
+    }
+    return false;
   }
 
   private boolean confirmEditing(String role) {

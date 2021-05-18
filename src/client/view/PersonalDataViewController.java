@@ -47,18 +47,17 @@ public class PersonalDataViewController extends ViewController
         number.textProperty().bindBidirectional(viewModel.getNumberProperty());
         errorLabel.textProperty().bindBidirectional(viewModel.getErrorLabelProperty());
         vaccineStatus.textProperty().bind(viewModel.getVaccineStatusProperty());
+        changeRole.visibleProperty().bind(viewModel.changeRoleProperty());
         titleLabel.textProperty().bind(viewModel.titleProperty());
         if(viewModel.isAdmin()) {
             viewModel.removeButtonProperty().addListener((obs, oldVal, newVal) -> removeButton.setDisable(newVal));
             viewModel.approveButtonProperty().addListener((obs, oldVal, newVal) -> approveButton.setDisable(newVal));
             viewModel.declineButtonProperty().addListener((obs, oldVal, newVal) -> declineButton.setDisable(newVal));
-            viewModel.changeRoleProperty().addListener((obs, oldVal, newVal) -> changeRole.setDisable(newVal));
         }
         else{
             approveButton.setVisible(false);
             declineButton.setVisible(false);
             changeRole.setVisible(false);
-            removeButton.setDisable(false);
         }
         reset();
     }
@@ -73,6 +72,7 @@ public class PersonalDataViewController extends ViewController
     }
 
     @FXML private void backButton(){
+        viewModel.back();
         if (viewModel.isLoggedInAsNurse()) {
             getViewHandler().openView(View.NURSEDASHBOARD);
         }

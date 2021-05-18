@@ -18,6 +18,7 @@ public class StaffDetailsViewController extends ViewController
   @FXML private RadioButton shift1;
   @FXML private RadioButton shift2;
   @FXML private Label errorLabel;
+  @FXML private Button confirmButton;
 
   public StaffDetailsViewController()
   {
@@ -48,6 +49,7 @@ public class StaffDetailsViewController extends ViewController
     shift1.visibleProperty().bind(viewModel.getDisplayProperty());
     shift2.visibleProperty().bind(viewModel.getDisplayProperty());
     weekLabel.visibleProperty().bind(viewModel.getDisplayProperty());
+    confirmButton.visibleProperty().bind(viewModel.getDisplayProperty());
     reset();
   }
 
@@ -61,13 +63,14 @@ public class StaffDetailsViewController extends ViewController
     viewModel.confirm();
   }
 
-  @FXML private void removeRole()
-  {
-    viewModel.removeRole();
+  @FXML private void removeRole() {
+    if (viewModel.removeRole()) {
+      viewModel.back();
+      getViewHandler().openView(View.USERLIST);
+    }
   }
 
-  @FXML private void back()
-  {
+  @FXML private void back() {
     viewModel.back();
     getViewHandler().openView(View.USERLIST);
   }

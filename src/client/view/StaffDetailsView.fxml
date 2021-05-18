@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="452.0" prefWidth="666.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="client.view.StaffDetailsViewController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="452.0" prefWidth="666.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.StaffDetailsViewController">
     <children>
         <Label fx:id="nameLabel" text="Nurse name">
             <font>
@@ -119,7 +118,7 @@
         </Label>
         <HBox alignment="CENTER" prefHeight="18.0" prefWidth="600.0">
             <children>
-                <Button mnemonicParsing="false" onAction="#confirm" text="Confirm">
+                <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#confirm" text="Confirm">
                     <HBox.margin>
                         <Insets right="50.0" />
                     </HBox.margin>

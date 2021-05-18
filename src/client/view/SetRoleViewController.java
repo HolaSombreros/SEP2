@@ -16,11 +16,13 @@ public class SetRoleViewController extends ViewController
   @Override public void reset() { }
 
   @FXML private void nurseButton() {
-    viewModel.setToNurse();
+    if (viewModel.setToNurse())
+      getViewHandler().openView(View.PERSONALDATA);
   }
 
   @FXML private void adminButton() {
-    viewModel.setToAdmin();
+    if (viewModel.setToAdmin())
+      getViewHandler().openView(View.PERSONALDATA);
   }
 
   @FXML private void back() {

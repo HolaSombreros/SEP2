@@ -106,13 +106,15 @@ public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
   @Override public void loadShift()
   {
     Nurse nurse = (Nurse) model.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr());
-    Schedule schedule = nurse.getSchedule(dateProperty.get());
-    if (schedule == null)
-      shift0.set(true);
-    else if (schedule.getTimeInterval().getFrom().equals(LocalTime.of(8, 0)))
-      shift1.set(true);
-    else
-      shift2.set(true);
+    if (nurse!=null) {
+      Schedule schedule = nurse.getSchedule(dateProperty.get());
+      if (schedule == null)
+        shift0.set(true);
+      else if (schedule.getTimeInterval().getFrom().equals(LocalTime.of(8, 0)))
+        shift1.set(true);
+      else
+        shift2.set(true);
+    }
   }
 
   @Override public void disableDays(DatePicker week)
@@ -136,12 +138,18 @@ public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
     week.setDayCellFactory(callB);
   }
 
-  @Override public void removeRole() {
-    if (confirmRoleRemoving())
-      if (viewState.getSelectedUser().getCpr().equals(viewState.getUser().getCpr()))
+  @Override public boolean removeRole() {
+    if (confirmRoleRemoving()) {
+      if (viewState.getSelectedUser().getCpr().equals(viewState.getUser().getCpr())) {
         errorProperty.set("You can not remove your role");
-      else
-        model.removeRole(viewState.getUser());
+        return false;
+      }
+      else {
+        model.removeRole(viewState.getSelectedUser());
+        return true;
+      }
+    }
+    else return false;
   }
 
   private boolean confirmRoleRemoving() {

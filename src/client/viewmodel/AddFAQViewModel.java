@@ -40,12 +40,14 @@ public class AddFAQViewModel implements AddFAQViewModelInterface
     errorProperty.set("");
   }
 
-  @Override public void addFAQ() {
+  @Override public boolean addFAQ() {
     try {
       model.addFAQ(questionProperty.get(), answerProperty.get(), categoryProperty.get(), (Administrator) viewState.getUser());
+      return true;
     }
     catch (Exception e) {
       errorProperty.set(e.getMessage());
+      return false;
     }
   }
 

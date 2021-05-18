@@ -36,6 +36,7 @@ public class AddFAQViewController extends ViewController
   }
 
   @FXML private void add() {
-    viewModel.addFAQ();
+    if (viewModel.addFAQ())
+      getViewHandler().openView(View.FAQ);
   }
 }

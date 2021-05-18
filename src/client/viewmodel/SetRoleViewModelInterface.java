@@ -2,6 +2,6 @@ package client.viewmodel;
 
 public interface SetRoleViewModelInterface
 {
-  void setToNurse();
-  void setToAdmin();
+  boolean setToNurse();
+  boolean setToAdmin();
 }

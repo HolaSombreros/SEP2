@@ -23,6 +23,7 @@ public interface PersonalDataViewModelInterface
     BooleanProperty changeRoleProperty();
     BooleanProperty removeButtonProperty();
     StringProperty titleProperty();
+    void back();
     boolean isAdmin();
     void approve();
     void decline();

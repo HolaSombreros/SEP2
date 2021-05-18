@@ -55,7 +55,6 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     public void reset() {
         errorLabel.set("");
         loadInformation();
-
     }
     private void loadInformation(){
         if(viewState.getAdmin() != null){
@@ -275,6 +274,11 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         return title;
     }
 
+    @Override public void back()
+    {
+        viewState.removeSelectedUser();
+    }
+
     public boolean isAdmin(){
         return  viewState.getAdmin() != null;
     }
@@ -307,7 +311,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     }
 
     @Override public boolean changeRole() {
-        if (viewState.getSelectedUser() instanceof Nurse || viewState.getSelectedUser() instanceof Administrator) {
+        if (model.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr()) !=null || model.getAdministrators().getUserByCpr(viewState.getSelectedUser().getCpr()) !=null) {
             errorLabel.set("The User already has a role");
             return false;
         }
