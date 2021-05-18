@@ -25,6 +25,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     private StringProperty vaccineStatus;
     private BooleanProperty approveButton;
     private BooleanProperty declineButton;
+    private BooleanProperty changeRole;
     private StringProperty title;
 
     private Model model;
@@ -47,6 +48,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         this.vaccineStatus = new SimpleStringProperty();
         this.approveButton = new SimpleBooleanProperty(false);
         this.declineButton = new SimpleBooleanProperty(false);
+        this.changeRole = new SimpleBooleanProperty(false);
         this.title = new SimpleStringProperty("My Personal Data");
     }
     @Override
@@ -70,6 +72,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
             zipCode.set(viewState.getSelectedUser().getAddress().getZipcode());
             email.set(viewState.getSelectedUser().getEmail());
             street.set(viewState.getSelectedUser().getAddress().getStreet());
+            changeRole.set(true);
             vaccineStatus.set(((Patient)viewState.getSelectedUser()).getVaccineStatus().toString());
             if(viewState.getAdmin().getCpr().equals(viewState.getSelectedUser().getCpr())){
                 approveButton.set(true);
@@ -227,6 +230,11 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
 
     public BooleanProperty declineButtonProperty() {
         return declineButton;
+    }
+
+    @Override public BooleanProperty changeRoleProperty()
+    {
+        return changeRole;
     }
 
     public StringProperty titleProperty() {
