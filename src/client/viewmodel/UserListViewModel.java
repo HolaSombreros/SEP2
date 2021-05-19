@@ -68,6 +68,7 @@ public class UserListViewModel implements UserListViewModelInterface
   {
     model.logout(viewState.getUser());
     viewState.removeUser();
+    viewState.removeAdmin();
   }
 
   @Override public boolean seeDetails()

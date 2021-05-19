@@ -95,7 +95,7 @@ public class NurseDashBoardViewModel implements NurseDashBoardViewModelInterface
     public void logout() {
         model.logout(viewState.getUser());
         viewState.removeUser();
-        viewState.removePatient();
+        viewState.removeNurse();
     }
     
     @Override

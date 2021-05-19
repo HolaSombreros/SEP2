@@ -111,7 +111,7 @@ public class UserManager {
 
     public void updateUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE person set password = ?, firstname = ?, middlename = ?, lastname = ?, phone = ?, email = ?, street = ?, number = ?, zip_code = ? where cpr = ?");
+            PreparedStatement statement = connection.prepareStatement("UPDATE person SET password = ?, firstname = ?, middlename = ?, lastname = ?, phone = ?, email = ?, street = ?, number = ?, zip_code = ? WHERE cpr = ?;");
             statement.setString(1, password);
             statement.setString(2, firstName);
             statement.setString(3, middleName);
