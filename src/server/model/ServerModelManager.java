@@ -37,13 +37,9 @@ public class ServerModelManager implements ServerModel {
         userList = new UserList();
         managerFactory = new ManagerFactory();
         
-        
         // TODO - TEMPORARY
         appointmentTimeIntervalList = new AppointmentTimeIntervalList();
         faqList = new FAQList();
-        
-        
-        
         
 //        addDummyUsers();
         loadUsers();
