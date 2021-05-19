@@ -6,6 +6,7 @@ import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQList;
 import server.model.domain.user.*;
+import server.model.validator.AppointmentValidator;
 import server.model.validator.FAQValidator;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
@@ -34,11 +35,16 @@ public class ServerModelManager implements ServerModel {
         onlineList = new UserList();
         userList = new UserList();
         managerFactory = new ManagerFactory();
+        addDummyData();
+        addDummyAppointments();
         loadUsers();
         loadTimeIntervals();
         loadAppointments();
         loadFAQs();
-        addDummyData();
+    }
+    
+    private void addDummyAppointments() {
+    
     }
     
     private void loadUsers() {
@@ -83,13 +89,6 @@ public class ServerModelManager implements ServerModel {
         catch (SQLException e) {
             e.printStackTrace();
         }
-        
-//        faqList = new FAQList();
-
-//        faqList.add(new FAQ(1, "What is the Coronavirus?", "It's a virus that does some hippity hoppity", Category.GENERAL));
-//        faqList.add(new FAQ(2, "What is the Corona passport?", "It's some...thing. I don't even know now what even happens if this label is super duper long. I would assume it goes to the next line but I need to make sure that this is in fact what actually happens", Category.GENERAL));
-//        faqList.add(new FAQ(3, "What is the Coronavirus?", "It's a virus that does some hippity hoppity", Category.PASSPORT));
-//        faqList.add(new FAQ(4, "What is the Corona passport?", "It's some...thing. I don't even know now what even happens if this label is super duper long. I would assume it goes to the next line but I need to make sure that this is in fact what actually happens", Category.PASSPORT));
     }
 
 
@@ -103,16 +102,18 @@ public class ServerModelManager implements ServerModel {
     }
     private void addDummyData() {
         ArrayList<Address> addresses = new ArrayList<>();
-        addresses.add(new Address("Sesame Street", "2", 8700, "Horsens"));
-        addresses.add(new Address("Sesame Street", "7A", 8700, "Horsens"));
-        addresses.add(new Address("Via Street", "25B", 8700, "Horsens"));
+        addresses.add(new Address("Minvej", "2", 5520, "Someplace"));
+        addresses.add(new Address("Sesame Street", "7A", 7500, "Holstebro"));
+        addresses.add(new Address("Via Street", "25B", 2300, "Unknownville"));
         UserList userList = new UserList();
         userList.add(new Patient("2003036532", "password", "Hello", null, "World", addresses.get(1), "12587463", "elmo@email.com", new ApprovedStatus()));
         userList.add(new Patient("2003045698", "password", "Maria", null, "Magdalena", addresses.get(2), "12587464", "holy@email.com", new PendingStatus()));
         userList.add(new Patient("3105026358", "password", "Elmo", null, "Popescu", addresses.get(1), "12587465", "popescu@email.com", new NotAppliedStatus()));
         userList.add(new Patient("2504012368", "password", "Vaseline", null, "Veselin", addresses.get(0), "12587466", "vaseline@email.com", new NotApprovedStatus()));
         userList.add(new Nurse("1302026584", "password", "Mikasa", null, "Ackerman", addresses.get(0), "12587467", "aot@email.com", "mikasa_nurse"));
+        userList.add(new Nurse("1805941234", "password", "Morten", "Morten", "Hansen", new Address("Fabrikvej", "4", 8700, "Horsens"), "28800805", "morten.f.hansen@hotmail.com", "mortenfh_nurse"));
         userList.add(new Administrator("1407026358", "password", "Nico", null, "Robin", addresses.get(0), "12569873", "nicoRobin@email.com", "nicoRobin_admin"));
+        userList.add(new Administrator("2904010987", "password", "Adriana", null, "Grecea", new Address("Clujstreet", "319", 9150, "Romania"), "94735271", "adriana@grecea.net", "adrianag_admin"));
         try {
             for (Address address : addresses)
                 if (!managerFactory.getAddressManager().isAddress(address.getStreet(), address.getNumber(), address.getZipcode()))
@@ -141,7 +142,6 @@ public class ServerModelManager implements ServerModel {
     @Override
     public synchronized User login(String cpr, String password) {
         User user = userList.getUserByCpr(cpr);
-        System.out.println(user);
         if (user != null) {
             if (userList.getUserByCpr(cpr).getPassword().equals(password)) {
                 if (onlineList.contains(cpr)) {
@@ -291,17 +291,15 @@ public class ServerModelManager implements ServerModel {
         try {
             // TODO: assign nurse automatically based on their schedule, somehow
             Nurse nurse = (Nurse) userList.getUserByCpr("1302026584");
-            int id = managerFactory.getAppointmentManager().getNextId();
-            switch (type) {
-                case TEST:
-                    appointment = new TestAppointment(id, date, timeInterval, type, patient, nurse);
-                    break;
-                case VACCINE:
-                    appointment = new VaccineAppointment(id, date, timeInterval, type, patient, nurse);
-                    break;
-            }
+            
+            // Validate the appointment data - although makes more sense to do this in appointment ctor, but we can't because the database generates its id
+            AppointmentValidator.validateAppointment(date, timeInterval, type, patient, nurse);
+            
+            // Generate appointment from database
+            appointment = managerFactory.getAppointmentManager().addAppointment(date, timeInterval, type, patient, nurse);
+            
+            // Add appointment to local system cache
             appointmentTimeIntervalList.add(appointment, date, timeInterval);
-            managerFactory.getAppointmentManager().addAppointment(appointment);
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -316,7 +314,7 @@ public class ServerModelManager implements ServerModel {
 
 
     @Override
-    public AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType) {
+    public synchronized AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType) {
         return appointmentTimeIntervalList.filterAppointmentsByNameAndCpr(criteria, showFinished, appointmentType);
     }
 
@@ -350,8 +348,9 @@ public class ServerModelManager implements ServerModel {
     @Override
     public synchronized void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) {
         try {
-            if (appointmentTimeIntervalList.getAppointmentById(id).getStatus() instanceof UpcomingAppointment) {
-                appointmentTimeIntervalList.getAppointmentById(id).reschedule(date, timeInterval);
+            Appointment appointment = appointmentTimeIntervalList.getAppointmentById(id);
+            if (appointment.getStatus() instanceof UpcomingAppointment) {
+                appointment.reschedule(date, timeInterval);
                 managerFactory.getAppointmentManager().rescheduleAppointment(id, date, timeInterval);
             }
             else
@@ -379,7 +378,7 @@ public class ServerModelManager implements ServerModel {
 
 
     @Override
-    public UserList getUsersByCprAndName(String criteria)
+    public synchronized UserList getUsersByCprAndName(String criteria)
     {
         return userList.getUsersByCprAndName(criteria);
     }
@@ -411,17 +410,14 @@ public class ServerModelManager implements ServerModel {
 
     @Override
     public synchronized Patient getPatient(String cpr) {
-        if (patientList.contains(cpr))
-            return (Patient) patientList.getUserByCpr(cpr);
-        else
-            return null;
+        return (Patient) patientList.getUserByCpr(cpr);
     }
     
     @Override
     public synchronized void changeResult(int id, Result result) {
         try {
-            ((TestAppointment) appointmentTimeIntervalList.getAppointmentById(id)).setResult(result);
             TestAppointment appointment = (TestAppointment) appointmentTimeIntervalList.getAppointmentById(id);
+            appointment.setResult(result);
             managerFactory.getAppointmentManager().changeResult(appointment);
             updateList();
         }
@@ -444,13 +440,13 @@ public class ServerModelManager implements ServerModel {
         return null;
     }
 
-    @Override public void setRole(User user, String role) {
+    @Override public synchronized void setRole(User user, String role) {
         switch (role) {
             case "Nurse":
-                Nurse nurse = new Nurse(user.getCpr(), user.getPassword(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getAddress(), user.getPhone(),
-                    user.getEmail(), generateRandomId());
-                nurseList.add(nurse);
                 try {
+                    Nurse nurse = new Nurse(user.getCpr(), user.getPassword(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getAddress(), user.getPhone(),
+                    user.getEmail(), generateRandomId());
+                    nurseList.add(nurse);
                     managerFactory.getNurseManager().addNurse(nurse);
                 }
                 catch (SQLException e) {
@@ -458,10 +454,10 @@ public class ServerModelManager implements ServerModel {
                 }
                 break;
             case "Administrator":
-                Administrator administrator = new Administrator(user.getCpr(), user.getPassword(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getAddress(),
-                    user.getPhone(), user.getEmail(),generateRandomId());
-                adminList.add(administrator);
                 try {
+                    Administrator administrator = new Administrator(user.getCpr(), user.getPassword(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getAddress(),
+                    user.getPhone(), user.getEmail(),generateRandomId());
+                    adminList.add(administrator);
                     managerFactory.getAdministratorManager().addAdministrator(administrator);
                 }
                 catch (SQLException e) {
@@ -471,7 +467,7 @@ public class ServerModelManager implements ServerModel {
         }
     }
 
-    @Override public void RemoveRole(User user) {
+    @Override public synchronized void RemoveRole(User user) {
         switch (user.getClass().getSimpleName()) {
             case "Nurse":
                 nurseList.remove(user);
@@ -495,7 +491,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public void addFAQ(String question, String answer, Category category, Administrator creator) {
+    public synchronized void addFAQ(String question, String answer, Category category, Administrator creator) {
         try {
             FAQValidator.validateNewFAQ(question, answer, category, creator);
             FAQ faq = managerFactory.getFAQManager().addFAQ(question, answer, category, creator);

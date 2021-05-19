@@ -79,9 +79,7 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ,FA
                 answer.setWrapText(true);
                 titledPane.setContent(new VBox(answer));
                 Accordion accordion = (Accordion) vBox.getChildren().get(1);
-                System.out.println(accordion.getPanes().size());
                 accordion.getPanes().add(titledPane);
-                System.out.println(accordion.getPanes().size());
             }
             else
             {

@@ -22,7 +22,7 @@ public class FAQManager {
             statement.executeUpdate();
             ResultSet keys = statement.getGeneratedKeys();
             if (keys.next()) {
-                return new FAQ(keys.getInt("id"), question, answer, category);
+                return new FAQ(keys.getInt("faq_id"), question, answer, category);
             }
             else {
                 throw new SQLException("No keys were generated");
@@ -36,7 +36,7 @@ public class FAQManager {
             ResultSet rs = statement.executeQuery();
             FAQList faqList = new FAQList();
             while (rs.next()) {
-                int id = rs.getInt("id");
+                int id = rs.getInt("faq_id");
                 String question = rs.getString("question");
                 String answer = rs.getString("answer");
                 Category category = Category.fromString(rs.getString("category"));

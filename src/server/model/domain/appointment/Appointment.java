@@ -17,7 +17,6 @@ public abstract class Appointment implements Serializable {
     private TimeInterval timeInterval;
     
     public Appointment(int id, LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) {
-        AppointmentValidator.validateAppointment(date, timeInterval, patient, nurse);
         this.id = id;
         this.type = type;
         this.status = new UpcomingAppointment(this);
@@ -28,7 +27,6 @@ public abstract class Appointment implements Serializable {
     }
     
     public Appointment(int id, LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse, Status status) {
-        AppointmentValidator.validateAppointment(date, timeInterval, patient, nurse);
         this.id = id;
         this.type = type;
         this.status = status;

@@ -11,7 +11,7 @@ public class PatientManager {
     public PatientManager() {
     }
     
-    public void addPatient(Patient patient) throws SQLException {
+    public void addPatient(User patient) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO patient VALUES (?,?)");
             insertStatement.setString(1, patient.getCpr());

@@ -36,7 +36,7 @@ public class UserManager {
             if (!addressManager.isAddress(user.getAddress().getStreet(), user.getAddress().getNumber(), user.getAddress().getZipcode()))
                 addressManager.addAddress(user.getAddress());
             insertStatement.executeUpdate();
-            patientManager.addPatient((Patient)user);
+            patientManager.addPatient(user);
         }
     }
 
