@@ -53,7 +53,7 @@ public class ServerModelManager implements ServerModel {
 //
 //        addDummyAppointments();
        loadAppointments();
-
+       
 //        addDummyFAQS();
         loadFAQs();
     }

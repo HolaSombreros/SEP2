@@ -47,7 +47,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         this.vaccineStatus = new SimpleStringProperty();
         this.approveButton = new SimpleBooleanProperty(false);
         this.declineButton = new SimpleBooleanProperty(false);
-        this.changeRole = new SimpleBooleanProperty(false);
+        this.changeRole = new SimpleBooleanProperty(isAdmin());
         this.removeButton = new SimpleBooleanProperty(false);
         this.title = new SimpleStringProperty("My Personal Data");
     }
@@ -180,7 +180,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     }
 
     public boolean isLoggedInAsNurse() {
-        return viewState.getUser() instanceof Nurse;
+        return viewState.getNurse()!=null;
     }
 
     @Override
