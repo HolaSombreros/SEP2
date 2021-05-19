@@ -140,17 +140,5 @@ public class NurseScheduleManager {
 
 
     //TODO: list of nurse schedules
-    public void getAllNurseSchedules() throws SQLException {
-        List<Schedule> schedules = new ArrayList<>();
-        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM nurse_schedule;");
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                String cpr = resultSet.getString("nurse_cpr");
-                LocalDate date = resultSet.getDate("date").toLocalDate();
-                LocalTime from = resultSet.getTime("time_from").toLocalTime();
-                LocalTime to = resultSet.getTime("time_to").toLocalTime();
-            }
-        }
-    }
+
 }

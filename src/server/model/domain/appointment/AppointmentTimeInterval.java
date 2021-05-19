@@ -73,7 +73,7 @@ public class AppointmentTimeInterval implements Serializable {
     
         if (criteria != null && !criteria.isEmpty()) {
             for (Appointment appointment : appointmentList.getAppointments()) {
-                criteria = criteria.toLowerCase();
+                criteria = criteria.trim().toLowerCase();
                 if (appointment.getPatient().getCpr().contains(criteria) || appointment.getPatient().getFullName().toLowerCase().contains(criteria)) {
                     filteredList.add(appointment);
                 }

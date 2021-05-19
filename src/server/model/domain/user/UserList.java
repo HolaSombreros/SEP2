@@ -36,9 +36,9 @@ public class UserList implements Serializable
             return this;
         }
         else {
-            criteria = criteria.toLowerCase();
+            criteria = criteria.trim().toLowerCase();
             for(User user : users) {
-                if(user.getCpr().contains(criteria) || user.getFirstName().toLowerCase().contains(criteria) || user.getLastName().toLowerCase().contains(criteria))
+                if(user.getCpr().contains(criteria) || user.getFullName().toLowerCase().contains(criteria))
                     userList.add(user);
             }
             return userList;
