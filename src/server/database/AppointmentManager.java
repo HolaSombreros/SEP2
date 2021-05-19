@@ -45,7 +45,7 @@ public class AppointmentManager {
     //checks if is in the table
     public boolean isTimeInterval(LocalTime timeFrom, LocalTime timeTo) throws SQLException{
         try(Connection connection = DatabaseManager.getInstance().getConnection()){
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM time_interval WHERE time_from = ?, time_ to = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM time_interval WHERE time_from = ? AND time_to = ?");
             statement.setTime(1,Time.valueOf(timeFrom));
             statement.setTime(2,Time.valueOf(timeTo));
             ResultSet resultSet = statement.executeQuery();

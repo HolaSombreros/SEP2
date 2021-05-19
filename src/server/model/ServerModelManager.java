@@ -14,6 +14,7 @@ import utility.observer.subject.PropertyChangeProxy;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class ServerModelManager implements ServerModel {
@@ -35,16 +36,33 @@ public class ServerModelManager implements ServerModel {
         onlineList = new UserList();
         userList = new UserList();
         managerFactory = new ManagerFactory();
-        addDummyData();
-        addDummyAppointments();
+        
+        
+        // TODO - TEMPORARY
+        appointmentTimeIntervalList = new AppointmentTimeIntervalList();
+        faqList = new FAQList();
+        
+        
+        
+        
+        addDummyUsers();
         loadUsers();
+    
+        addDummyTimeIntervals();
         loadTimeIntervals();
+        
+        addDummyAppointments();
         loadAppointments();
+        
+        addDummyFAQS();
         loadFAQs();
     }
     
     private void addDummyAppointments() {
-    
+        addAppointment(LocalDate.of(2021, 3, 28), timeIntervalList.getTimeIntervals().get(0), Type.TEST, (Patient) patientList.getUsers().get(0));
+        addAppointment(LocalDate.of(2020, 11, 14), timeIntervalList.getTimeIntervals().get(1), Type.TEST, (Patient) patientList.getUsers().get(1));
+        addAppointment(LocalDate.now(), timeIntervalList.getTimeIntervals().get(2), Type.VACCINE, (Patient) patientList.getUsers().get(2));
+        addAppointment(LocalDate.of(2022, 4, 20), timeIntervalList.getTimeIntervals().get(0), Type.TEST, (Patient) patientList.getUsers().get(0));
     }
     
     private void loadUsers() {
@@ -53,6 +71,17 @@ public class ServerModelManager implements ServerModel {
             nurseList = managerFactory.getUserManager().getAllNurses();
             adminList = managerFactory.getUserManager().getAllAdministrators();
             userList = managerFactory.getUserManager().getAllUsers();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void addDummyTimeIntervals() {
+        try {
+            managerFactory.getAppointmentManager().addTimeInterval(LocalTime.of(9, 20), LocalTime.of(9, 40));
+            managerFactory.getAppointmentManager().addTimeInterval(LocalTime.of(11, 0), LocalTime.of(13, 37));
+            managerFactory.getAppointmentManager().addTimeInterval(LocalTime.of(15, 30), LocalTime.of(15, 40));
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -82,6 +111,12 @@ public class ServerModelManager implements ServerModel {
         }
     }
     
+    private void addDummyFAQS() {
+        addFAQ("Deez", "Nuts", Category.GENERAL, (Administrator) adminList.getUsers().get(0));
+        addFAQ("Yo", "Whaddup", Category.GENERAL, (Administrator) adminList.getUsers().get(1));
+        addFAQ("What is the Corona passport?", "It's some...thing. I don't even know now what even happens if this label is super duper long. I would assume it goes to the next line but I need to make sure that this is in fact what actually happens", Category.PASSPORT, (Administrator) adminList.getUsers().get(0));
+    }
+    
     private void loadFAQs() {
         try {
             faqList = managerFactory.getFAQManager().getAllFAQs();
@@ -91,7 +126,6 @@ public class ServerModelManager implements ServerModel {
         }
     }
 
-
     private  void loadSchedules(){
         try {
             shiftList = managerFactory.getNurseScheduleManager().getAllShifts();
@@ -100,7 +134,8 @@ public class ServerModelManager implements ServerModel {
             e.printStackTrace();
         }
     }
-    private void addDummyData() {
+    
+    private void addDummyUsers() {
         ArrayList<Address> addresses = new ArrayList<>();
         addresses.add(new Address("Minvej", "2", 5520, "Someplace"));
         addresses.add(new Address("Sesame Street", "7A", 7500, "Holstebro"));
