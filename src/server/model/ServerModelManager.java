@@ -45,16 +45,16 @@ public class ServerModelManager implements ServerModel {
         
         
         
-        addDummyUsers();
-        loadUsers();
-    
-        addDummyTimeIntervals();
+//        addDummyUsers();
+       loadUsers();
+//
+//        addDummyTimeIntervals();
         loadTimeIntervals();
-        
-        addDummyAppointments();
-        loadAppointments();
-        
-        addDummyFAQS();
+//
+//        addDummyAppointments();
+       loadAppointments();
+
+//        addDummyFAQS();
         loadFAQs();
     }
     
