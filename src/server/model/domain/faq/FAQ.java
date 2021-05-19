@@ -13,7 +13,6 @@ public class FAQ implements Serializable {
         this.question = question;
         this.answer = answer;
         this.category = category;
-        System.out.println(this);
     }
     
     public int getId() {

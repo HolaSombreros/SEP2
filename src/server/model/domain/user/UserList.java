@@ -32,19 +32,17 @@ public class UserList implements Serializable
 
     public UserList getUsersByCprAndName(String criteria) {
         UserList userList = new UserList();
-        if(criteria.equals("")) {
-            for(User user: users) {
-                userList.add(user);
-            }
+        if(criteria == null || criteria.isEmpty()) {
+            return this;
         }
         else {
+            criteria = criteria.toLowerCase();
             for(User user : users) {
-                if(user.getCpr().contains(criteria) || user.getFirstName().toLowerCase().contains(criteria) || user.getLastName().toLowerCase().contains(criteria)
-                    || user.getLastName().contains(criteria) || user.getFirstName().contains(criteria))
+                if(user.getCpr().contains(criteria) || user.getFirstName().toLowerCase().contains(criteria) || user.getLastName().toLowerCase().contains(criteria))
                     userList.add(user);
             }
+            return userList;
         }
-        return userList;
     }
     
     public int size() {

@@ -1,7 +1,6 @@
 package client.viewmodel;
 
 import client.model.Model;
-import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -14,10 +13,8 @@ import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQList;
 import server.model.domain.user.Administrator;
-import utility.observer.event.ObserverEvent;
-import utility.observer.listener.LocalListener;
 
-public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ,FAQ>
+public class FAQViewModel implements FAQViewModelInterface
 {
     private Model model;
     private ViewState viewState;
@@ -26,7 +23,6 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ,FA
 
     public FAQViewModel(Model model, ViewState viewState) {
         this.model = model;
-        model.addListener(this, "FAQ");
         this.viewState = viewState;
         content = FXCollections.observableArrayList();
         adminProperty = new SimpleBooleanProperty();
@@ -36,26 +32,21 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ,FA
     private void loadFromModel() {
         content.clear();
         FAQList faqList = model.getFAQList();
-        if (faqList.size() > 0) {
-            generateContent(faqList);
-        }
+        generateContent(faqList);
     }
     
     private void generateContent(FAQList faqList) {
-        Category category = null;
-        Accordion accordion = null;
-
-        for (Category category1 : Category.values()) {
+        for (Category category : Category.values()) {
             VBox vBox = new VBox();
             vBox.setSpacing(5);
-            Label header = new Label(category1.toString());
+            Label header = new Label(category.toString());
             header.getStyleClass().add("sub-header");
             vBox.getChildren().add(header);
-            accordion = new Accordion();
+            Accordion accordion = new Accordion();
             vBox.getChildren().add(accordion);
 
             for (FAQ faq : faqList.getQuestions()) {
-                if (faq.getCategory().equals(category1)) {
+                if (faq.getCategory().equals(category)) {
                     TitledPane titledPane = new TitledPane();
                     titledPane.setText(faq.getQuestion());
                     Label answer = new Label(faq.getAnswer());
@@ -79,9 +70,7 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ,FA
                 answer.setWrapText(true);
                 titledPane.setContent(new VBox(answer));
                 Accordion accordion = (Accordion) vBox.getChildren().get(1);
-                System.out.println(accordion.getPanes().size());
                 accordion.getPanes().add(titledPane);
-                System.out.println(accordion.getPanes().size());
             }
             else
             {
@@ -119,8 +108,4 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ,FA
         return adminProperty;
     }
 
-    @Override public void propertyChange(ObserverEvent<FAQ, FAQ> event)
-    {
-        //Platform.runLater(()->addFAQ(event.getValue2()));
-    }
 }

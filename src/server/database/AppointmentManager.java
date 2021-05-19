@@ -23,18 +23,6 @@ public class AppointmentManager {
         }
     }
     
-    public int getNextId() throws SQLException {
-        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT COUNT(appointment_id) FROM appointment;");
-            ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("count") + 1;
-            }
-            else {
-                throw new SQLException("Something went very wrong...");
-            }
-        }
-    }
     //adds only if not in the table
     public TimeInterval addTimeInterval(LocalTime timeFrom, LocalTime timeTo) throws SQLException{
         try(Connection connection = DatabaseManager.getInstance().getConnection()){
@@ -57,7 +45,7 @@ public class AppointmentManager {
     //checks if is in the table
     public boolean isTimeInterval(LocalTime timeFrom, LocalTime timeTo) throws SQLException{
         try(Connection connection = DatabaseManager.getInstance().getConnection()){
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM time_interval WHERE time_from = ?, time_ to = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM time_interval WHERE time_from = ? AND time_to = ?");
             statement.setTime(1,Time.valueOf(timeFrom));
             statement.setTime(2,Time.valueOf(timeTo));
             ResultSet resultSet = statement.executeQuery();
@@ -81,22 +69,36 @@ public class AppointmentManager {
         }
     }
 
-    public void addAppointment(Appointment appointment) throws SQLException {
+    public Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO appointment (date,time_interval_id,patient_cpr,nurse_cpr,type,status,result) VALUES (?,?,?,?,?,?,?)");
-            insertStatement.setDate(1, Date.valueOf(appointment.getDate()));
-            insertStatement.setInt(2, appointment.getTimeInterval().getId());
-            insertStatement.setString(3, appointment.getPatient().getCpr());
-            insertStatement.setString(4, appointment.getNurse().getCpr());
-            insertStatement.setString(5, appointment.getType().toString());
-            insertStatement.setString(6, appointment.getStatus().toString());
-            if (appointment.getType().equals(Type.TEST)) {
-                insertStatement.setString(7, (Result.NORESULTSAVAILABLE.toString()));
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO appointment (date, time_interval_id, patient_cpr, nurse_cpr, type, status, result) VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            statement.setDate(1, Date.valueOf(date));
+            statement.setInt(2, timeInterval.getId());
+            statement.setString(3, patient.getCpr());
+            statement.setString(4, nurse.getCpr());
+            statement.setString(5, type.toString());
+            statement.setString(6, "Upcoming");
+            if (type.equals(Type.TEST)) {
+                statement.setString(7, (Result.NORESULTSAVAILABLE.toString()));
             }
             else {
-                insertStatement.setString(7, null);
+                statement.setString(7, null);
             }
-            insertStatement.executeUpdate();
+            statement.executeUpdate();
+            ResultSet keys = statement.getGeneratedKeys();
+            if (keys.next()) {
+                switch (type) {
+                    case TEST:
+                        return new TestAppointment(keys.getInt("appointment_id"), date, timeInterval, type, patient, nurse);
+                    case VACCINE:
+                        return new VaccineAppointment(keys.getInt("appointment_id"), date, timeInterval, type, patient, nurse);
+                    default:
+                        throw new IllegalStateException("Invalid appointment type");
+                }
+            }
+            else {
+                throw new SQLException("No keys were generated");
+            }
         }
     }
     
