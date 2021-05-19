@@ -7,7 +7,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import server.model.domain.appointment.TimeInterval;
 
-public class AppointmentDetailsController extends ViewController
+public class AppointmentDetailsViewController extends ViewController
 {
     @FXML private Label type;
     @FXML private Label status;
@@ -19,7 +19,7 @@ public class AppointmentDetailsController extends ViewController
 
     private AppointmentDetailsViewModelInterface viewModel;
 
-    public AppointmentDetailsController(){}
+    public AppointmentDetailsViewController(){}
 
 
     @Override

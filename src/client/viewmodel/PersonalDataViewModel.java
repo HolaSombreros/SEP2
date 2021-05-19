@@ -179,6 +179,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         return result.isPresent() && result.get() == ButtonType.OK;
     }
 
+    @Override
     public boolean isLoggedInAsNurse() {
         return viewState.getNurse()!=null;
     }
@@ -283,7 +284,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         return  viewState.getAdmin() != null;
     }
 
-
+    @Override
     public void approve(){
         ((Patient) viewState.getSelectedUser()).getVaccineStatus().approve((Patient) viewState.getSelectedUser());
         if(confirmEditingType(1)) {
@@ -296,6 +297,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
             ((Patient) viewState.getSelectedUser()).setVaccineStatus(new PendingStatus());
     }
 
+    @Override
     public void decline(){
         ((Patient) viewState.getSelectedUser()).getVaccineStatus().decline((Patient) viewState.getSelectedUser());
         if(confirmEditingType(1)){

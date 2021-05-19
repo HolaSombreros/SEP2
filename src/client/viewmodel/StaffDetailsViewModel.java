@@ -27,10 +27,10 @@ public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
   private StringProperty phoneProperty;
   private StringProperty emailProperty;
   private ObjectProperty<LocalDate> dateProperty;
-  private ObjectProperty<Boolean> shift0;
-  private ObjectProperty<Boolean> shift1;
-  private ObjectProperty<Boolean> shift2;
-  private ObjectProperty<Boolean> display;
+  private BooleanProperty shift0;
+  private BooleanProperty shift1;
+  private BooleanProperty shift2;
+  private BooleanProperty display;
   private StringProperty errorProperty;
 
   public StaffDetailsViewModel(Model model, ViewState viewState)
@@ -43,11 +43,11 @@ public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
     phoneProperty = new SimpleStringProperty();
     emailProperty = new SimpleStringProperty();
     dateProperty = new SimpleObjectProperty<>();
-    shift0 = new SimpleObjectProperty<>();
-    shift1 = new SimpleObjectProperty<>();
-    shift2 = new SimpleObjectProperty<>();
+    shift0 = new SimpleBooleanProperty();
+    shift1 = new SimpleBooleanProperty();
+    shift2 = new SimpleBooleanProperty();
     errorProperty = new SimpleStringProperty();
-    display = new SimpleObjectProperty<>();
+    display = new SimpleBooleanProperty();
   }
 
   @Override public void reset()
@@ -205,17 +205,17 @@ public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
     return dateProperty;
   }
 
-  @Override public ObjectProperty<Boolean> getShift0()
+  @Override public BooleanProperty getShift0()
   {
     return shift0;
   }
 
-  @Override public ObjectProperty<Boolean> getShift1()
+  @Override public BooleanProperty getShift1()
   {
     return shift1;
   }
 
-  @Override public ObjectProperty<Boolean> getShift2()
+  @Override public BooleanProperty getShift2()
   {
     return shift2;
   }
@@ -225,7 +225,7 @@ public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
     return errorProperty;
   }
 
-  @Override public ObjectProperty<Boolean> getDisplayProperty()
+  @Override public BooleanProperty getDisplayProperty()
   {
     return display;
   }

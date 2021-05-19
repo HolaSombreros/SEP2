@@ -1,5 +1,6 @@
 package client.viewmodel;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.DatePicker;
@@ -20,9 +21,9 @@ public interface StaffDetailsViewModelInterface
   StringProperty getPhoneProperty();
   StringProperty getEmailProperty();
   ObjectProperty<LocalDate> getDateProperty();
-  ObjectProperty<Boolean> getShift0();
-  ObjectProperty<Boolean> getShift1();
-  ObjectProperty<Boolean> getShift2();
+  BooleanProperty getShift0();
+  BooleanProperty getShift1();
+  BooleanProperty getShift2();
   StringProperty getErrorProperty();
-  ObjectProperty<Boolean> getDisplayProperty();
+  BooleanProperty getDisplayProperty();
 }

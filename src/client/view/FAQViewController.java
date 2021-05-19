@@ -11,7 +11,9 @@ public class FAQViewController extends ViewController {
     
     @FXML VBox dynamicVBox;
     @FXML private Button addFAQ;
-    
+
+    public FAQViewController() { }
+
     @Override
     protected void init() {
         viewModel = getViewModelFactory().getFaqViewModel();
