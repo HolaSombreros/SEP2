@@ -19,6 +19,13 @@ public class AppointmentList implements Serializable {
         appointments.add(appointment);
     }
     
+    public void remove(int index) {
+        if (index >= size() || index < 0) {
+            throw new IllegalArgumentException("Index out of bounds");
+        }
+        appointments.remove(index);
+    }
+    
     public void remove(Appointment appointment) {
         appointments.remove(appointment);
     }

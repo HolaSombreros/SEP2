@@ -45,16 +45,16 @@ public class ServerModelManager implements ServerModel {
         
         
         
-        addDummyUsers();
+//        addDummyUsers();
         loadUsers();
     
-        addDummyTimeIntervals();
+//        addDummyTimeIntervals();
         loadTimeIntervals();
         
-        addDummyAppointments();
+//        addDummyAppointments();
         loadAppointments();
         
-        addDummyFAQS();
+//        addDummyFAQS();
         loadFAQs();
     }
     
@@ -146,7 +146,7 @@ public class ServerModelManager implements ServerModel {
         userList.add(new Patient("3105026358", "password", "Elmo", null, "Popescu", addresses.get(1), "12587465", "popescu@email.com", new NotAppliedStatus()));
         userList.add(new Patient("2504012368", "password", "Vaseline", null, "Veselin", addresses.get(0), "12587466", "vaseline@email.com", new NotApprovedStatus()));
         userList.add(new Nurse("1302026584", "password", "Mikasa", null, "Ackerman", addresses.get(0), "12587467", "aot@email.com", "mikasa_nurse"));
-        userList.add(new Nurse("1805941234", "password", "Morten", "Morten", "Hansen", new Address("Fabrikvej", "4", 8700, "Horsens"), "28800805", "morten.f.hansen@hotmail.com", "mortenfh_nurse"));
+        userList.add(new Nurse("1805941234", "password", "Morten", "Frederik", "Hansen", new Address("Fabrikvej", "4", 8700, "Horsens"), "28800805", "morten.f.hansen@hotmail.com", "mortenfh_nurse"));
         userList.add(new Administrator("1407026358", "password", "Nico", null, "Robin", addresses.get(0), "12569873", "nicoRobin@email.com", "nicoRobin_admin"));
         userList.add(new Administrator("2904010987", "password", "Adriana", null, "Grecea", new Address("Clujstreet", "319", 9150, "Romania"), "94735271", "adriana@grecea.net", "adrianag_admin"));
         try {

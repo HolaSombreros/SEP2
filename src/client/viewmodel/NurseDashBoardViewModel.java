@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import server.model.domain.appointment.Appointment;
+import server.model.domain.appointment.AppointmentList;
 import server.model.domain.user.Staff;
 import util.ObservableClock;
 import utility.observer.event.ObserverEvent;
@@ -30,6 +31,7 @@ public class NurseDashBoardViewModel implements NurseDashBoardViewModelInterface
     private StringProperty error;
     private ObjectProperty<Paint> errorFill;
     private StringProperty filterButtonText;
+    private StringProperty filterType;
     private ObservableList<AppointmentTableViewModel> appointmentTable;
     private ObjectProperty<AppointmentTableViewModel> selectedAppointment;
     
@@ -46,6 +48,7 @@ public class NurseDashBoardViewModel implements NurseDashBoardViewModelInterface
         error = new SimpleStringProperty();
         errorFill = new SimpleObjectProperty<>(Color.RED);
         filterButtonText = new SimpleStringProperty("Show test appointments");
+        filterType = new SimpleStringProperty("all");
         
         appointmentTable = FXCollections.observableArrayList();
         selectedAppointment = new SimpleObjectProperty<>();
@@ -104,23 +107,26 @@ public class NurseDashBoardViewModel implements NurseDashBoardViewModelInterface
     public void filterAppointments() {
         appointmentTable.clear();
         String search = searchBar.get();
-        for (Appointment appointment : model.filterAppointmentsByNameAndCpr(search, showFinishedAppointments.get(), filterButtonText.get().split(" ")[1]).getAppointments()) {
+        AppointmentList appointmentList = model.filterAppointmentsByNameAndCpr(search, showFinishedAppointments.get(), filterType.get());
+        for (Appointment appointment : appointmentList.getAppointments()) {
             appointmentTable.add(new AppointmentTableViewModel(appointment));
         }
     }
     
     @Override
     public void toggleTypeButton() {
-        String type = filterButtonText.get().split(" ")[1];
-        switch (type.toLowerCase()) {
+        switch (filterType.get()) {
             case "all":
-                filterButtonText.set("Show test appointments");
-                break;
-            case "test":
+                filterType.set("test");
                 filterButtonText.set("Show vaccine appointments");
                 break;
-            case "vaccine":
+            case "test":
+                filterType.set("vaccine");
                 filterButtonText.set("Show all appointments");
+                break;
+            case "vaccine":
+                filterButtonText.set("Show test appointments");
+                filterType.set("all");
                 break;
         }
     }
