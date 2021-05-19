@@ -32,26 +32,21 @@ public class FAQViewModel implements FAQViewModelInterface
     private void loadFromModel() {
         content.clear();
         FAQList faqList = model.getFAQList();
-        if (faqList.size() > 0) {
-            generateContent(faqList);
-        }
+        generateContent(faqList);
     }
     
     private void generateContent(FAQList faqList) {
-        Category category = null;
-        Accordion accordion = null;
-
-        for (Category category1 : Category.values()) {
+        for (Category category : Category.values()) {
             VBox vBox = new VBox();
             vBox.setSpacing(5);
-            Label header = new Label(category1.toString());
+            Label header = new Label(category.toString());
             header.getStyleClass().add("sub-header");
             vBox.getChildren().add(header);
-            accordion = new Accordion();
+            Accordion accordion = new Accordion();
             vBox.getChildren().add(accordion);
 
             for (FAQ faq : faqList.getQuestions()) {
-                if (faq.getCategory().equals(category1)) {
+                if (faq.getCategory().equals(category)) {
                     TitledPane titledPane = new TitledPane();
                     titledPane.setText(faq.getQuestion());
                     Label answer = new Label(faq.getAnswer());
