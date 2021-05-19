@@ -5,7 +5,6 @@ import server.model.validator.UserValidator;
 import java.io.Serializable;
 
 public abstract class User implements Serializable {
-
     private String cpr;
     private String password;
     private String firstName;

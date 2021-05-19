@@ -1,33 +1,29 @@
 package server.model.domain.user;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class Nurse extends Staff {
-
-    private ScheduleList schedules;
+    private ScheduleList scheduleList;
 
     public Nurse(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email, String employeeId) {
         super(cpr, password, firstName, middleName, lastName, address, phone, email, employeeId);
-        schedules = new ScheduleList();
+        scheduleList = new ScheduleList();
     }
 
     public Nurse(String cpr, String password, String firstName, String lastName, Address address, String phone, String email, String employeeId) {
         this(cpr, password, firstName, null, lastName, address, phone, email, employeeId);
     }
     
-    public ScheduleList getSchedules() {
-        return schedules;
+    public ScheduleList getScheduleList() {
+        return scheduleList;
     }
 
     public void addSchedule(Schedule schedule) {
-        schedules.add(schedule);
+        scheduleList.add(schedule);
     }
 
     public void editSchedule(Schedule schedule) {
-        for (Schedule schedule1 : schedules.getSchedules())
+        for (Schedule schedule1 : scheduleList.getSchedules())
             if (schedule1.equals(schedule))
                 schedule1.setShift(schedule.getShift());
     }
@@ -35,26 +31,26 @@ public class Nurse extends Staff {
     public void removeSchedule(Schedule schedule)
     {
         boolean remove = false;
-        for (Schedule schedule1 : schedules.getSchedules())
+        for (Schedule schedule1 : scheduleList.getSchedules())
             if (schedule1.equals(schedule))
             {
                 schedule = schedule1;
                 remove = true;
             }
         if (remove)
-        schedules.remove(schedule);
+        scheduleList.remove(schedule);
     }
 
     public Schedule getSchedule(LocalDate date)
     {
-        for (Schedule schedule : schedules.getSchedules())
+        for (Schedule schedule : scheduleList.getSchedules())
             return schedule;
         return null;
     }
 
     public boolean worksThatDay(Schedule schedule)
     {
-        for (Schedule schedule1 : schedules.getSchedules())
+        for (Schedule schedule1 : scheduleList.getSchedules())
                 return true;
         return false;
     }
@@ -69,6 +65,6 @@ public class Nurse extends Staff {
 
     @Override
     public String toString() {
-        return super.toString() + getEmployeeId() + schedules.toString();
+        return super.toString() + getEmployeeId() + scheduleList.toString();
     }
 }

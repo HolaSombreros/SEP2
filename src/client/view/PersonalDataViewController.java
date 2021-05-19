@@ -53,6 +53,7 @@ public class PersonalDataViewController extends ViewController
         if(viewModel.isAdmin()) {
             viewModel.removeButtonProperty().addListener((obs, oldVal, newVal) -> removeButton.setDisable(newVal));
             viewModel.approveButtonProperty().addListener((obs, oldVal, newVal) -> approveButton.setDisable(newVal));
+            viewModel.declineButtonProperty().addListener((obs, oldVal, newVal) -> declineButton.setDisable(newVal));
         }
         else{
             approveButton.setVisible(false);

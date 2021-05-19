@@ -64,6 +64,9 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
         vaccinationLabel.set(patient.getVaccineStatus().toString());
         if (patient.getVaccineStatus() instanceof PendingStatus || patient.getVaccineStatus() instanceof ApprovedStatus)
             disableButton.set(true);
+        else {
+            disableButton.set(false);
+        }
 
         nextAppointment.set("You do not have any upcoming appointments");
         AppointmentList list = new AppointmentList();

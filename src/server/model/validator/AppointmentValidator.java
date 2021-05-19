@@ -8,7 +8,7 @@ import server.model.domain.user.Patient;
 import java.time.LocalDate;
 
 public class AppointmentValidator {
-    public static void validateAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) {
+    public static void validateNewAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient, Nurse nurse) {
         validateDate(date);
         validateTimeInterval(timeInterval);
         validateType(type);

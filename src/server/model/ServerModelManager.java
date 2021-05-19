@@ -324,7 +324,7 @@ public class ServerModelManager implements ServerModel {
             Nurse nurse = (Nurse) userList.getUserByCpr("1302026584");
             
             // Validate the appointment data - although makes more sense to do this in appointment ctor, but we can't because the database generates its id
-            AppointmentValidator.validateAppointment(date, timeInterval, type, patient, nurse);
+            AppointmentValidator.validateNewAppointment(date, timeInterval, type, patient, nurse);
             
             // Generate appointment from database
             appointment = managerFactory.getAppointmentManager().addAppointment(date, timeInterval, type, patient, nurse);
