@@ -12,7 +12,6 @@ import javafx.scene.layout.VBox;
 import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQList;
-import server.model.domain.user.Administrator;
 
 public class FAQViewModel implements FAQViewModelInterface
 {
@@ -95,8 +94,8 @@ public class FAQViewModel implements FAQViewModelInterface
     
     @Override
     public void reset() {
+        adminProperty.set(viewState.getAdmin() != null);
         loadFromModel();
-        isAdminProperty().set(viewState.getUser() instanceof Administrator);
     }
     
     @Override
