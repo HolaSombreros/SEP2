@@ -1,7 +1,6 @@
 package client.viewmodel;
 
 import client.model.Model;
-import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -14,10 +13,8 @@ import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQList;
 import server.model.domain.user.Administrator;
-import utility.observer.event.ObserverEvent;
-import utility.observer.listener.LocalListener;
 
-public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ,FAQ>
+public class FAQViewModel implements FAQViewModelInterface
 {
     private Model model;
     private ViewState viewState;
@@ -26,7 +23,6 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ,FA
 
     public FAQViewModel(Model model, ViewState viewState) {
         this.model = model;
-        model.addListener(this, "FAQ");
         this.viewState = viewState;
         content = FXCollections.observableArrayList();
         adminProperty = new SimpleBooleanProperty();
@@ -119,8 +115,4 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ,FA
         return adminProperty;
     }
 
-    @Override public void propertyChange(ObserverEvent<FAQ, FAQ> event)
-    {
-        //Platform.runLater(()->addFAQ(event.getValue2()));
-    }
 }
