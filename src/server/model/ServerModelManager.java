@@ -564,10 +564,8 @@ public class ServerModelManager implements ServerModel {
     {
         try{
             FAQ faq = faqList.getFAQ(question, answer);
-            System.out.println(faq);
             if(faq != null) {
                 faqList.remove(faq);
-                System.out.println(faq);
                 managerFactory.getFAQManager().removeFAQ(question, answer);
                 faqProperty.firePropertyChange("FAQRemove", null, faq);
             }

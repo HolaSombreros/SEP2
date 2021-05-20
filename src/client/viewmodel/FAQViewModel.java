@@ -4,6 +4,8 @@ import client.model.Model;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
@@ -25,6 +27,7 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
     private ObservableList<VBox> content;
     private BooleanProperty adminProperty;
     private BooleanProperty removeButton;
+    private StringProperty errorLabel;
     private VBox vBox;
     private TitledPane selectedBox;
 
@@ -34,6 +37,7 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
         this.vBox = null;
         this.selectedBox = null;
         this.removeButton = new SimpleBooleanProperty();
+        this.errorLabel = new SimpleStringProperty();
         content = FXCollections.observableArrayList();
         adminProperty = new SimpleBooleanProperty();
 //        loadFromModel();
@@ -85,6 +89,8 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
             model.removeFAQ(selectedBox.getText(), ((Label) ((VBox) selectedBox.getContent()).getChildren().get(0)).getText());
             selectedBox = null;
         }
+        else
+            errorLabel.set("Please select a FAQ first");
 
     }
 
@@ -112,6 +118,12 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
     public BooleanProperty removeButtonProperty()
     {
         return removeButton;
+    }
+
+    @Override
+    public StringProperty errorLabelProperty()
+    {
+        return errorLabel;
     }
 
     @Override

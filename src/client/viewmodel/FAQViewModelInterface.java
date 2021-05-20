@@ -1,6 +1,7 @@
 package client.viewmodel;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
@@ -16,4 +17,5 @@ public interface FAQViewModelInterface {
     ObservableList<VBox> getFAQContent();
     BooleanProperty isAdminProperty();
     BooleanProperty removeButtonProperty();
+    StringProperty errorLabelProperty();
 }

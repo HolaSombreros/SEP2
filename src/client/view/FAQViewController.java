@@ -4,6 +4,7 @@ import client.viewmodel.FAQViewModelInterface;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 public class FAQViewController extends ViewController {
@@ -12,6 +13,7 @@ public class FAQViewController extends ViewController {
     @FXML VBox dynamicVBox;
     @FXML private Button addFAQ;
     @FXML private Button removeButton;
+    @FXML private Label errorLabel;
 
     public FAQViewController() { }
 
@@ -20,7 +22,7 @@ public class FAQViewController extends ViewController {
         viewModel = getViewModelFactory().getFaqViewModel();
         addFAQ.visibleProperty().bind(viewModel.isAdminProperty());
         removeButton.visibleProperty().bind(viewModel.isAdminProperty());
-//        removeButton..bindBidirectional(viewModel.removeButtonProperty());
+        errorLabel.textProperty().bind(viewModel.errorLabelProperty());
         viewModel.addBox(dynamicVBox);
         reset();
     }

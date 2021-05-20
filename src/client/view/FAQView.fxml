@@ -8,6 +8,7 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="600.0" spacing="20.0" stylesheets="@../../util/style.css" userData="Frequently Asked Questions" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.FAQViewController">
    <children>
@@ -50,6 +51,11 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </ScrollPane>
+      <Label fx:id="errorLabel" alignment="CENTER" prefHeight="17.0" prefWidth="599.0" text="ErrorLabel" textFill="#f80202">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
       <HBox alignment="CENTER" maxWidth="500.0" spacing="25.0">
          <children>
             <Button minWidth="90.0" mnemonicParsing="false" onAction="#chat" text="Enter Chat" />
