@@ -1,6 +1,7 @@
 package server.database;
 
 import server.model.domain.user.Administrator;
+import server.model.domain.user.Nurse;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,9 +13,10 @@ public class AdministratorManager {
     
     public void addAdministrator(Administrator administrator) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO administrator VALUES (?,?)");
+            PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO administrator VALUES (?,?,?)");
             insertStatement.setString(1, administrator.getCpr());
             insertStatement.setString(2, administrator.getEmployeeId());
+            insertStatement.setBoolean(3, true);
             insertStatement.executeUpdate();
         }
     }
@@ -27,16 +29,28 @@ public class AdministratorManager {
         }
     }
 
-    
     public boolean isAdmin(Administrator administrator) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM administrator WHERE cpr = ?");
             statement.setString(1, administrator.getCpr());
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next())
-                return true;
-            else
-                return false;
+            return resultSet.next();
+        }
+    }
+    public boolean hasAccess(Administrator administrator) throws SQLException {
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("SELECT has_access FROM administrator WHERE cpr = ?;");
+            statement.setString(1, administrator.getCpr());
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.first();
+        }
+    }
+    public void updateAccess(Administrator administrator) throws SQLException {
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("UPDATE has_access FROM administrator WHERE cpr = ?;");
+            statement.setString(1, administrator.getCpr());
+            statement.executeUpdate();
+
         }
     }
 }

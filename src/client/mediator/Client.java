@@ -283,19 +283,9 @@ public class Client implements Model, RemoteListener<FAQ,FAQ> {
         }
     }
 
-    @Override public void addSchedule(Nurse nurse, Schedule schedule)
-    {
+    @Override public void editSchedule(Nurse nurse, LocalDate localDate, int shiftId) {
         try {
-            server.addSchedule(nurse,schedule);
-        }
-        catch (RemoteException e) {
-            throw new IllegalStateException(getExceptionMessage(e),e);
-        }
-    }
-
-    @Override public void removeSchedule(Nurse nurse, Schedule schedule) {
-        try {
-            server.removeSchedule(nurse,schedule);
+            server.editSchedule(nurse, localDate, shiftId);
         }
         catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e),e);
@@ -320,7 +310,18 @@ public class Client implements Model, RemoteListener<FAQ,FAQ> {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
-    
+
+    @Override
+    public void removeFAQ(String question, String answer)
+    {
+        try{
+            server.removeFAQ(question, answer);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
+        }
+    }
+
     @Override
     public void close() {
         try {

@@ -10,4 +10,5 @@ public interface FAQModel extends LocalSubject<FAQ,FAQ>
 {
   void addFAQ(String question, String answer, Category category, Administrator creator);
   FAQList getFAQList();
+  void removeFAQ(String question, String answer);
 }

@@ -2,6 +2,8 @@ package server.model;
 
 import server.model.domain.user.*;
 
+import java.time.LocalDate;
+
 public interface ServerUserModel
 {
     User login(String cpr, String password);
@@ -16,8 +18,7 @@ public interface ServerUserModel
     User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip);
     VaccineStatus applyForVaccination(Patient patient);
     Patient getPatient(String cpr);
-    void addSchedule(Nurse nurse, Schedule schedule);
-    void removeSchedule(Nurse nurse, Schedule schedule);
+    void editSchedule(Nurse nurse, LocalDate dateFrom, int shiftId);
     VaccineStatus updateVaccineStatus(Patient patient);
     void setRole (User user, String role);
     void RemoveRole(User user);

@@ -28,12 +28,7 @@ public class AddressManager {
             selectStatement.setString(2, street);
             selectStatement.setString(3, number);
             ResultSet resultSet = selectStatement.executeQuery();
-            if (resultSet.next()) {
-                return true;
-            }
-            else {
-                return false;
-            }
+            return resultSet.next();
         }
     }
     
@@ -89,12 +84,7 @@ public class AddressManager {
             PreparedStatement selectStatement = connection.prepareStatement("SELECT * FROM city WHERE zip_code = ?");
             selectStatement.setInt(1, address.getZipcode());
             ResultSet resultSet = selectStatement.executeQuery();
-            if (resultSet.next()) {
-                return true;
-            }
-            else {
-                return false;
-            }
+            return resultSet.next();
         }
     }
 }

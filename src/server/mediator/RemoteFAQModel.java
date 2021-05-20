@@ -12,4 +12,5 @@ public interface RemoteFAQModel extends RemoteSubject<FAQ,FAQ>
 {
   void addFAQ(String question, String answer, Category category, Administrator creator) throws RemoteException;
   FAQList getFAQList() throws RemoteException;
+  void removeFAQ(String question, String answer) throws RemoteException;
 }

@@ -26,6 +26,15 @@ public class FAQList implements Serializable {
     public int size() {
         return questions.size();
     }
+
+    public FAQ getFAQ(String question, String answer) {
+        for(FAQ faq : questions) {
+            if(faq.getQuestion().equals(question) && faq.getAnswer().equals(answer)) {
+                return faq;
+            }
+        }
+        return null;
+    }
     
     @Override
     public boolean equals(Object obj) {

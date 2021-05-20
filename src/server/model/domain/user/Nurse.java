@@ -44,13 +44,15 @@ public class Nurse extends Staff {
     public Schedule getSchedule(LocalDate date)
     {
         for (Schedule schedule : scheduleList.getSchedules())
-            return schedule;
+            if (schedule.getDateFrom().equals(date))
+                return schedule;
         return null;
     }
 
-    public boolean worksThatDay(Schedule schedule)
+    public boolean worksThatWeek(LocalDate date)
     {
-        for (Schedule schedule1 : scheduleList.getSchedules())
+        for (Schedule s : scheduleList.getSchedules())
+            if (s.getDateFrom().equals(date))
                 return true;
         return false;
     }

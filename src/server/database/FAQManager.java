@@ -8,9 +8,7 @@ import server.model.domain.user.Administrator;
 import java.sql.*;
 
 public class FAQManager {
-    public FAQManager() {
-    
-    }
+    public FAQManager() {}
     
     public FAQ addFAQ(String question, String answer, Category category, Administrator creator) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
@@ -27,6 +25,15 @@ public class FAQManager {
             else {
                 throw new SQLException("No keys were generated");
             }
+        }
+    }
+
+    public void removeFAQ(String question, String answer) throws SQLException {
+        try(Connection connection = DatabaseManager.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM faq WHERE question = ? AND answer = ?");
+            statement.setString(1, question);
+            statement.setString(2, answer);
+            statement.executeUpdate();
         }
     }
     

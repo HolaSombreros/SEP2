@@ -240,8 +240,10 @@ public class UserManager {
             UserList result = new UserList();
             while (resultSet.next()) {
                 String cpr = resultSet.getString("cpr");
+                boolean access = resultSet.getBoolean("has_access");
                 Nurse user = getNurse(cpr);
-                result.add(user);
+                if(access)
+                    result.add(user);
             }
             return result;
         }
@@ -266,10 +268,7 @@ public class UserManager {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM person WHERE cpr = ?");
             statement.setString(1,cpr);
             ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next())
-                return true;
-            else
-                return false;
+            return resultSet.next();
         }
     }
 }
