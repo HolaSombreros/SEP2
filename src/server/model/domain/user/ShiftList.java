@@ -3,6 +3,8 @@ package server.model.domain.user;
 import server.model.domain.appointment.TimeInterval;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class ShiftList implements Serializable {
@@ -32,9 +34,9 @@ public class ShiftList implements Serializable {
         return null;
     }
 
-    public Shift getByTimeInterval(TimeInterval timeInterval){
+    public Shift getByTimeInterval(LocalTime timeFrom, LocalTime timeTo){
         for(Shift shift: shifts)
-            if(shift.getTimeInterval().equals(timeInterval))
+            if(shift.getTimeFrom().equals(timeFrom) && shift.getTimeTo().equals(timeTo))
                 return shift;
         return null;
     }

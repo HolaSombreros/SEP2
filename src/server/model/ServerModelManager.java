@@ -44,17 +44,19 @@ public class ServerModelManager implements ServerModel {
         appointmentTimeIntervalList = new AppointmentTimeIntervalList();
         faqList = new FAQList();
         
-//        addDummyUsers();
+        addDummyUsers();
         loadUsers();
     
-//        addDummyTimeIntervals();
+        addDummyTimeIntervals();
         loadTimeIntervals();
         
 //        addDummyAppointments();
         loadAppointments();
         
-//        addDummyFAQS();
+        addDummyFAQS();
         loadFAQs();
+
+        addShifts();
     }
     
     private void addDummyAppointments() {
@@ -74,6 +76,16 @@ public class ServerModelManager implements ServerModel {
         catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void addShifts(){
+        try {
+            managerFactory.getNurseScheduleManager().addShift(LocalTime.of(8,00),LocalTime.of(14,00));
+            managerFactory.getNurseScheduleManager().addShift(LocalTime.of(14,00),LocalTime.of(20,00));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
     
     private void addDummyTimeIntervals() {
@@ -496,6 +508,7 @@ public class ServerModelManager implements ServerModel {
                 }
                 break;
         }
+        updateList();
     }
 
     @Override public synchronized void RemoveRole(User user) {
@@ -519,6 +532,7 @@ public class ServerModelManager implements ServerModel {
                 }
                 break;
         }
+        updateList();
     }
 
     @Override
