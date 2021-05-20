@@ -23,6 +23,9 @@ public class ServerModelManager implements ServerModel {
     private UserList nurseList;
     private UserList adminList;
     private UserList onlineList;
+    
+    
+    
     private FAQList faqList;
     private TimeIntervalList timeIntervalList;
     private AppointmentTimeIntervalList appointmentTimeIntervalList;
@@ -550,6 +553,9 @@ public class ServerModelManager implements ServerModel {
     }
     
     private String generateEmployeeId(String firstName, String middleName, String lastName) {
+        final int MAX = 999;
+        final int MIN = 100;
+        
         String employeeId = "";
         if (middleName != null) {
             employeeId = firstName.charAt(0) + "" + middleName.charAt(0) + "" + lastName.charAt(0);
@@ -564,7 +570,7 @@ public class ServerModelManager implements ServerModel {
         int randomNumber;
         do {
             taken = false;
-            randomNumber = (int) (Math.ceil(Math.random() * (999 - 100)) + 100);
+            randomNumber = (int) (Math.ceil(Math.random() * (MAX - MIN)) + MIN);
             for (User user : userList.getUsers()) {
                 if (user instanceof Staff) {
                     Staff staff = ((Staff) user);
