@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ServerModelManager implements ServerModel {
     private UserList userList;
@@ -137,14 +138,15 @@ public class ServerModelManager implements ServerModel {
         addresses.add(new Address("Sesame Street", "7A", 7500, "Holstebro"));
         addresses.add(new Address("Via Street", "25B", 2300, "Unknownville"));
         UserList userList = new UserList();
+        
         userList.add(new Patient("2003036532", "password", "Hello", null, "World", addresses.get(1), "12587463", "elmo@email.com", new ApprovedStatus()));
         userList.add(new Patient("2003045698", "password", "Maria", null, "Magdalena", addresses.get(2), "12587464", "holy@email.com", new PendingStatus()));
         userList.add(new Patient("3105026358", "password", "Elmo", null, "Popescu", addresses.get(1), "12587465", "popescu@email.com", new NotAppliedStatus()));
         userList.add(new Patient("2504012368", "password", "Vaseline", null, "Veselin", addresses.get(0), "12587466", "vaseline@email.com", new NotApprovedStatus()));
-        userList.add(new Nurse("1302026584", "password", "Mikasa", null, "Ackerman", addresses.get(0), "12587467", "aot@email.com", "mikasa_nurse"));
-        userList.add(new Nurse("1805941234", "password", "Morten", "Frederik", "Hansen", new Address("Fabrikvej", "4", 8700, "Horsens"), "28800805", "morten.f.hansen@hotmail.com", "mortenfh_nurse"));
-        userList.add(new Administrator("1407026358", "password", "Nico", null, "Robin", addresses.get(0), "12569873", "nicoRobin@email.com", "nicoRobin_admin"));
-        userList.add(new Administrator("2904010987", "password", "Adriana", null, "Grecea", new Address("Clujstreet", "319", 9150, "Romania"), "94735271", "adriana@grecea.net", "adrianag_admin"));
+        userList.add(new Nurse("1302026584", "password", "Mikasa", "Ackerman", addresses.get(0), "12587467", "aot@email.com", generateEmployeeId("Mikasa", null, "Ackerman")));
+        userList.add(new Nurse("1805941234", "password", "Morten", "Frederik", "Hansen", new Address("Fabrikvej", "4", 8700, "Horsens"), "28800805", "morten.f.hansen@hotmail.com", generateEmployeeId("Morten", "Frederik", "Hansen")));
+        userList.add(new Administrator("1407026358", "password", "Nico", "Robin", addresses.get(0), "12569873", "nicoRobin@email.com", generateEmployeeId("Nico", null, "Robin")));
+        userList.add(new Administrator("2904010987", "password", "Adriana", null, "Grecea", new Address("Clujstreet", "319", 9150, "Romania"), "94735271", "adriana@grecea.net", generateEmployeeId("Adriana", null, "Grecea")));
         try {
             for (Address address : addresses)
                 if (!managerFactory.getAddressManager().isAddress(address.getStreet(), address.getNumber(), address.getZipcode()))
@@ -164,10 +166,6 @@ public class ServerModelManager implements ServerModel {
         catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    private String generateRandomId() {
-        return "AAAA";
     }
     
     @Override
@@ -476,7 +474,7 @@ public class ServerModelManager implements ServerModel {
             case "Nurse":
                 try {
                     Nurse nurse = new Nurse(user.getCpr(), user.getPassword(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getAddress(), user.getPhone(),
-                    user.getEmail(), generateRandomId());
+                    user.getEmail(), generateEmployeeId(user.getFirstName(), user.getMiddleName(), user.getLastName()));
                     nurseList.add(nurse);
                     managerFactory.getNurseManager().addNurse(nurse);
                 }
@@ -487,7 +485,7 @@ public class ServerModelManager implements ServerModel {
             case "Administrator":
                 try {
                     Administrator administrator = new Administrator(user.getCpr(), user.getPassword(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getAddress(),
-                    user.getPhone(), user.getEmail(),generateRandomId());
+                    user.getPhone(), user.getEmail(), generateEmployeeId(user.getFirstName(), user.getMiddleName(), user.getLastName()));
                     adminList.add(administrator);
                     managerFactory.getAdministratorManager().addAdministrator(administrator);
                 }
@@ -550,5 +548,31 @@ public class ServerModelManager implements ServerModel {
 
     @Override public boolean removeListener(GeneralListener<FAQ, FAQ> listener, String... propertyNames) {
         return faqProperty.removeListener(listener,propertyNames);
+    }
+    
+    private String generateEmployeeId(String firstName, String middleName, String lastName) {
+        String employeeId = "";
+        if (middleName != null) {
+            employeeId = firstName.charAt(0) + "" + middleName.charAt(0) + "" + lastName.charAt(0);
+        }
+        else {
+            employeeId = firstName.charAt(0) + "" + lastName.substring(0, 2);
+        }
+        
+        for (User user : userList.getUsers()) {
+            if (user instanceof Staff) {
+                Staff staff = (Staff) user;
+                if (staff.getEmployeeId().equalsIgnoreCase(employeeId)) {
+                    if (middleName != null) {
+                        employeeId = firstName.charAt(0) + "" + middleName.charAt(0) + "" + lastName.substring(0, 2);
+                    }
+                    else {
+                        employeeId = firstName.substring(0, 2) + lastName.substring(0, 2);
+                    }
+                }
+            }
+        }
+        
+        return employeeId.toUpperCase();
     }
 }
