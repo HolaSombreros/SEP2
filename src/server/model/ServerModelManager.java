@@ -16,7 +16,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ServerModelManager implements ServerModel {
     private UserList userList;
@@ -556,23 +555,27 @@ public class ServerModelManager implements ServerModel {
             employeeId = firstName.charAt(0) + "" + middleName.charAt(0) + "" + lastName.charAt(0);
         }
         else {
-            employeeId = firstName.charAt(0) + "" + lastName.substring(0, 2);
+            employeeId = firstName.substring(0, 2) + "" + lastName.substring(0, 2);
         }
+        employeeId = employeeId.toUpperCase();
         
-        for (User user : userList.getUsers()) {
-            if (user instanceof Staff) {
-                Staff staff = (Staff) user;
-                if (staff.getEmployeeId().equalsIgnoreCase(employeeId)) {
-                    if (middleName != null) {
-                        employeeId = firstName.charAt(0) + "" + middleName.charAt(0) + "" + lastName.substring(0, 2);
-                    }
-                    else {
-                        employeeId = firstName.substring(0, 2) + lastName.substring(0, 2);
+        // Add random number between 100 and 999 at the end
+        boolean taken;
+        int randomNumber;
+        do {
+            taken = false;
+            randomNumber = (int) (Math.ceil(Math.random() * (999 - 100)) + 100);
+            for (User user : userList.getUsers()) {
+                if (user instanceof Staff) {
+                    Staff staff = ((Staff) user);
+                    if (staff.getEmployeeId().equalsIgnoreCase(employeeId + randomNumber)) {
+                        taken = true;
+                        break;
                     }
                 }
             }
-        }
+        } while (taken);
         
-        return employeeId.toUpperCase();
+        return employeeId + randomNumber;
     }
 }
