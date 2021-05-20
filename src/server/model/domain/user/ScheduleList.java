@@ -1,10 +1,15 @@
 package server.model.domain.user;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ScheduleList implements Serializable {
     private List<Schedule> schedules;
+
+    public ScheduleList() {
+        schedules = new ArrayList<>();
+    }
 
     public List<Schedule> getSchedules() {
         return schedules;

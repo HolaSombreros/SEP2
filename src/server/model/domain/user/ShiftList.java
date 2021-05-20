@@ -5,11 +5,16 @@ import server.model.domain.appointment.TimeInterval;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShiftList implements Serializable {
 
     private List<Shift> shifts;
+
+    public ShiftList() {
+        shifts = new ArrayList<>();
+    }
 
     public List<Shift> getShifts() {
         return shifts;

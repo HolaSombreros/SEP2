@@ -43,22 +43,26 @@ public class ServerModelManager implements ServerModel {
         // TODO - TEMPORARY
         appointmentTimeIntervalList = new AppointmentTimeIntervalList();
         faqList = new FAQList();
-        
-//        addDummyUsers();
-        loadUsers();
-    
-//        addDummyTimeIntervals();
-        loadTimeIntervals();
-        
-//        addDummyAppointments();
-        loadAppointments();
-        
-//        addDummyFAQS();
-        loadFAQs();
-
-        addShifts();
+        addAll();
+        loadAll();
     }
-    
+
+    private void addAll(){
+       // addDummyAppointments();
+       // addDummyFAQS();
+        addDummyTimeIntervals();
+        addDummyUsers();
+        addShifts();
+        loadShift();
+    }
+
+    private void loadAll(){
+        loadUsers();
+        loadTimeIntervals();
+        loadAppointments();
+        loadFAQs();
+    }
+
     private void addDummyAppointments() {
         addAppointment(LocalDate.of(2021, 3, 28), timeIntervalList.getTimeIntervals().get(0), Type.TEST, (Patient) patientList.getUsers().get(0));
         addAppointment(LocalDate.of(2020, 11, 14), timeIntervalList.getTimeIntervals().get(1), Type.TEST, (Patient) patientList.getUsers().get(1));
@@ -80,12 +84,20 @@ public class ServerModelManager implements ServerModel {
 
     private void addShifts(){
         try {
-            managerFactory.getNurseScheduleManager().addShift(LocalTime.of(8,00),LocalTime.of(14,00));
-            managerFactory.getNurseScheduleManager().addShift(LocalTime.of(14,00),LocalTime.of(20,00));
+            managerFactory.getNurseScheduleManager().addShift(LocalTime.of(8,0),LocalTime.of(14,0));
+            managerFactory.getNurseScheduleManager().addShift(LocalTime.of(14,0),LocalTime.of(20,0));
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+    private void loadShift() {
+        try {
+            shiftList = managerFactory.getNurseScheduleManager().getAllShifts();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     
     private void addDummyTimeIntervals() {
@@ -299,29 +311,28 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
-    public synchronized void addSchedule(Nurse nurse, Schedule schedule) {
+    public synchronized void editSchedule(Nurse nurse, LocalDate dateFrom, int shiftId) {
         try {
-            nurse = (Nurse) nurseList.getUserByCpr(nurse.getCpr());
-            if (nurse.worksThatDay(schedule)) {
-                nurse.editSchedule(schedule);
-                managerFactory.getNurseScheduleManager().editNurseSchedule(nurse, schedule);
+            if (shiftId==0) {
+                if (nurse.worksThatWeek(dateFrom))
+                managerFactory.getNurseScheduleManager().removeNurseSchedule(nurse, nurse.getSchedule(dateFrom));
+                nurse.removeSchedule(nurse.getSchedule(dateFrom));
             }
             else {
-                nurse.addSchedule(schedule);
-                managerFactory.getNurseScheduleManager().addNurseSchedule(nurse, schedule);
+                Shift shift = getShiftList().getById(shiftId);
+                LocalDate dateTo = dateFrom.plusDays(6);
+                Schedule schedule = managerFactory.getNurseScheduleManager().addSchedule(dateFrom, dateTo, shift);
+                System.out.println(schedule);
+                nurse = (Nurse) nurseList.getUserByCpr(nurse.getCpr());
+                if (nurse.worksThatWeek(dateFrom)) {
+                    nurse.editSchedule(schedule);
+                    managerFactory.getNurseScheduleManager().editNurseSchedule(nurse, schedule);
+                }
+                else {
+                    nurse.addSchedule(schedule);
+                    managerFactory.getNurseScheduleManager().addNurseSchedule(nurse, schedule);
+                }
             }
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    @Override
-    public synchronized void removeSchedule(Nurse nurse, Schedule schedule) {
-        try {
-            nurse = (Nurse) nurseList.getUserByCpr(nurse.getCpr());
-            nurse.removeSchedule(schedule);
-            managerFactory.getNurseScheduleManager().removeNurseSchedule(nurse, schedule);
         }
         catch (SQLException e) {
             e.printStackTrace();
