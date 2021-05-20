@@ -8,9 +8,7 @@ import server.model.domain.user.Administrator;
 import java.sql.*;
 
 public class FAQManager {
-    public FAQManager() {
-    
-    }
+    public FAQManager() {}
     
     public FAQ addFAQ(String question, String answer, Category category, Administrator creator) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {

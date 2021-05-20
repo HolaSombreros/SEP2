@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NurseScheduleManager {
-    public NurseScheduleManager() {
-    }
+    public NurseScheduleManager() {}
 
     //shift manager
     public Shift addShift(LocalTime timeTo, LocalTime timeFrom) throws SQLException {

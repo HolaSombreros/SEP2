@@ -266,10 +266,7 @@ public class UserManager {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM person WHERE cpr = ?");
             statement.setString(1,cpr);
             ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next())
-                return true;
-            else
-                return false;
+            return resultSet.next();
         }
     }
 }

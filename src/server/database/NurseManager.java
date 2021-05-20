@@ -8,14 +8,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class NurseManager {
-    public NurseManager() {
-    }
+    public NurseManager() {}
     
     public void addNurse(Nurse nurse) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO nurse VALUES (?,?)");
+            PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO nurse VALUES (?, ?, ?)");
             insertStatement.setString(1, nurse.getCpr());
             insertStatement.setString(2, nurse.getEmployeeId());
+            insertStatement.setBoolean(3, true);
             insertStatement.executeUpdate();
         }
     }
@@ -38,22 +38,22 @@ public class NurseManager {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM nurse WHERE cpr = ?");
             statement.setString(1, nurse.getCpr());
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next())
-                return true;
-            else
-                return false;
+            return resultSet.next();
         }
     }
-    
-    public boolean isNurse(String cpr) throws SQLException {
+    public boolean hasAccess(Nurse nurse) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM nurse WHERE cpr = ?");
-            statement.setString(1, cpr);
+            PreparedStatement statement = connection.prepareStatement("SELECT has_access FROM nurse WHERE cpr = ?;");
+            statement.setString(1, nurse.getCpr());
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next())
-                return true;
-            else
-                return false;
+            return resultSet.first();
+        }
+    }
+    public void updateAccess(Nurse nurse) throws SQLException {
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("UPDATE has_access FROM nurse WHERE cpr = ?;");
+            statement.setString(1, nurse.getCpr());
+            statement.executeUpdate();
         }
     }
     

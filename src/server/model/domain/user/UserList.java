@@ -32,44 +32,33 @@ public class UserList implements Serializable
 
     public UserList getUsersByCprAndName(String criteria) {
         UserList userList = new UserList();
-        if(criteria == null || criteria.isEmpty()) {
-            return this;
+        if(criteria.equals("")) {
+            for(User user: users) {
+                userList.add(user);
+            }
         }
         else {
-            criteria = criteria.trim().toLowerCase();
             for(User user : users) {
-                if(user.getCpr().contains(criteria) || user.getFullName().toLowerCase().contains(criteria))
+                if(user.getCpr().contains(criteria) || user.getFirstName().toLowerCase().contains(criteria) || user.getLastName().toLowerCase().contains(criteria)
+                    || user.getLastName().contains(criteria) || user.getFirstName().contains(criteria))
                     userList.add(user);
             }
-            return userList;
         }
+        return userList;
     }
-
     
     public int size() {
         return users.size();
     }
     
     public void remove(User user) {
-        if(contains(user.getCpr()))
-            users.remove(user);
+        users.remove(user);
     }
 
-    
     // Method compares using only the user's CPR
     public boolean contains(String cpr) {
         for (User user : users) {
             if (user.getCpr().equals(cpr)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    // Method compares using only the user's CPR
-    public boolean contains(User user) {
-        for (User u : users) {
-            if (user.getCpr().equals(u.getCpr())) {
                 return true;
             }
         }
