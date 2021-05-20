@@ -9,5 +9,6 @@ import utility.observer.subject.LocalSubject;
 public interface ServerFAQModel extends LocalSubject<FAQ, FAQ>
 {
   void addFAQ(String question, String answer, Category category, Administrator creator);
+  void removeFAQ(String question, String answer);
   FAQList getFAQList();
 }

@@ -44,16 +44,16 @@ public class ServerModelManager implements ServerModel {
         appointmentTimeIntervalList = new AppointmentTimeIntervalList();
         faqList = new FAQList();
         
-        addDummyUsers();
+//        addDummyUsers();
         loadUsers();
     
-        addDummyTimeIntervals();
+//        addDummyTimeIntervals();
         loadTimeIntervals();
         
 //        addDummyAppointments();
         loadAppointments();
         
-        addDummyFAQS();
+//        addDummyFAQS();
         loadFAQs();
 
         addShifts();
@@ -547,7 +547,25 @@ public class ServerModelManager implements ServerModel {
             e.printStackTrace();
         }
     }
-    
+
+    @Override
+    public synchronized void removeFAQ(String question, String answer)
+    {
+        try{
+            FAQ faq = faqList.getFAQ(question, answer);
+            System.out.println(faq);
+            if(faq != null) {
+                faqList.remove(faq);
+                System.out.println(faq);
+                managerFactory.getFAQManager().removeFAQ(question, answer);
+                faqProperty.firePropertyChange("FAQRemove", null, faq);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public synchronized FAQList getFAQList() {
         return faqList;

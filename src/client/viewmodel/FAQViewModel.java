@@ -1,10 +1,12 @@
 package client.viewmodel;
 
 import client.model.Model;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Bounds;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
@@ -12,26 +14,37 @@ import javafx.scene.layout.VBox;
 import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQList;
+import utility.observer.event.ObserverEvent;
+import utility.observer.listener.LocalListener;
+import utility.observer.subject.LocalSubject;
 
-public class FAQViewModel implements FAQViewModelInterface
+public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, FAQ>
 {
     private Model model;
     private ViewState viewState;
     private ObservableList<VBox> content;
     private BooleanProperty adminProperty;
+    private BooleanProperty removeButton;
+    private VBox vBox;
+    private TitledPane selectedBox;
 
     public FAQViewModel(Model model, ViewState viewState) {
         this.model = model;
         this.viewState = viewState;
+        this.vBox = null;
+        this.selectedBox = null;
+        this.removeButton = new SimpleBooleanProperty();
         content = FXCollections.observableArrayList();
         adminProperty = new SimpleBooleanProperty();
-        loadFromModel();
+//        loadFromModel();
+        model.addListener(this,"FAQ", "FAQRemove");
     }
     
     private void loadFromModel() {
         content.clear();
         FAQList faqList = model.getFAQList();
         generateContent(faqList);
+        vBox.getChildren().setAll(content);
     }
     
     private void generateContent(FAQList faqList) {
@@ -47,6 +60,10 @@ public class FAQViewModel implements FAQViewModelInterface
             for (FAQ faq : faqList.getQuestions()) {
                 if (faq.getCategory().equals(category)) {
                     TitledPane titledPane = new TitledPane();
+                    titledPane.expandedProperty().addListener((obs, oldVal,newVal) -> {
+                        if(newVal)
+                            setSelectedBox(titledPane);
+                    });
                     titledPane.setText(faq.getQuestion());
                     Label answer = new Label(faq.getAnswer());
                     answer.setWrapText(true);
@@ -57,41 +74,25 @@ public class FAQViewModel implements FAQViewModelInterface
             content.add(vBox);
         }
     }
-
-    private void addFAQ(FAQ faq) {
-        for (VBox vBox : content)
-        {
-            if (((Label) vBox.getChildren().get(0)).textProperty().get().equals(faq.getCategory().toString()))
-            {
-                TitledPane titledPane = new TitledPane();
-                titledPane.setText(faq.getQuestion());
-                Label answer = new Label(faq.getAnswer());
-                answer.setWrapText(true);
-                titledPane.setContent(new VBox(answer));
-                Accordion accordion = (Accordion) vBox.getChildren().get(1);
-                accordion.getPanes().add(titledPane);
-            }
-            else
-            {
-                TitledPane titledPane = new TitledPane();
-                titledPane.setText(faq.getQuestion());
-                Label answer = new Label(faq.getAnswer());
-                answer.setWrapText(true);
-                titledPane.setContent(new VBox(answer));
-                VBox vBox1 = new VBox();
-                vBox1.setSpacing(5);
-                Category category = faq.getCategory();
-                Label header = new Label(category.toString());
-                header.getStyleClass().add("sub-header");
-                vBox1.getChildren().add(header);
-                Accordion accordion = new Accordion();
-                vBox1.getChildren().add(accordion);
-                accordion.getPanes().add(titledPane);
-                content.add(vBox1);
-            }
-        }
+    public void addBox(VBox box) {
+        vBox = box;
     }
-    
+
+    @Override
+    public void remove()
+    {
+        if(selectedBox != null) {
+            model.removeFAQ(selectedBox.getText(), ((Label) ((VBox) selectedBox.getContent()).getChildren().get(0)).getText());
+            selectedBox = null;
+        }
+
+    }
+
+    @Override
+    public void setSelectedBox(TitledPane box) {
+       selectedBox = box;
+    }
+
     @Override
     public void reset() {
         adminProperty.set(viewState.getAdmin() != null);
@@ -107,4 +108,18 @@ public class FAQViewModel implements FAQViewModelInterface
         return adminProperty;
     }
 
+    @Override
+    public BooleanProperty removeButtonProperty()
+    {
+        return removeButton;
+    }
+
+    @Override
+    public void propertyChange(ObserverEvent<FAQ, FAQ> observerEvent)
+    {
+        Platform.runLater(() -> {
+            loadFromModel();
+            System.out.println(observerEvent.getPropertyName());
+        });
+    }
 }

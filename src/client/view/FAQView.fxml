@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="600.0" spacing="20.0" stylesheets="@../../util/style.css" userData="Frequently Asked Questions" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.FAQViewController">
+<VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="600.0" spacing="20.0" stylesheets="@../../util/style.css" userData="Frequently Asked Questions" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.FAQViewController">
    <children>
       <Label styleClass="header" text="Frequently Asked Questions" />
       <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="500.0" pannable="true" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
@@ -50,15 +50,15 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </ScrollPane>
-      <HBox alignment="CENTER" maxWidth="500.0">
+      <HBox alignment="CENTER" maxWidth="500.0" spacing="25.0">
          <children>
             <Button minWidth="90.0" mnemonicParsing="false" onAction="#chat" text="Enter Chat" />
-            <Label maxWidth="1.7976931348623157E308" text="hidden filler label" visible="false" HBox.hgrow="ALWAYS" />
             <Button fx:id="addFAQ" minWidth="90.0" mnemonicParsing="false" onAction="#addFAQ" text="Add FAQ">
                <HBox.margin>
-                  <Insets right="105.0" />
+                  <Insets />
                </HBox.margin>
             </Button>
+            <Button fx:id="removeButton" minWidth="90.0" mnemonicParsing="false" onAction="#removeButton" text="Remove FAQ" />
             <Button minWidth="90.0" mnemonicParsing="false" onAction="#back" text="Go Back" />
          </children>
       </HBox>

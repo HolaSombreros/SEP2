@@ -27,6 +27,15 @@ public class FAQManager {
             }
         }
     }
+
+    public void removeFAQ(String question, String answer) throws SQLException {
+        try(Connection connection = DatabaseManager.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM faq WHERE question = ? AND answer = ?");
+            statement.setString(1, question);
+            statement.setString(2, answer);
+            statement.executeUpdate();
+        }
+    }
     
     public FAQList getAllFAQs() throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {

@@ -11,6 +11,7 @@ public class FAQViewController extends ViewController {
     
     @FXML VBox dynamicVBox;
     @FXML private Button addFAQ;
+    @FXML private Button removeButton;
 
     public FAQViewController() { }
 
@@ -18,18 +19,23 @@ public class FAQViewController extends ViewController {
     protected void init() {
         viewModel = getViewModelFactory().getFaqViewModel();
         addFAQ.visibleProperty().bind(viewModel.isAdminProperty());
+        removeButton.visibleProperty().bind(viewModel.isAdminProperty());
+//        removeButton..bindBidirectional(viewModel.removeButtonProperty());
+        viewModel.addBox(dynamicVBox);
         reset();
     }
     
     @Override
     public void reset() {
         viewModel.reset();
-        dynamicVBox.getChildren().setAll(viewModel.getFAQContent());
     }
     
     @FXML
     private void chat() {
     
+    }
+    @FXML private void removeButton(){
+        viewModel.remove();
     }
 
     @FXML

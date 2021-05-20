@@ -320,7 +320,18 @@ public class Client implements Model, RemoteListener<FAQ,FAQ> {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
-    
+
+    @Override
+    public void removeFAQ(String question, String answer)
+    {
+        try{
+            server.removeFAQ(question, answer);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
+        }
+    }
+
     @Override
     public void close() {
         try {

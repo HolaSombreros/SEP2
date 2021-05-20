@@ -162,6 +162,13 @@ public class RemoteModelManager implements RemoteModel, LocalListener<FAQ, FAQ> 
     public FAQList getFAQList() throws RemoteException {
         return serverModel.getFAQList();
     }
+
+    @Override
+    public void removeFAQ(String question, String answer) throws RemoteException
+    {
+        serverModel.removeFAQ(question, answer);
+    }
+
     @Override
     public VaccineStatus updateVaccineStatus(Patient patient) throws RemoteException {
         return serverModel.updateVaccineStatus(patient);

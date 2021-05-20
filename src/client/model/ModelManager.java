@@ -162,6 +162,12 @@ public class ModelManager implements Model, LocalListener<FAQ, FAQ> {
         return client.getFAQList();
     }
 
+    @Override
+    public void removeFAQ(String question, String answer)
+    {
+        client.removeFAQ(question, answer);
+    }
+
     /*
     @Override
     public void removeUser(User user)
