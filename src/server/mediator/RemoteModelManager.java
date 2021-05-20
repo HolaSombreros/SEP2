@@ -135,9 +135,9 @@ public class RemoteModelManager implements RemoteModel, LocalListener<FAQ, FAQ> 
         return serverModel.getPatient(cpr);
     }
 
-    @Override public void addSchedule(Nurse nurse, Schedule schedule) throws RemoteException
+    @Override public void editSchedule(Nurse nurse, LocalDate dateFrom, int shiftId) throws RemoteException
     {
-        serverModel.addSchedule(nurse,schedule);
+        serverModel.editSchedule(nurse, dateFrom, shiftId);
     }
 
     @Override
@@ -145,10 +145,6 @@ public class RemoteModelManager implements RemoteModel, LocalListener<FAQ, FAQ> 
         return serverModel.getTimeIntervalList();
     }
 
-    @Override public void removeSchedule(Nurse nurse, Schedule schedule) throws RemoteException {
-        serverModel.removeSchedule(nurse, schedule);
-    }
-    
     @Override
     public void changeResult(int id,Result result) throws RemoteException {
         serverModel.changeResult(id,result);

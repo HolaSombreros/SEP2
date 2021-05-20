@@ -126,15 +126,10 @@ public class ModelManager implements Model, LocalListener<FAQ, FAQ> {
     }
     
     @Override
-    public void addSchedule(Nurse nurse, Schedule schedule) {
-        client.addSchedule(nurse, schedule);
+    public void editSchedule(Nurse nurse, LocalDate dateFrom, int shiftId) {
+        client.editSchedule(nurse, dateFrom, shiftId);
     }
-    
-    @Override
-    public void removeSchedule(Nurse nurse, Schedule schedule) {
-        client.removeSchedule(nurse, schedule);
-    }
-    
+
     @Override
     public VaccineStatus updateVaccineStatus(Patient patient) {
         return client.updateVaccineStatus(patient);

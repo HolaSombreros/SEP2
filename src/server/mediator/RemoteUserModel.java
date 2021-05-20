@@ -4,6 +4,7 @@ import server.model.domain.user.*;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.time.LocalDate;
 
 public interface RemoteUserModel extends Remote
 {
@@ -18,8 +19,7 @@ public interface RemoteUserModel extends Remote
     UserList getAdministrators() throws RemoteException;
     User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws RemoteException;
     VaccineStatus applyForVaccination(Patient patient) throws RemoteException;
-    void addSchedule(Nurse nurse, Schedule schedule) throws RemoteException;
-    void removeSchedule(Nurse nurse, Schedule schedule) throws RemoteException;
+    void editSchedule(Nurse nurse, LocalDate dateFrom, int shiftId) throws RemoteException;
     Patient getPatient(String cpr) throws RemoteException;
     VaccineStatus updateVaccineStatus(Patient patient) throws RemoteException;
     void setRole (User user, String role) throws RemoteException;

@@ -1,7 +1,5 @@
 package server.model.domain.user;
 
-import server.model.domain.appointment.TimeInterval;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -14,7 +12,8 @@ public class Schedule implements Serializable {
     public Schedule(int id, LocalDate dateFrom, LocalDate dateTo, Shift shift) {
         if (dateFrom.isBefore(LocalDate.now()))
             throw new IllegalArgumentException("Not valid date");
-
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
         this.shift = shift;
         this.id = id;
     }
