@@ -240,8 +240,10 @@ public class UserManager {
             UserList result = new UserList();
             while (resultSet.next()) {
                 String cpr = resultSet.getString("cpr");
+                boolean access = resultSet.getBoolean("has_access");
                 Nurse user = getNurse(cpr);
-                result.add(user);
+                if(access)
+                    result.add(user);
             }
             return result;
         }

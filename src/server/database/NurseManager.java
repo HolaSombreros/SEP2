@@ -19,7 +19,6 @@ public class NurseManager {
             insertStatement.executeUpdate();
         }
     }
-    
     public void removeNurse(Nurse nurse) throws SQLException {
         if(nurse != null)
         {

@@ -43,22 +43,25 @@ public class ServerModelManager implements ServerModel {
         // TODO - TEMPORARY
         appointmentTimeIntervalList = new AppointmentTimeIntervalList();
         faqList = new FAQList();
-        
-        addDummyUsers();
-        loadUsers();
-    
-        addDummyTimeIntervals();
-        loadTimeIntervals();
-        
-//        addDummyAppointments();
-        loadAppointments();
-        
-        addDummyFAQS();
-        loadFAQs();
+        addAll();
+        loadAll();
+    }
 
+    private void addAll(){
+        addDummyAppointments();
+        addDummyFAQS();
+        addDummyTimeIntervals();
+        addDummyUsers();
         addShifts();
     }
-    
+
+    private void loadAll(){
+        loadUsers();
+        loadTimeIntervals();
+        loadAppointments();
+        loadFAQs();
+    }
+
     private void addDummyAppointments() {
         addAppointment(LocalDate.of(2021, 3, 28), timeIntervalList.getTimeIntervals().get(0), Type.TEST, (Patient) patientList.getUsers().get(0));
         addAppointment(LocalDate.of(2020, 11, 14), timeIntervalList.getTimeIntervals().get(1), Type.TEST, (Patient) patientList.getUsers().get(1));

@@ -56,7 +56,6 @@ public class NurseScheduleManager {
         }
     }
 
-    //TODO: schedules
 
     public Schedule addSchedule(LocalDate dateFrom, LocalDate dateTo, Shift shift) throws SQLException{
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
@@ -137,6 +136,6 @@ public class NurseScheduleManager {
     }
 
 
-    //TODO: list of nurse schedules
+    //TODO: list of nurse schedules from schedule_view
 
 }
