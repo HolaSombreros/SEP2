@@ -107,8 +107,14 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         errorLabel.set("");
         if(confirmEditingType(1)){
            try{
-               User user = model.editUserInformation(viewState.getUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(),number.get(), zipCode.get());
-               viewState.setUser(user);
+               if(viewState.getAdmin() != null) {
+                   User user = model.editUserInformation(viewState.getSelectedUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(),number.get(), zipCode.get());
+                   viewState.setSelectedUser(user);
+               }
+               else {
+                   User user = model.editUserInformation(viewState.getUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(),number.get(), zipCode.get());
+                   viewState.setUser(user);
+               }
                errorLabel.set("Changes were saved");
            }
            catch (Exception e){
@@ -152,7 +158,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         switch (criteria)
         {
             case 1:
-                if ((viewState.getUser() instanceof Administrator)) {
+                if ((viewState.getAdmin() != null)) {
                     String addForAdmin = "Vaccine Status: " + ((Patient) viewState.getSelectedUser()).getVaccineStatus().toString() + "\n";
                     if (middleName.get() != null)
                         alert.setHeaderText(adminHeader + secondHeader + middleHeader + thirdPart + addForAdmin);
@@ -167,7 +173,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
                 }
             break;
             case 2:
-                if ((viewState.getUser() instanceof Administrator)) {
+                if ((viewState.getAdmin() != null)) {
                     if (middleName.get() != null)
                         alert.setHeaderText(removeUser + secondHeader + middleHeader + thirdPart);
                     else

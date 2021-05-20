@@ -111,8 +111,8 @@ public class UserManager {
 
     public void updateUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE person SET password = ?, firstname = ?, middlename = ?, lastname = ?, phone = ?, email = ?, street = ?, number = ?, zip_code = ? WHERE cpr = ?;");
-            statement.setString(1, password);
+            PreparedStatement statement = connection.prepareStatement("UPDATE person Set password = ?, firstname = ?,middlename = ?, lastname = ?, phone = ?, email = ?, street = ?, number = ?, zip_code = ? WHERE cpr = ?");
+            statement.setString(1,password);
             statement.setString(2, firstName);
             statement.setString(3, middleName);
             statement.setString(4, lastName);
@@ -122,6 +122,8 @@ public class UserManager {
             statement.setString(8, number);
             statement.setInt(9, zip);
             statement.setString(10, user.getCpr());
+            if(!addressManager.isAddress(street,number, zip))
+                addressManager.addAddress(new Address(street,number,zip,addressManager.getCity(zip)));
             statement.executeUpdate();
             //TODO: zipcode and city
         }

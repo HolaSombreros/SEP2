@@ -394,8 +394,8 @@ public class ServerModelManager implements ServerModel {
     
     @Override
     public synchronized void logout(User user) {
-        if (userList.contains(user)) {
-            if (onlineList.contains(user)) {
+        if (userList.contains(user.getCpr())) {
+            if (onlineList.contains(user.getCpr())) {
                 onlineList.remove(user);
             }
             else {
