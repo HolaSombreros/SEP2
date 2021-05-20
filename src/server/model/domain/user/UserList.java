@@ -44,14 +44,17 @@ public class UserList implements Serializable
             return userList;
         }
     }
+
     
     public int size() {
         return users.size();
     }
     
     public void remove(User user) {
-        users.remove(user);
+        if(contains(user.getCpr()))
+            users.remove(user);
     }
+
     
     // Method compares using only the user's CPR
     public boolean contains(String cpr) {
