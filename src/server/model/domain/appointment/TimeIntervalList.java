@@ -28,9 +28,9 @@ public class TimeIntervalList implements Serializable {
         timeIntervals.remove(timeInterval);
     }
 
-    public TimeInterval get(LocalTime timeTo, LocalTime timeFrom){
+    public TimeInterval get(LocalTime timeFrom, LocalTime timeTo){
         for(TimeInterval timeInterval: timeIntervals)
-            if(timeInterval.getFrom().equals(timeFrom) && timeInterval.getTo().equals(timeTo))
+            if (timeInterval.getFrom().equals(timeFrom) && timeInterval.getTo().equals(timeTo))
                 return timeInterval;
         return null;
     }

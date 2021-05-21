@@ -43,8 +43,8 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
     public void reset() {
         listOfTimeIntervals.clear();
         errorLabel.set("");
-        loadAppointmentDetails();
         loadTimeIntervals();
+        loadAppointmentDetails();
     }
 
     @Override
@@ -54,7 +54,6 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
             listOfTimeIntervals.addAll(model.getAvailableTimeIntervals(date.get()).getTimeIntervals());
             // TODO - revisit this
             if(listOfTimeIntervals.size() > 0){
-                timeInterval.set(listOfTimeIntervals.get(0));
                 errorLabel.set("");
             }
             else{
@@ -69,7 +68,6 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
         if(appointment != null)
         {
             date.set(LocalDate.of(appointment.getDate().getYear(), appointment.getDate().getMonth(), appointment.getDate().getDayOfMonth()));
-            listOfTimeIntervals.addAll(model.getAvailableTimeIntervals(date.get()).getTimeIntervals());
             timeInterval.set(appointment.getTimeInterval());
             type.set(appointment.getType().toString());
             status.set(appointment.getStatus().toString());
