@@ -22,6 +22,7 @@ public class PersonalDataViewController extends ViewController
     @FXML private TextField number;
     @FXML private Label errorLabel;
     @FXML private Label vaccineStatus;
+    @FXML private Label vaccineLabel;
     @FXML private Label titleLabel;
     @FXML private Button approveButton;
     @FXML private Button declineButton;
@@ -47,6 +48,7 @@ public class PersonalDataViewController extends ViewController
         number.textProperty().bindBidirectional(viewModel.getNumberProperty());
         errorLabel.textProperty().bindBidirectional(viewModel.getErrorLabelProperty());
         vaccineStatus.textProperty().bind(viewModel.getVaccineStatusProperty());
+        vaccineLabel.visibleProperty().bind(viewModel.vaccineLabelVisibilityProperty());
         changeRole.visibleProperty().bind(viewModel.changeRoleProperty());
         removeButton.visibleProperty().bind(viewModel.changeRoleProperty());
         titleLabel.textProperty().bind(viewModel.titleProperty());
