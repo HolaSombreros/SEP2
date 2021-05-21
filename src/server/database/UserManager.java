@@ -190,79 +190,7 @@ public class UserManager {
             return users;
         }
     }
-    
-    public UserList getAllPatients() throws SQLException {
-        UserList registeredUsers = new UserList();
-        try (Connection connection = DatabaseManager.getInstance().getConnection())
-        {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM patient_view");
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next())
-            {
-                String cprResult = resultSet.getString("cpr");
-                String password = resultSet.getString("password");
-                String firstName = resultSet.getString("firstName");
-                String lastName = resultSet.getString("lastName");
-                String middleName = resultSet.getString("middleName");
-                String street = resultSet.getString("street");
-                String number = resultSet.getString("number");
-                int zipcode = resultSet.getInt("zip_code");
-                String city = resultSet.getString("city");
-                Address address = new Address(street, number, zipcode, city);
-                String phone = resultSet.getString("phone");
-                String email = resultSet.getString("email");
-                String vaccine = resultSet.getString("vaccine_status");
-                VaccineStatus status = null;
-                switch (vaccine){
-                    case "Not Applied":
-                        status = new NotAppliedStatus();
-                        break;
-                    case "Approved":
-                        status = new ApprovedStatus();
-                        break;
-                    case "Not Approved":
-                        status = new NotApprovedStatus();
-                        break;
-                    case "Pending":
-                        status = new PendingStatus();
-                        break;
-                }
-                if(patientManager.isPatient(cprResult))
-                    registeredUsers.getUsers().add(new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email, status));
-            }
-            return registeredUsers;
-        }
-    }
 
-    public UserList getAllNurses() throws SQLException {
-        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM nurse_view");
-            ResultSet resultSet = statement.executeQuery();
-            UserList result = new UserList();
-            while (resultSet.next()) {
-                String cpr = resultSet.getString("cpr");
-                boolean access = resultSet.getBoolean("has_access");
-                Nurse user = getNurse(cpr);
-                if(access)
-                    result.add(user);
-            }
-            return result;
-        }
-    }
-
-    public UserList getAllAdministrators() throws SQLException {
-        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM administrator_view");
-            ResultSet resultSet = statement.executeQuery();
-            UserList result = new UserList();
-            while (resultSet.next()) {
-                String cpr = resultSet.getString("cpr");
-                Administrator user = getAdministrator(cpr);
-                result.add(user);
-            }
-            return result;
-        }
-    }
 
     public boolean isUser(String cpr) throws SQLException{
         try(Connection connection = DatabaseManager.getInstance().getConnection()) {
