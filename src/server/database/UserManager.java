@@ -154,7 +154,7 @@ public class UserManager {
                 String street = rs.getString("street");
                 String number = rs.getString("number");
                 int zipcode = rs.getInt("zip_code");
-                String city = rs.getString("city");
+                String city = addressManager.getCity(zipcode);
                 Address address = new Address(street, number, zipcode, city);
                 String phone = rs.getString("phone");
                 String email = rs.getString("email");
@@ -162,6 +162,7 @@ public class UserManager {
                 String nurse_id = rs.getString("nurse_id");
                 String admin_id = rs.getString("admin_id");
                 VaccineStatus status = null;
+                if(vaccine != null)
                 switch (vaccine){
                     case "Not Applied":
                         status = new NotAppliedStatus();

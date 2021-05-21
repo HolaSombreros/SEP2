@@ -64,6 +64,53 @@ public class UserList implements Serializable
         }
         return false;
     }
+
+    public Administrator getAdmin(String cpr){
+        for(User admin : users)
+            if(admin instanceof Administrator && admin.getCpr().equals(cpr))
+                return (Administrator) admin;
+        return null;
+    }
+
+    public Nurse getNurse(String cpr){
+        for(User user : users)
+            if(user instanceof Nurse && user.getCpr().equals(cpr))
+                return (Nurse) user;
+        return null;
+    }
+
+
+    public Patient getPatient(String cpr){
+        for(User user : users)
+            if(user instanceof Patient && user.getCpr().equals(cpr))
+                return (Patient) user;
+        return null;
+    }
+
+
+    public UserList getAdminList(){
+        UserList list = new UserList();
+        for(User admin : users)
+            if(admin instanceof Administrator)
+                list.add((Administrator) admin);
+        return list;
+    }
+
+    public UserList getNurseList(){
+        UserList list = new UserList();
+        for(User nurse : users)
+            if(nurse instanceof Nurse)
+                list.add( nurse);
+        return list;
+    }
+
+    public UserList getPatientList(){
+        UserList list = new UserList();
+        for(User patient : users)
+            if(patient instanceof Patient)
+                list.add(patient);
+        return list;
+    }
     
     @Override
     public boolean equals(Object obj) {
@@ -85,7 +132,7 @@ public class UserList implements Serializable
     public String toString() {
         String totalUsers = "";
         for (User user : users) {
-            totalUsers += user + " ";
+            totalUsers += user + " \n";
         }
         return totalUsers;
     }

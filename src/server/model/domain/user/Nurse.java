@@ -18,6 +18,10 @@ public class Nurse extends Staff {
         return scheduleList;
     }
 
+    public void setScheduleList(ScheduleList scheduleList) {
+        this.scheduleList = scheduleList;
+    }
+
     public void addSchedule(Schedule schedule) {
         scheduleList.add(schedule);
     }

@@ -21,9 +21,6 @@ import java.util.ArrayList;
 
 public class ServerModelManager implements ServerModel {
     private UserList userList;
-    private UserList patientList;
-    private UserList nurseList;
-    private UserList adminList;
     private UserList onlineList;
     
     
@@ -57,7 +54,6 @@ public class ServerModelManager implements ServerModel {
         addDummyTimeIntervals();
         addDummyUsers();
         addShifts();
-        loadShift();
     }
 
     private void loadAll() throws RemoteException
@@ -66,22 +62,21 @@ public class ServerModelManager implements ServerModel {
         loadTimeIntervals();
         loadAppointments();
         loadFAQs();
+        loadShift();
+        loadSchedules();
     }
 
-    private void addDummyAppointments() throws RemoteException
-    {
-        addAppointment(LocalDate.of(2021, 3, 28), timeIntervalList.getTimeIntervals().get(0), Type.TEST, (Patient) patientList.getUsers().get(0));
-        addAppointment(LocalDate.of(2020, 11, 14), timeIntervalList.getTimeIntervals().get(1), Type.TEST, (Patient) patientList.getUsers().get(1));
-        addAppointment(LocalDate.now(), timeIntervalList.getTimeIntervals().get(2), Type.VACCINE, (Patient) patientList.getUsers().get(2));
-        addAppointment(LocalDate.of(2022, 4, 20), timeIntervalList.getTimeIntervals().get(0), Type.TEST, (Patient) patientList.getUsers().get(0));
+
+    private void addDummyAppointments() throws RemoteException {
+        addAppointment(LocalDate.of(2021, 3, 28), timeIntervalList.getTimeIntervals().get(0), Type.TEST, (Patient)userList.getPatientList().getUsers().get(0));
+        addAppointment(LocalDate.of(2020, 11, 14), timeIntervalList.getTimeIntervals().get(1), Type.TEST, (Patient) userList.getPatientList().getUsers().get(1));
+        addAppointment(LocalDate.now(), timeIntervalList.getTimeIntervals().get(2), Type.VACCINE, (Patient) userList.getPatientList().getUsers().get(2));
+        addAppointment(LocalDate.of(2022, 4, 20), timeIntervalList.getTimeIntervals().get(0), Type.TEST, (Patient) userList.getPatientList().getUsers().get(0));
     }
     
     private void loadUsers() throws RemoteException
     {
         try {
-            patientList = managerFactory.getUserManager().getAllPatients();
-            nurseList = managerFactory.getUserManager().getAllNurses();
-            adminList = managerFactory.getUserManager().getAllAdministrators();
             userList = managerFactory.getUserManager().getAllUsers();
         }
         catch (SQLException e) {
@@ -147,12 +142,11 @@ public class ServerModelManager implements ServerModel {
             throw new RemoteException(e.getMessage());
         }
     }
-    
-    private void addDummyFAQS() throws RemoteException
-    {
-        addFAQ("Deez", "Nuts", Category.GENERAL, (Administrator) adminList.getUsers().get(0));
-        addFAQ("Yo", "Whaddup", Category.GENERAL, (Administrator) adminList.getUsers().get(1));
-        addFAQ("What is the Corona passport?", "It's some...thing. I don't even know now what even happens if this label is super duper long. I would assume it goes to the next line but I need to make sure that this is in fact what actually happens", Category.PASSPORT, (Administrator) adminList.getUsers().get(0));
+
+    private void addDummyFAQS() throws RemoteException {
+        addFAQ("Deez", "Nuts", Category.GENERAL,  (Administrator) userList.getAdminList().getUsers().get(0));
+        addFAQ("Yo", "Whaddup", Category.GENERAL,  (Administrator) userList.getAdminList().getAdminList().getUsers().get(1));
+        addFAQ("What is the Corona passport?", "It's some...thing. I don't even know now what even happens if this label is super duper long. I would assume it goes to the next line but I need to make sure that this is in fact what actually happens", Category.PASSPORT, (Administrator) userList.getAdminList().getUsers().get(0));
     }
     
     private void loadFAQs() throws RemoteException
@@ -170,6 +164,8 @@ public class ServerModelManager implements ServerModel {
         try {
             shiftList = managerFactory.getNurseScheduleManager().getAllShifts();
             scheduleList = managerFactory.getNurseScheduleManager().getAllSchedules();
+            for (User nurse:  userList.getNurseList().getUsers())
+                ((Nurse) nurse).setScheduleList(managerFactory.getNurseScheduleManager().getAllSchedulesForNurse((Nurse) nurse));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -243,7 +239,6 @@ public class ServerModelManager implements ServerModel {
             Address address = new Address(street, number, zip, city);
             User user = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, new NotAppliedStatus());
             userList.add(user);
-            patientList.add(user);
             try {
                 managerFactory.getUserManager().addPerson(user);
             }
@@ -259,9 +254,6 @@ public class ServerModelManager implements ServerModel {
     private void updateList() throws RemoteException
     {
         try {
-            patientList = managerFactory.getUserManager().getAllPatients();
-            nurseList = managerFactory.getUserManager().getAllNurses();
-            adminList = managerFactory.getUserManager().getAllAdministrators();
             userList = managerFactory.getUserManager().getAllUsers();
         }
         catch (SQLException e) {
@@ -277,7 +269,7 @@ public class ServerModelManager implements ServerModel {
     
     @Override
     public synchronized UserList getPatientList() {
-        return patientList;
+        return userList.getPatientList();
     }
 
     @Override
@@ -287,12 +279,12 @@ public class ServerModelManager implements ServerModel {
 
     @Override
     public synchronized UserList getNurseList() {
-        return nurseList;
+        return userList.getNurseList();
     }
     
     @Override
     public synchronized UserList getAdministratorList() {
-        return adminList;
+        return userList.getAdminList();
     }
 
     public synchronized ShiftList getShiftList() {
@@ -342,7 +334,6 @@ public class ServerModelManager implements ServerModel {
     {
         try {
             if (shiftId==0) {
-                if (nurse.worksThatWeek(dateFrom))
                 managerFactory.getNurseScheduleManager().removeNurseSchedule(nurse, nurse.getSchedule(dateFrom));
                 nurse.removeSchedule(nurse.getSchedule(dateFrom));
             }
@@ -351,7 +342,7 @@ public class ServerModelManager implements ServerModel {
                 LocalDate dateTo = dateFrom.plusDays(6);
                 Schedule schedule = managerFactory.getNurseScheduleManager().addSchedule(dateFrom, dateTo, shift);
                 System.out.println(schedule);
-                nurse = (Nurse) nurseList.getUserByCpr(nurse.getCpr());
+                nurse = userList.getNurse(nurse.getCpr());
                 if (nurse.worksThatWeek(dateFrom)) {
                     nurse.editSchedule(schedule);
                     managerFactory.getNurseScheduleManager().editNurseSchedule(nurse, schedule);
@@ -361,6 +352,7 @@ public class ServerModelManager implements ServerModel {
                     managerFactory.getNurseScheduleManager().addNurseSchedule(nurse, schedule);
                 }
             }
+            System.out.println(nurse.getScheduleList().toString());
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -470,20 +462,20 @@ public class ServerModelManager implements ServerModel {
     @Override
     public synchronized UserList getUsersByCprAndName(String criteria, String typeOfList)
     {
-        switch(typeOfList){
+        switch(typeOfList) {
             case "Patient List":
-                return patientList.getUsersByCprAndName(criteria);
+                return userList.getPatientList().getUsersByCprAndName(criteria);
             case "Administrator List":
-                return adminList.getUsersByCprAndName(criteria);
+                return userList.getAdminList().getUsersByCprAndName(criteria);
             case "Nurse List":
-                return nurseList.getUsersByCprAndName(criteria);
+                return userList.getNurseList().getUsersByCprAndName(criteria);
         }
         return null;
     }
 
     @Override
     public synchronized Patient getPatient(String cpr) {
-        return (Patient) patientList.getUserByCpr(cpr);
+        return userList.getPatient(cpr);
     }
     
     @Override
@@ -523,7 +515,6 @@ public class ServerModelManager implements ServerModel {
                 try {
                     Nurse nurse = new Nurse(user.getCpr(), user.getPassword(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getAddress(), user.getPhone(),
                     user.getEmail(), generateEmployeeId(user.getFirstName(), user.getMiddleName(), user.getLastName()));
-                    nurseList.add(nurse);
                     managerFactory.getNurseManager().addNurse(nurse);
                 }
                 catch (SQLException e) {
@@ -535,7 +526,6 @@ public class ServerModelManager implements ServerModel {
                 try {
                     Administrator administrator = new Administrator(user.getCpr(), user.getPassword(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getAddress(),
                     user.getPhone(), user.getEmail(), generateEmployeeId(user.getFirstName(), user.getMiddleName(), user.getLastName()));
-                    adminList.add(administrator);
                     managerFactory.getAdministratorManager().addAdministrator(administrator);
                 }
                 catch (SQLException e) {
@@ -551,7 +541,7 @@ public class ServerModelManager implements ServerModel {
     {
         switch (user.getClass().getSimpleName()) {
             case "Nurse":
-                nurseList.remove(user);
+                userList.remove(user);
                 try {
                     managerFactory.getNurseManager().removeNurse((Nurse) user);
                 }
@@ -561,7 +551,7 @@ public class ServerModelManager implements ServerModel {
                 }
                 break;
             case "Administrator":
-                adminList.remove(user);
+                userList.remove(user);
                 try {
                     managerFactory.getAdministratorManager().removeAdministrator((Administrator) user);
                 }

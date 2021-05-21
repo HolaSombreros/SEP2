@@ -13,7 +13,7 @@ public class NurseScheduleManager {
     public NurseScheduleManager() {}
 
     //shift manager
-    public Shift addShift(LocalTime timeTo, LocalTime timeFrom) throws SQLException {
+    public Shift addShift(LocalTime timeFrom, LocalTime timeTo) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO shift (time_from,time_to) VALUES (?,?);", Statement.RETURN_GENERATED_KEYS);
             statement.setTime(1, Time.valueOf(timeFrom));
@@ -31,7 +31,7 @@ public class NurseScheduleManager {
         return null;
     }
 
-    public boolean isShift(LocalTime timeTo, LocalTime timeFrom) throws SQLException {
+    public boolean isShift(LocalTime timeFrom, LocalTime timeTo) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM shift WHERE time_from = ? AND time_to = ?");
             statement.setTime(1, Time.valueOf(timeFrom));
@@ -72,7 +72,7 @@ public class NurseScheduleManager {
                     throw new SQLException("No keys were generated");
                 }
             }
-            return getSchedule(dateFrom, dateTo, shift);
+            return getSchedule(dateFrom, shift);
         }
     }
 
@@ -87,24 +87,21 @@ public class NurseScheduleManager {
         }
     }
 
-    public Schedule getSchedule(LocalDate dateFrom, LocalDate dateTo, Shift shift) throws SQLException {
+    public Schedule getSchedule(LocalDate dateFrom, Shift shift) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM schedule_view WHERE date_from = ? AND date_to = ? AND shift_id = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM schedule WHERE date_from = ? AND shift_id = ?");
             statement.setDate(1, Date.valueOf(dateFrom.toString()));
-            statement.setDate(2, Date.valueOf(dateTo.toString()));
-            statement.setInt(3,shift.getId());
+            statement.setInt(2,shift.getId());
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                LocalTime time_to = resultSet.getTime("time_to").toLocalTime();
-                LocalTime time_from = resultSet.getTime("time_from").toLocalTime();
                 LocalDate date_from = resultSet.getDate("date_from").toLocalDate();
                 LocalDate date_to = resultSet.getDate("date_to").toLocalDate();
                 int shift_id = resultSet.getInt("shift_id");
                 int id = resultSet.getInt("schedule_id");
-                return new Schedule(id, date_from,date_to,new Shift(shift_id, time_from,time_to));
+                return new Schedule(id, date_from,date_to, getAllShifts().getById(shift_id));
             }
+            return null;
         }
-        return null;
     }
 
 
@@ -112,6 +109,25 @@ public class NurseScheduleManager {
         try(Connection connection = DatabaseManager.getInstance().getConnection()){
             ScheduleList list = new ScheduleList();
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM schedule_view JOIN shift USING(shift_id);");
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                LocalTime time_to = resultSet.getTime("time_to").toLocalTime();
+                LocalTime time_from = resultSet.getTime("time_from").toLocalTime();
+                LocalDate date_from = resultSet.getDate("date_from").toLocalDate();
+                LocalDate date_to = resultSet.getDate("date_to").toLocalDate();
+                int shift_id = resultSet.getInt("shift_id");
+                int id = resultSet.getInt("schedule_id");
+                list.add(new Schedule(id, date_from,date_to,new Shift(shift_id, time_from,time_to)));
+            }
+            return list;
+        }
+    }
+
+    public ScheduleList getAllSchedulesForNurse(Nurse nurse) throws SQLException{
+        try(Connection connection = DatabaseManager.getInstance().getConnection()){
+            ScheduleList list = new ScheduleList();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM schedule_view WHERE nurse_cpr=?;");
+            statement.setString(1,nurse.getCpr());
             ResultSet resultSet = statement.executeQuery();
             while(resultSet.next()){
                 LocalTime time_to = resultSet.getTime("time_to").toLocalTime();
