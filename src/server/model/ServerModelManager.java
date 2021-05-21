@@ -24,7 +24,9 @@ public class ServerModelManager implements ServerModel {
     private UserList onlineList;
     private FAQList faqList;
     private TimeIntervalList timeIntervalList;
-    private AppointmentTimeIntervalList appointmentTimeIntervalList;
+    private AvailableTimeIntervalList availableTimeIntervalList;
+    private AppointmentList appointmentList;
+
     private ShiftList shiftList;
     private ScheduleList scheduleList;
     private ManagerFactory managerFactory;
@@ -37,8 +39,9 @@ public class ServerModelManager implements ServerModel {
         userList = new UserList();
         managerFactory = new ManagerFactory();
         
-        // TODO - TEMPORARY
-        appointmentTimeIntervalList = new AppointmentTimeIntervalList();
+        appointmentList = new AppointmentList();
+        availableTimeIntervalList = new AvailableTimeIntervalList();
+        
         faqList = new FAQList();
         
         doDummyStuff();
@@ -136,7 +139,7 @@ public class ServerModelManager implements ServerModel {
     private void loadAppointments() throws RemoteException
     {
         try {
-            appointmentTimeIntervalList = managerFactory.getAppointmentManager().getAllAppointments();
+            appointmentList = managerFactory.getAppointmentManager().getAllAppointments();
         }
         catch (SQLException e) {
             e.printStackTrace();
