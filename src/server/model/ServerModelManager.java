@@ -329,25 +329,18 @@ public class ServerModelManager implements ServerModel {
     public synchronized void editSchedule(Nurse nurse, LocalDate dateFrom, int shiftId) throws RemoteException
     {
         try {
-            if (shiftId==0) {
+            nurse = userList.getNurse(nurse.getCpr());
+            if (nurse.worksThatWeek(dateFrom)) {
                 managerFactory.getNurseScheduleManager().removeNurseSchedule(nurse, nurse.getSchedule(dateFrom));
                 nurse.removeSchedule(nurse.getSchedule(dateFrom));
             }
-            else {
+            if (shiftId != 0) {
                 Shift shift = getShiftList().getById(shiftId);
                 LocalDate dateTo = dateFrom.plusDays(6);
                 Schedule schedule = managerFactory.getNurseScheduleManager().addSchedule(dateFrom, dateTo, shift);
-                System.out.println(schedule);
-                nurse = userList.getNurse(nurse.getCpr());
-                if (nurse.worksThatWeek(dateFrom)) {
-                    nurse.editSchedule(schedule);
-                    managerFactory.getNurseScheduleManager().editNurseSchedule(nurse, schedule);
+                nurse.addSchedule(schedule);
+                managerFactory.getNurseScheduleManager().addNurseSchedule(nurse, schedule);
                 }
-                else {
-                    nurse.addSchedule(schedule);
-                    managerFactory.getNurseScheduleManager().addNurseSchedule(nurse, schedule);
-                }
-            }
             System.out.println(nurse.getScheduleList().toString());
         }
         catch (SQLException e) {
@@ -364,7 +357,7 @@ public class ServerModelManager implements ServerModel {
             // TODO: assign nurse automatically based on their schedule, somehow
             Nurse nurse = (Nurse) userList.getUserByCpr("1302026584");
             
-            // Validate the appointment data - although makes more sense to do this in appointment ctor, but we can't because the database generates its id
+            // Validate the appointment data - although makes more sense to do this in appointment actor, but we can't because the database generates its id
             AppointmentValidator.validateNewAppointment(date, timeInterval, type, patient, nurse);
             
             // Generate appointment from database

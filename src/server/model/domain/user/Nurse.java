@@ -26,17 +26,11 @@ public class Nurse extends Staff {
         scheduleList.add(schedule);
     }
 
-    public void editSchedule(Schedule schedule) {
-        for (Schedule schedule1 : scheduleList.getSchedules())
-            if (schedule1.equals(schedule))
-                schedule1.setShift(schedule.getShift());
-    }
-
     public void removeSchedule(Schedule schedule)
     {
         boolean remove = false;
         for (Schedule schedule1 : scheduleList.getSchedules())
-            if (schedule1.equals(schedule))
+            if (schedule1.getDateFrom().equals(schedule.getDateFrom()))
             {
                 schedule = schedule1;
                 remove = true;
