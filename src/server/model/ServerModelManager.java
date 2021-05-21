@@ -57,7 +57,7 @@ public class ServerModelManager implements ServerModel {
     
         loadSchedules();
     
-//        addDummyTimeIntervals();
+//        addTimeIntervals();
         loadTimeIntervals();
     
 //        addDummyAppointments();
@@ -108,14 +108,14 @@ public class ServerModelManager implements ServerModel {
         }
     }
     
-    private void addDummyTimeIntervals() {
+    private void addTimeIntervals() throws RemoteException {
         try {
             managerFactory.getAppointmentManager().addTimeInterval(LocalTime.of(9, 20), LocalTime.of(9, 40));
             managerFactory.getAppointmentManager().addTimeInterval(LocalTime.of(11, 0), LocalTime.of(13, 37));
             managerFactory.getAppointmentManager().addTimeInterval(LocalTime.of(15, 30), LocalTime.of(15, 40));
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
     }
     
