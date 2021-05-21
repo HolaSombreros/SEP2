@@ -140,7 +140,6 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
     public void propertyChange(ObserverEvent<FAQ, FAQ> observerEvent) {
         Platform.runLater(() -> {
             loadFromModel();
-            System.out.println(observerEvent.getPropertyName());
         });
     }
 }

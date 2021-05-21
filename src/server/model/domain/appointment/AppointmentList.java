@@ -1,5 +1,9 @@
 package server.model.domain.appointment;
 
+import server.model.domain.user.Nurse;
+import server.model.domain.user.Patient;
+import server.model.domain.user.User;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +47,76 @@ public class AppointmentList implements Serializable {
     
     public int size() {
         return appointments.size();
+    }
+
+    public AppointmentList getAppointmentsByUser(User user) {
+        AppointmentList list = new AppointmentList();
+        for (Appointment appointment : appointments) {
+            if (user instanceof Patient && user.getCpr().equals(appointment.getPatient().getCpr()))
+                list.add(appointment);
+            else if (user instanceof Nurse && user.getCpr().equals(appointment.getNurse().getCpr()))
+                list.add(appointment);
+        }
+        return list;
+    }
+
+    public AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType)
+    {
+        AppointmentList filteredList = new AppointmentList();
+
+        if (criteria != null && !criteria.isEmpty()) {
+            for (Appointment appointment : appointments) {
+                criteria = criteria.trim().toLowerCase();
+                if (appointment.getPatient().getCpr().contains(criteria) || appointment.getPatient().getFullName().toLowerCase().contains(criteria)) {
+                    filteredList.add(appointment);
+                }
+            }
+        }
+        else {
+            filteredList.addAll(appointments);
+        }
+
+        filteredList = filterAppointmentsByStatus(filteredList, showFinished);
+        filteredList = filterAppointmentsByType(filteredList, appointmentType);
+        return filteredList;
+    }
+
+    public AppointmentList filterAppointmentsByStatus(AppointmentList appointmentList, boolean showFinished) {
+        for (int i = appointmentList.getAppointments().size() - 1; i >= 0; i--) {
+            Appointment appointment = appointmentList.get(i);
+            if (showFinished && !(appointment.getStatus() instanceof FinishedAppointment)) {
+                appointmentList.remove(i);
+            }
+        }
+        return appointmentList;
+    }
+
+    public AppointmentList filterAppointmentsByType(AppointmentList appointmentList, String type) {
+        for (int i = appointmentList.getAppointments().size() - 1; i >= 0; i--) {
+            Appointment appointment = appointmentList.get(i);
+            switch (type.toLowerCase()) {
+                case "test":
+                    if (!(appointment instanceof TestAppointment)) {
+                        appointmentList.remove(i);
+                    }
+                    break;
+                case "vaccine":
+                    if (!(appointment instanceof VaccineAppointment)) {
+                        appointmentList.remove(i);
+                    }
+                    break;
+            }
+        }
+        return appointmentList;
+    }
+
+    public Appointment getAppointmentById(int id) {
+        if (id < 1)
+            throw new IllegalArgumentException("Please enter an id higher than 0");
+        for (Appointment appointment : appointments)
+            if (appointment.getId() == id)
+                return appointment;
+        return null;
     }
 
     public boolean contains(Appointment appointment){

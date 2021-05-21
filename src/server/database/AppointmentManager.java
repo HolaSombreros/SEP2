@@ -138,10 +138,16 @@ public class AppointmentManager {
                 Appointment appointment = null;
                 switch (type) {
                     case TEST:
-                        appointment = new TestAppointment(appointmentId, date, timeInterval, Type.TEST, patient, nurse, result, status);
+                        if (rs.getString("status").equals("Upcoming"))
+                            appointment = new TestAppointment(appointmentId, date, timeInterval, Type.TEST, patient, nurse, result);
+                        else
+                            appointment = new TestAppointment(appointmentId, date, timeInterval, Type.TEST, patient, nurse, result, status);
                         break;
                     case VACCINE:
-                        appointment = new VaccineAppointment(appointmentId, date, timeInterval, Type.VACCINE, patient, nurse);
+                        if (rs.getString("status").equals("Upcoming"))
+                            appointment = new VaccineAppointment(appointmentId, date, timeInterval, Type.VACCINE, patient, nurse);
+                        else
+                            appointment = new VaccineAppointment(appointmentId, date, timeInterval, Type.VACCINE, patient, nurse, status);
                         break;
                 }
                 appointmentList.add(appointment);
