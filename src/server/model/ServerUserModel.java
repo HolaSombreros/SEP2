@@ -11,7 +11,6 @@ public interface ServerUserModel
     void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city) throws RemoteException;
     void logout(User user);
     UserList getUsersByCprAndName(String criteria, String typeOfList);
-//    void removeUser(User user);
     UserList getUserList();
     UserList getPatientList();
     UserList getNurseList();
