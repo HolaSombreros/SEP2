@@ -9,9 +9,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQ;
@@ -19,6 +17,8 @@ import server.model.domain.faq.FAQList;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
 import utility.observer.subject.LocalSubject;
+
+import java.util.Optional;
 
 public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, FAQ>
 {
@@ -40,7 +40,6 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
         this.errorLabel = new SimpleStringProperty();
         content = FXCollections.observableArrayList();
         adminProperty = new SimpleBooleanProperty();
-//        loadFromModel();
         model.addListener(this,"FAQ", "FAQRemove");
     }
     
@@ -81,17 +80,27 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
     public void addBox(VBox box) {
         vBox = box;
     }
+    private boolean confirmation() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Optional<ButtonType> result = null;
+        alert.setTitle("Confirm removing the FAQ");
+        alert.setHeaderText("Are you sure you want to remove this FAQ? \n\n" +
+                "Question: " + selectedBox.getText() + "\n" +
+                "Answer: " + ((Label) ((VBox) selectedBox.getContent()).getChildren().get(0)).getText());
+        result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.OK;
+    }
 
     @Override
-    public void remove()
-    {
+    public void remove() {
         if(selectedBox != null) {
-            model.removeFAQ(selectedBox.getText(), ((Label) ((VBox) selectedBox.getContent()).getChildren().get(0)).getText());
+            if(confirmation())
+                model.removeFAQ(selectedBox.getText(), ((Label) ((VBox) selectedBox.getContent()).getChildren().get(0)).getText());
+            errorLabel.set("");
             selectedBox = null;
         }
         else
             errorLabel.set("Please select a FAQ first");
-
     }
 
     @Override
@@ -103,6 +112,8 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
     public void reset() {
         adminProperty.set(viewState.getAdmin() != null);
         loadFromModel();
+        errorLabel.set("");
+        selectedBox = null;
     }
     
     @Override
@@ -115,20 +126,17 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
     }
 
     @Override
-    public BooleanProperty removeButtonProperty()
-    {
+    public BooleanProperty removeButtonProperty() {
         return removeButton;
     }
 
     @Override
-    public StringProperty errorLabelProperty()
-    {
+    public StringProperty errorLabelProperty() {
         return errorLabel;
     }
 
     @Override
-    public void propertyChange(ObserverEvent<FAQ, FAQ> observerEvent)
-    {
+    public void propertyChange(ObserverEvent<FAQ, FAQ> observerEvent) {
         Platform.runLater(() -> {
             loadFromModel();
             System.out.println(observerEvent.getPropertyName());

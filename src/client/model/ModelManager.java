@@ -51,8 +51,8 @@ public class ModelManager implements Model, LocalListener<FAQ, FAQ> {
     }
     
     @Override
-    public UserList getUsersByCprAndName(String criteria) {
-        return client.getUsersByCprAndName(criteria);
+    public UserList getUsersByCprAndName(String criteria, String typeOfList) {
+        return client.getUsersByCprAndName(criteria, typeOfList);
     }
     
     @Override
@@ -162,13 +162,6 @@ public class ModelManager implements Model, LocalListener<FAQ, FAQ> {
     {
         client.removeFAQ(question, answer);
     }
-
-    /*
-    @Override
-    public void removeUser(User user)
-    {
-        client.removeUser(user);
-    }*/
 
     @Override
     public void close() {

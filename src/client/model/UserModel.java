@@ -10,9 +10,8 @@ public interface UserModel
 {
     void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city);
     User login(String cpr, String password);
-    UserList getUsersByCprAndName(String criteria);
+    UserList getUsersByCprAndName(String criteria, String typeOfList);
     void logout(User user);
-//    void removeUser(User user);
     UserList getUserList();
     UserList getPatients();
     UserList getNurses();

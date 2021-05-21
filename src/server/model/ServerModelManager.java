@@ -12,6 +12,8 @@ import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -34,7 +36,8 @@ public class ServerModelManager implements ServerModel {
     private ManagerFactory managerFactory;
     private PropertyChangeAction<FAQ, FAQ> faqProperty;
     
-    public ServerModelManager() {
+    public ServerModelManager() throws RemoteException
+    {
         faqProperty = new PropertyChangeProxy<>(this);
         onlineList = new UserList();
         userList = new UserList();
@@ -43,11 +46,12 @@ public class ServerModelManager implements ServerModel {
         // TODO - TEMPORARY
         appointmentTimeIntervalList = new AppointmentTimeIntervalList();
         faqList = new FAQList();
-        addAll();
+//        addAll();
         loadAll();
     }
 
-    private void addAll(){
+    private void addAll() throws RemoteException
+    {
        // addDummyAppointments();
        // addDummyFAQS();
         addDummyTimeIntervals();
@@ -56,21 +60,24 @@ public class ServerModelManager implements ServerModel {
         loadShift();
     }
 
-    private void loadAll(){
+    private void loadAll() throws RemoteException
+    {
         loadUsers();
         loadTimeIntervals();
         loadAppointments();
         loadFAQs();
     }
 
-    private void addDummyAppointments() {
+    private void addDummyAppointments() throws RemoteException
+    {
         addAppointment(LocalDate.of(2021, 3, 28), timeIntervalList.getTimeIntervals().get(0), Type.TEST, (Patient) patientList.getUsers().get(0));
         addAppointment(LocalDate.of(2020, 11, 14), timeIntervalList.getTimeIntervals().get(1), Type.TEST, (Patient) patientList.getUsers().get(1));
         addAppointment(LocalDate.now(), timeIntervalList.getTimeIntervals().get(2), Type.VACCINE, (Patient) patientList.getUsers().get(2));
         addAppointment(LocalDate.of(2022, 4, 20), timeIntervalList.getTimeIntervals().get(0), Type.TEST, (Patient) patientList.getUsers().get(0));
     }
     
-    private void loadUsers() {
+    private void loadUsers() throws RemoteException
+    {
         try {
             patientList = managerFactory.getUserManager().getAllPatients();
             nurseList = managerFactory.getUserManager().getAllNurses();
@@ -79,24 +86,29 @@ public class ServerModelManager implements ServerModel {
         }
         catch (SQLException e) {
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
     }
 
-    private void addShifts(){
+    private void addShifts() throws RemoteException
+    {
         try {
             managerFactory.getNurseScheduleManager().addShift(LocalTime.of(8,0),LocalTime.of(14,0));
             managerFactory.getNurseScheduleManager().addShift(LocalTime.of(14,0),LocalTime.of(20,0));
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
     }
 
-    private void loadShift() {
+    private void loadShift() throws RemoteException
+    {
         try {
             shiftList = managerFactory.getNurseScheduleManager().getAllShifts();
         }
         catch (SQLException e) {
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
     }
     
@@ -125,27 +137,32 @@ public class ServerModelManager implements ServerModel {
         // TODO - Load nurse schedules
     }
     
-    private void loadAppointments() {
+    private void loadAppointments() throws RemoteException
+    {
         try {
             appointmentTimeIntervalList = managerFactory.getAppointmentManager().getAllAppointments();
         }
         catch (SQLException e) {
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
     }
     
-    private void addDummyFAQS() {
+    private void addDummyFAQS() throws RemoteException
+    {
         addFAQ("Deez", "Nuts", Category.GENERAL, (Administrator) adminList.getUsers().get(0));
         addFAQ("Yo", "Whaddup", Category.GENERAL, (Administrator) adminList.getUsers().get(1));
         addFAQ("What is the Corona passport?", "It's some...thing. I don't even know now what even happens if this label is super duper long. I would assume it goes to the next line but I need to make sure that this is in fact what actually happens", Category.PASSPORT, (Administrator) adminList.getUsers().get(0));
     }
     
-    private void loadFAQs() {
+    private void loadFAQs() throws RemoteException
+    {
         try {
             faqList = managerFactory.getFAQManager().getAllFAQs();
         }
         catch (SQLException e) {
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
     }
 
@@ -158,7 +175,8 @@ public class ServerModelManager implements ServerModel {
         }
     }
     
-    private void addDummyUsers() {
+    private void addDummyUsers() throws RemoteException
+    {
         ArrayList<Address> addresses = new ArrayList<>();
         addresses.add(new Address("Minvej", "2", 5520, "Someplace"));
         addresses.add(new Address("Sesame Street", "7A", 7500, "Holstebro"));
@@ -191,6 +209,7 @@ public class ServerModelManager implements ServerModel {
         }
         catch (SQLException e) {
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
     }
     
@@ -218,7 +237,8 @@ public class ServerModelManager implements ServerModel {
     
     @Override
     public synchronized void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip,
-        String city) {
+        String city) throws RemoteException
+    {
         if (!userList.contains(cpr)) {
             Address address = new Address(street, number, zip, city);
             User user = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, new NotAppliedStatus());
@@ -229,13 +249,15 @@ public class ServerModelManager implements ServerModel {
             }
             catch (SQLException e) {
                 e.printStackTrace();
+                throw new RemoteException(e.getMessage());
             }
         }
         else {
             throw new IllegalStateException("That CPR is already registered in the system");
         }
     }
-    private void updateList(){
+    private void updateList() throws RemoteException
+    {
         try {
             patientList = managerFactory.getUserManager().getAllPatients();
             nurseList = managerFactory.getUserManager().getAllNurses();
@@ -244,6 +266,7 @@ public class ServerModelManager implements ServerModel {
         }
         catch (SQLException e) {
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
     }
     
@@ -281,7 +304,8 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public synchronized User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) {
+    public synchronized User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws RemoteException
+    {
         User user2 = null;
         try {
             user2 = userList.getUserByCpr(user.getCpr());
@@ -292,12 +316,14 @@ public class ServerModelManager implements ServerModel {
         }
         catch (SQLException e) {
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
         return user2;
     }
     
     @Override
-    public synchronized VaccineStatus applyForVaccination(Patient patient) {
+    public synchronized VaccineStatus applyForVaccination(Patient patient) throws RemoteException
+    {
         try {
             patient.getVaccineStatus().apply(patient);
             managerFactory.getPatientManager().setVaccineStatus(patient.getCpr(), patient.getVaccineStatus());
@@ -306,12 +332,14 @@ public class ServerModelManager implements ServerModel {
         }
         catch (SQLException e) {
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
+
         }
-        return null;
     }
     
     @Override
-    public synchronized void editSchedule(Nurse nurse, LocalDate dateFrom, int shiftId) {
+    public synchronized void editSchedule(Nurse nurse, LocalDate dateFrom, int shiftId) throws RemoteException
+    {
         try {
             if (shiftId==0) {
                 if (nurse.worksThatWeek(dateFrom))
@@ -336,11 +364,13 @@ public class ServerModelManager implements ServerModel {
         }
         catch (SQLException e) {
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
     }
     
     @Override
-    public synchronized Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) {
+    public synchronized Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) throws RemoteException
+    {
         Appointment appointment = null;
         try {
             // TODO: assign nurse automatically based on their schedule, somehow
@@ -357,6 +387,8 @@ public class ServerModelManager implements ServerModel {
         }
         catch (SQLException e) {
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
+
         }
         return appointment;
     }
@@ -383,7 +415,8 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
-    public synchronized void cancelAppointment(int id) {
+    public synchronized void cancelAppointment(int id) throws RemoteException
+    {
         Appointment appointment = appointmentTimeIntervalList.getAppointmentById(id);
         try {
             if (appointment.getStatus() instanceof UpcomingAppointment) {
@@ -396,11 +429,13 @@ public class ServerModelManager implements ServerModel {
         }
         catch (SQLException e) {
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
     }
     
     @Override
-    public synchronized void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) {
+    public synchronized void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) throws RemoteException
+    {
         try {
             Appointment appointment = appointmentTimeIntervalList.getAppointmentById(id);
             if (appointment.getStatus() instanceof UpcomingAppointment) {
@@ -412,6 +447,7 @@ public class ServerModelManager implements ServerModel {
         }
         catch (SQLException e) {
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
     }
     
@@ -432,35 +468,18 @@ public class ServerModelManager implements ServerModel {
 
 
     @Override
-    public synchronized UserList getUsersByCprAndName(String criteria)
+    public synchronized UserList getUsersByCprAndName(String criteria, String typeOfList)
     {
-        return userList.getUsersByCprAndName(criteria);
-    }
-
-    /*
-    public synchronized void removeUser(User user) {
-        try {
-                if(user instanceof Nurse) {
-                    managerFactory.getNurseManager().removeNurse((Nurse) user);
-                    nurseList.remove(user);
-                }
-                else if (user instanceof Administrator) {
-                    managerFactory.getAdministratorManager().removeAdministrator((Administrator) user);
-                    adminList.remove(user);
-                }
-                else if (user instanceof Patient) {
-                    managerFactory.getPatientManager().removePatient((Patient) user);
-                    patientList.remove(user);
-                }
-                managerFactory.getUserManager().removeUser(user);
-                userList.remove(user);
-            }
-        catch (SQLException e) {
-            e.printStackTrace();
+        switch(typeOfList){
+            case "Patient List":
+                return patientList.getUsersByCprAndName(criteria);
+            case "Administrator List":
+                return adminList.getUsersByCprAndName(criteria);
+            case "Nurse List":
+                return nurseList.getUsersByCprAndName(criteria);
         }
+        return null;
     }
- */
-
 
     @Override
     public synchronized Patient getPatient(String cpr) {
@@ -468,7 +487,8 @@ public class ServerModelManager implements ServerModel {
     }
     
     @Override
-    public synchronized void changeResult(int id, Result result) {
+    public synchronized void changeResult(int id, Result result) throws RemoteException
+    {
         try {
             TestAppointment appointment = (TestAppointment) appointmentTimeIntervalList.getAppointmentById(id);
             appointment.setResult(result);
@@ -477,12 +497,14 @@ public class ServerModelManager implements ServerModel {
         }
         catch (SQLException e) {
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
         
     }
 
     @Override
-    public synchronized VaccineStatus updateVaccineStatus(Patient patient) {
+    public synchronized VaccineStatus updateVaccineStatus(Patient patient) throws RemoteException
+    {
         try{
             managerFactory.getPatientManager().setVaccineStatus(patient.getCpr(), patient.getVaccineStatus());
             updateList();
@@ -490,11 +512,12 @@ public class ServerModelManager implements ServerModel {
         }
         catch (SQLException e){
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
-        return null;
     }
 
-    @Override public synchronized void setRole(User user, String role) {
+    @Override public synchronized void setRole(User user, String role) throws RemoteException
+    {
         switch (role) {
             case "Nurse":
                 try {
@@ -505,6 +528,7 @@ public class ServerModelManager implements ServerModel {
                 }
                 catch (SQLException e) {
                     e.printStackTrace();
+                    throw new RemoteException(e.getMessage());
                 }
                 break;
             case "Administrator":
@@ -516,13 +540,15 @@ public class ServerModelManager implements ServerModel {
                 }
                 catch (SQLException e) {
                     e.printStackTrace();
+                    throw new RemoteException(e.getMessage());
                 }
                 break;
         }
         updateList();
     }
 
-    @Override public synchronized void RemoveRole(User user) {
+    @Override public synchronized void RemoveRole(User user) throws RemoteException
+    {
         switch (user.getClass().getSimpleName()) {
             case "Nurse":
                 nurseList.remove(user);
@@ -531,6 +557,7 @@ public class ServerModelManager implements ServerModel {
                 }
                 catch (SQLException e) {
                     e.printStackTrace();
+                    throw new RemoteException(e.getMessage());
                 }
                 break;
             case "Administrator":
@@ -540,6 +567,7 @@ public class ServerModelManager implements ServerModel {
                 }
                 catch (SQLException e) {
                     e.printStackTrace();
+                    throw new RemoteException(e.getMessage());
                 }
                 break;
         }
@@ -547,7 +575,8 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public synchronized void addFAQ(String question, String answer, Category category, Administrator creator) {
+    public synchronized void addFAQ(String question, String answer, Category category, Administrator creator) throws RemoteException
+    {
         try {
             FAQValidator.validateNewFAQ(question, answer, category, creator);
             FAQ faq = managerFactory.getFAQManager().addFAQ(question, answer, category, creator);
@@ -556,11 +585,12 @@ public class ServerModelManager implements ServerModel {
         }
         catch (SQLException e) {
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
     }
 
     @Override
-    public synchronized void removeFAQ(String question, String answer)
+    public synchronized void removeFAQ(String question, String answer) throws RemoteException
     {
         try{
             FAQ faq = faqList.getFAQ(question, answer);
@@ -572,6 +602,7 @@ public class ServerModelManager implements ServerModel {
         }
         catch (SQLException e) {
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
     }
 

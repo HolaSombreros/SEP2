@@ -68,7 +68,6 @@ public class UserListViewModel implements UserListViewModelInterface
   {
     model.logout(viewState.getUser());
     viewState.removeUser();
-    viewState.removeAdmin();
   }
 
   @Override public boolean seeDetails()
@@ -102,7 +101,7 @@ public class UserListViewModel implements UserListViewModelInterface
     try{
       users.clear();
       String criteria = searchBar.get();
-      UserList filteredUsers = model.getUsersByCprAndName(criteria);
+      UserList filteredUsers = model.getUsersByCprAndName(criteria,roleProperty.get());
       for(User user: filteredUsers.getUsers()){
         users.add(new UserTableViewModel(user));
       }

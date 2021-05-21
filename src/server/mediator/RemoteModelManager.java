@@ -99,9 +99,9 @@ public class RemoteModelManager implements RemoteModel, LocalListener<FAQ, FAQ> 
     }*/
 
     @Override
-    public UserList getUsersByCprAndName(String criteria) throws RemoteException
+    public UserList getUsersByCprAndName(String criteria, String typeOfList) throws RemoteException
     {
-        return serverModel.getUsersByCprAndName(criteria);
+        return serverModel.getUsersByCprAndName(criteria, typeOfList);
     }
 
     @Override public UserList getPatients() throws RemoteException

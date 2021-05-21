@@ -78,10 +78,10 @@ public class Client implements Model, RemoteListener<FAQ,FAQ> {
     }
 
     @Override
-    public UserList getUsersByCprAndName(String criteria)
+    public UserList getUsersByCprAndName(String criteria, String typeOfList)
     {
         try {
-            return server.getUsersByCprAndName(criteria);
+            return server.getUsersByCprAndName(criteria, typeOfList);
         }
         catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
@@ -314,7 +314,7 @@ public class Client implements Model, RemoteListener<FAQ,FAQ> {
     @Override
     public void removeFAQ(String question, String answer)
     {
-        try{
+        try {
             server.removeFAQ(question, answer);
         }
         catch (RemoteException e) {
