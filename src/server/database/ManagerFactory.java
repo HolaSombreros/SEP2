@@ -9,7 +9,6 @@ public class ManagerFactory {
     private UserManager userManager;
     private NurseScheduleManager nurseScheduleManager;
     private FAQManager faqManager;
-    private TimeIntervalManager timeIntervalManager;
 
     public ManagerFactory() {
         patientManager = new PatientManager();
@@ -20,7 +19,6 @@ public class ManagerFactory {
         appointmentManager = new AppointmentManager(userManager);
         nurseScheduleManager = new NurseScheduleManager();
         faqManager = new FAQManager();
-        timeIntervalManager = new TimeIntervalManager();
     }
     
     public PatientManager getPatientManager() {
@@ -53,9 +51,5 @@ public class ManagerFactory {
     
     public FAQManager getFAQManager() {
         return faqManager;
-    }
-    
-    public TimeIntervalManager getTimeIntervalManager() {
-        return timeIntervalManager;
     }
 }

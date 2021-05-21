@@ -27,7 +27,7 @@ public class PersonalDataViewController extends ViewController
     @FXML private Button approveButton;
     @FXML private Button declineButton;
     @FXML private Button changeRole;
-    @FXML private Button removeButton;
+
 
     private PersonalDataViewModelInterface viewModel;
 
@@ -50,10 +50,8 @@ public class PersonalDataViewController extends ViewController
         vaccineStatus.textProperty().bind(viewModel.getVaccineStatusProperty());
         vaccineLabel.visibleProperty().bind(viewModel.vaccineLabelVisibilityProperty());
         changeRole.visibleProperty().bind(viewModel.changeRoleProperty());
-        removeButton.visibleProperty().bind(viewModel.changeRoleProperty());
         titleLabel.textProperty().bind(viewModel.titleProperty());
         if(viewModel.isAdmin()) {
-            viewModel.removeButtonProperty().addListener((obs, oldVal, newVal) -> removeButton.setDisable(newVal));
             viewModel.approveButtonProperty().addListener((obs, oldVal, newVal) -> approveButton.setDisable(newVal));
             viewModel.declineButtonProperty().addListener((obs, oldVal, newVal) -> declineButton.setDisable(newVal));
         }

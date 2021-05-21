@@ -13,7 +13,8 @@ public class TimeInterval implements Serializable {
     public TimeInterval(int id,LocalTime from, LocalTime to) {
         set(from, to, id);
     }
-    public void set(LocalTime from, LocalTime to, int id){
+
+    public void set(LocalTime from, LocalTime to, int id) {
         TimeIntervalValidator.set(from, to);
         this.from = from;
         this.to = to;
@@ -39,7 +40,7 @@ public class TimeInterval implements Serializable {
         }
         TimeInterval timeInterval = (TimeInterval) obj;
         return from.equals(timeInterval.from) &&
-            to.equals(timeInterval.to);
+            to.equals(timeInterval.to) && id == timeInterval.id;
     }
 
     public String toString(){

@@ -102,27 +102,24 @@ public class AppointmentManager {
         }
     }
     
-    public AppointmentTimeIntervalList getAllAppointments() throws SQLException {
+    public AppointmentList getAllAppointments() throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            AppointmentTimeIntervalList appointmentTimeIntervalList = new AppointmentTimeIntervalList();
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM appointment_view ORDER BY appointment_id;");
+            AppointmentList appointmentList = new AppointmentList();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM appointment JOIN time_interval USING (time_interval_id) ORDER BY appointment_id;");
             ResultSet rs = statement.executeQuery();
             
             while (rs.next()) {
+                int timeIntervalId = rs.getInt("time_interval_id");
+                int appointmentId = rs.getInt("appointment_id");
                 LocalDate date = rs.getDate("date").toLocalDate();
-                LocalTime from = rs.getTime("time_from").toLocalTime();
-                LocalTime to = rs.getTime("time_to").toLocalTime();
-                int time_interval_id = rs.getInt("time_interval_id");
-                TimeInterval timeInterval = new TimeInterval(time_interval_id,from, to);
-                
-                // Will only happen if the specified date and time interval doesn't already exist in the system
-                appointmentTimeIntervalList.add(new AppointmentTimeInterval(date, timeInterval));
-                
-                int id = rs.getInt("appointment_id");
                 Patient patient = userManager.getPatient(rs.getString("patient_cpr"));
                 Nurse nurse = userManager.getNurse(rs.getString("nurse_cpr"));
                 Type type = Type.fromString(rs.getString("type"));
                 Result result = Result.fromString(rs.getString("result"));
+                LocalTime from = rs.getTime("time_from").toLocalTime();
+                LocalTime to = rs.getTime("time_to").toLocalTime();
+                TimeInterval timeInterval = new TimeInterval(timeIntervalId, from, to);
+                
                 
                 // switching on this for now - might not be the proper way of doing this (:
                 Status status = null;
@@ -141,26 +138,21 @@ public class AppointmentManager {
                 Appointment appointment = null;
                 switch (type) {
                     case TEST:
-                        if (rs.getString("status").equals("Upcoming")) {
-                            appointment = new TestAppointment(id, date, timeInterval, Type.TEST, patient, nurse, result);
-                        }
-                        else {
-                            appointment = new TestAppointment(id, date, timeInterval, Type.TEST, patient, nurse, result, status);
-                        }
+                        if (rs.getString("status").equals("Upcoming"))
+                            appointment = new TestAppointment(appointmentId, date, timeInterval, Type.TEST, patient, nurse, result);
+                        else
+                            appointment = new TestAppointment(appointmentId, date, timeInterval, Type.TEST, patient, nurse, result, status);
                         break;
                     case VACCINE:
-                        if (rs.getString("status").equals("Upcoming")) {
-                            appointment = new VaccineAppointment(id, date, timeInterval, Type.VACCINE, patient, nurse);
-                        }
-                        else {
-                            appointment = new VaccineAppointment(id, date, timeInterval, Type.VACCINE, patient, nurse, status);
-                        }
+                        if (rs.getString("status").equals("Upcoming"))
+                            appointment = new VaccineAppointment(appointmentId, date, timeInterval, Type.VACCINE, patient, nurse);
+                        else
+                            appointment = new VaccineAppointment(appointmentId, date, timeInterval, Type.VACCINE, patient, nurse, status);
                         break;
                 }
-    
-                appointmentTimeIntervalList.add(appointment, date, timeInterval);
+                appointmentList.add(appointment);
             }
-            return appointmentTimeIntervalList;
+            return appointmentList;
         }
     }
     
