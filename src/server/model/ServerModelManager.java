@@ -373,7 +373,7 @@ public class ServerModelManager implements ServerModel {
             appointment = managerFactory.getAppointmentManager().addAppointment(date, timeInterval, type, patient, nurse);
             
             // Add appointment to local system cache
-            appointmentTimeIntervalList.add(appointment, date, timeInterval);
+            appointmentList.add(appointment);
         }
         catch (SQLException e) {
             e.printStackTrace();
