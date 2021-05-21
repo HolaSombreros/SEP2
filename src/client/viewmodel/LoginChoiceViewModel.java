@@ -5,6 +5,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import server.model.domain.user.Administrator;
 import server.model.domain.user.Nurse;
+import server.model.domain.user.Patient;
+import server.model.domain.user.User;
 
 public class LoginChoiceViewModel implements LoginChoiceViewModelInterface {
     
@@ -25,16 +27,15 @@ public class LoginChoiceViewModel implements LoginChoiceViewModelInterface {
 
     @Override
     public void logPatient() {
-        viewState.removeAdmin();
-        viewState.removeNurse();
+        viewState.setUser(model.getPatient(((User)viewState.getUser()).getCpr()));
     }
 
     @Override
     public void logSpecialRole()
     {
-        if(roleProperty.get().equals("Administrator"))
-            viewState.setAdmin((Administrator) viewState.getUser());
-        else viewState.setNurse((Nurse) viewState.getUser());
+//        if(roleProperty.get().equals("Administrator"))
+//             viewState.setUser((Administrator) viewState.getUser());
+//        else viewState.setUser((Nurse) viewState.getUser());
     }
 
     @Override

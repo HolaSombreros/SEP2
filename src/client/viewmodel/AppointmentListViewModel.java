@@ -46,7 +46,7 @@ public class AppointmentListViewModel implements AppointmentListViewModelInterfa
     
     private void updateList() {
         appointments.clear();
-        AppointmentList appointmentList = model.getAppointmentsByUser(viewState.getPatient());
+        AppointmentList appointmentList = model.getAppointmentsByUser((Patient)viewState.getUser());
         for (Appointment appointment : appointmentList.getAppointments()) {
             appointments.add(new AppointmentTableViewModel(appointment));
         }

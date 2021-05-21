@@ -57,7 +57,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         loadInformation();
     }
     private void loadInformation(){
-        if(viewState.getAdmin() != null){
+        if(viewState.getUser() != null && viewState.getUser() instanceof Administrator){
             title.set("Patient");
             password.set(viewState.getSelectedUser().getPassword());
             firstName.set(viewState.getSelectedUser().getFirstName());
@@ -71,7 +71,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
             street.set(viewState.getSelectedUser().getAddress().getStreet());
             changeRole.set(true);
             vaccineStatus.set(((Patient)viewState.getSelectedUser()).getVaccineStatus().toString());
-            if(viewState.getAdmin().getCpr().equals(viewState.getSelectedUser().getCpr())){
+            if(((Administrator)viewState.getUser()).getCpr().equals(viewState.getSelectedUser().getCpr())){
                 approveButton.set(true);
                 declineButton.set(true);
                 removeButton.set(true);
@@ -88,17 +88,18 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
             }
         }
         else{
-            password.set(viewState.getUser().getPassword());
-            firstName.set(viewState.getUser().getFirstName());
-            middleName.set(viewState.getUser().getMiddleName());
-            lastName.set(viewState.getUser().getLastName());
-            cpr.set(viewState.getUser().getCpr());
-            number.set(viewState.getUser().getAddress().getNumber());
-            phoneNumber.set(viewState.getUser().getPhone());
-            zipCode.set(viewState.getUser().getAddress().getZipcode());
-            email.set(viewState.getUser().getEmail());
-            street.set(viewState.getUser().getAddress().getStreet());
-            vaccineStatus.set(viewState.getPatient().getVaccineStatus().toString());
+            User user = (User)viewState.getUser();
+            password.set(user.getPassword());
+            firstName.set(user.getFirstName());
+            middleName.set(user.getMiddleName());
+            lastName.set(user.getLastName());
+            cpr.set(user.getCpr());
+            number.set(user.getAddress().getNumber());
+            phoneNumber.set(user.getPhone());
+            zipCode.set(user.getAddress().getZipcode());
+            email.set(user.getEmail());
+            street.set(user.getAddress().getStreet());
+            vaccineStatus.set(((Patient)viewState.getUser()).getVaccineStatus().toString());
         }
     }
 
@@ -107,12 +108,12 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         errorLabel.set("");
         if(confirmEditingType(1)){
            try{
-               if(viewState.getAdmin() != null) {
+               if( viewState.getUser() instanceof Administrator) {
                    User user = model.editUserInformation(viewState.getSelectedUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(),number.get(), zipCode.get());
                    viewState.setSelectedUser(user);
                }
                else {
-                   User user = model.editUserInformation(viewState.getUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(),number.get(), zipCode.get());
+                   User user = model.editUserInformation((User) viewState.getUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(),number.get(), zipCode.get());
                    viewState.setUser(user);
                }
                errorLabel.set("Changes were saved");
@@ -158,7 +159,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         switch (criteria)
         {
             case 1:
-                if ((viewState.getAdmin() != null)) {
+                if ((viewState.getUser() instanceof Administrator)) {
                     String addForAdmin = "Vaccine Status: " + ((Patient) viewState.getSelectedUser()).getVaccineStatus().toString() + "\n";
                     if (middleName.get() != null)
                         alert.setHeaderText(adminHeader + secondHeader + middleHeader + thirdPart + addForAdmin);
@@ -173,7 +174,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
                 }
             break;
             case 2:
-                if ((viewState.getAdmin() != null)) {
+                if ((viewState.getUser() instanceof Administrator)) {
                     if (middleName.get() != null)
                         alert.setHeaderText(removeUser + secondHeader + middleHeader + thirdPart);
                     else
@@ -187,7 +188,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
 
     @Override
     public boolean isLoggedInAsNurse() {
-        return viewState.getNurse()!=null;
+        return viewState.getUser() instanceof Nurse;
     }
 
     @Override
@@ -287,7 +288,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     }
 
     public boolean isAdmin(){
-        return  viewState.getAdmin() != null;
+        return  viewState.getUser() instanceof Administrator;
     }
 
     @Override

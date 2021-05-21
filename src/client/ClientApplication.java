@@ -22,7 +22,7 @@ public class ClientApplication extends Application {
     
     @Override
     public void stop() {
-        User user = viewModelFactory.getViewState().getUser();
+        User user = (User)viewModelFactory.getViewState().getUser();
         // if the user is logged in, log him out
         if (user != null) {
             model.logout(user);

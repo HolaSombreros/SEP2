@@ -9,7 +9,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import server.model.domain.appointment.Appointment;
 import server.model.domain.appointment.AppointmentList;
+import server.model.domain.user.Nurse;
 import server.model.domain.user.Staff;
+import server.model.domain.user.User;
 import util.ObservableClock;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
@@ -62,7 +64,7 @@ public class NurseDashBoardViewModel implements NurseDashBoardViewModelInterface
     
     private void loadFromModel() {
         appointmentTable.clear();
-        for (Appointment appointment : model.getAppointmentsByUser(viewState.getUser()).getAppointments()) {
+        for (Appointment appointment : model.getAppointmentsByUser((Nurse)viewState.getUser()).getAppointments()) {
             appointmentTable.add(new AppointmentTableViewModel(appointment));
         }
     }
@@ -71,7 +73,7 @@ public class NurseDashBoardViewModel implements NurseDashBoardViewModelInterface
     public void reset() {
         searchBar.set("");
         error.set("");
-        username.set(viewState.getUser().getFirstName());
+        username.set(((User)viewState.getUser()).getFirstName());
         if (viewState.getUser() instanceof Staff) {
             role.set("Logged in as: " + viewState.getUser().getClass().getSimpleName());
         }
@@ -93,9 +95,8 @@ public class NurseDashBoardViewModel implements NurseDashBoardViewModelInterface
     
     @Override
     public void logout() {
-        model.logout(viewState.getUser());
+        model.logout((User)viewState.getUser());
         viewState.removeUser();
-        viewState.removeNurse();
     }
     
     @Override

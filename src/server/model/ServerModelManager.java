@@ -46,8 +46,8 @@ public class ServerModelManager implements ServerModel {
 
     private void addAll() throws RemoteException
     {
-       // addDummyAppointments();
-       // addDummyFAQS();
+        //addDummyAppointments();
+        //addDummyFAQS();
         addDummyTimeIntervals();
         addDummyUsers();
         addShifts();
@@ -226,6 +226,7 @@ public class ServerModelManager implements ServerModel {
             throw new IllegalArgumentException("That CPR is not registered in the system");
         }
     }
+
     
     @Override
     public synchronized void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip,
@@ -434,17 +435,14 @@ public class ServerModelManager implements ServerModel {
     
     @Override
     public synchronized void logout(User user) {
-        if (userList.contains(user.getCpr())) {
             if (onlineList.contains(user.getCpr())) {
-                onlineList.remove(user);
+                onlineList.removeByCpr(user.getCpr());
             }
             else {
                 throw new IllegalStateException("That user is not logged in");
             }
-        }
-        else {
-            throw new IllegalArgumentException("No such user found");
-        }
+
+
     }
 
 

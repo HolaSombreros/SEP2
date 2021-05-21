@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQList;
+import server.model.domain.user.Administrator;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
 import utility.observer.subject.LocalSubject;
@@ -110,7 +111,7 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
 
     @Override
     public void reset() {
-        adminProperty.set(viewState.getAdmin() != null);
+        adminProperty.set(viewState.getUser() instanceof Administrator);
         loadFromModel();
         errorLabel.set("");
         selectedBox = null;

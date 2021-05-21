@@ -23,4 +23,5 @@ public interface RemoteUserModel extends Remote
     VaccineStatus updateVaccineStatus(Patient patient) throws RemoteException;
     void setRole (User user, String role) throws RemoteException;
     void removeRole(User user) throws RemoteException;
+
 }

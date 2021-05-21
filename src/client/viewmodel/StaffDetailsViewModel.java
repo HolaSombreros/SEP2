@@ -8,10 +8,7 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.util.Callback;
 import server.model.domain.appointment.TimeInterval;
-import server.model.domain.user.Administrator;
-import server.model.domain.user.Nurse;
-import server.model.domain.user.Schedule;
-import server.model.domain.user.Shift;
+import server.model.domain.user.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -136,7 +133,7 @@ public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
 
   @Override public boolean removeRole() {
     if (confirmRoleRemoving()) {
-      if (viewState.getSelectedUser().getCpr().equals(viewState.getUser().getCpr())) {
+      if (viewState.getSelectedUser().getCpr().equals(((User)viewState.getUser()).getCpr())) {
         errorProperty.set("You can not remove your role");
         return false;
       }

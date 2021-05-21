@@ -10,6 +10,7 @@ import server.model.domain.appointment.*;
 import server.model.domain.user.ApprovedStatus;
 import server.model.domain.user.Patient;
 import server.model.domain.user.PendingStatus;
+import server.model.domain.user.User;
 import util.ObservableClock;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
@@ -57,9 +58,9 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     @Override
     public void reset()
     {
-        username.set(viewState.getUser().getFirstName());
-        AppointmentList appointmentList = model.getAppointmentsByUser(viewState.getPatient());
-        Patient patient = viewState.getPatient();
+        username.set(((User)viewState.getUser()).getFirstName());
+        AppointmentList appointmentList = model.getAppointmentsByUser((Patient)viewState.getUser());
+        Patient patient = (Patient) viewState.getUser();
         accessVisibility.set(false);
         vaccinationLabel.set(patient.getVaccineStatus().toString());
         if (patient.getVaccineStatus() instanceof PendingStatus || patient.getVaccineStatus() instanceof ApprovedStatus)
@@ -99,14 +100,13 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     
     @Override
     public void logout() {
-        model.logout(viewState.getUser());
+        model.logout((User)viewState.getUser());
         viewState.removeUser();
-        viewState.removePatient();
     }
     
     @Override
     public void applyForVaccination() {
-        Patient patient = viewState.getPatient();
+        Patient patient = (Patient) viewState.getUser();
         patient.setVaccineStatus(model.applyForVaccination(patient));
         vaccinationLabel.set(patient.getVaccineStatus().toString());
         disableButton.set(true);

@@ -53,6 +53,12 @@ public class UserList implements Serializable
         users.remove(user);
     }
 
+    public void removeByCpr(String cpr){
+        for(int i = 0; i < users.size(); i++)
+            if(users.get(i).getCpr().equals(cpr))
+                remove(users.get(i));
+    }
+
     // Method compares using only the user's CPR
     public boolean contains(String cpr) {
         for (User user : users) {

@@ -178,6 +178,7 @@ public class RemoteModelManager implements RemoteModel, LocalListener<FAQ, FAQ> 
         serverModel.RemoveRole(user);
     }
 
+
     private void startRegistry() throws RemoteException {
         try {
             LocateRegistry.createRegistry(1099);

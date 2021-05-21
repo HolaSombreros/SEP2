@@ -23,4 +23,5 @@ public interface UserModel
     VaccineStatus updateVaccineStatus(Patient patient);
     void setRole (User user, String role);
     void removeRole(User user);
+
 }

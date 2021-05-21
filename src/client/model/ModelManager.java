@@ -163,6 +163,8 @@ public class ModelManager implements Model, LocalListener<FAQ, FAQ> {
         client.removeFAQ(question, answer);
     }
 
+
+
     @Override
     public void close() {
         faqProperty.close();

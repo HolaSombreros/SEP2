@@ -126,7 +126,7 @@ public abstract class User implements Serializable {
         if (middleName != null && !middleName.equals(user.middleName)) {
             return false;
         }
-        
+
         return cpr.equals(user.cpr) &&
             password.equals(user.password) &&
             firstName.equals(user.firstName) &&

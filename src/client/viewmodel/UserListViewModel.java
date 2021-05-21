@@ -66,7 +66,7 @@ public class UserListViewModel implements UserListViewModelInterface
 
   @Override public void logout()
   {
-    model.logout(viewState.getUser());
+    model.logout((User)viewState.getUser());
     viewState.removeUser();
   }
 
@@ -95,6 +95,7 @@ public class UserListViewModel implements UserListViewModelInterface
     return false;
   }
 
+  //TODO: filter by role also
   @Override
   public void filterUsers()
   {
