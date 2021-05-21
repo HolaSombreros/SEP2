@@ -22,9 +22,6 @@ import java.util.ArrayList;
 public class ServerModelManager implements ServerModel {
     private UserList userList;
     private UserList onlineList;
-    
-    
-    
     private FAQList faqList;
     private TimeIntervalList timeIntervalList;
     private AppointmentTimeIntervalList appointmentTimeIntervalList;
@@ -65,7 +62,6 @@ public class ServerModelManager implements ServerModel {
         loadShift();
         loadSchedules();
     }
-
 
     private void addDummyAppointments() throws RemoteException {
         addAppointment(LocalDate.of(2021, 3, 28), timeIntervalList.getTimeIntervals().get(0), Type.TEST, (Patient)userList.getPatientList().getUsers().get(0));
