@@ -25,6 +25,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     private BooleanProperty declineButton;
     private BooleanProperty changeRole;
     private BooleanProperty removeButton;
+    private BooleanProperty vaccineLabelVisibility;
     private StringProperty title;
 
     private Model model;
@@ -49,6 +50,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         this.declineButton = new SimpleBooleanProperty(false);
         this.changeRole = new SimpleBooleanProperty(isAdmin());
         this.removeButton = new SimpleBooleanProperty(false);
+        this.vaccineLabelVisibility = new SimpleBooleanProperty(true);
         this.title = new SimpleStringProperty("My Personal Data");
     }
     @Override
@@ -87,7 +89,21 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
                 removeButton.set(false);
             }
         }
-        else{
+        else if(viewState.getUser() != null && viewState.getUser() instanceof Nurse) {
+            User user = (Nurse)viewState.getUser();
+            password.set(user.getPassword());
+            firstName.set(user.getFirstName());
+            middleName.set(user.getMiddleName());
+            lastName.set(user.getLastName());
+            cpr.set(user.getCpr());
+            number.set(user.getAddress().getNumber());
+            phoneNumber.set(user.getPhone());
+            zipCode.set(user.getAddress().getZipcode());
+            email.set(user.getEmail());
+            street.set(user.getAddress().getStreet());
+            vaccineLabelVisibility.set(false);
+        }
+        else {
             User user = (User)viewState.getUser();
             password.set(user.getPassword());
             firstName.set(user.getFirstName());
@@ -276,6 +292,12 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     public BooleanProperty removeButtonProperty()
     {
         return removeButton;
+    }
+
+    @Override
+    public BooleanProperty vaccineLabelVisibilityProperty()
+    {
+        return vaccineLabelVisibility;
     }
 
     public StringProperty titleProperty() {

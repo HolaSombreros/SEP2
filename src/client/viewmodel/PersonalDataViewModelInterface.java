@@ -22,6 +22,7 @@ public interface PersonalDataViewModelInterface
     BooleanProperty declineButtonProperty();
     BooleanProperty changeRoleProperty();
     BooleanProperty removeButtonProperty();
+    BooleanProperty vaccineLabelVisibilityProperty();
     StringProperty titleProperty();
     void back();
     boolean isAdmin();
