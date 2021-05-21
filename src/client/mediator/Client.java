@@ -283,9 +283,9 @@ public class Client implements Model, RemoteListener<FAQ,FAQ> {
         }
     }
 
-    @Override public void editSchedule(Nurse nurse, LocalDate localDate, int shiftId) {
+    @Override public void editSchedule(Nurse nurse, LocalDate dateFrom, int shiftId) {
         try {
-            server.editSchedule(nurse, localDate, shiftId);
+            server.editSchedule(nurse, dateFrom, shiftId);
         }
         catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e),e);

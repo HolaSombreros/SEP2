@@ -50,7 +50,6 @@ public class ServerModelManager implements ServerModel {
         addDummyTimeIntervals();
         addDummyUsers();
         addShifts();
-        loadShift();
     }
 
     private void loadAll(){
@@ -58,6 +57,8 @@ public class ServerModelManager implements ServerModel {
         loadTimeIntervals();
         loadAppointments();
         loadFAQs();
+        loadShift();
+        loadSchedules();
     }
 
     private void addDummyAppointments() {
@@ -147,6 +148,8 @@ public class ServerModelManager implements ServerModel {
         try {
             shiftList = managerFactory.getNurseScheduleManager().getAllShifts();
             scheduleList = managerFactory.getNurseScheduleManager().getAllSchedules();
+            for (User nurse:  userList.getNurseList().getUsers())
+                ((Nurse) nurse).setScheduleList(managerFactory.getNurseScheduleManager().getAllSchedulesForNurse((Nurse) nurse));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -304,7 +307,6 @@ public class ServerModelManager implements ServerModel {
     public synchronized void editSchedule(Nurse nurse, LocalDate dateFrom, int shiftId) {
         try {
             if (shiftId==0) {
-                if (nurse.worksThatWeek(dateFrom))
                 managerFactory.getNurseScheduleManager().removeNurseSchedule(nurse, nurse.getSchedule(dateFrom));
                 nurse.removeSchedule(nurse.getSchedule(dateFrom));
             }
@@ -323,6 +325,7 @@ public class ServerModelManager implements ServerModel {
                     managerFactory.getNurseScheduleManager().addNurseSchedule(nurse, schedule);
                 }
             }
+            System.out.println(nurse.getScheduleList().toString());
         }
         catch (SQLException e) {
             e.printStackTrace();
