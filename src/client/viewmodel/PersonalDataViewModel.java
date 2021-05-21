@@ -116,6 +116,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
             email.set(user.getEmail());
             street.set(user.getAddress().getStreet());
             vaccineStatus.set(((Patient)viewState.getUser()).getVaccineStatus().toString());
+            changeRole.set(false);
         }
     }
 
@@ -141,22 +142,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         else
             reset();
     }
-/*
-    @Override
-    public boolean removeUser() {
-        if(confirmEditingType(2)) {
-            try {
-                model.removeUser(viewState.getSelectedUser());
-                errorLabel.set("User was removed");
-                return true;
-            }
-            catch (Exception e) {
-                errorLabel.set(e.getMessage());
-            }
-        }
-        return false;
-    }
-*/
+
 
     private boolean confirmEditingType(int criteria) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

@@ -40,7 +40,7 @@ public class TimeInterval implements Serializable {
         }
         TimeInterval timeInterval = (TimeInterval) obj;
         return from.equals(timeInterval.from) &&
-            to.equals(timeInterval.to);
+            to.equals(timeInterval.to) && id == timeInterval.id;
     }
 
     public String toString(){

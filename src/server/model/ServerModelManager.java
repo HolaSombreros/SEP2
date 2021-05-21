@@ -48,22 +48,19 @@ public class ServerModelManager implements ServerModel {
     }
 
     private void doDummyStuff() throws RemoteException {
-//        addDummyUsers();
+        addDummyUsers();
         loadUsers();
 
-        //        addShifts();
+        addShifts();
         loadShift();
 
-        //addTimeIntervals();
+        addTimeIntervals();
         loadTimeIntervals();
 
         loadSchedules();
-
-//      addDummyAppointments();
         loadAppointments();
 
-
-//      addDummyFAQS();
+        addDummyFAQS();
         loadFAQs();
     }
 
