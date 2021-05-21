@@ -40,27 +40,32 @@ public class ServerModelManager implements ServerModel {
         // TODO - TEMPORARY
         appointmentTimeIntervalList = new AppointmentTimeIntervalList();
         faqList = new FAQList();
-//        addAll();
-        loadAll();
+        
+        doDummyStuff();
+        
+        for (Schedule t : scheduleList.getSchedules()) {
+            System.out.println(t);
+        }
     }
-
-    private void addAll() throws RemoteException
-    {
-        //addDummyAppointments();
-        //addDummyFAQS();
-        addDummyTimeIntervals();
-        addDummyUsers();
-        addShifts();
-    }
-
-    private void loadAll() throws RemoteException
-    {
+    
+    private void doDummyStuff() throws RemoteException {
+//        addDummyUsers();
         loadUsers();
-        loadTimeIntervals();
-        loadAppointments();
-        loadFAQs();
+        
+        //        addShifts();
         loadShift();
+    
         loadSchedules();
+    
+//        addDummyTimeIntervals();
+        loadTimeIntervals();
+    
+//        addDummyAppointments();
+        loadAppointments();
+        
+        
+//        addDummyFAQS();
+        loadFAQs();
     }
 
     private void addDummyAppointments() throws RemoteException {
@@ -370,8 +375,8 @@ public class ServerModelManager implements ServerModel {
         catch (SQLException e) {
             e.printStackTrace();
             throw new RemoteException(e.getMessage());
-
         }
+        
         return appointment;
     }
     
@@ -435,17 +440,14 @@ public class ServerModelManager implements ServerModel {
     
     @Override
     public synchronized void logout(User user) {
-            if (onlineList.contains(user.getCpr())) {
-                onlineList.removeByCpr(user.getCpr());
-            }
-            else {
-                throw new IllegalStateException("That user is not logged in");
-            }
-
-
+        if (onlineList.contains(user.getCpr())) {
+            onlineList.removeByCpr(user.getCpr());
+        }
+        else {
+            throw new IllegalStateException("That user is not logged in");
+        }
     }
-
-
+    
     @Override
     public synchronized UserList getUsersByCprAndName(String criteria, String typeOfList)
     {
