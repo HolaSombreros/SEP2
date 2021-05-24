@@ -20,7 +20,10 @@ public class AppointmentList implements Serializable {
     }
     
     public void add(Appointment appointment) {
-        appointments.add(appointment);
+        if(appointment != null)
+            appointments.add(appointment);
+        else
+            throw new IllegalArgumentException("Cannot be null");
     }
     
     public void remove(int index) {
@@ -50,6 +53,8 @@ public class AppointmentList implements Serializable {
     }
 
     public AppointmentList getAppointmentsByUser(User user) {
+        if(user == null)
+            throw new IllegalArgumentException("User cannot be null");
         AppointmentList list = new AppointmentList();
         for (Appointment appointment : appointments) {
             if (user instanceof Patient && user.getCpr().equals(appointment.getPatient().getCpr()))
