@@ -405,9 +405,14 @@ public class ServerModelManager implements ServerModel {
             // Generate appointment from database
             appointment = managerFactory.getAppointmentManager().addAppointment(date, timeInterval, type, patient, nurse);
 
+            // Check if the time is still available
+            if (!availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(date,timeInterval)).isAvailable())
+                throw new IllegalStateException("The selected time is no longer available");
+
             // Add appointment to local system cache
             appointmentList.add(appointment);
 
+            // Update the AvailableTimeIntervalList
             availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(date,timeInterval)).increaseAmount();
         }
         catch (SQLException e) {
@@ -465,6 +470,8 @@ public class ServerModelManager implements ServerModel {
         try {
             Appointment appointment = appointmentList.getAppointmentById(id);
             if (appointment.getStatus() instanceof UpcomingAppointment) {
+                if (!availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(date,timeInterval)).isAvailable())
+                    throw new IllegalStateException("The selected time is no longer available");
                 if (appointmentList.hasAppointment(appointment.getPatient(), date, timeInterval))
                     throw new IllegalStateException("You already have an appointment at the selected time");
                 availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(appointment.getDate(), appointment.getTimeInterval())).decreaseAmount();
