@@ -13,7 +13,7 @@ public class AdministratorManager {
     
     public void addAdministrator(Administrator administrator) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            if (isAdmin(administrator)) {
+            if (!isAdmin(administrator)) {
                 PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO administrator VALUES (?,?,?)");
                 insertStatement.setString(1, administrator.getCpr());
                 insertStatement.setString(2, administrator.getEmployeeId());
