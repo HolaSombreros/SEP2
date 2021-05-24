@@ -64,9 +64,9 @@ public class AvailableTimeInterval {
         AvailableTimeInterval availableTimeInterval = (AvailableTimeInterval) obj;
         return availableTimeInterval.date.equals(date) && availableTimeInterval.timeInterval.equals(timeInterval) && availableTimeInterval.amount == amount && availableTimeInterval.maxAmount == maxAmount;
     }
-    
+
     @Override
     public String toString() {
-        return "AvailableTimeInterval{" + "date=" + date + ", timeInterval=" + timeInterval + ", amount=" + amount + '}';
+        return "AvailableTimeInterval{" + "date=" + date + ", timeInterval=" + timeInterval + ", amount=" + amount + ", maxAmount=" + maxAmount + '}';
     }
 }
