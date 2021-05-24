@@ -1,20 +1,16 @@
 package server.model.domain.user;
 
+import server.model.domain.appointment.TimeInterval;
+
 import java.io.Serializable;
 import java.time.LocalTime;
 
 public class Shift implements Serializable {
-
     private int id;
     private LocalTime timeFrom;
     private LocalTime timeTo;
 
-
     public Shift(int id, LocalTime timeFrom, LocalTime timeTo) {
-        set(id,timeFrom,timeTo);
-    }
-
-    public void set(int id,LocalTime timeFrom, LocalTime timeTo) {
         this.id = id;
         this.timeFrom = timeFrom;
         this.timeTo = timeTo;
@@ -32,6 +28,11 @@ public class Shift implements Serializable {
         return timeTo;
     }
 
+    public boolean hasTimeInterval(TimeInterval timeInterval) {
+        return timeInterval.getFrom().isAfter(timeFrom.plusMinutes(1)) && timeInterval.getTo().isBefore(timeTo.plusMinutes(1));
+    }
+
+    @Override
     public boolean equals(Object obj){
         if(!(obj instanceof Shift))
             return false;
@@ -39,6 +40,7 @@ public class Shift implements Serializable {
         return shift.id == id && shift.timeTo.equals(timeTo) && shift.timeFrom.equals(timeFrom);
     }
 
+    @Override
     public String toString(){
         return id + " : " + timeFrom.toString() + " : " + timeTo.toString();
     }
