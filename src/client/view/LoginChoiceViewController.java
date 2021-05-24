@@ -32,7 +32,7 @@ public class LoginChoiceViewController extends ViewController{
     }
 
     @FXML private void loginSpecialRole() {
-        if (roleLabel.textProperty().get().equals("Administrator"))
+        if(viewModel.roleProperty().equals("Administrator"))
             getViewHandler().openView(View.USERLIST);
         else
             getViewHandler().openView(View.NURSEDASHBOARD);

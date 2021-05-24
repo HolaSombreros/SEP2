@@ -4,8 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.model.domain.appointment.TimeInterval;
 
-import java.sql.Time;
 import java.time.LocalTime;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,6 +13,7 @@ class TimeIntervalTest {
     private TimeInterval interval;
     private LocalTime timeFrom;
     private LocalTime timeTo;
+
 
     @BeforeEach
     void setUp() {
@@ -45,4 +46,5 @@ class TimeIntervalTest {
             interval.set(LocalTime.of(8, 0), LocalTime.of(9, 0), 1);
         });
     }
+
 }

@@ -21,6 +21,9 @@ public class UserList implements Serializable
     }
     
     public User getUserByCpr(String cpr) {
+        if (cpr == null || cpr.isEmpty()) {
+            return null;
+        }
         for (User user : users) {
             if (user.getCpr().equals(cpr)) {
                 return user;
@@ -68,13 +71,6 @@ public class UserList implements Serializable
         return false;
     }
 
-    public Administrator getAdmin(String cpr){
-        for(User admin : users)
-            if(admin instanceof Administrator && admin.getCpr().equals(cpr))
-                return (Administrator) admin;
-        return null;
-    }
-
     public Nurse getNurse(String cpr){
         for(User user : users)
             if(user instanceof Nurse && user.getCpr().equals(cpr))
@@ -82,20 +78,18 @@ public class UserList implements Serializable
         return null;
     }
 
-
     public Patient getPatient(String cpr){
         for(User user : users)
             if(user instanceof Patient && user.getCpr().equals(cpr))
                 return (Patient) user;
         return null;
     }
-
-
+    
     public UserList getAdminList(){
         UserList list = new UserList();
         for(User admin : users)
             if(admin instanceof Administrator)
-                list.add((Administrator) admin);
+                list.add(admin);
         return list;
     }
 

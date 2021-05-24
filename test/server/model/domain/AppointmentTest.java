@@ -43,6 +43,9 @@ class AppointmentTest {
         });
     }
 
+
+
+
     @Test
     void setPatientNull() {
         assertThrows(IllegalArgumentException.class, () -> {

@@ -48,22 +48,26 @@ public class ServerModelManager implements ServerModel {
     }
 
     private void doDummyStuff() throws RemoteException {
-        addDummyUsers();
+//        addDummyUsers();
         loadUsers();
-
-        addShifts();
+        
+//        addShifts();
         loadShift();
-
-        addTimeIntervals();
+        
+//        addTimeIntervals();
         loadTimeIntervals();
 
         loadSchedules();
         loadAppointments();
-
-        addDummyFAQS();
+        
+//        addDummyFAQS();
         loadFAQs();
+
+//        PLEASE PUT THIS AFTER LOADING THE SCHEDULES AND APPOINTMENTS IF YOU WANNA MOVE IT
+        loadAvailableTimeIntervals();
     }
 
+    // TODO update with the nurse and admin access
     private void loadUsers() throws RemoteException
     {
         try {
@@ -172,9 +176,63 @@ public class ServerModelManager implements ServerModel {
                 availableTimeIntervalList.add(new AvailableTimeInterval(schedule.getDateFrom().plusDays(i), timeIntervalList.get(LocalTime.of(j, 0), LocalTime.of(j, 20))));
                 availableTimeIntervalList.add(new AvailableTimeInterval(schedule.getDateFrom().plusDays(i), timeIntervalList.get(LocalTime.of(j, 20), LocalTime.of(j, 40))));
                 availableTimeIntervalList.add(new AvailableTimeInterval(schedule.getDateFrom().plusDays(i), timeIntervalList.get(LocalTime.of(j, 40), LocalTime.of(j + 1, 0))));
-                // TODO increase the amount
             }
         }
+    }
+
+    private void removeAvailableTimeIntervals(Schedule schedule) {
+        int hourFrom = schedule.getShift().getTimeFrom().getHour();
+        int hourTo = hourFrom + 6;
+        for (int i = 0; i < 7; i++) {
+            if (!schedule.getDateFrom().plusDays(i).isBefore(LocalDate.now()))
+                for (int j = hourFrom; j < hourTo; j++) {
+                    availableTimeIntervalList.remove(new AvailableTimeInterval(schedule.getDateFrom().plusDays(i), timeIntervalList.get(LocalTime.of(j, 0), LocalTime.of(j, 20))));
+                    availableTimeIntervalList.remove(new AvailableTimeInterval(schedule.getDateFrom().plusDays(i), timeIntervalList.get(LocalTime.of(j, 20), LocalTime.of(j, 40))));
+                    availableTimeIntervalList.remove(new AvailableTimeInterval(schedule.getDateFrom().plusDays(i), timeIntervalList.get(LocalTime.of(j, 40), LocalTime.of(j + 1, 0))));
+                }
+        }
+    }
+
+    private void loadAvailableTimeIntervals() {
+        for (AvailableTimeInterval interval : availableTimeIntervalList.getIntervals())
+            for (Appointment appointment : appointmentList.getAppointments())
+                if (interval.has(appointment))
+                    interval.increaseAmount();
+    }
+
+    private AppointmentList getNurseUpcomingAppointments(Nurse nurse) {
+        AppointmentList list = new AppointmentList();
+        for (Appointment appointment : appointmentList.getAppointments())
+            if (appointment.getNurse().equals(nurse) && appointment.getStatus() instanceof UpcomingAppointment)
+                list.add(appointment);
+        return list;
+    }
+
+    private Nurse getWorkingNurse(LocalDate date, TimeInterval timeInterval) {
+        UserList list = new UserList();
+        for (User user : userList.getNurseList().getUsers()) {
+            Schedule schedule = ((Nurse) user).getScheduleByDate(date);
+            if (schedule != null) {
+                if (schedule.getShift().hasTimeInterval(timeInterval))
+                {
+                    if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 0)
+                        return (Nurse) user;
+                    else if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 1)
+                        list.getUsers().add(0, user);
+                    else if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 2)
+                        list.add(user);
+                }
+            }
+        }
+        return (Nurse) list.getUsers().get(0);
+    }
+
+    private int getNumberOfAppointmentsForNurse(LocalDate date, TimeInterval timeInterval, Nurse nurse) {
+        int counter = 0;
+        for (Appointment appointment : appointmentList.getAppointments())
+            if (appointment.getDate().equals(date) && appointment.getTimeInterval().equals(timeInterval) && appointment.getNurse().equals(nurse))
+                counter++;
+        return counter;
     }
 
     private void addDummyUsers() throws RemoteException
@@ -343,7 +401,12 @@ public class ServerModelManager implements ServerModel {
         try {
             nurse = userList.getNurse(nurse.getCpr());
             if (nurse.worksThatWeek(dateFrom)) {
+                for (int i=0; i<7; i++)
+                    for (Appointment appointment : getNurseUpcomingAppointments(nurse).getAppointments())
+                        if (appointment.getDate().equals(dateFrom.plusDays(i)))
+                            cancelAppointment(appointment.getId());
                 managerFactory.getNurseScheduleManager().removeNurseSchedule(nurse, nurse.getSchedule(dateFrom));
+                removeAvailableTimeIntervals(nurse.getSchedule(dateFrom));
                 nurse.removeSchedule(nurse.getSchedule(dateFrom));
             }
             if (shiftId != 0) {
@@ -361,23 +424,32 @@ public class ServerModelManager implements ServerModel {
         }
     }
 
-    //TODO increase available counter
     @Override
     public synchronized Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) throws RemoteException
     {
         Appointment appointment = null;
         try {
-            // TODO: assign nurse automatically based on their schedule, somehow
-            Nurse nurse = (Nurse) userList.getUserByCpr("1302026584");
+            Nurse nurse = getWorkingNurse(date, timeInterval);
 
             // Validate the appointment data - although makes more sense to do this in appointment actor, but we can't because the database generates its id
             AppointmentValidator.validateNewAppointment(date, timeInterval, type, patient, nurse);
 
+            // Check if there is an appointment already at that time
+            if (appointmentList.hasAppointment(patient, date, timeInterval))
+                throw new IllegalStateException("You already have an appointment at the selected time");
+
             // Generate appointment from database
             appointment = managerFactory.getAppointmentManager().addAppointment(date, timeInterval, type, patient, nurse);
 
+            // Check if the time is still available
+            if (!availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(date,timeInterval)).isAvailable())
+                throw new IllegalStateException("The selected time is no longer available");
+
             // Add appointment to local system cache
             appointmentList.add(appointment);
+
+            // Update the AvailableTimeIntervalList
+            availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(date,timeInterval)).increaseAmount();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -408,15 +480,14 @@ public class ServerModelManager implements ServerModel {
         return availableTimeIntervalList.getByDate(date);
     }
 
-    // TODO decrease available counter
     @Override
-    public synchronized void cancelAppointment(int id) throws RemoteException
-    {
+    public synchronized void cancelAppointment(int id) throws RemoteException {
         Appointment appointment = appointmentList.getAppointmentById(id);
         try {
             if (appointment.getStatus() instanceof UpcomingAppointment) {
                 if (appointment.cancel()) {
                     managerFactory.getAppointmentManager().cancelStatus(id);
+                    availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(appointment.getDate(), appointment.getTimeInterval())).decreaseAmount();
                 }
             }
             else
@@ -428,15 +499,18 @@ public class ServerModelManager implements ServerModel {
         }
     }
 
-    // TODO counter
-    // TODO it's not working yet lol
     @Override
-    public synchronized void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) throws RemoteException
-    {
+    public synchronized void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) throws RemoteException {
         try {
             Appointment appointment = appointmentList.getAppointmentById(id);
             if (appointment.getStatus() instanceof UpcomingAppointment) {
-                appointment.reschedule(date, timeInterval);
+                if (!availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(date,timeInterval)).isAvailable())
+                    throw new IllegalStateException("The selected time is no longer available");
+                if (appointmentList.hasAppointment(appointment.getPatient(), date, timeInterval))
+                    throw new IllegalStateException("You already have an appointment at the selected time");
+                availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(appointment.getDate(), appointment.getTimeInterval())).decreaseAmount();
+                appointment.reschedule(date, timeInterval, getWorkingNurse(date, timeInterval));
+                availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(date,timeInterval)).increaseAmount();
                 managerFactory.getAppointmentManager().rescheduleAppointment(id, date, timeInterval);
             }
             else
@@ -459,8 +533,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public synchronized UserList getUsersByCprAndName(String criteria, String typeOfList)
-    {
+    public synchronized UserList getUsersByCprAndName(String criteria, String typeOfList) {
         switch(typeOfList) {
             case "Patient List":
                 return userList.getPatientList().getUsersByCprAndName(criteria);
@@ -478,8 +551,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public synchronized void changeResult(int id, Result result) throws RemoteException
-    {
+    public synchronized void changeResult(int id, Result result) throws RemoteException {
         try {
             TestAppointment appointment = (TestAppointment) appointmentList.getAppointmentById(id);
             appointment.setResult(result);
@@ -494,8 +566,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public synchronized VaccineStatus updateVaccineStatus(Patient patient) throws RemoteException
-    {
+    public synchronized VaccineStatus updateVaccineStatus(Patient patient) throws RemoteException {
         try{
             managerFactory.getPatientManager().setVaccineStatus(patient.getCpr(), patient.getVaccineStatus());
             updateList();
@@ -507,8 +578,7 @@ public class ServerModelManager implements ServerModel {
         }
     }
 
-    @Override public synchronized void setRole(User user, String role) throws RemoteException
-    {
+    @Override public synchronized void setRole(User user, String role) throws RemoteException {
         switch (role) {
             case "Nurse":
                 try {
@@ -536,18 +606,20 @@ public class ServerModelManager implements ServerModel {
         updateList();
     }
 
-    @Override public synchronized void RemoveRole(User user) throws RemoteException
-    {
+    // TODO change access instead of removing
+    @Override public synchronized void RemoveRole(User user) throws RemoteException {
         switch (user.getClass().getSimpleName()) {
             case "Nurse":
-                userList.remove(user);
-                try {
-                    managerFactory.getNurseManager().removeNurse((Nurse) user);
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                    throw new RemoteException(e.getMessage());
-                }
+                for (Appointment appointment : getNurseUpcomingAppointments(userList.getNurse(user.getCpr())).getAppointments())
+                    cancelAppointment(appointment.getId());
+                userList.getNurseList().remove(user);
+//                try {
+//                    managerFactory.getNurseManager().removeNurse((Nurse) user);
+//                }
+//                catch (SQLException e) {
+//                    e.printStackTrace();
+//                    throw new RemoteException(e.getMessage());
+//                }
                 break;
             case "Administrator":
                 userList.remove(user);
@@ -564,8 +636,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public synchronized void addFAQ(String question, String answer, Category category, Administrator creator) throws RemoteException
-    {
+    public synchronized void addFAQ(String question, String answer, Category category, Administrator creator) throws RemoteException {
         try {
             FAQValidator.validateNewFAQ(question, answer, category, creator);
             FAQ faq = managerFactory.getFAQManager().addFAQ(question, answer, category, creator);
@@ -579,8 +650,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public synchronized void removeFAQ(String question, String answer) throws RemoteException
-    {
+    public synchronized void removeFAQ(String question, String answer) throws RemoteException {
         try{
             FAQ faq = faqList.getFAQ(question, answer);
             if(faq != null) {

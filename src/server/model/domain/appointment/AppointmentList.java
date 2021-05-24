@@ -5,6 +5,8 @@ import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,10 @@ public class AppointmentList implements Serializable {
     }
     
     public void add(Appointment appointment) {
-        appointments.add(appointment);
+        if(appointment != null)
+            appointments.add(appointment);
+        else
+            throw new IllegalArgumentException("Cannot be null");
     }
     
     public void remove(int index) {
@@ -50,6 +55,8 @@ public class AppointmentList implements Serializable {
     }
 
     public AppointmentList getAppointmentsByUser(User user) {
+        if(user == null)
+            throw new IllegalArgumentException("User cannot be null");
         AppointmentList list = new AppointmentList();
         for (Appointment appointment : appointments) {
             if (user instanceof Patient && user.getCpr().equals(appointment.getPatient().getCpr()))
@@ -117,6 +124,14 @@ public class AppointmentList implements Serializable {
             if (appointment.getId() == id)
                 return appointment;
         return null;
+    }
+
+    public boolean hasAppointment(User user, LocalDate date, TimeInterval time) {
+        AppointmentList list = getAppointmentsByUser(user);
+        for (Appointment appointment : list.getAppointments())
+            if (appointment.getDate().equals(date) && appointment.getTimeInterval().equals(time) && appointment.getStatus() instanceof UpcomingAppointment)
+                return true;
+        return false;
     }
 
     public boolean contains(Appointment appointment){
