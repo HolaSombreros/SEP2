@@ -48,19 +48,19 @@ public class ServerModelManager implements ServerModel {
     }
 
     private void doDummyStuff() throws RemoteException {
-//        addDummyUsers();
+        addDummyUsers();
         loadUsers();
         
-  //      addShifts();
+        addShifts();
         loadShift();
         
-    //    addTimeIntervals();
+       addTimeIntervals();
         loadTimeIntervals();
 
         loadSchedules();
         loadAppointments();
         
-       // addDummyFAQS();
+      // addDummyFAQS();
         loadFAQs();
 
 //        PLEASE PUT THIS AFTER LOADING THE SCHEDULES AND APPOINTMENTS IF YOU WANNA MOVE IT
@@ -617,6 +617,8 @@ public class ServerModelManager implements ServerModel {
                 loadAvailableTimeIntervals();
                 try {
                     managerFactory.getNurseManager().updateAccess((Nurse) user, false);
+                    for(Schedule schedule: ((Nurse) user).getScheduleList().getSchedules())
+                        editSchedule((Nurse)user,schedule.getDateFrom(), 0);
                 }
                 catch (SQLException e) {
                     e.printStackTrace();
