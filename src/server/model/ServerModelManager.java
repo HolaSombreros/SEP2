@@ -297,7 +297,6 @@ public class ServerModelManager implements ServerModel {
     @Override
     public synchronized void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip,
         String city) throws RemoteException
-        // TODO first user to register is admin periodt!
     {
         if (!userList.contains(cpr)) {
             Address address = new Address(street, number, zip, city);
@@ -305,6 +304,8 @@ public class ServerModelManager implements ServerModel {
             userList.add(user);
             try {
                 managerFactory.getUserManager().addPerson(user);
+                if (userList.size() == 0)
+                    setRole(user, "Administrator");
             }
             catch (SQLException e) {
                 e.printStackTrace();
