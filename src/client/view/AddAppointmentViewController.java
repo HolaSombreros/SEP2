@@ -16,17 +16,13 @@ public class AddAppointmentViewController extends ViewController {
     @FXML private ChoiceBox<Type> typeChoiceBox;
     @FXML private Label errorLabel;
     
-    public AddAppointmentViewController() {
-    
-    }
+    public AddAppointmentViewController() {}
     
     @Override
     protected void init() {
         viewModel = getViewModelFactory().getAddAppointmentViewModel();
         datePicker.valueProperty().bindBidirectional(viewModel.getDateProperty());
-        datePicker.valueProperty().addListener((obs, oldVal, newVal) -> {
-            viewModel.loadTimeIntervals();
-        });
+        datePicker.valueProperty().addListener((obs, oldVal, newVal) -> viewModel.loadTimeIntervals());
         timeIntervalChoiceBox.valueProperty().bindBidirectional(viewModel.getTimeIntervalProperty());
         timeIntervalChoiceBox.setItems(viewModel.getAvailableTimeIntervals());
         typeChoiceBox.valueProperty().bindBidirectional(viewModel.getTypeProperty());

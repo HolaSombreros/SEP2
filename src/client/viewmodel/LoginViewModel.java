@@ -1,6 +1,7 @@
 package client.viewmodel;
 
 import client.model.Model;
+import client.model.UserModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import server.model.domain.user.Staff;
@@ -10,11 +11,11 @@ public class LoginViewModel implements LoginViewModelInterface {
     private StringProperty cprProperty;
     private StringProperty passwordProperty;
     private StringProperty errorProperty;
-    private Model model;
+    private UserModel userModel;
     private ViewState viewState;
 
-    public LoginViewModel(Model model,ViewState viewState) {
-        this.model = model;
+    public LoginViewModel(UserModel userModel,ViewState viewState) {
+        this.userModel = userModel;
         this.viewState = viewState;
         cprProperty = new SimpleStringProperty("");
         passwordProperty = new SimpleStringProperty("");
@@ -31,7 +32,7 @@ public class LoginViewModel implements LoginViewModelInterface {
     @Override
     public int login(){
         try {
-            User loggedIn = model.login(cprProperty.get(), passwordProperty.get());
+            User loggedIn = userModel.login(cprProperty.get(), passwordProperty.get());
             viewState.setUser(loggedIn);
             if (loggedIn instanceof Staff) {
                 // Account is a Admin / Nurse

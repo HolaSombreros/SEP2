@@ -1,6 +1,6 @@
 package client.viewmodel;
 
-import client.model.Model;
+import client.model.AppointmentModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -23,11 +23,11 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
     private StringProperty result;
     private StringProperty resultLabel;
     
-    private Model model;
+    private AppointmentModel appointmentModel;
     private ViewState viewState;
     
-    public AppointmentDetailsViewModel(Model model, ViewState viewState) {
-        this.model = model;
+    public AppointmentDetailsViewModel(AppointmentModel appointmentModel, ViewState viewState) {
+        this.appointmentModel = appointmentModel;
         this.viewState = viewState;
         date = new SimpleObjectProperty<>();
         type = new SimpleStringProperty();
@@ -51,7 +51,7 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
     public void loadTimeIntervals(){
         listOfTimeIntervals.clear();
         if(date.get() != null){
-            listOfTimeIntervals.addAll(model.getAvailableTimeIntervals(date.get()).getTimeIntervals());
+            listOfTimeIntervals.addAll(appointmentModel.getAvailableTimeIntervals(date.get()).getTimeIntervals());
             // TODO - revisit this
             if(listOfTimeIntervals.size() > 0){
                 errorLabel.set("");
@@ -64,7 +64,7 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
     }
     
     private void loadAppointmentDetails() {
-        Appointment appointment = model.getAppointmentById(viewState.getSelectedAppointment());
+        Appointment appointment = appointmentModel.getAppointmentById(viewState.getSelectedAppointment());
         if(appointment != null)
         {
             date.set(LocalDate.of(appointment.getDate().getYear(), appointment.getDate().getMonth(), appointment.getDate().getDayOfMonth()));
@@ -150,17 +150,17 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
     
     @Override
     public void cancelAppointment() {
-        Appointment appointment = model.getAppointmentById(viewState.getSelectedAppointment());
+        Appointment appointment = appointmentModel.getAppointmentById(viewState.getSelectedAppointment());
         if((appointment.getStatus() instanceof UpcomingAppointment)) {
             if (typeOfConfirmation(1)) {
-                model.cancelAppointment(viewState.getSelectedAppointment());
+                appointmentModel.cancelAppointment(viewState.getSelectedAppointment());
                 errorLabel.set("Appointment has been cancelled");
                 loadAppointmentDetails();
             }
         }
         else {
             try{
-                model.cancelAppointment(appointment.getId());
+                appointmentModel.cancelAppointment(appointment.getId());
             }
             catch (Exception e){
                 errorLabel.set(e.getMessage());
@@ -170,11 +170,11 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
     
     @Override
     public void rescheduleAppointment() {
-        Appointment appointment = model.getAppointmentById(viewState.getSelectedAppointment());
+        Appointment appointment = appointmentModel.getAppointmentById(viewState.getSelectedAppointment());
         if((appointment.getStatus() instanceof UpcomingAppointment)){
             if(typeOfConfirmation(2)) {
                 try{
-                    model.rescheduleAppointment(appointment.getId(), date.get(), timeInterval.get());
+                    appointmentModel.rescheduleAppointment(appointment.getId(), date.get(), timeInterval.get());
                     errorLabel.set("Appointment has been rescheduled");
                     loadAppointmentDetails();
                 }
@@ -185,7 +185,7 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
         }
         else{
             try{
-                model.rescheduleAppointment(appointment.getId(), date.get(), timeInterval.get());
+                appointmentModel.rescheduleAppointment(appointment.getId(), date.get(), timeInterval.get());
             }
             catch (Exception e){
                 errorLabel.set(e.getMessage());

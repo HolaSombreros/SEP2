@@ -1,5 +1,6 @@
 package client.viewmodel;
 
+import client.model.AppointmentModel;
 import client.model.Model;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -26,11 +27,11 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
     private BooleanProperty choiceBox;
     private BooleanProperty changeButton;
 
-    private Model model;
+    private AppointmentModel appointmentModel;
     private ViewState viewState;
 
-    public NurseTestAppointmentViewModel(Model model, ViewState viewState) {
-        this.model = model;
+    public NurseTestAppointmentViewModel(AppointmentModel appointmentModel, ViewState viewState) {
+        this.appointmentModel = appointmentModel;
         this.viewState = viewState;
         status = new SimpleStringProperty();
         errorProperty = new SimpleStringProperty();
@@ -49,7 +50,7 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
         errorProperty.set("");
         loadAppointmentDetails();
         loadResultTypes();
-        result.set(((TestAppointment)model.getAppointmentById(viewState.getSelectedAppointment())).getResult().toString());
+        result.set(((TestAppointment) appointmentModel.getAppointmentById(viewState.getSelectedAppointment())).getResult().toString());
     }
 
     public void loadResultTypes() {
@@ -62,7 +63,7 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
 
 
     private void loadAppointmentDetails() {
-        TestAppointment appointment = (TestAppointment) model.getAppointmentById(viewState.getSelectedAppointment());
+        TestAppointment appointment = (TestAppointment) appointmentModel.getAppointmentById(viewState.getSelectedAppointment());
         if (appointment != null) {
             date.set(LocalDate.of(appointment.getDate().getYear(), appointment.getDate().getMonth(), appointment.getDate().getDayOfMonth()).toString());
             timeInterval.set(appointment.getTimeInterval().toString());
@@ -83,8 +84,8 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
     }
 
     private void changeResult(){
-        TestAppointment appointment = (TestAppointment) model.getAppointmentById(viewState.getSelectedAppointment());
-        model.changeResult(appointment.getId(),Result.fromString(result.get()));
+        TestAppointment appointment = (TestAppointment) appointmentModel.getAppointmentById(viewState.getSelectedAppointment());
+        appointmentModel.changeResult(appointment.getId(),Result.fromString(result.get()));
 
     }
     private boolean confirmation(){

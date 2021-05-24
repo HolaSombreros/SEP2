@@ -1,6 +1,7 @@
 package client.viewmodel;
 
 import client.model.Model;
+import client.model.UserModel;
 import javafx.beans.property.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
 {
-  private Model model;
+  private UserModel userModel;
   private ViewState viewState;
   private StringProperty nameProperty;
   private StringProperty cprProperty;
@@ -31,9 +32,8 @@ public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
   private BooleanProperty display;
   private StringProperty errorProperty;
 
-  public StaffDetailsViewModel(Model model, ViewState viewState)
-  {
-    this.model = model;
+  public StaffDetailsViewModel(UserModel userModel, ViewState viewState) {
+    this.userModel = userModel;
     this.viewState = viewState;
     nameProperty = new SimpleStringProperty();
     cprProperty = new SimpleStringProperty();
@@ -48,8 +48,7 @@ public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
     display = new SimpleBooleanProperty();
   }
 
-  @Override public void reset()
-  {
+  @Override public void reset() {
     nameProperty.set(viewState.getSelectedUser().getFullName());
     cprProperty.set("CPR: " + viewState.getSelectedUser().getCpr());
     phoneProperty.set("Phone: " + viewState.getSelectedUser().getPhone());
@@ -71,21 +70,20 @@ public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
     }
   }
 
-  @Override public void confirm()
-  {
+  @Override public void confirm() {
     if (viewState.getSelectedUser() instanceof Nurse)
     {
       if (dateProperty.get() == null)
         errorProperty.set("Select the week first");
       else if (confirmEditing())
       {
-        Nurse nurse = (Nurse) model.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr());
+        Nurse nurse = (Nurse) userModel.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr());
         if (shift0.get())
-          model.editSchedule(nurse, dateProperty.get(), 0);
+          userModel.editSchedule(nurse, dateProperty.get(), 0);
         else if (shift1.get())
-          model.editSchedule(nurse, dateProperty.get(), 1);
+          userModel.editSchedule(nurse, dateProperty.get(), 1);
         else if (shift2.get())
-          model.editSchedule(nurse, dateProperty.get(), 2);
+          userModel.editSchedule(nurse, dateProperty.get(), 2);
         errorProperty.set("Schedule successfully changed");
         if (!shift0.get() && !shift1.get() && !shift2.get())
           errorProperty.set("Option not selected");
@@ -98,9 +96,8 @@ public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
     viewState.removeSelectedUser();
   }
 
-  @Override public void loadShift()
-  {
-      Nurse nurse = (Nurse) model.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr());
+  @Override public void loadShift() {
+      Nurse nurse = (Nurse) userModel.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr());
       if (nurse!=null) {
         Schedule schedule = nurse.getSchedule(dateProperty.get());
         if (schedule == null)
@@ -112,8 +109,7 @@ public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
       }
   }
 
-  @Override public void disableDays(DatePicker week)
-  {
+  @Override public void disableDays(DatePicker week) {
     Callback<DatePicker, DateCell> callB = new Callback<>()
     {
       @Override public DateCell call(final DatePicker param)
@@ -138,7 +134,7 @@ public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
         return false;
       }
       else {
-        model.removeRole(viewState.getSelectedUser());
+        userModel.removeRole(viewState.getSelectedUser());
         return true;
       }
     }

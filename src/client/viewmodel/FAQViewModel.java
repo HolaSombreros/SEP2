@@ -1,6 +1,6 @@
 package client.viewmodel;
 
-import client.model.Model;
+import client.model.FAQModel;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -8,7 +8,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Bounds;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import server.model.domain.faq.Category;
@@ -17,13 +16,12 @@ import server.model.domain.faq.FAQList;
 import server.model.domain.user.Administrator;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
-import utility.observer.subject.LocalSubject;
 
 import java.util.Optional;
 
 public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, FAQ>
 {
-    private Model model;
+    private FAQModel faqModel;
     private ViewState viewState;
     private ObservableList<VBox> content;
     private BooleanProperty adminProperty;
@@ -32,8 +30,8 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
     private VBox vBox;
     private TitledPane selectedBox;
 
-    public FAQViewModel(Model model, ViewState viewState) {
-        this.model = model;
+    public FAQViewModel(FAQModel faqModel, ViewState viewState) {
+        this.faqModel = faqModel;
         this.viewState = viewState;
         this.vBox = null;
         this.selectedBox = null;
@@ -41,12 +39,12 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
         this.errorLabel = new SimpleStringProperty();
         content = FXCollections.observableArrayList();
         adminProperty = new SimpleBooleanProperty();
-        model.addListener(this,"FAQ", "FAQRemove");
+        faqModel.addListener(this,"FAQ", "FAQRemove");
     }
     
     private void loadFromModel() {
         content.clear();
-        FAQList faqList = model.getFAQList();
+        FAQList faqList = faqModel.getFAQList();
         generateContent(faqList);
         vBox.getChildren().setAll(content);
     }
@@ -96,7 +94,7 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
     public void remove() {
         if(selectedBox != null) {
             if(confirmation())
-                model.removeFAQ(selectedBox.getText(), ((Label) ((VBox) selectedBox.getContent()).getChildren().get(0)).getText());
+                faqModel.removeFAQ(selectedBox.getText(), ((Label) ((VBox) selectedBox.getContent()).getChildren().get(0)).getText());
             errorLabel.set("");
             selectedBox = null;
         }

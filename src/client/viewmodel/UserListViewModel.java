@@ -60,22 +60,17 @@ public class UserListViewModel implements UserListViewModelInterface
     }
     for (User user : userList.getUsers())
       users.add(new UserTableViewModel(user));
-
   }
 
 
-  @Override public void logout()
-  {
+  @Override public void logout() {
     model.logout((User)viewState.getUser());
     viewState.removeUser();
   }
 
-  @Override public boolean seeDetails()
-  {
-    if (selectedUser.get() != null)
-    {
-      switch (roleProperty.get())
-      {
+  @Override public boolean seeDetails() {
+    if (selectedUser.get() != null) {
+      switch (roleProperty.get()) {
         case "Patient List":
           viewState.setSelectedUser(model.getPatients().getUserByCpr(selectedUser.get().getCprProperty().get()));
           return true;
@@ -87,8 +82,7 @@ public class UserListViewModel implements UserListViewModelInterface
           return true;
       }
     }
-    else
-    {
+    else {
       viewState.removeSelectedUser();
       errorProperty.set("Please select a user");
     }
@@ -97,15 +91,13 @@ public class UserListViewModel implements UserListViewModelInterface
 
   //TODO: filter by role also
   @Override
-  public void filterUsers()
-  {
+  public void filterUsers() {
     try{
       users.clear();
       String criteria = searchBar.get();
       UserList filteredUsers = model.getUsersByCprAndName(criteria,roleProperty.get());
-      for(User user: filteredUsers.getUsers()){
+      for(User user: filteredUsers.getUsers())
         users.add(new UserTableViewModel(user));
-      }
     }
     catch (Exception e) {
       errorProperty.set(e.getMessage());
