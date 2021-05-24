@@ -57,7 +57,7 @@ public class ServerModelManager implements ServerModel {
     //    addTimeIntervals();
         loadTimeIntervals();
 
-      //  loadSchedules();
+        loadSchedules();
         loadAppointments();
         
        // addDummyFAQS();
@@ -415,6 +415,7 @@ public class ServerModelManager implements ServerModel {
                 addAvailableTimeIntervals(schedule);
                 managerFactory.getNurseScheduleManager().addNurseSchedule(nurse, schedule);
                 }
+            loadAvailableTimeIntervals();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -611,6 +612,7 @@ public class ServerModelManager implements ServerModel {
                 for (Appointment appointment : getNurseUpcomingAppointments(userList.getNurse(user.getCpr())).getAppointments())
                     cancelAppointment(appointment.getId());
                 userList.getNurseList().remove(user);
+                loadAvailableTimeIntervals();
                 try {
                     managerFactory.getNurseManager().updateAccess((Nurse) user, false);
                 }
