@@ -211,6 +211,33 @@ public class ServerModelManager implements ServerModel {
         return list;
     }
 
+    private Nurse getWorkingNurse(LocalDate date, TimeInterval timeInterval) {
+        UserList list = new UserList();
+        for (User user : userList.getNurseList().getUsers()) {
+            Schedule schedule = ((Nurse) user).getScheduleByDate(date);
+            if (schedule != null) {
+                if (schedule.getShift().hasTimeInterval(timeInterval))
+                {
+                    if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 0)
+                        return (Nurse) user;
+                    else if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 1)
+                        list.getUsers().add(0, user);
+                    else if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 2)
+                        list.add(user);
+                }
+            }
+        }
+        return (Nurse) list.getUsers().get(0);
+    }
+
+    private int getNumberOfAppointmentsForNurse(LocalDate date, TimeInterval timeInterval, Nurse nurse) {
+        int counter = 0;
+        for (Appointment appointment : appointmentList.getAppointments())
+            if (appointment.getDate().equals(date) && appointment.getTimeInterval().equals(timeInterval) && appointment.getNurse().equals(nurse))
+                counter++;
+        return counter;
+    }
+
     private void addDummyUsers() throws RemoteException
     {
         ArrayList<Address> addresses = new ArrayList<>();
@@ -405,8 +432,7 @@ public class ServerModelManager implements ServerModel {
     {
         Appointment appointment = null;
         try {
-            // TODO: assign nurse automatically based on their schedule, somehow
-            Nurse nurse = (Nurse) userList.getUserByCpr("1302026584");
+            Nurse nurse = getWorkingNurse(date, timeInterval);
 
             // Validate the appointment data - although makes more sense to do this in appointment actor, but we can't because the database generates its id
             AppointmentValidator.validateNewAppointment(date, timeInterval, type, patient, nurse);

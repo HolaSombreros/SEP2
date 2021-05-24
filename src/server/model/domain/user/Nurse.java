@@ -55,6 +55,13 @@ public class Nurse extends Staff {
         return false;
     }
 
+    public Schedule getScheduleByDate(LocalDate date) {
+        for (Schedule schedule : scheduleList.getSchedules())
+            if (date.isAfter(schedule.getDateFrom().minusDays(1)) && date.isBefore(schedule.getDateTo().plusDays(1)))
+                return schedule;
+        return null;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Nurse)) {
