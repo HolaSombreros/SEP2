@@ -35,6 +35,10 @@ public class Shift implements Serializable {
         return timeTo;
     }
 
+    public boolean hasTimeInterval(TimeInterval timeInterval) {
+        return timeInterval.getFrom().isAfter(timeFrom.plusMinutes(1)) && timeInterval.getTo().isBefore(timeTo.plusMinutes(1));
+    }
+
     public boolean equals(Object obj){
         if(!(obj instanceof Shift))
             return false;

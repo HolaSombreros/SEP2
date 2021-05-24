@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.paint.Color;
 import server.model.domain.appointment.*;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -43,8 +44,8 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
     public void reset() {
         listOfTimeIntervals.clear();
         errorLabel.set("");
-        loadAppointmentDetails();
         loadTimeIntervals();
+        loadAppointmentDetails();
     }
 
     @Override
@@ -69,7 +70,6 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
         if(appointment != null)
         {
             date.set(LocalDate.of(appointment.getDate().getYear(), appointment.getDate().getMonth(), appointment.getDate().getDayOfMonth()));
-            listOfTimeIntervals.addAll(model.getAvailableTimeIntervals(date.get()).getTimeIntervals());
             timeInterval.set(appointment.getTimeInterval());
             type.set(appointment.getType().toString());
             status.set(appointment.getStatus().toString());
