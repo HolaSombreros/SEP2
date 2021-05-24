@@ -567,7 +567,12 @@ public class ServerModelManager implements ServerModel {
         }
 
     }
-
+    
+    @Override
+    public AppointmentList getUpcomingAppointments(Patient patient) {
+        return appointmentList.getUpcomingAppointments(patient);
+    }
+    
     @Override
     public synchronized VaccineStatus updateVaccineStatus(Patient patient) throws RemoteException {
         try{

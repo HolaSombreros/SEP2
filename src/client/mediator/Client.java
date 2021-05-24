@@ -46,7 +46,17 @@ public class Client implements Model, RemoteListener<FAQ,FAQ> {
             throw new IllegalStateException(getExceptionMessage(e),e);
         }
     }
-
+    
+    @Override
+    public AppointmentList getUpcomingAppointments(Patient patient) {
+        try {
+            return server.getUpcomingAppointments(patient);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
+        }
+    }
+    
     @Override
     public Patient getPatient(String cpr) {
         try{

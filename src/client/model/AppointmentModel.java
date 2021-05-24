@@ -19,4 +19,5 @@ public interface AppointmentModel
     void cancelAppointment( int id);
     void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval);
     void changeResult(int id,Result result);
+    AppointmentList getUpcomingAppointments(Patient patient);
 }

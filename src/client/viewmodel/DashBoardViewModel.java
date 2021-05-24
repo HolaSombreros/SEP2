@@ -64,24 +64,16 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
         vaccinationLabel.set(patient.getVaccineStatus().toString());
         disableButton.set(patient.getVaccineStatus() instanceof PendingStatus || patient.getVaccineStatus() instanceof ApprovedStatus);
 
-        nextAppointment.set("You do not have any upcoming appointments");
         AppointmentList list = new AppointmentList();
         for (Appointment appointment : appointmentList.getAppointments()) {
             if (appointment.getStatus() instanceof UpcomingAppointment)
                 list.add(appointment);
         }
 
-        Appointment recentAppointment = null;
-
-        for (int i = 0; i < list.getAppointments().size()-1; i++) {
-            if ((list.get(i).getDate().isBefore(list.get(i+1).getDate())) || (list.get(i).getDate().isBefore(list.get(i+1).getDate()) &&
-                    (list.get(i).getTimeInterval().getFrom().isBefore(list.get(i+1).getTimeInterval().getFrom())))) {
-                recentAppointment = list.get(i);
-            }
-        }
-
-        if(recentAppointment != null) {
-            long daysBetween = DAYS.between( recentAppointment.getDate(), LocalDate.now());
+        AppointmentList appointments = model.getUpcomingAppointments((Patient) viewState.getUser());
+        if (appointments.size() > 0) {
+            Appointment appointment = appointments.get(0);
+            long daysBetween = DAYS.between(LocalDate.now(), appointment.getDate());
             if (daysBetween < 1)
                 nextAppointment.set("Your next appointment is in less than a day");
             else {
@@ -89,6 +81,9 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
                 if (daysBetween > 1)
                     nextAppointment.set(nextAppointment.get() + "s");
             }
+        }
+        else {
+            nextAppointment.set("You do not have any upcoming appointments");
         }
     }
 

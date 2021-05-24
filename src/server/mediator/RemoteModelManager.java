@@ -91,12 +91,6 @@ public class RemoteModelManager implements RemoteModel, LocalListener<FAQ, FAQ> 
     public void logout(User user) throws RemoteException {
         serverModel.logout(user);
     }
-/*
-
-    public void removeUser(User user) throws RemoteException
-    {
-        serverModel.removeUser(user);
-    }*/
 
     @Override
     public UserList getUsersByCprAndName(String criteria, String typeOfList) throws RemoteException
@@ -149,7 +143,12 @@ public class RemoteModelManager implements RemoteModel, LocalListener<FAQ, FAQ> 
     public void changeResult(int id,Result result) throws RemoteException {
         serverModel.changeResult(id,result);
     }
-
+    
+    @Override
+    public AppointmentList getUpcomingAppointments(Patient patient) throws RemoteException {
+        return serverModel.getUpcomingAppointments(patient);
+    }
+    
     @Override public void addFAQ(String question, String answer, Category category, Administrator creator) throws RemoteException {
         serverModel.addFAQ(question, answer, category, creator);
     }

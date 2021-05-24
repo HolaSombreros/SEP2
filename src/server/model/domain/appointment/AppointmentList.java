@@ -91,7 +91,7 @@ public class AppointmentList implements Serializable {
     public AppointmentList filterAppointmentsByStatus(AppointmentList appointmentList, boolean showFinished) {
         for (int i = appointmentList.getAppointments().size() - 1; i >= 0; i--) {
             Appointment appointment = appointmentList.get(i);
-            if (showFinished && !(appointment.getStatus() instanceof FinishedAppointment)) {
+            if (!showFinished && appointment.getStatus() instanceof FinishedAppointment) {
                 appointmentList.remove(i);
             }
         }
@@ -141,6 +141,40 @@ public class AppointmentList implements Serializable {
             }
         }
         return false;
+    }
+    
+    public AppointmentList getUpcomingAppointments(Patient patient) {
+        AppointmentList list = getAppointmentsByUser(patient);
+        list = filterAppointmentsByStatus(list, false);
+        if (list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                for (int j = 1; j < list.size(); j++) {
+                    Appointment app1 = list.get(j - 1);
+                    Appointment app2 = list.get(j);
+                    
+                    // one is before the other
+                    if (app2.getDate().isBefore(app1.getDate())) {
+                        list.set(j - 1, app2);
+                        list.set(j, app1);
+                    }
+                    // same date, now check time
+                    else if (app1.getDate().equals(app2.getDate())) {
+                        if (app2.getTimeInterval().getFrom().isBefore(app1.getTimeInterval().getFrom())) {
+                            list.set(j - 1, app2);
+                            list.set(j, app1);
+                        }
+                    }
+                }
+            }
+        }
+        return list;
+    }
+    
+    public void set(int index, Appointment appointment) {
+        if (index < 0 || index >= size()) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+        appointments.set(index, appointment);
     }
 
     @Override

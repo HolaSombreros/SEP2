@@ -41,6 +41,11 @@ public class ModelManager implements Model, LocalListener<FAQ, FAQ> {
     }
     
     @Override
+    public AppointmentList getUpcomingAppointments(Patient patient) {
+        return client.getUpcomingAppointments(patient);
+    }
+    
+    @Override
     public Patient getPatient(String cpr) {
         return client.getPatient(cpr);
     }

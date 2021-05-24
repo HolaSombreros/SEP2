@@ -20,4 +20,5 @@ public interface RemoteAppointmentModel extends Remote
     void cancelAppointment(int id) throws RemoteException;
     void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) throws RemoteException;
     void changeResult(int id,Result result) throws RemoteException;
+    AppointmentList getUpcomingAppointments(Patient patient) throws RemoteException;
 }
