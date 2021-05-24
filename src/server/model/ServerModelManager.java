@@ -613,8 +613,7 @@ public class ServerModelManager implements ServerModel {
                 for (Appointment appointment : getNurseUpcomingAppointments(userList.getNurse(user.getCpr())).getAppointments())
                     cancelAppointment(appointment.getId());
                 userList.getNurseList().remove(user);
-                for (Schedule schedule : scheduleList.getSchedules())
-                loadAvailableTimeIntervals();
+                 loadAvailableTimeIntervals();
                 try {
                     managerFactory.getNurseManager().updateAccess((Nurse) user, false);
                     for(Schedule schedule: ((Nurse) user).getScheduleList().getSchedules())
