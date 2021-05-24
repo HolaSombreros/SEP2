@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.paint.Color;
 import server.model.domain.appointment.*;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -54,6 +55,7 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
             listOfTimeIntervals.addAll(model.getAvailableTimeIntervals(date.get()).getTimeIntervals());
             // TODO - revisit this
             if(listOfTimeIntervals.size() > 0){
+                timeInterval.set(listOfTimeIntervals.get(0));
                 errorLabel.set("");
             }
             else{

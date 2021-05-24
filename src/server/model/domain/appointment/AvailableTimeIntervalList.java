@@ -13,9 +13,19 @@ public class AvailableTimeIntervalList {
     }
     
     public void add(AvailableTimeInterval availableTimeInterval) {
-        if (!availableTimeIntervals.contains(availableTimeInterval))
+        if (getByAvailableTimeInterval(availableTimeInterval) == null)
             availableTimeIntervals.add(availableTimeInterval);
-        // TODO increase and ----- remove method
+        else getByAvailableTimeInterval(availableTimeInterval).increaseMax();
+    }
+
+    public void remove(AvailableTimeInterval availableTimeInterval) {
+        if (getByAvailableTimeInterval(availableTimeInterval).getMaxAmount() == 3)
+            availableTimeIntervals.remove(availableTimeInterval);
+        else getByAvailableTimeInterval(availableTimeInterval).decreaseMax();
+    }
+
+    public List<AvailableTimeInterval> getIntervals() {
+        return availableTimeIntervals;
     }
 
     public TimeIntervalList getByDate(LocalDate date) {
@@ -24,12 +34,21 @@ public class AvailableTimeIntervalList {
             return intervals;
         for (AvailableTimeInterval timeInterval : availableTimeIntervals) {
             if (date.equals(timeInterval.getDate()) && !date.equals(LocalDate.now()))
-                intervals.add(timeInterval.getTimeInterval());
+                if (timeInterval.isAvailable())
+                    intervals.add(timeInterval.getTimeInterval());
             if (date.equals(timeInterval.getDate()) && date.equals(LocalDate.now()))
                 if (!timeInterval.getTimeInterval().getFrom().isBefore(LocalTime.now()))
-                    intervals.add(timeInterval.getTimeInterval());
+                    if (timeInterval.isAvailable())
+                        intervals.add(timeInterval.getTimeInterval());
         }
         return intervals;
+    }
+
+    public AvailableTimeInterval getByAvailableTimeInterval(AvailableTimeInterval availableTimeInterval) {
+        for (AvailableTimeInterval interval : availableTimeIntervals)
+            if (interval.getDate().equals(availableTimeInterval.getDate()) && interval.getTimeInterval().equals(availableTimeInterval.getTimeInterval()))
+                return interval;
+        return null;
     }
     
     @Override
