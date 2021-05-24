@@ -139,7 +139,7 @@ public class UserManager {
         else
             throw new IllegalArgumentException("You cannot remove a null user");
     }
-    
+
     public UserList getAllUsers() throws SQLException {
         UserList users = new UserList();
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {

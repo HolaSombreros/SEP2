@@ -97,10 +97,11 @@ public abstract class Appointment implements Serializable {
         return status instanceof CancelledAppointment;
     }
     
-    public void reschedule(LocalDate date, TimeInterval timeInterval){
+    public void reschedule(LocalDate date, TimeInterval timeInterval, Nurse nurse){
         //TODO: DOUBLE CHECK IT
        setDate(date);
        setTimeInterval(timeInterval);
+       setNurse(nurse);
     }
     
     @Override

@@ -12,11 +12,14 @@ public class NurseManager {
     
     public void addNurse(Nurse nurse) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+            if (!isNurse(nurse)) {
             PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO nurse VALUES (?, ?, ?)");
             insertStatement.setString(1, nurse.getCpr());
             insertStatement.setString(2, nurse.getEmployeeId());
             insertStatement.setBoolean(3, true);
             insertStatement.executeUpdate();
+            }
+            else updateAccess(nurse,true);
         }
     }
     public void removeNurse(Nurse nurse) throws SQLException {
@@ -48,10 +51,11 @@ public class NurseManager {
             return resultSet.first();
         }
     }
-    public void updateAccess(Nurse nurse) throws SQLException {
+    public void updateAccess(Nurse nurse, boolean access) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE has_access FROM nurse WHERE cpr = ?;");
-            statement.setString(1, nurse.getCpr());
+            PreparedStatement statement = connection.prepareStatement("UPDATE nurse SET has_access = ? WHERE cpr = ?;");
+            statement.setBoolean(1, access);
+            statement.setString(2, nurse.getCpr());
             statement.executeUpdate();
         }
     }

@@ -1,5 +1,6 @@
 package server.model.validator;
 
+import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,11 +25,16 @@ public class UserValidator {
             throw new IllegalArgumentException("Invalid CPR");
         }
         
-//        int cprDay = Integer.parseInt(cpr.substring(0, 2));
-//        int cprMonth = Integer.parseInt(cpr.substring(2, 4));
+        int cprDay = Integer.parseInt(cpr.substring(0, 2));
+        int cprMonth = Integer.parseInt(cpr.substring(2, 4));
         
         // validate day and month
-//        new Date(cprDay, cprMonth, 2000);
+        try {
+            LocalDate date = LocalDate.of(2000,cprMonth,cprDay);
+        }
+        catch (Exception e) {
+            throw new IllegalArgumentException("Invalid CPR");
+        }
         
         if (cpr.length() != 10) {
             throw new IllegalArgumentException("Invalid CPR");
