@@ -1,6 +1,6 @@
 package client.viewmodel;
 
-import client.model.Model;
+import client.model.AppointmentModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -9,18 +9,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import server.model.domain.appointment.Appointment;
 import server.model.domain.appointment.AppointmentList;
-import server.model.domain.user.Nurse;
 import server.model.domain.user.Patient;
 
 public class AppointmentListViewModel implements AppointmentListViewModelInterface {
     private ObservableList<AppointmentTableViewModel> appointments;
     private ObjectProperty<AppointmentTableViewModel> selectedAppointment;
     private ViewState viewState;
-    private Model model;
+    private AppointmentModel appointmentModel;
     private StringProperty errorProperty;
     
-    public AppointmentListViewModel(Model model, ViewState viewState) {
-        this.model = model;
+    public AppointmentListViewModel(AppointmentModel appointmentModel, ViewState viewState) {
+        this.appointmentModel= appointmentModel;
         this.viewState = viewState;
         this.appointments = FXCollections.observableArrayList();
         this.errorProperty = new SimpleStringProperty();
@@ -46,7 +45,7 @@ public class AppointmentListViewModel implements AppointmentListViewModelInterfa
     
     private void updateList() {
         appointments.clear();
-        AppointmentList appointmentList = model.getAppointmentsByUser((Patient)viewState.getUser());
+        AppointmentList appointmentList = appointmentModel.getAppointmentsByUser((Patient)viewState.getUser());
         for (Appointment appointment : appointmentList.getAppointments()) {
             appointments.add(new AppointmentTableViewModel(appointment));
         }

@@ -2,6 +2,10 @@ package server.model.domain;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.model.domain.user.Address;
+import server.model.domain.user.NotAppliedStatus;
+import server.model.domain.user.Patient;
+import server.model.domain.user.VaccineStatus;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,7 +14,7 @@ class PatientTest {
 
     @BeforeEach
     void setUp() {
-        patient1 = new Patient("121256-1234", "password", "Test", null, "Person", new Address("Street", "1", 8700, "Horsens"), "12345678", "email@address.com", Patient.VaccineStatus.NOTAPPLIED);
+        patient1 = new Patient("121256-1234", "password", "Test", null, "Person", new Address("Street", "1", 8700, "Horsens"), "12345678", "email@address.com", new NotAppliedStatus());
     }
 
     @Test

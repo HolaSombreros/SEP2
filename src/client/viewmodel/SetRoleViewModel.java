@@ -1,6 +1,7 @@
 package client.viewmodel;
 
 import client.model.Model;
+import client.model.UserModel;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
@@ -8,17 +9,17 @@ import java.util.Optional;
 
 public class SetRoleViewModel implements SetRoleViewModelInterface
 {
-  private Model model;
+  private UserModel userModel;
   private ViewState viewState;
 
-  public SetRoleViewModel(Model model, ViewState viewState) {
-    this.model = model;
+  public SetRoleViewModel(Model userModel, ViewState viewState) {
+    this.userModel = userModel;
     this.viewState = viewState;
   }
 
   @Override public boolean setToNurse() {
     if (confirmEditing("Nurse")) {
-      model.setRole(viewState.getSelectedUser(),"Nurse");
+      userModel.setRole(viewState.getSelectedUser(),"Nurse");
       return true;
     }
     return false;
@@ -26,7 +27,7 @@ public class SetRoleViewModel implements SetRoleViewModelInterface
 
   @Override public boolean setToAdmin() {
     if (confirmEditing("Administrator")) {
-      model.setRole(viewState.getSelectedUser(), "Administrator");
+      userModel.setRole(viewState.getSelectedUser(), "Administrator");
       return true;
     }
     return false;

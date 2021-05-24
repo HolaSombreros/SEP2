@@ -3,6 +3,7 @@ package server.model.domain;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.model.domain.user.Address;
 
 import static org.junit.jupiter.api.Assertions.*;
 
