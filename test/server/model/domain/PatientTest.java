@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import server.model.domain.user.Address;
 import server.model.domain.user.NotAppliedStatus;
 import server.model.domain.user.Patient;
-import server.model.domain.user.VaccineStatus;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
