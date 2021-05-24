@@ -398,17 +398,18 @@ public class ServerModelManager implements ServerModel {
     {
         try {
             nurse = userList.getNurse(nurse.getCpr());
-            if (nurse.worksThatWeek(dateFrom))
+            if (nurse.worksThatWeek(dateFrom)) {
                 if (nurse.getSchedule(dateFrom).getShift().getId() != shiftId || shiftId == 0) {
-                    for (int i=0; i<7; i++)
+                    for (int i = 0; i < 7; i++)
                         for (Appointment appointment : getNurseUpcomingAppointments(nurse).getAppointments())
                             if (appointment.getDate().equals(dateFrom.plusDays(i)))
                                 cancelAppointment(appointment.getId());
-                                managerFactory.getNurseScheduleManager().removeNurseSchedule(nurse, nurse.getSchedule(dateFrom));
-                                removeAvailableTimeIntervals(nurse.getSchedule(dateFrom));
-                                nurse.removeSchedule(nurse.getSchedule(dateFrom));
+                    managerFactory.getNurseScheduleManager().removeNurseSchedule(nurse, nurse.getSchedule(dateFrom));
+                    removeAvailableTimeIntervals(nurse.getSchedule(dateFrom));
+                    nurse.removeSchedule(nurse.getSchedule(dateFrom));
+                }
             }
-            if (shiftId != 0) {
+            else if (shiftId != 0) {
                 Shift shift = getShiftList().getById(shiftId);
                 LocalDate dateTo = dateFrom.plusDays(6);
                 Schedule schedule = managerFactory.getNurseScheduleManager().addSchedule(dateFrom, dateTo, shift);
