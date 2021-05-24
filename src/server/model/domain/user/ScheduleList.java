@@ -33,7 +33,8 @@ public class ScheduleList implements Serializable {
                 return schedule;
         return null;
     }
-
+    
+    @Override
     public boolean equals(Object obj){
         if(!(obj instanceof ScheduleList))
             return false;
@@ -47,6 +48,7 @@ public class ScheduleList implements Serializable {
         return true;
     }
 
+    @Override
     public String toString(){
         String all = "";
         for(Schedule schedule : schedules){

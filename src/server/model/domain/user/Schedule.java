@@ -20,12 +20,10 @@ public class Schedule implements Serializable {
 
     public void setDateFrom(LocalDate dateFrom) {
         this.dateFrom = dateFrom;
-
     }
 
     public void setDateTo(LocalDate dateTo) {
         this.dateTo = dateTo;
-
     }
 
     public LocalDate getDateFrom() {
@@ -47,7 +45,17 @@ public class Schedule implements Serializable {
     public int getId() {
         return id;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Schedule)) {
+            return false;
+        }
+        Schedule schedule = (Schedule) obj;
+        return schedule.id == id && schedule.dateFrom.equals(dateFrom) && schedule.dateTo.equals(dateTo) && schedule.shift.equals(shift);
+    }
 
+    @Override
     public String toString() {
         return dateFrom.toString() + " - " + dateTo.toString() + " " + shift.toString();
     }
