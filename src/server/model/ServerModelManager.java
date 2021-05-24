@@ -398,7 +398,7 @@ public class ServerModelManager implements ServerModel {
     {
         try {
             nurse = userList.getNurse(nurse.getCpr());
-            if (nurse.worksThatWeek(dateFrom)) {
+            if (nurse.worksThatWeek(dateFrom) && nurse.getSchedule(dateFrom).getShift().getId() != shiftId) {
                 for (int i=0; i<7; i++)
                     for (Appointment appointment : getNurseUpcomingAppointments(nurse).getAppointments())
                         if (appointment.getDate().equals(dateFrom.plusDays(i)))
@@ -415,6 +415,7 @@ public class ServerModelManager implements ServerModel {
                 addAvailableTimeIntervals(schedule);
                 managerFactory.getNurseScheduleManager().addNurseSchedule(nurse, schedule);
                 }
+            loadAvailableTimeIntervals();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -611,6 +612,8 @@ public class ServerModelManager implements ServerModel {
                 for (Appointment appointment : getNurseUpcomingAppointments(userList.getNurse(user.getCpr())).getAppointments())
                     cancelAppointment(appointment.getId());
                 userList.getNurseList().remove(user);
+                for (Schedule schedule : scheduleList.getSchedules())
+                loadAvailableTimeIntervals();
                 try {
                     managerFactory.getNurseManager().updateAccess((Nurse) user, false);
                     for(Schedule schedule: ((Nurse) user).getScheduleList().getSchedules())
