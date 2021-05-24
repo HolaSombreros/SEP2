@@ -512,7 +512,7 @@ public class ServerModelManager implements ServerModel {
                 if (appointmentList.hasAppointment(appointment.getPatient(), date, timeInterval))
                     throw new IllegalStateException("You already have an appointment at the selected time");
                 availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(appointment.getDate(), appointment.getTimeInterval())).decreaseAmount();
-                appointment.reschedule(date, timeInterval);
+                appointment.reschedule(date, timeInterval, getWorkingNurse(date, timeInterval));
                 availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(date,timeInterval)).increaseAmount();
                 managerFactory.getAppointmentManager().rescheduleAppointment(id, date, timeInterval);
             }
