@@ -218,7 +218,7 @@ public class ServerModelManager implements ServerModel {
                     if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 0)
                         return (Nurse) user;
                     else if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 1)
-                        list.getUsers().add(0, user);
+                        list.add(0, user);
                     else if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 2)
                         list.add(user);
                 }
@@ -442,14 +442,16 @@ public class ServerModelManager implements ServerModel {
             appointment = managerFactory.getAppointmentManager().addAppointment(date, timeInterval, type, patient, nurse);
 
             // Check if the time is still available
-            if (!availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(date,timeInterval)).isAvailable())
+            AvailableTimeInterval availableTimeInterval = availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(date, timeInterval));
+            if (availableTimeInterval == null || !availableTimeInterval.isAvailable()) {
                 throw new IllegalStateException("The selected time is no longer available");
+            }
 
             // Add appointment to local system cache
             appointmentList.add(appointment);
 
             // Update the AvailableTimeIntervalList
-            availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(date,timeInterval)).increaseAmount();
+            availableTimeInterval.increaseAmount();
         }
         catch (SQLException e) {
             e.printStackTrace();
