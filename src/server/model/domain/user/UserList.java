@@ -21,7 +21,7 @@ public class UserList implements Serializable
     }
     
     public void add(int index, User user) {
-        if (index < 0 || index >= users.size()) {
+        if (index < 0 || index > users.size()) {
             throw new IndexOutOfBoundsException("Index out of bounds");
         }
         users.add(index, user);
