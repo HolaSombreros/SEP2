@@ -67,7 +67,6 @@ public class ServerModelManager implements ServerModel {
         loadAvailableTimeIntervals();
     }
 
-    // TODO update with the nurse and admin access
     private void loadUsers() throws RemoteException
     {
         try {
@@ -613,18 +612,18 @@ public class ServerModelManager implements ServerModel {
                 for (Appointment appointment : getNurseUpcomingAppointments(userList.getNurse(user.getCpr())).getAppointments())
                     cancelAppointment(appointment.getId());
                 userList.getNurseList().remove(user);
-//                try {
-//                    managerFactory.getNurseManager().removeNurse((Nurse) user);
-//                }
-//                catch (SQLException e) {
-//                    e.printStackTrace();
-//                    throw new RemoteException(e.getMessage());
-//                }
+                try {
+                    managerFactory.getNurseManager().updateAccess((Nurse) user, false);
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                    throw new RemoteException(e.getMessage());
+                }
                 break;
             case "Administrator":
                 userList.remove(user);
                 try {
-                    managerFactory.getAdministratorManager().removeAdministrator((Administrator) user);
+                    managerFactory.getAdministratorManager().updateAccess((Administrator) user, false);
                 }
                 catch (SQLException e) {
                     e.printStackTrace();

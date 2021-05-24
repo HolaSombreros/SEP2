@@ -13,11 +13,14 @@ public class AdministratorManager {
     
     public void addAdministrator(Administrator administrator) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO administrator VALUES (?,?,?)");
-            insertStatement.setString(1, administrator.getCpr());
-            insertStatement.setString(2, administrator.getEmployeeId());
-            insertStatement.setBoolean(3, true);
-            insertStatement.executeUpdate();
+            if (isAdmin(administrator)) {
+                PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO administrator VALUES (?,?,?)");
+                insertStatement.setString(1, administrator.getCpr());
+                insertStatement.setString(2, administrator.getEmployeeId());
+                insertStatement.setBoolean(3, true);
+                insertStatement.executeUpdate();
+            }
+            else updateAccess(administrator, true);
         }
     }
     
@@ -45,10 +48,11 @@ public class AdministratorManager {
             return resultSet.first();
         }
     }
-    public void updateAccess(Administrator administrator) throws SQLException {
+    public void updateAccess(Administrator administrator, boolean access) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE has_access FROM administrator WHERE cpr = ?;");
-            statement.setString(1, administrator.getCpr());
+            PreparedStatement statement = connection.prepareStatement("UPDATE administrator SET has_access = ? WHERE cpr = ?;");
+            statement.setBoolean(1, access);
+            statement.setString(2, administrator.getCpr());
             statement.executeUpdate();
 
         }
