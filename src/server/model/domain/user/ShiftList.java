@@ -1,7 +1,6 @@
 package server.model.domain.user;
 
 import java.io.Serializable;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +30,6 @@ public class ShiftList implements Serializable {
     public Shift getById(int id){
         for(Shift shift: shifts)
             if(shift.getId() == id)
-                return shift;
-        return null;
-    }
-
-    public Shift getByTimeInterval(LocalTime timeFrom, LocalTime timeTo){
-        for(Shift shift: shifts)
-            if(shift.getTimeFrom().equals(timeFrom) && shift.getTimeTo().equals(timeTo))
                 return shift;
         return null;
     }
