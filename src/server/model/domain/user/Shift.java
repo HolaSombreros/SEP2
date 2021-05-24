@@ -29,7 +29,7 @@ public class Shift implements Serializable {
     }
 
     public boolean hasTimeInterval(TimeInterval timeInterval) {
-        return timeInterval.getFrom().isAfter(timeFrom.plusMinutes(1)) && timeInterval.getTo().isBefore(timeTo.plusMinutes(1));
+        return timeInterval.getFrom().isAfter(timeFrom.minusMinutes(1)) && timeInterval.getTo().isBefore(timeTo.plusMinutes(1));
     }
 
     @Override

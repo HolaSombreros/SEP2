@@ -210,10 +210,13 @@ public class ServerModelManager implements ServerModel {
     private Nurse getWorkingNurse(LocalDate date, TimeInterval timeInterval) {
         UserList list = new UserList();
         for (User user : userList.getNurseList().getUsers()) {
+            System.out.println("HERE1");
             Schedule schedule = ((Nurse) user).getScheduleByDate(date);
             if (schedule != null) {
+                System.out.println("HERE2");
                 if (schedule.getShift().hasTimeInterval(timeInterval))
                 {
+                    System.out.println("HERE3");
                     if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 0)
                         return (Nurse) user;
                     else if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 1)
