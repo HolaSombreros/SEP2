@@ -20,6 +20,13 @@ public class UserList implements Serializable
         users.add(user);
     }
     
+    public void add(int index, User user) {
+        if (index < 0 || index >= users.size()) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+        users.add(index, user);
+    }
+    
     public User getUserByCpr(String cpr) {
         if (cpr == null || cpr.isEmpty()) {
             return null;

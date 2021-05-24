@@ -216,7 +216,7 @@ public class ServerModelManager implements ServerModel {
                     if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 0)
                         return (Nurse) user;
                     else if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 1)
-                        list.getUsers().add(0, user);
+                        list.add(0, user);
                     else if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 2)
                         list.add(user);
                 }
@@ -297,7 +297,6 @@ public class ServerModelManager implements ServerModel {
     @Override
     public synchronized void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip,
         String city) throws RemoteException
-        // TODO first user to register is admin periodt!
     {
         if (!userList.contains(cpr)) {
             Address address = new Address(street, number, zip, city);
@@ -305,6 +304,8 @@ public class ServerModelManager implements ServerModel {
             userList.add(user);
             try {
                 managerFactory.getUserManager().addPerson(user);
+                if (userList.size() == 0)
+                    setRole(user, "Administrator");
             }
             catch (SQLException e) {
                 e.printStackTrace();
@@ -442,14 +443,16 @@ public class ServerModelManager implements ServerModel {
             appointment = managerFactory.getAppointmentManager().addAppointment(date, timeInterval, type, patient, nurse);
 
             // Check if the time is still available
-            if (!availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(date,timeInterval)).isAvailable())
+            AvailableTimeInterval availableTimeInterval = availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(date, timeInterval));
+            if (availableTimeInterval == null || !availableTimeInterval.isAvailable()) {
                 throw new IllegalStateException("The selected time is no longer available");
+            }
 
             // Add appointment to local system cache
             appointmentList.add(appointment);
 
             // Update the AvailableTimeIntervalList
-            availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(date,timeInterval)).increaseAmount();
+            availableTimeInterval.increaseAmount();
         }
         catch (SQLException e) {
             e.printStackTrace();
