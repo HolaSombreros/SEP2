@@ -51,16 +51,16 @@ public class ServerModelManager implements ServerModel {
 //        addDummyUsers();
         loadUsers();
         
-//        addShifts();
+  //      addShifts();
         loadShift();
         
-//        addTimeIntervals();
+    //    addTimeIntervals();
         loadTimeIntervals();
 
-        loadSchedules();
+      //  loadSchedules();
         loadAppointments();
         
-//        addDummyFAQS();
+       // addDummyFAQS();
         loadFAQs();
 
 //        PLEASE PUT THIS AFTER LOADING THE SCHEDULES AND APPOINTMENTS IF YOU WANNA MOVE IT
