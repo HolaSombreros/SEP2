@@ -144,7 +144,7 @@ public class StaffDetailsViewModel implements StaffDetailsViewModelInterface
   private boolean confirmRoleRemoving() {
     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
     alert.setTitle("Confirm editing");
-    alert.setHeaderText("Are you sure you want to edit the user's role? \n\n" + "Role: " + viewState.getSelectedUser().getClass().getSimpleName());
+    alert.setHeaderText("Are you sure you want to remove the user's role? \n\n" + "Role: " + viewState.getSelectedUser().getClass().getSimpleName());
     Optional<ButtonType> result = alert.showAndWait();
     return result.isPresent() && result.get() == ButtonType.OK;
   }

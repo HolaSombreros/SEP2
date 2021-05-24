@@ -140,7 +140,6 @@ public class UserManager {
             throw new IllegalArgumentException("You cannot remove a null user");
     }
 
-    // TODO update with the access
     public UserList getAllUsers() throws SQLException {
         UserList users = new UserList();
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {

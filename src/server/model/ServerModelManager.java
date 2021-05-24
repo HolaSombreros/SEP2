@@ -48,26 +48,25 @@ public class ServerModelManager implements ServerModel {
     }
 
     private void doDummyStuff() throws RemoteException {
-//        addDummyUsers();
+        addDummyUsers();
         loadUsers();
         
-  //      addShifts();
+        addShifts();
         loadShift();
         
-    //    addTimeIntervals();
+       addTimeIntervals();
         loadTimeIntervals();
 
-      //  loadSchedules();
+        loadSchedules();
         loadAppointments();
         
-       // addDummyFAQS();
+      // addDummyFAQS();
         loadFAQs();
 
 //        PLEASE PUT THIS AFTER LOADING THE SCHEDULES AND APPOINTMENTS IF YOU WANNA MOVE IT
         loadAvailableTimeIntervals();
     }
 
-    // TODO update with the nurse and admin access
     private void loadUsers() throws RemoteException
     {
         try {
@@ -213,8 +212,7 @@ public class ServerModelManager implements ServerModel {
         for (User user : userList.getNurseList().getUsers()) {
             Schedule schedule = ((Nurse) user).getScheduleByDate(date);
             if (schedule != null) {
-                if (schedule.getShift().hasTimeInterval(timeInterval))
-                {
+                if (schedule.getShift().hasTimeInterval(timeInterval)) {
                     if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 0)
                         return (Nurse) user;
                     else if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 1)
@@ -299,7 +297,6 @@ public class ServerModelManager implements ServerModel {
     @Override
     public synchronized void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip,
         String city) throws RemoteException
-        // TODO first user to register is admin periodt!
     {
         if (!userList.contains(cpr)) {
             Address address = new Address(street, number, zip, city);
@@ -307,6 +304,8 @@ public class ServerModelManager implements ServerModel {
             userList.add(user);
             try {
                 managerFactory.getUserManager().addPerson(user);
+                if (userList.size() == 0)
+                    setRole(user, "Administrator");
             }
             catch (SQLException e) {
                 e.printStackTrace();
@@ -400,14 +399,15 @@ public class ServerModelManager implements ServerModel {
     {
         try {
             nurse = userList.getNurse(nurse.getCpr());
-            if (nurse.worksThatWeek(dateFrom)) {
-                for (int i=0; i<7; i++)
-                    for (Appointment appointment : getNurseUpcomingAppointments(nurse).getAppointments())
-                        if (appointment.getDate().equals(dateFrom.plusDays(i)))
-                            cancelAppointment(appointment.getId());
-                managerFactory.getNurseScheduleManager().removeNurseSchedule(nurse, nurse.getSchedule(dateFrom));
-                removeAvailableTimeIntervals(nurse.getSchedule(dateFrom));
-                nurse.removeSchedule(nurse.getSchedule(dateFrom));
+            if (nurse.worksThatWeek(dateFrom))
+                if (nurse.getSchedule(dateFrom).getShift().getId() != shiftId || shiftId == 0) {
+                    for (int i=0; i<7; i++)
+                        for (Appointment appointment : getNurseUpcomingAppointments(nurse).getAppointments())
+                            if (appointment.getDate().equals(dateFrom.plusDays(i)))
+                                cancelAppointment(appointment.getId());
+                                managerFactory.getNurseScheduleManager().removeNurseSchedule(nurse, nurse.getSchedule(dateFrom));
+                                removeAvailableTimeIntervals(nurse.getSchedule(dateFrom));
+                                nurse.removeSchedule(nurse.getSchedule(dateFrom));
             }
             if (shiftId != 0) {
                 Shift shift = getShiftList().getById(shiftId);
@@ -417,6 +417,7 @@ public class ServerModelManager implements ServerModel {
                 addAvailableTimeIntervals(schedule);
                 managerFactory.getNurseScheduleManager().addNurseSchedule(nurse, schedule);
                 }
+            loadAvailableTimeIntervals();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -615,18 +616,22 @@ public class ServerModelManager implements ServerModel {
                 for (Appointment appointment : getNurseUpcomingAppointments(userList.getNurse(user.getCpr())).getAppointments())
                     cancelAppointment(appointment.getId());
                 userList.getNurseList().remove(user);
-//                try {
-//                    managerFactory.getNurseManager().removeNurse((Nurse) user);
-//                }
-//                catch (SQLException e) {
-//                    e.printStackTrace();
-//                    throw new RemoteException(e.getMessage());
-//                }
+                for (Schedule schedule : scheduleList.getSchedules())
+                loadAvailableTimeIntervals();
+                try {
+                    managerFactory.getNurseManager().updateAccess((Nurse) user, false);
+                    for(Schedule schedule: ((Nurse) user).getScheduleList().getSchedules())
+                        editSchedule((Nurse)user,schedule.getDateFrom(), 0);
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                    throw new RemoteException(e.getMessage());
+                }
                 break;
             case "Administrator":
                 userList.remove(user);
                 try {
-                    managerFactory.getAdministratorManager().removeAdministrator((Administrator) user);
+                    managerFactory.getAdministratorManager().updateAccess((Administrator) user, false);
                 }
                 catch (SQLException e) {
                     e.printStackTrace();
