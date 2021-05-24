@@ -1,6 +1,6 @@
 package client.viewmodel;
 
-import client.model.Model;
+import client.model.AppointmentModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,7 +17,7 @@ import server.model.domain.appointment.Type;
 import java.time.LocalDate;
 
 public class AddAppointmentViewModel implements AddAppointmentViewModelInterface {
-    private Model model;
+    private AppointmentModel appointmentModel;
     private ViewState viewState;
     private ObjectProperty<LocalDate> date;
     private ObservableList<Type> types;
@@ -27,8 +27,8 @@ public class AddAppointmentViewModel implements AddAppointmentViewModelInterface
     private StringProperty error;
     private ObjectProperty<Paint> errorFill;
     
-    public AddAppointmentViewModel(Model model, ViewState viewState) {
-        this.model = model;
+    public AddAppointmentViewModel(AppointmentModel appointmentModel, ViewState viewState) {
+        this.appointmentModel = appointmentModel;
         this.viewState = viewState;
         date = new SimpleObjectProperty<>();
         types = FXCollections.observableArrayList();
@@ -58,7 +58,7 @@ public class AddAppointmentViewModel implements AddAppointmentViewModelInterface
     public void loadTimeIntervals() {
         timeIntervals.clear();
         if (date.get() != null) {
-            timeIntervals.addAll(model.getAvailableTimeIntervals((date.get())).getTimeIntervals());
+            timeIntervals.addAll(appointmentModel.getAvailableTimeIntervals((date.get())).getTimeIntervals());
             if (timeIntervals.size() > 0) {
                 timeInterval.set(timeIntervals.get(0));
                 error.set("");
@@ -122,7 +122,7 @@ public class AddAppointmentViewModel implements AddAppointmentViewModelInterface
     @Override
     public void createAppointment() {
         try {
-            model.addAppointment((date.get()), timeInterval.get(), type.get(), (Patient)viewState.getUser());
+            appointmentModel.addAppointment((date.get()), timeInterval.get(), type.get(), (Patient)viewState.getUser());
             errorFill.set(Color.GREEN);
             error.set("Appointment booked for " + date.get().toString() + " (" + timeInterval.get() + ")");
             resetInputs();

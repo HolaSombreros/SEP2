@@ -16,7 +16,6 @@ import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import static java.time.temporal.ChronoUnit.*;
@@ -63,11 +62,7 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
         Patient patient = (Patient) viewState.getUser();
         accessVisibility.set(false);
         vaccinationLabel.set(patient.getVaccineStatus().toString());
-        if (patient.getVaccineStatus() instanceof PendingStatus || patient.getVaccineStatus() instanceof ApprovedStatus)
-            disableButton.set(true);
-        else {
-            disableButton.set(false);
-        }
+        disableButton.set(patient.getVaccineStatus() instanceof PendingStatus || patient.getVaccineStatus() instanceof ApprovedStatus);
 
         nextAppointment.set("You do not have any upcoming appointments");
         AppointmentList list = new AppointmentList();

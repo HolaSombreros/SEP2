@@ -1,6 +1,7 @@
 package client.viewmodel;
 
 import client.model.Model;
+import client.model.UserModel;
 import javafx.beans.property.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -28,11 +29,11 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     private BooleanProperty vaccineLabelVisibility;
     private StringProperty title;
 
-    private Model model;
+    private UserModel userModel;
     private ViewState viewState;
 
-    public PersonalDataViewModel(Model model, ViewState viewState){
-        this.model = model;
+    public PersonalDataViewModel(UserModel userModel, ViewState viewState){
+        this.userModel = userModel;
         this.viewState = viewState;
         this.firstName = new SimpleStringProperty();
         this.middleName = new SimpleStringProperty();
@@ -116,6 +117,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
             email.set(user.getEmail());
             street.set(user.getAddress().getStreet());
             vaccineStatus.set(((Patient)viewState.getUser()).getVaccineStatus().toString());
+            changeRole.set(false);
         }
     }
 
@@ -125,11 +127,11 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         if(confirmEditingType(1)){
            try{
                if( viewState.getUser() instanceof Administrator) {
-                   User user = model.editUserInformation(viewState.getSelectedUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(),number.get(), zipCode.get());
+                   User user = userModel.editUserInformation(viewState.getSelectedUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(),number.get(), zipCode.get());
                    viewState.setSelectedUser(user);
                }
                else {
-                   User user = model.editUserInformation((User) viewState.getUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(),number.get(), zipCode.get());
+                   User user = userModel.editUserInformation((User) viewState.getUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(),number.get(), zipCode.get());
                    viewState.setUser(user);
                }
                errorLabel.set("Changes were saved");
@@ -141,22 +143,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         else
             reset();
     }
-/*
-    @Override
-    public boolean removeUser() {
-        if(confirmEditingType(2)) {
-            try {
-                model.removeUser(viewState.getSelectedUser());
-                errorLabel.set("User was removed");
-                return true;
-            }
-            catch (Exception e) {
-                errorLabel.set(e.getMessage());
-            }
-        }
-        return false;
-    }
-*/
+
 
     private boolean confirmEditingType(int criteria) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -314,23 +301,24 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     }
 
     @Override
-    public void approve(){
+    public void approve() {
         ((Patient) viewState.getSelectedUser()).getVaccineStatus().approve((Patient) viewState.getSelectedUser());
         if(confirmEditingType(1)) {
-            model.updateVaccineStatus(((Patient) viewState.getSelectedUser()));
+            userModel.updateVaccineStatus(((Patient) viewState.getSelectedUser()));
             vaccineStatus.set(((Patient) viewState.getSelectedUser()).getVaccineStatus().toString());
             approveButton.set(true);
             declineButton.set(true);
             errorLabel.set("Patient was " + ((Patient) viewState.getSelectedUser()).getVaccineStatus().toString() + " for vaccination");
-        }else
+        }
+        else
             ((Patient) viewState.getSelectedUser()).setVaccineStatus(new PendingStatus());
     }
 
     @Override
-    public void decline(){
+    public void decline() {
         ((Patient) viewState.getSelectedUser()).getVaccineStatus().decline((Patient) viewState.getSelectedUser());
         if(confirmEditingType(1)){
-            model.updateVaccineStatus(((Patient) viewState.getSelectedUser()));
+            userModel.updateVaccineStatus(((Patient) viewState.getSelectedUser()));
             vaccineStatus.set(((Patient) viewState.getSelectedUser()).getVaccineStatus().toString());
             approveButton.set(true);
             declineButton.set(true);
@@ -338,11 +326,10 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         }
         else
             ((Patient) viewState.getSelectedUser()).getVaccineStatus().apply((Patient) viewState.getSelectedUser());
-
     }
 
     @Override public boolean changeRole() {
-        if (model.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr()) !=null || model.getAdministrators().getUserByCpr(viewState.getSelectedUser().getCpr()) !=null) {
+        if (userModel.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr()) != null || userModel.getAdministrators().getUserByCpr(viewState.getSelectedUser().getCpr()) != null) {
             errorLabel.set("The User already has a role");
             return false;
         }

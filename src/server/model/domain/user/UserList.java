@@ -20,7 +20,6 @@ public class UserList implements Serializable
         users.add(user);
     }
     
-    // Method compares using only the user's CPR
     public User getUserByCpr(String cpr) {
         for (User user : users) {
             if (user.getCpr().equals(cpr)) {

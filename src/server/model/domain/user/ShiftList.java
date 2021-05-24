@@ -1,15 +1,10 @@
 package server.model.domain.user;
 
-import server.model.domain.appointment.TimeInterval;
-
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShiftList implements Serializable {
-
     private List<Shift> shifts;
 
     public ShiftList() {
@@ -39,13 +34,7 @@ public class ShiftList implements Serializable {
         return null;
     }
 
-    public Shift getByTimeInterval(LocalTime timeFrom, LocalTime timeTo){
-        for(Shift shift: shifts)
-            if(shift.getTimeFrom().equals(timeFrom) && shift.getTimeTo().equals(timeTo))
-                return shift;
-        return null;
-    }
-
+    @Override
     public boolean equals(Object obj){
         if(!(obj instanceof ShiftList))
             return false;
@@ -59,6 +48,7 @@ public class ShiftList implements Serializable {
         return true;
     }
 
+    @Override
     public String toString(){
         String all = "";
         for(Shift shift : shifts){

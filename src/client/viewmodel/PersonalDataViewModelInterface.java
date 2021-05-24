@@ -32,5 +32,4 @@ public interface PersonalDataViewModelInterface
     void reset();
     void editDetails();
     boolean isLoggedInAsNurse();
-//    boolean removeUser();
 }

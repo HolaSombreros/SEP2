@@ -25,12 +25,10 @@ public class AppointmentTableViewModel {
         idProperty = new SimpleIntegerProperty(appointment.getId());
         cprProperty = new SimpleStringProperty(appointment.getPatient().getCpr());
         fullNameProperty = new SimpleStringProperty(appointment.getPatient().getFullName());
-        if (appointment instanceof TestAppointment) {
+        if (appointment instanceof TestAppointment)
             resultProperty = new SimpleStringProperty(((TestAppointment) appointment).getResult().toString());
-        }
-        else {
+        else
             resultProperty = new SimpleStringProperty("-");
-        }
     }
     
     public StringProperty getDateProperty() {

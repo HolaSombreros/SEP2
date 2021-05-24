@@ -56,6 +56,7 @@ public class Address implements Serializable {
         return new Address(street, number, zipcode, city);
     }
     
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Address))
             return false;
@@ -64,6 +65,7 @@ public class Address implements Serializable {
         return street.equals(other.street) && city.equals(other.city) && number.equals(other.number) && zipcode == other.zipcode;
     }
     
+    @Override
     public String toString() {
         return getZipcode() + " - " + getCity() + ": " + getStreet() + " " + getNumber();
     }

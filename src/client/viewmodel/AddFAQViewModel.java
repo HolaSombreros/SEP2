@@ -1,6 +1,6 @@
 package client.viewmodel;
 
-import client.model.Model;
+import client.model.FAQModel;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +11,7 @@ import java.util.Collections;
 
 public class AddFAQViewModel implements AddFAQViewModelInterface
 {
-  private Model model;
+  private FAQModel faqModel;
   private ViewState viewState;
   private ObservableList<Category> categories;
   private ObjectProperty<Category> categoryProperty;
@@ -19,9 +19,9 @@ public class AddFAQViewModel implements AddFAQViewModelInterface
   private StringProperty answerProperty;
   private StringProperty errorProperty;
 
-  public AddFAQViewModel(Model model, ViewState viewState)
+  public AddFAQViewModel(FAQModel faqModel, ViewState viewState)
   {
-    this.model = model;
+    this.faqModel = faqModel;
     this.viewState = viewState;
     categories = FXCollections.observableArrayList();
     categoryProperty = new SimpleObjectProperty<>();
@@ -42,7 +42,7 @@ public class AddFAQViewModel implements AddFAQViewModelInterface
 
   @Override public boolean addFAQ() {
     try {
-      model.addFAQ(questionProperty.get(), answerProperty.get(), categoryProperty.get(), (Administrator) viewState.getUser());
+      faqModel.addFAQ(questionProperty.get(), answerProperty.get(), categoryProperty.get(), (Administrator) viewState.getUser());
       return true;
     }
     catch (Exception e) {
