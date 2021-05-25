@@ -6,14 +6,15 @@ public class Patient extends User {
     private VaccineStatus vaccineStatus;
     private Chat chat;
     
-    public Patient(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email, VaccineStatus validForVaccine, Chat chat) {
+    // TODO - PASS CHAT IN CONSTRUCTORS
+    public Patient(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email, VaccineStatus validForVaccine) {
         super(cpr, password, firstName, middleName, lastName, address, phone, email);
         setVaccineStatus(validForVaccine);
         setChat(chat);
     }
     
-    public Patient(String cpr, String password, String firstName, String lastName, Address address, String phone, String email, VaccineStatus validForVaccine, Chat chat) {
-        this(cpr, password, firstName, null, lastName, address, phone, email, validForVaccine, chat);
+    public Patient(String cpr, String password, String firstName, String lastName, Address address, String phone, String email, VaccineStatus validForVaccine) {
+        this(cpr, password, firstName, null, lastName, address, phone, email, validForVaccine);
     }
     
     public VaccineStatus getVaccineStatus() {
