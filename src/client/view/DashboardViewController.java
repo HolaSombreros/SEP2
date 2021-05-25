@@ -63,4 +63,8 @@ public class DashboardViewController extends ViewController {
     private void viewFAQ() {
         getViewHandler().openView(View.FAQ);
     }
+
+    @FXML private void enterChat() {
+        getViewHandler().openView(View.PATIENTCHAT);
+    }
 }
