@@ -16,6 +16,8 @@ public class AvailableTimeInterval {
     }
     
     public boolean has(Appointment appointment) {
+        if (appointment == null)
+            return false;
         return appointment.getDate().equals(date) && appointment.getTimeInterval().equals(timeInterval);
     }
     
