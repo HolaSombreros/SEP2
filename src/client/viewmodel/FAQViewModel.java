@@ -39,7 +39,7 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
         this.errorLabel = new SimpleStringProperty();
         content = FXCollections.observableArrayList();
         adminProperty = new SimpleBooleanProperty();
-        faqModel.addListener(this,"FAQ", "FAQRemove");
+        //faqModel.addListener(this,"FAQ", "FAQRemove");
     }
     
     private void loadFromModel() {

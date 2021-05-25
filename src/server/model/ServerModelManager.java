@@ -3,6 +3,8 @@ package server.model;
 import server.database.*;
 import server.model.domain.appointment.*;
 import server.model.domain.chat.Message;
+import server.model.domain.chat.MessageStatus;
+import server.model.domain.chat.UnreadStatus;
 import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQList;
@@ -30,11 +32,11 @@ public class ServerModelManager implements ServerModel {
     private ShiftList shiftList;
     private ScheduleList scheduleList;
     private ManagerFactory managerFactory;
-    private PropertyChangeAction<Object, Object> faqProperty;
+    private PropertyChangeAction<Object, Object> property;
 
     public ServerModelManager() throws RemoteException
     {
-        faqProperty = new PropertyChangeProxy<>(this);
+        property = new PropertyChangeProxy<>(this);
         onlineList = new UserList();
         userList = new UserList();
         managerFactory = new ManagerFactory();
@@ -652,7 +654,7 @@ public class ServerModelManager implements ServerModel {
             FAQValidator.validateNewFAQ(question, answer, category, creator);
             FAQ faq = managerFactory.getFAQManager().addFAQ(question, answer, category, creator);
             faqList.add(faq);
-            faqProperty.firePropertyChange("FAQ",null, faq);
+            property.firePropertyChange("FAQ",null, faq);
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -683,7 +685,7 @@ public class ServerModelManager implements ServerModel {
             if(faq != null) {
                 faqList.remove(faq);
                 managerFactory.getFAQManager().removeFAQ(question, answer);
-                faqProperty.firePropertyChange("FAQRemove", null, faq);
+                property.firePropertyChange("FAQRemove", null, faq);
             }
         }
         catch (SQLException e) {
@@ -699,15 +701,15 @@ public class ServerModelManager implements ServerModel {
 
     @Override
     public synchronized void close() {
-        faqProperty.close();
+        property.close();
     }
 
     @Override public boolean addListener(GeneralListener<Object, Object> listener, String... propertyNames) {
-        return faqProperty.addListener(listener,propertyNames);
+        return property.addListener(listener,propertyNames);
     }
 
     @Override public boolean removeListener(GeneralListener<Object, Object> listener, String... propertyNames) {
-        return faqProperty.removeListener(listener,propertyNames);
+        return property.removeListener(listener,propertyNames);
     }
 
     private String generateEmployeeId(String firstName, String middleName, String lastName) {
@@ -744,8 +746,14 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public void sendMessage(User user, Message message)
-    {
-
+    public void sendMessage(User user, String message) throws RemoteException {
+        try {
+            Message newMessage = managerFactory.getChatManager().addMessage(message,LocalDate.now(),LocalTime.now(),new UnreadStatus(), (Patient)user, null, user);
+            property.firePropertyChange("PatientMessage",user, newMessage);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new RemoteException(e.getMessage());
+        }
     }
 }

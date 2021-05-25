@@ -2,6 +2,7 @@ package client.mediator;
 
 import client.model.Model;
 import server.model.domain.appointment.*;
+import server.model.domain.chat.Message;
 import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQList;
@@ -24,13 +25,13 @@ import server.mediator.RemoteModel;
 public class Client implements Model, RemoteListener<Object,Object> {
     public static final String HOST = "localhost";
     private RemoteModel server;
-    private PropertyChangeAction<Object, Object> faqProperty;
+    private PropertyChangeAction<Object, Object> property;
     
     public Client(String host) throws RemoteException, NotBoundException, MalformedURLException {
         server = (RemoteModel) Naming.lookup("rmi://" + host + ":1099/AppointmentSystem");
         UnicastRemoteObject.exportObject(this, 0);
         server.addListener(this);
-        faqProperty = new PropertyChangeProxy<>(this, true);
+        property = new PropertyChangeProxy<>(this, true);
     }
     
     public Client() throws RemoteException, NotBoundException, MalformedURLException {
@@ -345,10 +346,20 @@ public class Client implements Model, RemoteListener<Object,Object> {
     public void close() {
         try {
             UnicastRemoteObject.unexportObject(this, true);
-            faqProperty.close();
+            property.close();
         }
         catch (Exception e) {
             throw new IllegalStateException("Cannot unexport object RMI", e);
+        }
+    }
+
+    @Override
+    public void sendMessage(User user,String message) {
+        try {
+            server.sendMessage(user, message);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e),e);
         }
     }
 
@@ -361,14 +372,16 @@ public class Client implements Model, RemoteListener<Object,Object> {
     }
 
     @Override public void propertyChange(ObserverEvent<Object, Object> event) throws RemoteException {
-        faqProperty.firePropertyChange(event);
+        property.firePropertyChange(event);
     }
 
     @Override public boolean addListener(GeneralListener<Object, Object> listener, String... propertyNames) {
-        return faqProperty.addListener(listener, propertyNames);
+        return property.addListener(listener, propertyNames);
     }
 
     @Override public boolean removeListener(GeneralListener<Object, Object> listener, String... propertyNames) {
-        return faqProperty.removeListener(listener, propertyNames);
+        return property.removeListener(listener, propertyNames);
     }
+
+
 }

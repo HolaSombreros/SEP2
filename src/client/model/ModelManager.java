@@ -2,6 +2,7 @@ package client.model;
 
 import client.mediator.Client;
 import server.model.domain.appointment.*;
+import server.model.domain.chat.Message;
 import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQList;
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 
 public class ModelManager implements Model, LocalListener<Object, Object> {
     
-    private PropertyChangeAction<Object, Object> faqProperty;
+    private PropertyChangeAction<Object, Object> property;
     private Client client;
     
     public ModelManager() {
@@ -27,7 +28,7 @@ public class ModelManager implements Model, LocalListener<Object, Object> {
         catch (Exception e) {
             e.printStackTrace();
         }
-        faqProperty = new PropertyChangeProxy<>(this);
+        property = new PropertyChangeProxy<>(this);
     }
     
     @Override
@@ -173,23 +174,27 @@ public class ModelManager implements Model, LocalListener<Object, Object> {
     }
 
     @Override
+    public void sendMessage(User user, String message) {
+        client.sendMessage(user, message);
+    }
+
+    @Override
     public void close() {
-        faqProperty.close();
+        property.close();
         client.close();
     }
 
-    @Override public void propertyChange(ObserverEvent<Object, Object> event)
-    {
-        faqProperty.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
+    @Override public void propertyChange(ObserverEvent<Object, Object> event) {
+        property.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
     }
 
-    @Override public boolean addListener(GeneralListener<Object, Object> listener, String... propertyNames)
-    {
-        return faqProperty.addListener(listener, propertyNames);
+    @Override public boolean addListener(GeneralListener<Object, Object> listener, String... propertyNames) {
+        return property.addListener(listener, propertyNames);
     }
 
-    @Override public boolean removeListener(GeneralListener<Object, Object> listener, String... propertyNames)
-    {
-        return faqProperty.removeListener(listener, propertyNames);
+    @Override public boolean removeListener(GeneralListener<Object, Object> listener, String... propertyNames) {
+        return property.removeListener(listener, propertyNames);
     }
+
+
 }
