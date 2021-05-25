@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import server.model.domain.chat.Message;
 import server.model.domain.user.Administrator;
 import server.model.domain.user.Patient;
@@ -47,11 +48,13 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
     private void addMessageBox(Message message) {
         updated.set(false);
         HBox newMessage = new HBox();
+        newMessage.setPadding(new Insets(10,15,5,10));
         newMessage.setAlignment(Pos.CENTER_RIGHT);
         newMessage.setPrefHeight(Region.USE_COMPUTED_SIZE);
         newMessage.setPrefWidth(Region.USE_COMPUTED_SIZE);
         //newMessage.setBackground(new Background(new BackgroundFill(Color.AQUAMARINE, CornerRadii.EMPTY, Insets.EMPTY)));
-        Label sendMessage = new Label(((Patient)viewState.getUser()).getFirstName() + ": " + message.getMessage());
+        Label sendMessage = new Label(message.getSender().getFirstName() + ": " + message.getMessage());
+        sendMessage.setFont(new Font(15));
         sendMessage.setMaxWidth(newMessage.getPrefWidth());
         sendMessage.setWrapText(true);
         newMessage.getChildren().add(sendMessage);
@@ -63,6 +66,7 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
     public void sendMessage() {
         if(textArea.get() != null && !textArea.get().trim().isEmpty())
             model.sendMessage((Patient)viewState.getUser(),textArea.get());
+        reset();
     }
 
     @Override
@@ -101,6 +105,5 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
             if(viewState.getUser().equals(observerEvent.getValue1()) || viewState.getUser() instanceof Administrator)
                 addMessageBox((Message) observerEvent.getValue2());
         });
-
     }
 }

@@ -215,7 +215,6 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
     
     @Override
     public void propertyChange(ObserverEvent<Object, Object> event) {
-        System.out.println("Remote");
         property.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
     }
     

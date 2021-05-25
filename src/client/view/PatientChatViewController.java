@@ -3,7 +3,6 @@ package client.view;
 import client.viewmodel.PatientChatViewModelInterface;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -13,7 +12,7 @@ import javafx.scene.layout.VBox;
 
 public class PatientChatViewController extends ViewController {
 
-    @FXML private TextArea textArea;
+    @FXML private TextField textField;
     @FXML private Label errorLabel;
     @FXML private ScrollPane scrollPane;
     @FXML private VBox chatRoom;
@@ -24,7 +23,7 @@ public class PatientChatViewController extends ViewController {
     @Override
     protected void init() {
         viewModel = getViewModelFactory().getPatientChatViewModel();
-        textArea.textProperty().bindBidirectional(viewModel.getTextAreaProperty());
+        textField.textProperty().bindBidirectional(viewModel.getTextAreaProperty());
         errorLabel.textProperty().bind(viewModel.getErrorLabelProperty());
         user.textProperty().bind(viewModel.getUserProperty());
         scrollPane.vvalueProperty().bind(chatRoom.heightProperty());
