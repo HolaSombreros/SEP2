@@ -1,17 +1,15 @@
 package server.model.domain.chat;
 
-import server.model.domain.appointment.Appointment;
-import server.model.domain.appointment.AppointmentList;
 import server.model.domain.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageList {
+public class Chat {
 
     private List<Message> messages;
 
-    public MessageList() {
+    public Chat() {
         messages = new ArrayList<>();
     }
 
@@ -47,10 +45,10 @@ public class MessageList {
         return false;
     }
 
-    public MessageList getMessagesBySender(User user){
+    public Chat getMessagesBySender(User user){
         if(user == null)
             throw new IllegalArgumentException("User cannot be null");
-        MessageList list = new MessageList();
+        Chat list = new Chat();
         for(Message message : messages)
             if(message.getSender().getCpr().equals(user.getCpr()))
                 list.add(message);
@@ -59,10 +57,10 @@ public class MessageList {
 
     @Override
     public boolean equals(Object obj){
-        if(!(obj instanceof MessageList))
+        if(!(obj instanceof Chat))
             return false;
 
-        MessageList other = (MessageList) obj;
+        Chat other = (Chat) obj;
         if (other.size() != size())
             return false;
 

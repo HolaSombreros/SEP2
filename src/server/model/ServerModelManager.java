@@ -44,8 +44,6 @@ public class ServerModelManager implements ServerModel {
         appointmentList = new AppointmentList();
         availableTimeIntervalList = new AvailableTimeIntervalList();
 
-        faqList = new FAQList();
-
         doDummyStuff();
 
     }
