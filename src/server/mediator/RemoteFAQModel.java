@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 public interface RemoteFAQModel extends RemoteSubject<FAQ,FAQ>
 {
   void addFAQ(String question, String answer, Category category, Administrator creator) throws RemoteException;
-  void editFAQ(String oldQuestion, String oldAnswer, String question, String answer, Category category) throws RemoteException;
+  void editFAQ(FAQ faq, String question, String answer, Category category) throws RemoteException;
   void removeFAQ(String question, String answer) throws RemoteException;
   FAQList getFAQList() throws RemoteException;
 }

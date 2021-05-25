@@ -10,7 +10,8 @@ import server.model.domain.faq.Category;
 public interface AddFAQViewModelInterface
 {
   void reset();
-  boolean addFAQ();
+  boolean addEditFAQ();
+  void back();
   ObservableList<Category> getAllCategories();
   ObjectProperty<Category> getCategoryProperty();
   StringProperty getQuestionProperty();

@@ -311,9 +311,9 @@ public class Client implements Model, RemoteListener<FAQ,FAQ> {
         }
     }
 
-    @Override public void editFAQ(String oldQuestion, String oldAnswer, String question, String answer, Category category) {
+    @Override public void editFAQ(FAQ faq, String question, String answer, Category category) {
         try {
-            server.editFAQ(oldQuestion, oldAnswer, question, answer, category);
+            server.editFAQ(faq, question, answer, category);
         }
         catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e),e);

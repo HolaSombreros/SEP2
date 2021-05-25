@@ -19,8 +19,7 @@ public class AddFAQViewModel implements AddFAQViewModelInterface
   private StringProperty answerProperty;
   private StringProperty errorProperty;
 
-  public AddFAQViewModel(FAQModel faqModel, ViewState viewState)
-  {
+  public AddFAQViewModel(FAQModel faqModel, ViewState viewState) {
     this.faqModel = faqModel;
     this.viewState = viewState;
     categories = FXCollections.observableArrayList();
@@ -30,19 +29,28 @@ public class AddFAQViewModel implements AddFAQViewModelInterface
     errorProperty = new SimpleStringProperty();
   }
 
-  @Override public void reset()
-  {
+  @Override public void reset() {
     categories.clear();
     Collections.addAll(categories, Category.values());
-    categoryProperty.set(categories.get(0));
-    questionProperty.set("");
-    answerProperty.set("");
+    if (viewState.getSelectedFAQ() == null) {
+      categoryProperty.set(categories.get(0));
+      questionProperty.set("");
+      answerProperty.set("");
+    }
+    else {
+      categoryProperty.set(viewState.getSelectedFAQ().getCategory());
+      questionProperty.set(viewState.getSelectedFAQ().getQuestion());
+      answerProperty.set(viewState.getSelectedFAQ().getAnswer());
+    }
     errorProperty.set("");
   }
 
-  @Override public boolean addFAQ() {
+  @Override public boolean addEditFAQ() {
     try {
-      faqModel.addFAQ(questionProperty.get(), answerProperty.get(), categoryProperty.get(), (Administrator) viewState.getUser());
+      if(viewState.getSelectedFAQ() == null)
+        faqModel.addFAQ(questionProperty.get(), answerProperty.get(), categoryProperty.get(), (Administrator) viewState.getUser());
+      else faqModel.editFAQ(viewState.getSelectedFAQ(), questionProperty.get(), answerProperty.get(), categoryProperty.get());
+      viewState.removeSelectedFAQ();
       return true;
     }
     catch (Exception e) {
@@ -51,28 +59,27 @@ public class AddFAQViewModel implements AddFAQViewModelInterface
     }
   }
 
-  @Override public ObservableList<Category> getAllCategories()
-  {
+  @Override public void back() {
+    viewState.removeSelectedFAQ();
+  }
+
+  @Override public ObservableList<Category> getAllCategories() {
     return categories;
   }
 
-  @Override public ObjectProperty<Category> getCategoryProperty()
-  {
+  @Override public ObjectProperty<Category> getCategoryProperty() {
     return categoryProperty;
   }
 
-  @Override public StringProperty getQuestionProperty()
-  {
+  @Override public StringProperty getQuestionProperty() {
     return questionProperty;
   }
 
-  @Override public StringProperty getAnswerProperty()
-  {
+  @Override public StringProperty getAnswerProperty() {
     return answerProperty;
   }
 
-  @Override public StringProperty getErrorProperty()
-  {
+  @Override public StringProperty getErrorProperty() {
     return errorProperty;
   }
 }

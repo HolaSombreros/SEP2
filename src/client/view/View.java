@@ -14,7 +14,7 @@ public enum View {
     NURSEDASHBOARD("NurseDashBoardView.fxml"),
     NURSETEST("NurseTestAppointmentView.fxml"),
     FAQ("FAQView.fxml"),
-    ADDFAQ("AddFAQView.fxml"),
+    ADDEDITFAQ("AddFAQView.fxml"),
     SETROLE("SetRoleView.fxml"),
     ADMINMESSAGELIST("AdminMessageListView.fxml"),
     PATIENTCHAT("PatientChat.fxml");

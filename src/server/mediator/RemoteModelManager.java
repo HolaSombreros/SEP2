@@ -153,8 +153,8 @@ public class RemoteModelManager implements RemoteModel, LocalListener<FAQ, FAQ> 
         serverModel.addFAQ(question, answer, category, creator);
     }
 
-    @Override public void editFAQ(String oldQuestion, String oldAnswer, String question, String answer, Category category) throws RemoteException {
-        serverModel.editFAQ(oldQuestion, oldAnswer, question, answer, category);
+    @Override public void editFAQ(FAQ faq, String question, String answer, Category category) throws RemoteException {
+        serverModel.editFAQ(faq, question, answer, category);
     }
 
     @Override

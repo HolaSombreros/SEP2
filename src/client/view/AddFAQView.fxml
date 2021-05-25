@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" userData="Add FAQ" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.AddFAQViewController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0" userData="Add FAQ" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.AddFAQViewController">
     <children>
-        <Label text="ADD FAQ">
+        <Label text="Add/Edit FAQ">
             <font>
                 <Font name="System Bold" size="36.0" />
             </font>
@@ -22,7 +22,7 @@
         <Label fx:id="errorLabel" text="ErrorLabel" textFill="RED" />
         <HBox alignment="CENTER" prefHeight="20.0" prefWidth="600.0" spacing="300.0">
             <children>
-                <Button mnemonicParsing="false" onAction="#add" text="Add">
+                <Button mnemonicParsing="false" onAction="#addEdit" text="Add / Edit">
                     <font>
                         <Font size="14.0" />
                     </font>
