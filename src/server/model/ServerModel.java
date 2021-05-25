@@ -3,7 +3,7 @@ package server.model;
 import server.model.domain.faq.FAQ;
 import utility.observer.subject.LocalSubject;
 
-public interface ServerModel extends ServerAppointmentModel, ServerUserModel, ServerFAQModel {
+public interface ServerModel extends ServerAppointmentModel, ServerUserModel, ServerFAQModel, MessageModel {
 
     void close();
 }

@@ -8,7 +8,7 @@ import utility.observer.subject.RemoteSubject;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface RemoteModel extends RemoteAppointmentModel, RemoteUserModel, RemoteFAQModel
+public interface RemoteModel extends RemoteAppointmentModel, RemoteUserModel, RemoteFAQModel, RemoteMessageModel
 {
 
 }

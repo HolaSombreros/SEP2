@@ -21,10 +21,10 @@ import java.time.LocalDate;
 
 import server.mediator.RemoteModel;
 
-public class Client implements Model, RemoteListener<FAQ,FAQ> {
+public class Client implements Model, RemoteListener<Object,Object> {
     public static final String HOST = "localhost";
     private RemoteModel server;
-    private PropertyChangeAction<FAQ, FAQ> faqProperty;
+    private PropertyChangeAction<Object, Object> faqProperty;
     
     public Client(String host) throws RemoteException, NotBoundException, MalformedURLException {
         server = (RemoteModel) Naming.lookup("rmi://" + host + ":1099/AppointmentSystem");
@@ -360,15 +360,15 @@ public class Client implements Model, RemoteListener<FAQ,FAQ> {
         return message;
     }
 
-    @Override public void propertyChange(ObserverEvent<FAQ, FAQ> event) throws RemoteException {
+    @Override public void propertyChange(ObserverEvent<Object, Object> event) throws RemoteException {
         faqProperty.firePropertyChange(event);
     }
 
-    @Override public boolean addListener(GeneralListener<FAQ, FAQ> listener, String... propertyNames) {
+    @Override public boolean addListener(GeneralListener<Object, Object> listener, String... propertyNames) {
         return faqProperty.addListener(listener, propertyNames);
     }
 
-    @Override public boolean removeListener(GeneralListener<FAQ, FAQ> listener, String... propertyNames) {
+    @Override public boolean removeListener(GeneralListener<Object, Object> listener, String... propertyNames) {
         return faqProperty.removeListener(listener, propertyNames);
     }
 }
