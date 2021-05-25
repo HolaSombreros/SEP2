@@ -746,8 +746,10 @@ public class ServerModelManager implements ServerModel {
     @Override
     public void sendMessage(User user, String message) throws RemoteException {
         try {
-            Message newMessage = managerFactory.getChatManager().addMessage(message,LocalDate.now(),LocalTime.now(),new UnreadStatus(), (Patient)user, null, user);
-            property.firePropertyChange("PatientMessage",user, newMessage);
+            if(user != null || !message.trim().isEmpty()) {
+                Message newMessage = managerFactory.getChatManager().addMessage(message, LocalDate.now(), LocalTime.now(), new UnreadStatus(), (Patient) user, null, user);
+                property.firePropertyChange("PatientMessage", user, newMessage);
+            }
         }
         catch (SQLException e) {
             e.printStackTrace();

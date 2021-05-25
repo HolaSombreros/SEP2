@@ -22,11 +22,11 @@ import java.time.LocalDate;
 
 public class RemoteModelManager implements RemoteModel, LocalListener<Object, Object> {
     private ServerModel serverModel;
-    private PropertyChangeAction<Object, Object> faqProperty;
+    private PropertyChangeAction<Object, Object> property;
     
     public RemoteModelManager(ServerModel serverModel) throws RemoteException, MalformedURLException {
         this.serverModel = serverModel;
-        faqProperty = new PropertyChangeProxy<>(this, true);
+        property = new PropertyChangeProxy<>(this, true);
         serverModel.addListener(this);
         startRegistry();
         startServer();
@@ -204,7 +204,7 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
     }
     
     public void close() {
-        faqProperty.close();
+        property.close();
         try {
             UnicastRemoteObject.unexportObject(this, true);
         }
@@ -215,17 +215,17 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
     
     @Override
     public void propertyChange(ObserverEvent<Object, Object> event) {
-        faqProperty.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
+        property.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
     }
     
     @Override
     public boolean addListener(GeneralListener<Object, Object> listener, String... propertyNames) throws RemoteException {
-        return faqProperty.addListener(listener, propertyNames);
+        return property.addListener(listener, propertyNames);
     }
     
     @Override
     public boolean removeListener(GeneralListener<Object, Object> listener, String... propertyNames) throws RemoteException {
-        return faqProperty.removeListener(listener, propertyNames);
+        return property.removeListener(listener, propertyNames);
     }
 
 

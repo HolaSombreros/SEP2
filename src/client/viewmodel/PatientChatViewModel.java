@@ -18,11 +18,11 @@ import utility.observer.listener.LocalListener;
 
 public class PatientChatViewModel implements PatientChatViewModelInterface, LocalListener<Object, Object>
 {
-
     private StringProperty errorLabel;
     private StringProperty user;
     private StringProperty textArea;
     private ObservableList<Node> messages;
+    private BooleanProperty updated;
     private ViewState viewState;
     private MessageModel model;
 
@@ -30,6 +30,7 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         this.model =  model;
         this.viewState =  viewState;
         this.errorLabel = new SimpleStringProperty();
+        this.updated = new SimpleBooleanProperty(false);
         this.user =  new SimpleStringProperty();
         this.textArea = new SimpleStringProperty();
         this.messages = FXCollections.observableArrayList();
@@ -43,6 +44,7 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
     }
 
     private void addMessageBox(Message message) {
+        updated.set(false);
         HBox newMessage = new HBox();
         newMessage.setAlignment(Pos.CENTER_RIGHT);
         newMessage.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -54,12 +56,14 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         sendMessage.setWrapText(true);
         newMessage.getChildren().add(sendMessage);
         messages.add(newMessage);
+        updated.set(true);
     }
 
     @Override
     public void sendMessage() {
         if(textArea.get() != null && !textArea.get().trim().isEmpty()) {
             model.sendMessage((Patient)viewState.getUser(),textArea.get());
+            System.out.println("haha");
         }
     }
 
@@ -82,14 +86,22 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
     }
 
     @Override
+    public BooleanProperty getUpdatedProperty()
+    {
+        return updated;
+    }
+
+    @Override
     public ObservableList<Node> getMessages() {
         return messages;
     }
+
 
     @Override
     public void propertyChange(ObserverEvent<Object, Object> observerEvent)
     {
         Platform.runLater(() ->{
+            System.out.println("Here");
             addMessageBox((Message)observerEvent.getValue2());
         });
 

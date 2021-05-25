@@ -46,7 +46,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="37.0" prefWidth="466.0" spacing="15.0">
                <children>
-                  <TextArea fx:id="textArea" onKeyPressed="#onEnter" prefHeight="37.0" prefWidth="398.0">
+                  <TextArea fx:id="textArea" prefHeight="37.0" prefWidth="398.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
