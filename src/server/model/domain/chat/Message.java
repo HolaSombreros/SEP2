@@ -64,4 +64,16 @@ public class Message {
     public void setStatus(MessageStatus status) {
         this.status = status;
     }
+
+    public boolean equals(Object obj){
+        if(!(obj instanceof Message))
+            return false;
+        Message other = (Message) obj;
+        return other.id == id && other.message.equals(message) && other.date.equals(date) && other.time.equals(time) && other.administrator.equals(administrator)
+                && other.patient.equals(patient) && other.sender.equals(sender);
+    }
+
+    public String toString(){
+        return id + ". " + message + " sent by: " + sender.getCpr() + " at: " + time.toString() + ", " + date.toString() + " status: " + status.toString();
+    }
 }
