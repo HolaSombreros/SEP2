@@ -157,6 +157,10 @@ public class ModelManager implements Model, LocalListener<FAQ, FAQ> {
         client.addFAQ(question, answer, category, creator);
     }
 
+    @Override public void editFAQ(String oldQuestion, String oldAnswer, String question, String answer, Category category) {
+        client.editFAQ(oldQuestion, oldAnswer, question, answer, category);
+    }
+
     @Override
     public FAQList getFAQList() {
         return client.getFAQList();
@@ -167,8 +171,6 @@ public class ModelManager implements Model, LocalListener<FAQ, FAQ> {
     {
         client.removeFAQ(question, answer);
     }
-
-
 
     @Override
     public void close() {

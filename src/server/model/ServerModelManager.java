@@ -662,6 +662,23 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
+    public synchronized void editFAQ(String oldQuestion, String oldAnswer, String question, String answer, Category category) throws RemoteException {
+        try {
+            FAQ faq = faqList.getFAQ(oldQuestion, oldAnswer);
+            if (faq != null) {
+                managerFactory.getFAQManager().updateFAQ(faq, question, answer, category);
+                faq.setQuestion(question);
+                faq.setAnswer(answer);
+                faq.setCategory(category);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new RemoteException(e.getMessage());
+        }
+    }
+
+    @Override
     public synchronized void removeFAQ(String question, String answer) throws RemoteException {
         try{
             FAQ faq = faqList.getFAQ(question, answer);

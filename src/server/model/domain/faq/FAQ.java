@@ -26,11 +26,23 @@ public class FAQ implements Serializable {
     public String getAnswer() {
         return answer;
     }
-    
+
     public Category getCategory() {
         return category;
     }
-    
+
+    public void setQuestion(String question)  {
+        this.question = question;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof FAQ)) {
