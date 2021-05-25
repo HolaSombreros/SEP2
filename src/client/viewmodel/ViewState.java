@@ -1,8 +1,5 @@
 package client.viewmodel;
 
-import server.model.domain.user.Administrator;
-import server.model.domain.user.Nurse;
-import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 
 public class ViewState<T> {
