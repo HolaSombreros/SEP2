@@ -1,8 +1,7 @@
-package server.model.domain;
+package server.model.domain.appointment;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.model.domain.appointment.TimeInterval;
 
 import java.time.LocalTime;
 
