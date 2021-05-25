@@ -14,9 +14,9 @@ public class MessageTableDataViewModel {
     public MessageTableDataViewModel(Patient patient) {
         cpr = new SimpleStringProperty(patient.getCpr());
         name = new SimpleStringProperty(patient.getFullName());
-        Message lastMessage = patient.getChat().get(patient.getChat.size() - 1);
-        date = new SimpleStringProperty(lastMessage.getSendDate().toString());
-        status = new SimpleStringProperty(message.getStatus().toString());
+        Message lastMessage = patient.getChat().get(patient.getChat().size() - 1);
+        date = new SimpleStringProperty(lastMessage.getDate().toString());
+        status = new SimpleStringProperty(lastMessage.getStatus().toString());
     }
     
     public StringProperty getCprProperty() {

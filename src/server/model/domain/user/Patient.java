@@ -1,7 +1,10 @@
 package server.model.domain.user;
 
+import server.model.domain.chat.Chat;
+
 public class Patient extends User {
     private VaccineStatus vaccineStatus;
+    private Chat chat;
     
     public Patient(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email, VaccineStatus validForVaccine) {
         super(cpr, password, firstName, middleName, lastName, address, phone, email);
@@ -18,6 +21,10 @@ public class Patient extends User {
     
     public void setVaccineStatus(VaccineStatus vaccineStatus) {
         this.vaccineStatus = vaccineStatus;
+    }
+    
+    public Chat getChat() {
+        return chat;
     }
     
     @Override

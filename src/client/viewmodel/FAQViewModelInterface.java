@@ -12,11 +12,10 @@ import server.model.domain.faq.FAQ;
 public interface FAQViewModelInterface {
     void reset();
     void addEditFAQ();
-    void addBox(VBox box);
     void remove();
     void setSelectedBox(TitledPane box);
     ObservableList<VBox> getFAQContent();
     BooleanProperty isAdminProperty();
-    BooleanProperty removeButtonProperty();
     StringProperty errorLabelProperty();
+    BooleanProperty getUpdatedProperty();
 }

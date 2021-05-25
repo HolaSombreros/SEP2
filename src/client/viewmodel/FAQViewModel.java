@@ -14,42 +14,42 @@ import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQList;
 import server.model.domain.user.Administrator;
+import server.model.domain.user.User;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
 
 import java.util.Optional;
 
-public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, FAQ>
-{
+public class FAQViewModel implements FAQViewModelInterface, LocalListener<Object, Object> {
     private FAQModel faqModel;
-    private ViewState viewState;
+    private ViewState<User> viewState;
     private ObservableList<VBox> content;
     private BooleanProperty adminProperty;
-    private BooleanProperty removeButton;
     private StringProperty errorLabel;
-    private VBox vBox;
+    private BooleanProperty updated;
     private TitledPane selectedBox;
 
-    public FAQViewModel(FAQModel faqModel, ViewState viewState) {
+    public FAQViewModel(FAQModel faqModel, ViewState<User> viewState) {
         this.faqModel = faqModel;
         this.viewState = viewState;
-        this.vBox = null;
         this.selectedBox = null;
-        this.removeButton = new SimpleBooleanProperty();
         this.errorLabel = new SimpleStringProperty();
         content = FXCollections.observableArrayList();
         adminProperty = new SimpleBooleanProperty();
+        updated = new SimpleBooleanProperty(false);
         faqModel.addListener(this,"FAQ", "FAQRemove");
+        
+        loadFromModel();
     }
     
     private void loadFromModel() {
         content.clear();
         FAQList faqList = faqModel.getFAQList();
         generateContent(faqList);
-        vBox.getChildren().setAll(content);
     }
     
     private void generateContent(FAQList faqList) {
+        updated.set(false);
         for (Category category : Category.values()) {
             VBox vBox = new VBox();
             vBox.setSpacing(5);
@@ -58,13 +58,15 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
             vBox.getChildren().add(header);
             Accordion accordion = new Accordion();
             vBox.getChildren().add(accordion);
-
+        
             for (FAQ faq : faqList.getQuestions()) {
                 if (faq.getCategory().equals(category)) {
                     TitledPane titledPane = new TitledPane();
                     titledPane.expandedProperty().addListener((obs, oldVal,newVal) -> {
                         if(newVal)
                             setSelectedBox(titledPane);
+                        else
+                            setSelectedBox(null);
                     });
                     titledPane.setText(faq.getQuestion());
                     Label answer = new Label(faq.getAnswer());
@@ -75,10 +77,7 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
             }
             content.add(vBox);
         }
-    }
-
-    public void addBox(VBox box) {
-        vBox = box;
+        updated.set(true);
     }
 
     private boolean confirmation() {
@@ -112,7 +111,6 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
     @Override
     public void reset() {
         adminProperty.set(viewState.getUser() instanceof Administrator);
-        loadFromModel();
         errorLabel.set("");
         selectedBox = null;
     }
@@ -132,17 +130,18 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
     }
 
     @Override
-    public BooleanProperty removeButtonProperty() {
-        return removeButton;
-    }
-
-    @Override
     public StringProperty errorLabelProperty() {
         return errorLabel;
     }
-
+    
     @Override
-    public void propertyChange(ObserverEvent<FAQ, FAQ> observerEvent) {
+    public BooleanProperty getUpdatedProperty() {
+        return updated;
+    }
+    
+    // TODO - add just the one new FAQ that was added instead of loading the entire thing from scratch
+    @Override
+    public void propertyChange(ObserverEvent<Object, Object> event) {
         Platform.runLater(() -> {
             loadFromModel();
         });

@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 
 public class AdminMessageListViewModel implements AdminMessageListViewModelInterface {
@@ -30,7 +31,7 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
     @Override
     public boolean enterChat() {
         if (selectedChat.get() != null) {
-            viewState.setSelectedChat(model.getPatients().getUserByCpr(selectedChat.get().getCprProperty().get()).getChat());
+            viewState.setSelectedChat(((Patient)(model.getPatients().getUserByCpr(selectedChat.get().getCprProperty().get()))).getChat());
             return true;
         }
         else {
