@@ -20,9 +20,9 @@ import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDate;
 
-public class RemoteModelManager implements RemoteModel, LocalListener<FAQ, FAQ> {
+public class RemoteModelManager implements RemoteModel, LocalListener<Object, Object> {
     private ServerModel serverModel;
-    private PropertyChangeAction<FAQ, FAQ> faqProperty;
+    private PropertyChangeAction<Object, Object> faqProperty;
     
     public RemoteModelManager(ServerModel serverModel) throws RemoteException, MalformedURLException {
         this.serverModel = serverModel;
@@ -209,17 +209,17 @@ public class RemoteModelManager implements RemoteModel, LocalListener<FAQ, FAQ> 
     }
     
     @Override
-    public void propertyChange(ObserverEvent<FAQ, FAQ> event) {
+    public void propertyChange(ObserverEvent<Object, Object> event) {
         faqProperty.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
     }
     
     @Override
-    public boolean addListener(GeneralListener<FAQ, FAQ> listener, String... propertyNames) throws RemoteException {
+    public boolean addListener(GeneralListener<Object, Object> listener, String... propertyNames) throws RemoteException {
         return faqProperty.addListener(listener, propertyNames);
     }
     
     @Override
-    public boolean removeListener(GeneralListener<FAQ, FAQ> listener, String... propertyNames) throws RemoteException {
+    public boolean removeListener(GeneralListener<Object, Object> listener, String... propertyNames) throws RemoteException {
         return faqProperty.removeListener(listener, propertyNames);
     }
 }

@@ -14,9 +14,9 @@ import utility.observer.subject.PropertyChangeProxy;
 
 import java.time.LocalDate;
 
-public class ModelManager implements Model, LocalListener<FAQ, FAQ> {
+public class ModelManager implements Model, LocalListener<Object, Object> {
     
-    private PropertyChangeAction<FAQ, FAQ> faqProperty;
+    private PropertyChangeAction<Object, Object> faqProperty;
     private Client client;
     
     public ModelManager() {
@@ -178,17 +178,17 @@ public class ModelManager implements Model, LocalListener<FAQ, FAQ> {
         client.close();
     }
 
-    @Override public void propertyChange(ObserverEvent<FAQ, FAQ> event)
+    @Override public void propertyChange(ObserverEvent<Object, Object> event)
     {
         faqProperty.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
     }
 
-    @Override public boolean addListener(GeneralListener<FAQ, FAQ> listener, String... propertyNames)
+    @Override public boolean addListener(GeneralListener<Object, Object> listener, String... propertyNames)
     {
         return faqProperty.addListener(listener, propertyNames);
     }
 
-    @Override public boolean removeListener(GeneralListener<FAQ, FAQ> listener, String... propertyNames)
+    @Override public boolean removeListener(GeneralListener<Object, Object> listener, String... propertyNames)
     {
         return faqProperty.removeListener(listener, propertyNames);
     }

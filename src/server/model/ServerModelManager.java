@@ -2,6 +2,7 @@ package server.model;
 
 import server.database.*;
 import server.model.domain.appointment.*;
+import server.model.domain.chat.Message;
 import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQList;
@@ -29,7 +30,7 @@ public class ServerModelManager implements ServerModel {
     private ShiftList shiftList;
     private ScheduleList scheduleList;
     private ManagerFactory managerFactory;
-    private PropertyChangeAction<FAQ, FAQ> faqProperty;
+    private PropertyChangeAction<Object, Object> faqProperty;
 
     public ServerModelManager() throws RemoteException
     {
@@ -701,11 +702,11 @@ public class ServerModelManager implements ServerModel {
         faqProperty.close();
     }
 
-    @Override public boolean addListener(GeneralListener<FAQ, FAQ> listener, String... propertyNames) {
+    @Override public boolean addListener(GeneralListener<Object, Object> listener, String... propertyNames) {
         return faqProperty.addListener(listener,propertyNames);
     }
 
-    @Override public boolean removeListener(GeneralListener<FAQ, FAQ> listener, String... propertyNames) {
+    @Override public boolean removeListener(GeneralListener<Object, Object> listener, String... propertyNames) {
         return faqProperty.removeListener(listener,propertyNames);
     }
 
@@ -740,5 +741,11 @@ public class ServerModelManager implements ServerModel {
         } while (taken);
 
         return employeeId + randomNumber;
+    }
+
+    @Override
+    public void sendMessage(User user, Message message)
+    {
+
     }
 }

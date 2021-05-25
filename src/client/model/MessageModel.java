@@ -1,5 +1,8 @@
 package client.model;
 
-public interface MessageModel {
+import utility.observer.subject.LocalSubject;
+
+public interface MessageModel extends LocalSubject<Object, Object>
+{
 
 }

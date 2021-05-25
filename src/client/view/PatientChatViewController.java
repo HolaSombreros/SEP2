@@ -21,7 +21,7 @@ public class PatientChatViewController extends ViewController {
     @Override
     protected void init() {
         viewModel = getViewModelFactory().getPatientChatViewModel();
-        textArea.textProperty().bind(viewModel.getTextAreaProperty());
+        textArea.textProperty().bindBidirectional(viewModel.getTextAreaProperty());
         errorLabel.textProperty().bind(viewModel.getErrorLabelProperty());
         user.textProperty().bind(viewModel.getUserProperty());
         scrollPane.vvalueProperty().bind(chatRoom.heightProperty());
