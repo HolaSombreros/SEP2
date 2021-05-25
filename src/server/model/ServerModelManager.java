@@ -744,7 +744,7 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public void sendMessage(User user, String message) throws RemoteException {
+    public synchronized void sendMessage(User user, String message) throws RemoteException {
         try {
             if(user != null || !message.trim().isEmpty()) {
                 Message newMessage = managerFactory.getChatManager().addMessage(message, LocalDate.now(), LocalTime.now(), new UnreadStatus(), (Patient) user, null, user);

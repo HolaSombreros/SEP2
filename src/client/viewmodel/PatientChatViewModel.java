@@ -101,7 +101,7 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
     public void propertyChange(ObserverEvent<Object, Object> observerEvent)
     {
         Platform.runLater(() ->{
-            if(viewState.getUser().equals((Patient)observerEvent.getValue1()) || viewState.getUser() instanceof Administrator) {
+            if(viewState.getUser().equals(observerEvent.getValue1()) || viewState.getUser() instanceof Administrator) {
                 System.out.println("Here");
                 addMessageBox((Message) observerEvent.getValue2());
             }
