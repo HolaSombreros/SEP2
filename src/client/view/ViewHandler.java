@@ -34,6 +34,7 @@ public class ViewHandler extends ViewCreator {
         stage.setWidth(root.getPrefWidth());
         stage.setHeight(root.getPrefHeight());
         stage.setResizable(false);
+        stage.centerOnScreen();
         stage.show();
     }
     

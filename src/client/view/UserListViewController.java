@@ -42,8 +42,13 @@ public class UserListViewController extends ViewController
   {
     viewModel.reset();
   }
+  
+  @FXML
+  private void goToChat() {
+    getViewHandler().openView(View.ADMINMESSAGELIST);
+  }
 
-  @FXML private void goToChat()
+  @FXML private void goToFAQ()
   {
     getViewHandler().openView(View.FAQ);
   }
