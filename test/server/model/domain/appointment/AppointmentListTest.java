@@ -1,4 +1,4 @@
-package server.model.domain;
+package server.model.domain.appointment;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
