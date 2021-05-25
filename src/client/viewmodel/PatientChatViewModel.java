@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import server.model.domain.chat.Message;
+import server.model.domain.user.Administrator;
 import server.model.domain.user.Patient;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
@@ -34,7 +35,7 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         this.user =  new SimpleStringProperty();
         this.textArea = new SimpleStringProperty();
         this.messages = FXCollections.observableArrayList();
-        model.addListener(this,"PatientMessage");
+        model.addListener(this,"patientMessage");
     }
 
     public void reset(){
@@ -96,13 +97,14 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         return messages;
     }
 
-
     @Override
     public void propertyChange(ObserverEvent<Object, Object> observerEvent)
     {
         Platform.runLater(() ->{
-            System.out.println("Here");
-            addMessageBox((Message)observerEvent.getValue2());
+            if(viewState.getUser().equals((Patient)observerEvent.getValue1()) || viewState.getUser() instanceof Administrator) {
+                System.out.println("Here");
+                addMessageBox((Message) observerEvent.getValue2());
+            }
         });
 
     }

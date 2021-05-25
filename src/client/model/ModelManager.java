@@ -185,6 +185,7 @@ public class ModelManager implements Model, LocalListener<Object, Object> {
     }
 
     @Override public void propertyChange(ObserverEvent<Object, Object> event) {
+        System.out.println("ModelManager");
         property.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
     }
 
