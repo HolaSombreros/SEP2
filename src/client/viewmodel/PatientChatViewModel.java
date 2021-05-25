@@ -1,6 +1,7 @@
 package client.viewmodel;
 
 import client.model.MessageModel;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,10 +13,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import server.model.domain.chat.Message;
 import server.model.domain.user.Patient;
-import server.model.domain.user.User;
+import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
 
-public class PatientChatViewModel implements PatientChatViewModelInterface
+public class PatientChatViewModel implements PatientChatViewModelInterface, LocalListener<Object, Object>
 {
 
     private StringProperty errorLabel;
@@ -33,12 +34,12 @@ public class PatientChatViewModel implements PatientChatViewModelInterface
         this.textArea = new SimpleStringProperty();
         this.messages = FXCollections.observableArrayList();
     }
+
     public void reset(){
         user.set(((Patient)viewState.getUser()).getFirstName());
         errorLabel.set("");
         textArea.set("");
     }
-
 
     @Override
     public void addMessageBox(Message message) {
@@ -85,4 +86,12 @@ public class PatientChatViewModel implements PatientChatViewModelInterface
         return messages;
     }
 
+    @Override
+    public void propertyChange(ObserverEvent<Object, Object> observerEvent)
+    {
+        Platform.runLater(() ->{
+
+        });
+
+    }
 }
