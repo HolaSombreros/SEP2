@@ -28,6 +28,17 @@ public class FAQManager {
         }
     }
 
+    public void updateFAQ(FAQ faq, String question, String answer, Category category) throws SQLException {
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+               PreparedStatement statement = connection.prepareStatement("UPDATE faq SET question = ?, answer = ?, category = ? WHERE faq_id = ?;");
+               statement.setString(1, question);
+               statement.setString(2, answer);
+               statement.setString(3, category.toString());
+               statement.setInt(4, faq.getId());
+               statement.executeUpdate();
+        }
+    }
+
     public void removeFAQ(String question, String answer) throws SQLException {
         try(Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM faq WHERE question = ? AND answer = ?");

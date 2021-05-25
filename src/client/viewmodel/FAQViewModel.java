@@ -76,9 +76,11 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
             content.add(vBox);
         }
     }
+
     public void addBox(VBox box) {
         vBox = box;
     }
+
     private boolean confirmation() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         Optional<ButtonType> result = null;
