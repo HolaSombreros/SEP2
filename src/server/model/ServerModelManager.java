@@ -745,10 +745,15 @@ public class ServerModelManager implements ServerModel {
 
     @Override
     public synchronized void sendMessage(User user, String message) throws RemoteException {
+
         try {
             if(user != null || !message.trim().isEmpty()) {
                 Message newMessage = managerFactory.getChatManager().addMessage(message, LocalDate.now(), LocalTime.now(), new UnreadStatus(), (Patient) user, null, user);
-                property.firePropertyChange("patientMessage", user, newMessage);
+                
+                ((Patient) user).getChat().add(newMessage);
+                property.firePropertyChange("PatientMessage", user, newMessage);
+    
+                System.out.println(getPatientList().getPatient(user.getCpr()).getChat().size());
             }
         }
         catch (SQLException e) {
