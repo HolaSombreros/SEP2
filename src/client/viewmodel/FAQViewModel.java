@@ -116,7 +116,12 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<FAQ, F
         errorLabel.set("");
         selectedBox = null;
     }
-    
+
+    @Override public void addEditFAQ() {
+        if(selectedBox != null)
+            viewState.setSelectedFAQ(faqModel.getFAQList().getFAQ(selectedBox.getText(), ((Label) ((VBox) selectedBox.getContent()).getChildren().get(0)).getText()));
+    }
+
     @Override
     public ObservableList<VBox> getFAQContent() {
         return content;

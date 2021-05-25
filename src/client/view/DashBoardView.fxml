@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="500.0" prefWidth="900.0" stylesheets="@../../util/style.css" userData="Main page" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.DashboardViewController">
+<BorderPane prefHeight="500.0" prefWidth="900.0" stylesheets="@../../util/style.css" userData="Main page" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.DashboardViewController">
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="390.0" prefWidth="195.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
@@ -32,6 +32,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
+            <Button mnemonicParsing="false" onAction="#enterChat" prefHeight="30.0" prefWidth="198.0" text="Enter Chat" />
             <Label maxHeight="1.7976931348623157E308" text="Hidden label" visible="false" VBox.vgrow="ALWAYS" />
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#logout" text="Logout">
                <font>

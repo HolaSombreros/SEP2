@@ -18,4 +18,16 @@ public class FAQValidator {
             throw new IllegalStateException("Please specify the creator of this FAQ");
         }
     }
+
+    public static void validateEditFAQ(String question, String answer, Category category) {
+        if (question == null || question.isEmpty()) {
+            throw new IllegalArgumentException("Please specify the question");
+        }
+        if (answer == null || answer.isEmpty()) {
+            throw new IllegalArgumentException("Please specify the answer");
+        }
+        if (category == null) {
+            throw new IllegalArgumentException("Please specify the category for this FAQ");
+        }
+    }
 }

@@ -10,8 +10,6 @@ public class Schedule implements Serializable {
     private int id;
 
     public Schedule(int id, LocalDate dateFrom, LocalDate dateTo, Shift shift) {
-        if (dateFrom.isBefore(LocalDate.now()))
-            throw new IllegalArgumentException("Not valid date");
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.shift = shift;

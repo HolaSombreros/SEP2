@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class AddressManager {
     public AddressManager() {
     }
-    
+
     public void addAddress(Address address) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO address VALUES (?,?,?)");
@@ -20,7 +20,7 @@ public class AddressManager {
             insertStatement.executeUpdate();
         }
     }
-    
+
     public boolean isAddress(String street, String number, int zipcode) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement selectStatement = connection.prepareStatement("SELECT * FROM address WHERE zip_code = ? AND street = ? AND number = ?");
@@ -31,7 +31,7 @@ public class AddressManager {
             return resultSet.next();
         }
     }
-    
+
     public String getCity(int zipcode) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement selectStatement = connection.prepareStatement("SELECT city FROM city WHERE zip_code = ?");
@@ -40,13 +40,12 @@ public class AddressManager {
             if (resultSet.next()) {
                 String city = resultSet.getString("city");
                 return city;
-            }
-            else {
+            } else {
                 throw new IllegalStateException("No existing city with this zipcode");
             }
         }
     }
-    
+
     public int getZipcode(String city) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement selectStatement = connection.prepareStatement("SELECT zip_code FROM city WHERE city = ?");
@@ -55,13 +54,12 @@ public class AddressManager {
             if (resultSet.next()) {
                 int zipCode = resultSet.getInt("zip_code");
                 return zipCode;
-            }
-            else {
+            } else {
                 throw new IllegalStateException("No existing city with this zipcode");
             }
         }
     }
-    
+
     public void removeAddress(Address address) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM address WHERE zip_code = ?");
@@ -69,7 +67,7 @@ public class AddressManager {
             statement.executeQuery();
         }
     }
-    
+
     public void addCity(Address address) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO city VALUES (?,?)");
@@ -78,7 +76,7 @@ public class AddressManager {
             statement.executeUpdate();
         }
     }
-    
+
     public boolean isCity(Address address) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement selectStatement = connection.prepareStatement("SELECT * FROM city WHERE zip_code = ?");

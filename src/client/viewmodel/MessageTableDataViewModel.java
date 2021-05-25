@@ -2,6 +2,7 @@ package client.viewmodel;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import server.model.domain.chat.Message;
 import server.model.domain.user.Patient;
 
 public class MessageTableDataViewModel {
@@ -13,7 +14,7 @@ public class MessageTableDataViewModel {
     public MessageTableDataViewModel(Patient patient) {
         cpr = new SimpleStringProperty(patient.getCpr());
         name = new SimpleStringProperty(patient.getFullName());
-        Message lastMessage = patient.getChat().get(patient.getgetChat.size() - 1);
+        Message lastMessage = patient.getChat().get(patient.getChat.size() - 1);
         date = new SimpleStringProperty(lastMessage.getSendDate().toString());
         status = new SimpleStringProperty(message.getStatus().toString());
     }

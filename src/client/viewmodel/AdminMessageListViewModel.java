@@ -1,6 +1,5 @@
 package client.viewmodel;
 
-import client.model.MessageModel;
 import client.model.Model;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
