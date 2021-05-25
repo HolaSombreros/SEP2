@@ -233,6 +233,39 @@ public class ServerModelManager implements ServerModel {
         return counter;
     }
 
+    private String generateEmployeeId(String firstName, String middleName, String lastName) {
+        final int MAX = 999;
+        final int MIN = 100;
+
+        String employeeId = "";
+        if (middleName != null) {
+            employeeId = firstName.charAt(0) + "" + middleName.charAt(0) + "" + lastName.charAt(0);
+        }
+        else {
+            employeeId = firstName.substring(0, 2) + "" + lastName.substring(0, 2);
+        }
+        employeeId = employeeId.toUpperCase();
+
+        // Add random number between 100 and 999 at the end
+        boolean taken;
+        int randomNumber;
+        do {
+            taken = false;
+            randomNumber = (int) (Math.ceil(Math.random() * (MAX - MIN)) + MIN);
+            for (User user : userList.getUsers()) {
+                if (user instanceof Staff) {
+                    Staff staff = ((Staff) user);
+                    if (staff.getEmployeeId().equalsIgnoreCase(employeeId + randomNumber)) {
+                        taken = true;
+                        break;
+                    }
+                }
+            }
+        } while (taken);
+
+        return employeeId + randomNumber;
+    }
+
     private void addDummyUsers() throws RemoteException
     {
         ArrayList<Address> addresses = new ArrayList<>();
@@ -708,39 +741,6 @@ public class ServerModelManager implements ServerModel {
 
     @Override public boolean removeListener(GeneralListener<Object, Object> listener, String... propertyNames) {
         return property.removeListener(listener,propertyNames);
-    }
-
-    private String generateEmployeeId(String firstName, String middleName, String lastName) {
-        final int MAX = 999;
-        final int MIN = 100;
-
-        String employeeId = "";
-        if (middleName != null) {
-            employeeId = firstName.charAt(0) + "" + middleName.charAt(0) + "" + lastName.charAt(0);
-        }
-        else {
-            employeeId = firstName.substring(0, 2) + "" + lastName.substring(0, 2);
-        }
-        employeeId = employeeId.toUpperCase();
-
-        // Add random number between 100 and 999 at the end
-        boolean taken;
-        int randomNumber;
-        do {
-            taken = false;
-            randomNumber = (int) (Math.ceil(Math.random() * (MAX - MIN)) + MIN);
-            for (User user : userList.getUsers()) {
-                if (user instanceof Staff) {
-                    Staff staff = ((Staff) user);
-                    if (staff.getEmployeeId().equalsIgnoreCase(employeeId + randomNumber)) {
-                        taken = true;
-                        break;
-                    }
-                }
-            }
-        } while (taken);
-
-        return employeeId + randomNumber;
     }
 
     @Override
