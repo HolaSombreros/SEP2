@@ -41,9 +41,9 @@ public class ChatManager {
         }
     }
 
-    public MessageList getMessagesBySender(User sender) throws SQLException{
+    public Chat getMessagesBySender(User sender) throws SQLException{
         try(Connection connection = DatabaseManager.getInstance().getConnection()){
-            MessageList list = new MessageList();
+            Chat list = new Chat();
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM message WHERE sent_by = ?");
             statement.setString(1, sender.getCpr());
             ResultSet result = statement.executeQuery();

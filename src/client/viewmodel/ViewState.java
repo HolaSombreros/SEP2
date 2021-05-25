@@ -1,5 +1,6 @@
 package client.viewmodel;
 
+import server.model.domain.chat.Chat;
 import server.model.domain.faq.FAQ;
 import server.model.domain.user.User;
 
@@ -57,7 +58,7 @@ public class ViewState<T> {
     }
     
     public Chat getSelectedChat() {
-        return chat;
+        return selectedChat;
     }
 
     public void setSelectedChat(Chat chat) {

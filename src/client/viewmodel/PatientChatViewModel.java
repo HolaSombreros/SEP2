@@ -1,6 +1,7 @@
 package client.viewmodel;
 
 import client.model.MessageModel;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,10 +13,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import server.model.domain.chat.Message;
 import server.model.domain.user.Patient;
-import server.model.domain.user.User;
+import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
 
-public class PatientChatViewModel implements PatientChatViewModelInterface
+public class PatientChatViewModel implements PatientChatViewModelInterface, LocalListener<Object, Object>
 {
 
     private StringProperty errorLabel;
@@ -32,23 +33,23 @@ public class PatientChatViewModel implements PatientChatViewModelInterface
         this.user =  new SimpleStringProperty();
         this.textArea = new SimpleStringProperty();
         this.messages = FXCollections.observableArrayList();
+        model.addListener(this,"PatientMessage");
     }
+
     public void reset(){
         user.set(((Patient)viewState.getUser()).getFirstName());
         errorLabel.set("");
         textArea.set("");
     }
 
-
-    @Override
-    public void addMessageBox(Message message) {
+    private void addMessageBox(Message message) {
         HBox newMessage = new HBox();
         newMessage.setAlignment(Pos.CENTER_RIGHT);
         newMessage.setPrefHeight(Region.USE_COMPUTED_SIZE);
         newMessage.setPrefWidth(Region.USE_COMPUTED_SIZE);
         newMessage.setBackground(new Background(new BackgroundFill(Color.AQUAMARINE, CornerRadii.EMPTY,
                 Insets.EMPTY)));
-        Label sendMessage = new Label(((Patient)viewState.getUser()).getFirstName() + " " + message.getMessage());
+        Label sendMessage = new Label(((Patient)viewState.getUser()).getFirstName() + " " + message);
         sendMessage.setMaxWidth(newMessage.getPrefWidth());
         sendMessage.setWrapText(true);
         newMessage.getChildren().add(sendMessage);
@@ -58,7 +59,7 @@ public class PatientChatViewModel implements PatientChatViewModelInterface
     @Override
     public void sendMessage() {
         if(textArea.get() != null && !textArea.get().trim().isEmpty()) {
-            //model adds the message
+            model.sendMessage((Patient)viewState.getUser(),textArea.get());
         }
     }
 
@@ -85,4 +86,12 @@ public class PatientChatViewModel implements PatientChatViewModelInterface
         return messages;
     }
 
+    @Override
+    public void propertyChange(ObserverEvent<Object, Object> observerEvent)
+    {
+        Platform.runLater(() ->{
+            addMessageBox((Message)observerEvent.getValue2());
+        });
+
+    }
 }

@@ -181,6 +181,11 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
         serverModel.RemoveRole(user);
     }
 
+    @Override
+    public void sendMessage(User user, String message) throws RemoteException {
+        serverModel.sendMessage(user, message);
+    }
+
 
     private void startRegistry() throws RemoteException {
         try {
@@ -222,4 +227,6 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
     public boolean removeListener(GeneralListener<Object, Object> listener, String... propertyNames) throws RemoteException {
         return faqProperty.removeListener(listener, propertyNames);
     }
+
+
 }
