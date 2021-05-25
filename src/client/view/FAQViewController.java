@@ -11,7 +11,7 @@ public class FAQViewController extends ViewController {
     private FAQViewModelInterface viewModel;
     
     @FXML VBox dynamicVBox;
-    @FXML private Button addFAQ;
+    @FXML private Button addEditFAQ;
     @FXML private Button removeButton;
     @FXML private Label errorLabel;
 
@@ -20,7 +20,7 @@ public class FAQViewController extends ViewController {
     @Override
     protected void init() {
         viewModel = getViewModelFactory().getFaqViewModel();
-        addFAQ.visibleProperty().bind(viewModel.isAdminProperty());
+        addEditFAQ.visibleProperty().bind(viewModel.isAdminProperty());
         removeButton.visibleProperty().bind(viewModel.isAdminProperty());
         errorLabel.textProperty().bind(viewModel.errorLabelProperty());
         viewModel.addBox(dynamicVBox);
@@ -41,8 +41,9 @@ public class FAQViewController extends ViewController {
     }
 
     @FXML
-    private void addFAQ() {
-        getViewHandler().openView(View.ADDFAQ);
+    private void addEditFAQ() {
+        viewModel.addEditFAQ();
+        getViewHandler().openView(View.ADDEDITFAQ);
     }
     
     @FXML

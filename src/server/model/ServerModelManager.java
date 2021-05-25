@@ -614,14 +614,12 @@ public class ServerModelManager implements ServerModel {
         updateList();
     }
 
-    // TODO change access instead of removing
     @Override public synchronized void RemoveRole(User user) throws RemoteException {
         switch (user.getClass().getSimpleName()) {
             case "Nurse":
                 for (Appointment appointment : getNurseUpcomingAppointments(userList.getNurse(user.getCpr())).getAppointments())
                     cancelAppointment(appointment.getId());
                 userList.getNurseList().remove(user);
-                for (Schedule schedule : scheduleList.getSchedules())
                 loadAvailableTimeIntervals();
                 try {
                     managerFactory.getNurseManager().updateAccess((Nurse) user, false);
@@ -662,15 +660,14 @@ public class ServerModelManager implements ServerModel {
     }
 
     @Override
-    public synchronized void editFAQ(String oldQuestion, String oldAnswer, String question, String answer, Category category) throws RemoteException {
+    public synchronized void editFAQ(FAQ faq, String question, String answer, Category category) throws RemoteException {
         try {
-            FAQ faq = faqList.getFAQ(oldQuestion, oldAnswer);
-            if (faq != null) {
-                managerFactory.getFAQManager().updateFAQ(faq, question, answer, category);
-                faq.setQuestion(question);
-                faq.setAnswer(answer);
-                faq.setCategory(category);
-            }
+            FAQValidator.validateEditFAQ(question, answer, category);
+            FAQ faq1 = getFAQList().getFAQ(faq.getQuestion(), faq.getAnswer());
+            managerFactory.getFAQManager().updateFAQ(faq1, question, answer, category);
+            faq1.setQuestion(question);
+            faq1.setAnswer(answer);
+            faq1.setCategory(category);
         }
         catch (SQLException e) {
             e.printStackTrace();
