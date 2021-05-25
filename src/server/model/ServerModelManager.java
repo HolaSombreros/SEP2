@@ -752,8 +752,6 @@ public class ServerModelManager implements ServerModel {
                 
                 ((Patient) user).getChat().add(newMessage);
                 property.firePropertyChange("patientMessage", user, newMessage);
-    
-                System.out.println(getPatientList().getPatient(user.getCpr()).getChat().size());
             }
         }
         catch (SQLException e) {

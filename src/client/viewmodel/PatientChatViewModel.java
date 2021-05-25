@@ -61,9 +61,8 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
 
     @Override
     public void sendMessage() {
-        if(textArea.get() != null && !textArea.get().trim().isEmpty()) {
+        if(textArea.get() != null && !textArea.get().trim().isEmpty())
             model.sendMessage((Patient)viewState.getUser(),textArea.get());
-        }
     }
 
     @Override
@@ -99,9 +98,8 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
     public void propertyChange(ObserverEvent<Object, Object> observerEvent)
     {
         Platform.runLater(() -> {
-            if(viewState.getUser().equals(observerEvent.getValue1()) || viewState.getUser() instanceof Administrator) {
+            if(viewState.getUser().equals(observerEvent.getValue1()) || viewState.getUser() instanceof Administrator)
                 addMessageBox((Message) observerEvent.getValue2());
-            }
         });
 
     }
