@@ -30,7 +30,7 @@ public class Client implements Model, RemoteListener<Object,Object> {
     public Client(String host) throws RemoteException, NotBoundException, MalformedURLException {
         server = (RemoteModel) Naming.lookup("rmi://" + host + ":1099/AppointmentSystem");
         UnicastRemoteObject.exportObject(this, 0);
-        server.addListener(this);
+        server.addListener(this, "patientMessage","FAQ", "FAQRemove");
         property = new PropertyChangeProxy<>(this, true);
     }
     
@@ -372,7 +372,8 @@ public class Client implements Model, RemoteListener<Object,Object> {
     }
 
     @Override public void propertyChange(ObserverEvent<Object, Object> event) throws RemoteException {
-        property.firePropertyChange(event);
+        System.out.println("Client");
+        property.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
     }
 
     @Override public boolean addListener(GeneralListener<Object, Object> listener, String... propertyNames) {

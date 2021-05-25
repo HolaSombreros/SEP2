@@ -748,7 +748,7 @@ public class ServerModelManager implements ServerModel {
         try {
             if(user != null || !message.trim().isEmpty()) {
                 Message newMessage = managerFactory.getChatManager().addMessage(message, LocalDate.now(), LocalTime.now(), new UnreadStatus(), (Patient) user, null, user);
-                property.firePropertyChange("PatientMessage", user, newMessage);
+                property.firePropertyChange("patientMessage", user, newMessage);
             }
         }
         catch (SQLException e) {
