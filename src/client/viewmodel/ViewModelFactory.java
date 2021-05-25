@@ -1,6 +1,7 @@
 package client.viewmodel;
 
 import client.model.Model;
+import server.model.domain.user.User;
 
 public class ViewModelFactory {
     private RegisterViewModelInterface registerViewModel;
@@ -18,11 +19,12 @@ public class ViewModelFactory {
     private FAQViewModelInterface faqViewModel;
     private AddFAQViewModelInterface addFAQViewModel;
     private SetRoleViewModelInterface setRoleViewModel;
+    private AdminMessageListViewModelInterface adminMessageListViewModel;
 
-    private ViewState viewState;
+    private ViewState<User> viewState;
     
     public ViewModelFactory(Model model) {
-        this.viewState = new ViewState();
+        this.viewState = new ViewState<>();
         registerViewModel = new RegisterViewModel(model);
         loginViewModel = new LoginViewModel(model, viewState);
         loginChoiceViewModel = new LoginChoiceViewModel(model, viewState);
@@ -38,9 +40,10 @@ public class ViewModelFactory {
         faqViewModel = new FAQViewModel(model, viewState);
         addFAQViewModel = new AddFAQViewModel(model,viewState);
         setRoleViewModel = new SetRoleViewModel(model,viewState);
+        adminMessageListViewModel = new AdminMessageListViewModel(model, viewState);
     }
     
-    public ViewState getViewState() {
+    public ViewState<User> getViewState() {
         return viewState;
     }
     
@@ -103,5 +106,9 @@ public class ViewModelFactory {
 
     public SetRoleViewModelInterface getSetRoleViewModel() {
         return setRoleViewModel;
+    }
+    
+    public AdminMessageListViewModelInterface getAdminMessageListViewModel() {
+        return adminMessageListViewModel;
     }
 }

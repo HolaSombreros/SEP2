@@ -15,7 +15,8 @@ public enum View {
     NURSETEST("NurseTestAppointmentView.fxml"),
     FAQ("FAQView.fxml"),
     ADDFAQ("AddFAQView.fxml"),
-    SETROLE("SetRoleView.fxml");
+    SETROLE("SetRoleView.fxml"),
+    ADMINMESSAGELIST("AdminMessageListView.fxml");
 
     private String fxmlFile;
     
