@@ -37,7 +37,7 @@
          <children>
             <ScrollPane fx:id="scrollPane" prefHeight="391.0" prefWidth="489.0">
                <content>
-                  <VBox fx:id="chatRoom" prefHeight="376.0" prefWidth="453.0" />
+                  <VBox fx:id="chatRoom" prefHeight="376.0" prefWidth="486.0" />
                </content>
             </ScrollPane>
          </children>

@@ -50,9 +50,8 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         newMessage.setAlignment(Pos.CENTER_RIGHT);
         newMessage.setPrefHeight(Region.USE_COMPUTED_SIZE);
         newMessage.setPrefWidth(Region.USE_COMPUTED_SIZE);
-        newMessage.setBackground(new Background(new BackgroundFill(Color.AQUAMARINE, CornerRadii.EMPTY,
-                Insets.EMPTY)));
-        Label sendMessage = new Label(((Patient)viewState.getUser()).getFirstName() + " " + message);
+        //newMessage.setBackground(new Background(new BackgroundFill(Color.AQUAMARINE, CornerRadii.EMPTY, Insets.EMPTY)));
+        Label sendMessage = new Label(((Patient)viewState.getUser()).getFirstName() + ": " + message.getMessage());
         sendMessage.setMaxWidth(newMessage.getPrefWidth());
         sendMessage.setWrapText(true);
         newMessage.getChildren().add(sendMessage);
@@ -64,7 +63,6 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
     public void sendMessage() {
         if(textArea.get() != null && !textArea.get().trim().isEmpty()) {
             model.sendMessage((Patient)viewState.getUser(),textArea.get());
-            System.out.println("haha");
         }
     }
 
@@ -100,9 +98,8 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
     @Override
     public void propertyChange(ObserverEvent<Object, Object> observerEvent)
     {
-        Platform.runLater(() ->{
+        Platform.runLater(() -> {
             if(viewState.getUser().equals(observerEvent.getValue1()) || viewState.getUser() instanceof Administrator) {
-                System.out.println("Here");
                 addMessageBox((Message) observerEvent.getValue2());
             }
         });

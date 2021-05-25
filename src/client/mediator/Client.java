@@ -30,7 +30,7 @@ public class Client implements Model, RemoteListener<Object,Object> {
     public Client(String host) throws RemoteException, NotBoundException, MalformedURLException {
         server = (RemoteModel) Naming.lookup("rmi://" + host + ":1099/AppointmentSystem");
         UnicastRemoteObject.exportObject(this, 0);
-        server.addListener(this, "patientMessage","FAQ", "FAQRemove");
+        server.addListener(this);
         property = new PropertyChangeProxy<>(this, true);
     }
     

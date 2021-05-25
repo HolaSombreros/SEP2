@@ -751,7 +751,7 @@ public class ServerModelManager implements ServerModel {
                 Message newMessage = managerFactory.getChatManager().addMessage(message, LocalDate.now(), LocalTime.now(), new UnreadStatus(), (Patient) user, null, user);
                 
                 ((Patient) user).getChat().add(newMessage);
-                property.firePropertyChange("PatientMessage", user, newMessage);
+                property.firePropertyChange("patientMessage", user, newMessage);
     
                 System.out.println(getPatientList().getPatient(user.getCpr()).getChat().size());
             }
