@@ -25,7 +25,10 @@ public class ChatManager {
             statement.setTime(3,Time.valueOf(time));
             statement.setString(4,status.toString());
             statement.setString(5, patient.getCpr());
-            statement.setString(6, admin.getCpr());
+            if(admin != null)
+                statement.setString(6, admin.getCpr());
+            else
+                statement.setString(6,null);
             statement.setString(7,sender.getCpr());
             statement.executeUpdate();
             ResultSet keys = statement.getGeneratedKeys();
