@@ -55,7 +55,7 @@ public class ServerModelManager implements ServerModel {
         addShifts();
         loadShift();
         
-       addTimeIntervals();
+        addTimeIntervals();
         loadTimeIntervals();
 
         loadSchedules();
@@ -748,12 +748,13 @@ public class ServerModelManager implements ServerModel {
         // validate data
         try {
             if(user != null || !message.trim().isEmpty()) {
-                Message newMessage = managerFactory.getChatManager().addMessage(message, LocalDate.now(), LocalTime.now(), new UnreadStatus(), (Patient) user, null, user);
+                Patient patient = userList.getPatient(user.getCpr());
                 
-                ((Patient) user).getChat().add(newMessage);
-                property.firePropertyChange("PatientMessage", user, newMessage);
-    
-                System.out.println(getPatientList().getPatient(user.getCpr()).getChat().size());
+                Message newMessage = managerFactory.getChatManager().addMessage(message, LocalDate.now(), LocalTime.now(), new UnreadStatus(), patient, null, user);
+                
+                patient.getChat().add(newMessage);
+                property.firePropertyChange("PatientMessage", patient, newMessage);
+                System.out.println(patient.getChat().size());
             }
         }
         catch (SQLException e) {

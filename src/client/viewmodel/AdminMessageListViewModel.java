@@ -1,6 +1,7 @@
 package client.viewmodel;
 
 import client.model.Model;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -104,11 +105,13 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
     
     @Override
     public void propertyChange(ObserverEvent<Object, Object> event) {
-        Message message = (Message) event.getValue2();
-        // Technically unnecessary I think but oh well
-        if (viewState.getUser() instanceof Administrator) {
-            Patient patient = message.getPatient();
-            edit(patient);
-        }
+        Platform.runLater(() -> {
+            Message message = (Message) event.getValue2();
+            // Technically unnecessary I think but oh well
+            if (viewState.getUser() instanceof Administrator) {
+                Patient patient = message.getPatient();
+                edit(patient);
+            }
+        });
     }
 }
