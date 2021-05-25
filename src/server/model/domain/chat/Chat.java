@@ -2,10 +2,11 @@ package server.model.domain.chat;
 
 import server.model.domain.user.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Chat {
+public class Chat implements Serializable {
 
     private List<Message> messages;
 

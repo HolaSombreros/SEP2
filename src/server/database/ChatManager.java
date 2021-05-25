@@ -15,8 +15,7 @@ public class ChatManager {
     public ChatManager(UserManager userManager) {
         this.userManager = userManager;
     }
-
-
+    
     public Message addMessage(String message, LocalDate date, LocalTime time, MessageStatus status, Patient patient, Administrator admin, User sender) throws SQLException{
         try (Connection connection = DatabaseManager.getInstance().getConnection()){
             PreparedStatement statement = connection.prepareStatement("INSERT INTO message (text,date,time,status,patient_cpr,administrator_cpr,sent_by) VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
@@ -33,7 +32,7 @@ public class ChatManager {
             statement.executeUpdate();
             ResultSet keys = statement.getGeneratedKeys();
             if(keys.next()){
-                return new Message(keys.getInt("message_id"),message,date,time,status,patient,admin,sender);
+                return new Message(keys.getInt("message_id"), message, patient, admin, sender);
             }
             else{
                 throw new SQLException("No keys were generated");

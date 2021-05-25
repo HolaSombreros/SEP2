@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="525.0" prefWidth="610.0" spacing="15.0" stylesheets="@../../util/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.AdminMessageListViewController">
+<VBox alignment="CENTER" prefHeight="525.0" prefWidth="610.0" spacing="15.0" stylesheets="@../../util/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.AdminMessageListViewController" userData="List of patient chats">
    <children>
-      <Label styleClass="header" text="Message System">
+      <Label styleClass="header" text="Chat System">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>

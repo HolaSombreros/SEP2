@@ -4,10 +4,11 @@ import server.model.domain.user.Administrator;
 import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Message {
+public class Message implements Serializable {
 
     private int id;
     private String message;
@@ -24,6 +25,17 @@ public class Message {
         this.date = date;
         this.time = time;
         this.status = status;
+        this.patient = patient;
+        this.administrator = administrator;
+        this.sender = sender;
+    }
+    
+    public Message(int id, String message, Patient patient, Administrator administrator, User sender) {
+        this.id = id;
+        this.message = message;
+        date = LocalDate.now();
+        time = LocalTime.now();
+        status = new UnreadStatus();
         this.patient = patient;
         this.administrator = administrator;
         this.sender = sender;
@@ -69,6 +81,7 @@ public class Message {
         if(!(obj instanceof Message))
             return false;
         Message other = (Message) obj;
+        // TODO - if admin is null this will scream :<
         return other.id == id && other.message.equals(message) && other.date.equals(date) && other.time.equals(time) && other.administrator.equals(administrator)
                 && other.patient.equals(patient) && other.sender.equals(sender);
     }

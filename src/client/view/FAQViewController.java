@@ -39,7 +39,6 @@ public class FAQViewController extends ViewController {
     }
     
     private void updateContent(ObservableList<VBox> content) {
-        System.out.println("Updated");
         dynamicVBox.getChildren().setAll(content);
     }
     
@@ -50,8 +49,9 @@ public class FAQViewController extends ViewController {
     
     @FXML
     private void chat() {
-    
+        getViewHandler().openView(View.ADMINMESSAGELIST);
     }
+    
     @FXML private void removeButton(){
         viewModel.remove();
     }
