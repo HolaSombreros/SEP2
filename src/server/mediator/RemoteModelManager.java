@@ -227,6 +227,4 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
     public boolean removeListener(GeneralListener<Object, Object> listener, String... propertyNames) throws RemoteException {
         return property.removeListener(listener, propertyNames);
     }
-
-
 }

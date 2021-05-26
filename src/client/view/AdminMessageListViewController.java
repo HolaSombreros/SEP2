@@ -43,7 +43,7 @@ public class AdminMessageListViewController extends ViewController {
     @FXML
     private void enterChat() {
         if (viewModel.enterChat()) {
-            // ...
+            getViewHandler().openView(View.PATIENTCHAT);
         }
     }
     

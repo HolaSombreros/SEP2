@@ -195,6 +195,4 @@ public class ModelManager implements Model, LocalListener<Object, Object> {
     @Override public boolean removeListener(GeneralListener<Object, Object> listener, String... propertyNames) {
         return property.removeListener(listener, propertyNames);
     }
-
-
 }

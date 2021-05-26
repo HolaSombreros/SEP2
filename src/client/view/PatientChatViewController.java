@@ -44,6 +44,7 @@ public class PatientChatViewController extends ViewController {
     public void reset() {
         viewModel.reset();
     }
+    
     @FXML private void onEnter(Event event){
         sendMessage();
     }
@@ -56,6 +57,11 @@ public class PatientChatViewController extends ViewController {
     @FXML
     private void backButton(){
         viewModel.exitChat();
-        getViewHandler().openView(View.DASHBOARD);
+        if (viewModel.isAdmin()) {
+            getViewHandler().openView(View.ADMINMESSAGELIST);
+        }
+        else {
+            getViewHandler().openView(View.DASHBOARD);
+        }
     }
 }

@@ -8,7 +8,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import server.model.domain.chat.Message;
-import server.model.domain.user.Administrator;
 import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 import server.model.domain.user.UserList;
@@ -26,7 +25,7 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
     
     public AdminMessageListViewModel(Model model, ViewState<User> viewState) {
         this.model = model;
-        model.addListener(this, "PatientMessage");
+        model.addListener(this, "PatientMessage", "NewPatient");
         this.viewState = viewState;
         tableData = FXCollections.observableArrayList();
         selectedChat = new SimpleObjectProperty<>(null);
@@ -49,7 +48,7 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
     @Override
     public boolean enterChat() {
         if (selectedChat.get() != null) {
-            viewState.setSelectedChat(((Patient)(model.getPatients().getUserByCpr(selectedChat.get().getCprProperty().get()))).getChat());
+            viewState.setSelectedUser(model.getPatients().getUserByCpr(selectedChat.get().getCprProperty().get()));
             return true;
         }
         else {
@@ -91,11 +90,14 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
         errorFill.set(Color.RED);
     }
     
+    private void add(Patient patient) {
+        tableData.add(new MessageTableDataViewModel(patient));
+    }
+    
     private void edit(Patient patient) {
         for (int i = 0; i < tableData.size(); i++) {
             MessageTableDataViewModel data = tableData.get(i);
             if (data.getCprProperty().get().equals(patient.getCpr())) {
-                System.out.println(patient.getChat().size());
                 tableData.remove(i);
                 tableData.add(i, new MessageTableDataViewModel(patient));
                 break;
@@ -106,11 +108,15 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
     @Override
     public void propertyChange(ObserverEvent<Object, Object> event) {
         Platform.runLater(() -> {
-            Message message = (Message) event.getValue2();
-            // Technically unnecessary I think but oh well
-            if (viewState.getUser() instanceof Administrator) {
-                Patient patient = message.getPatient();
-                edit(patient);
+            switch (event.getPropertyName()) {
+                case "NewPatient":
+                    Patient patient = (Patient) event.getValue1();
+                    add(patient);
+                    break;
+                case "PatientMessage":
+                    Message message = (Message) event.getValue2();
+                    edit(message.getPatient());
+                    break;
             }
         });
     }

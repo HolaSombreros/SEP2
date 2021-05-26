@@ -23,10 +23,6 @@ public class Chat implements Serializable {
         return messages;
     }
 
-    public void addAll(List<Message> messageList){
-        messages.addAll(messageList);
-    }
-
     public int size(){
         return messages.size();
     }
@@ -44,16 +40,6 @@ public class Chat implements Serializable {
             }
         }
         return false;
-    }
-
-    public Chat getMessagesBySender(User user){
-        if(user == null)
-            throw new IllegalArgumentException("User cannot be null");
-        Chat list = new Chat();
-        for(Message message : messages)
-            if(message.getSender().getCpr().equals(user.getCpr()))
-                list.add(message);
-        return list;
     }
 
     @Override
@@ -81,7 +67,4 @@ public class Chat implements Serializable {
         }
         return str;
     }
-
-
-
 }

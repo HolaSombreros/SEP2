@@ -40,6 +40,7 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
     }
     
     public void loadChatList() {
+        messages.clear();
         for (Message message : (((Patient) viewState.getSelectedUser()).getChat().getMessages())) {
             addMessageBox(message);
         }
@@ -50,12 +51,15 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         viewState.removeSelectedUser();
     }
     
+    @Override
+    public boolean isAdmin() {
+        return viewState.getUser() instanceof Administrator;
+    }
+    
     public void reset(){
         user.set(viewState.getSelectedUser().getFirstName());
         resetInputs();
-        if (viewState.getUser() instanceof Administrator) {
-            loadChatList();
-        }
+        loadChatList();
     }
 
     private void addMessageBox(Message message) {

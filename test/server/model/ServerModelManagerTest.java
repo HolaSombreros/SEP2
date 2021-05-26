@@ -15,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ServerModelManagerTest
 {
-    private ServerModelManagerServer serverModelManager;
+    private ServerModel serverModelManager;
 
     @BeforeEach
     void setUp() throws RemoteException {
-        serverModelManager = new ServerModelManagerServer();
+        serverModelManager = new ServerModelManager();
     }
 
     @AfterEach

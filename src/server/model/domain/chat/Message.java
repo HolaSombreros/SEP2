@@ -16,12 +16,12 @@ public class Message implements Serializable {
     private Patient patient;
     private Administrator administrator;
     
-    public Message(int id, String message, Patient patient, Administrator administrator) {
+    public Message(int id, String message, LocalDate date, LocalTime time, MessageStatus status, Patient patient, Administrator administrator) {
         this.id = id;
         this.message = message;
-        date = LocalDate.now();
-        time = LocalTime.now();
-        status = new UnreadStatus();
+        this.date = date;
+        this.time = time;
+        this.status = status;
         this.patient = patient;
         this.administrator = administrator;
     }
@@ -63,9 +63,13 @@ public class Message implements Serializable {
         if(!(obj instanceof Message))
             return false;
         Message other = (Message) obj;
-        // TODO - if admin is null this will scream :<
-        return other.id == id && other.message.equals(message) && other.date.equals(date) && other.time.equals(time) && other.administrator.equals(administrator)
-                && other.patient.equals(patient);
+        if ((administrator == null && other.administrator != null) || administrator != null && other.administrator == null) {
+            return false;
+        }
+        if (administrator != null && !administrator.equals(other.administrator)) {
+            return false;
+        }
+        return other.id == id && other.message.equals(message) && other.date.equals(date) && other.time.equals(time) && other.status.equals(status) && other.patient.equals(patient);
     }
     
     @Override

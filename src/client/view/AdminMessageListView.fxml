@@ -12,7 +12,7 @@
 
 <VBox alignment="CENTER" prefHeight="525.0" prefWidth="610.0" spacing="15.0" stylesheets="@../../util/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.AdminMessageListViewController" userData="List of patient chats">
    <children>
-      <Label styleClass="header" text="Chat System">
+      <Label styleClass="header" text="Chat Logs">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>
@@ -20,7 +20,7 @@
       <TableView fx:id="table" maxHeight="300.0" maxWidth="-Infinity" prefWidth="445.0">
         <columns>
           <TableColumn fx:id="cprColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="90.0" resizable="false" text="Patient CPR" />
-          <TableColumn fx:id="nameColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" resizable="false" text="Patient Fullname" />
+          <TableColumn fx:id="nameColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" resizable="false" text="Patient Name" />
             <TableColumn fx:id="dateColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="90.0" resizable="false" text="Send Date" />
             <TableColumn fx:id="statusColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="90.0" resizable="false" text="Status" />
         </columns>

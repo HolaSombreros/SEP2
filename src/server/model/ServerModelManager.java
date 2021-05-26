@@ -339,6 +339,7 @@ public class ServerModelManager implements ServerModel
             Address address = new Address(street, number, zip, city);
             User user = new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, new NotAppliedStatus());
             userList.add(user);
+            property.firePropertyChange("NewPatient", user, null);
             try {
                 managerFactory.getUserManager().addPerson(user);
                 if (userList.size() == 0)
