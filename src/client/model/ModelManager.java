@@ -174,8 +174,8 @@ public class ModelManager implements Model, LocalListener<Object, Object> {
     }
 
     @Override
-    public void sendMessage(User user, String message) {
-        client.sendMessage(user, message);
+    public void sendMessage(Patient patient, String message, Administrator administrator) {
+        client.sendMessage(patient, message, administrator);
     }
 
     @Override

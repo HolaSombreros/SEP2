@@ -103,6 +103,11 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     }
     
     @Override
+    public void enterChat() {
+        viewState.setSelectedUser(((Patient) viewState.getUser()));
+    }
+    
+    @Override
     public StringProperty getUsernameProperty() {
         return username;
     }

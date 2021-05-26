@@ -21,10 +21,10 @@ import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDate;
 
 public class RemoteModelManager implements RemoteModel, LocalListener<Object, Object> {
-    private ServerModelServer serverModel;
+    private ServerModel serverModel;
     private PropertyChangeAction<Object, Object> property;
     
-    public RemoteModelManager(ServerModelServer serverModel) throws RemoteException, MalformedURLException {
+    public RemoteModelManager(ServerModel serverModel) throws RemoteException, MalformedURLException {
         this.serverModel = serverModel;
         property = new PropertyChangeProxy<>(this, true);
         serverModel.addListener(this);
@@ -182,8 +182,8 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
     }
 
     @Override
-    public void sendMessage(User user, String message) throws RemoteException {
-        serverModel.sendMessage(user, message);
+    public void sendMessage(Patient patient, String message, Administrator administrator) throws RemoteException {
+        serverModel.sendMessage(patient, message, administrator);
     }
 
 

@@ -354,9 +354,9 @@ public class Client implements Model, RemoteListener<Object,Object> {
     }
 
     @Override
-    public void sendMessage(User user,String message) {
+    public void sendMessage(Patient patient, String message, Administrator administrator) {
         try {
-            server.sendMessage(user, message);
+            server.sendMessage(patient, message, administrator);
         }
         catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e),e);

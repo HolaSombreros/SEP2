@@ -7,6 +7,7 @@ public interface DashBoardViewModelInterface {
     void reset();
     void logout();
     void applyForVaccination();
+    void enterChat();
     
     StringProperty getUsernameProperty();
     StringProperty getAccessProperty();

@@ -22,7 +22,6 @@ public class Message implements Serializable {
 
     public Message(int id, String message, LocalDate date, LocalTime time, MessageStatus status, Patient patient, Administrator administrator, User sender) {
         this.id = id;
-        MessageValidator.validateMessage(message, sender);
         this.message = message;
         this.date = date;
         this.time = time;
@@ -34,7 +33,6 @@ public class Message implements Serializable {
     
     public Message(int id, String message, Patient patient, Administrator administrator, User sender) {
         this.id = id;
-        MessageValidator.validateMessage(message, sender);
         this.message = message;
         date = LocalDate.now();
         time = LocalTime.now();

@@ -10,6 +10,7 @@ import server.model.domain.faq.FAQList;
 import server.model.domain.user.*;
 import server.model.validator.AppointmentValidator;
 import server.model.validator.FAQValidator;
+import server.model.validator.MessageValidator;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
@@ -20,7 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class ServerModelManagerServer implements ServerModelServer
+public class ServerModelManager implements ServerModel
 {
     private UserList userList;
     private UserList onlineList;
@@ -34,7 +35,7 @@ public class ServerModelManagerServer implements ServerModelServer
     private ManagerFactory managerFactory;
     private PropertyChangeAction<Object, Object> property;
 
-    public ServerModelManagerServer() throws RemoteException
+    public ServerModelManager() throws RemoteException
     {
         property = new PropertyChangeProxy<>(this);
         onlineList = new UserList();
@@ -504,7 +505,6 @@ public class ServerModelManagerServer implements ServerModelServer
         return appointmentList.getAppointmentsByUser(user);
     }
 
-
     @Override
     public synchronized AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType) {
         return appointmentList.filterAppointmentsByNameAndCpr(criteria, showFinished, appointmentType);
@@ -732,6 +732,21 @@ public class ServerModelManagerServer implements ServerModelServer
     public synchronized FAQList getFAQList() {
         return faqList;
     }
+    
+    @Override
+    public synchronized void sendMessage(Patient patient, String message, Administrator administrator) throws RemoteException {
+        try {
+            MessageValidator.validateMessage(message, patient);
+            message = message.trim();
+            Message newMessage = managerFactory.getChatManager().addMessage(message, LocalDate.now(), LocalTime.now(), new UnreadStatus(), patient, administrator);
+            patient.getChat().add(newMessage);
+            property.firePropertyChange("PatientMessage", patient, newMessage);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new RemoteException(e.getMessage());
+        }
+    }
 
     @Override
     public synchronized void close() {
@@ -744,21 +759,5 @@ public class ServerModelManagerServer implements ServerModelServer
 
     @Override public boolean removeListener(GeneralListener<Object, Object> listener, String... propertyNames) {
         return property.removeListener(listener,propertyNames);
-    }
-
-    @Override
-    public synchronized void sendMessage(User user, String message) throws RemoteException {
-
-        try {
-            Patient patient = userList.getPatient(user.getCpr());
-            // check if user is admin, if not set admin to null, otherwise, send admin to user
-            Message newMessage = managerFactory.getChatManager().addMessage(message, LocalDate.now(), LocalTime.now(), new UnreadStatus(), patient, null, user);
-            patient.getChat().add(newMessage);
-            property.firePropertyChange("PatientMessage", patient, newMessage);
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-            throw new RemoteException(e.getMessage());
-        }
     }
 }

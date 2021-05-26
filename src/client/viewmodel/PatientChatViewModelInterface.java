@@ -9,6 +9,7 @@ public interface PatientChatViewModelInterface {
     void reset();
     void sendMessage();
     void loadChatList();
+    void exitChat();
     StringProperty getErrorLabelProperty();
     StringProperty getUserProperty();
     StringProperty getTextAreaProperty();

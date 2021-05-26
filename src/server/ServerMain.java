@@ -2,8 +2,8 @@ package server;
 
 import server.mediator.RemoteModel;
 import server.mediator.RemoteModelManager;
-import server.model.ServerModelServer;
-import server.model.ServerModelManagerServer;
+import server.model.ServerModel;
+import server.model.ServerModelManager;
 
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 public class ServerMain {
     public static void main(String[] args) throws MalformedURLException, RemoteException
     {
-       ServerModelServer serverModel = new ServerModelManagerServer();
+       ServerModel serverModel = new ServerModelManager();
        RemoteModel remoteModel = new RemoteModelManager(serverModel);
     }
 }

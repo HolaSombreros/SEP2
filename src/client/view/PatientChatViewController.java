@@ -55,6 +55,7 @@ public class PatientChatViewController extends ViewController {
 
     @FXML
     private void backButton(){
+        viewModel.exitChat();
         getViewHandler().openView(View.DASHBOARD);
     }
 }

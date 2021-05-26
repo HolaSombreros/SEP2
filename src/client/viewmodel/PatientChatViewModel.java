@@ -38,22 +38,24 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         this.messages = FXCollections.observableArrayList();
         model.addListener(this,"PatientMessage");
     }
+    
     public void loadChatList() {
-        if(viewState.getUser() instanceof Patient) {
-            Chat chat = ((Patient) viewState.getUser()).getChat();
-            for(Message message : chat.getMessages()) {
-                addMessageBox(message);
-            }
-        }
-        else {
-
+        for (Message message : (((Patient) viewState.getSelectedUser()).getChat().getMessages())) {
+            addMessageBox(message);
         }
     }
-
+    
+    @Override
+    public void exitChat() {
+        viewState.removeSelectedUser();
+    }
+    
     public void reset(){
-        user.set(((Patient)viewState.getUser()).getFirstName());
-        errorLabel.set("");
-        textArea.set("");
+        user.set(viewState.getSelectedUser().getFirstName());
+        resetInputs();
+        if (viewState.getUser() instanceof Administrator) {
+            loadChatList();
+        }
     }
 
     private void addMessageBox(Message message) {
@@ -77,15 +79,25 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         messages.add(newMessage);
         updated.set(true);
     }
+    
+    private void resetInputs() {
+        errorLabel.set("");
+        textArea.set("");
+    }
 
     @Override
     public void sendMessage() {
         try{
-            model.sendMessage((Patient)viewState.getUser(),textArea.get());
-            reset();
+            Administrator administrator = null;
+            if (viewState.getUser() instanceof Administrator) {
+                administrator = ((Administrator) viewState.getUser());
+            }
+            
+            model.sendMessage(((Patient) viewState.getSelectedUser()), textArea.get(), administrator);
+            resetInputs();
         }
         catch (Exception e) {
-                errorLabel.set(e.getMessage());
+            errorLabel.set(e.getMessage());
         }
     }
 

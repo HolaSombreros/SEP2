@@ -8,7 +8,6 @@ public class ViewState<T> {
     private T user;
     private User selectedUser;
     private int selectedAppointment;
-    private Chat selectedChat;
     private FAQ selectedFAQ;
 
     public ViewState() {
@@ -55,18 +54,6 @@ public class ViewState<T> {
     public void removeSelectedUser()
     {
         selectedUser = null;
-    }
-    
-    public Chat getSelectedChat() {
-        return selectedChat;
-    }
-
-    public void setSelectedChat(Chat chat) {
-        this.selectedChat = chat;
-    }
-    
-    public void removeSelectedChat() {
-        selectedChat = null;
     }
     
     public FAQ getSelectedFAQ() {
