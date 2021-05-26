@@ -1,5 +1,7 @@
 package server.model.domain.faq;
 
+import server.model.validator.FAQValidator;
+
 import java.io.Serializable;
 
 public class FAQ implements Serializable {
@@ -13,6 +15,7 @@ public class FAQ implements Serializable {
         this.question = question;
         this.answer = answer;
         this.category = category;
+        FAQValidator.validateEditFAQ(question, answer, category);
     }
     
     public int getId() {
