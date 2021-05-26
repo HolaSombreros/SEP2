@@ -14,5 +14,6 @@ public interface AdminMessageListViewModelInterface {
     ObjectProperty<Paint> getErrorFillProperty();
     
     void reset();
+    void filterChatLogs();
     boolean enterChat();
 }

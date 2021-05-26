@@ -22,7 +22,7 @@ import java.time.LocalDate;
 
 import server.mediator.RemoteModel;
 
-public class Client implements Model, RemoteListener<Object,Object> {
+public class Client implements Model, RemoteListener<Object, Object> {
     public static final String HOST = "localhost";
     private RemoteModel server;
     private PropertyChangeAction<Object, Object> property;
@@ -362,7 +362,7 @@ public class Client implements Model, RemoteListener<Object,Object> {
             throw new IllegalStateException(getExceptionMessage(e),e);
         }
     }
-
+    
     private String getExceptionMessage(Exception e) {
         String message = e.getMessage();
         if (message != null) {

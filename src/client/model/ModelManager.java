@@ -16,7 +16,6 @@ import utility.observer.subject.PropertyChangeProxy;
 import java.time.LocalDate;
 
 public class ModelManager implements Model, LocalListener<Object, Object> {
-    
     private PropertyChangeAction<Object, Object> property;
     private Client client;
     
@@ -177,7 +176,7 @@ public class ModelManager implements Model, LocalListener<Object, Object> {
     public void sendMessage(Patient patient, String message, Administrator administrator) {
         client.sendMessage(patient, message, administrator);
     }
-
+    
     @Override
     public void close() {
         property.close();

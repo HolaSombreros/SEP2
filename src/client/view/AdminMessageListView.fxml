@@ -30,7 +30,7 @@
       </TableView>
       <HBox alignment="CENTER_RIGHT" maxWidth="445.0">
          <children>
-            <CheckBox fx:id="showReadMessages" mnemonicParsing="false" text="Show read messages">
+            <CheckBox fx:id="showReadMessages" mnemonicParsing="false" text="Show read messages" onAction="#filterChatLogs">
                <font>
                   <Font size="14.0" />
                </font>

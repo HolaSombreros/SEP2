@@ -57,6 +57,10 @@ public class Message implements Serializable {
     public void setStatus(MessageStatus status) {
         this.status = status;
     }
+    
+    public void read() {
+        getStatus().read(this);
+    }
 
     @Override
     public boolean equals(Object obj){

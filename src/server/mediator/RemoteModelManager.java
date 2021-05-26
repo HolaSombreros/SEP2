@@ -185,8 +185,7 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
     public void sendMessage(Patient patient, String message, Administrator administrator) throws RemoteException {
         serverModel.sendMessage(patient, message, administrator);
     }
-
-
+    
     private void startRegistry() throws RemoteException {
         try {
             LocateRegistry.createRegistry(1099);

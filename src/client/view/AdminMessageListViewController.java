@@ -48,6 +48,11 @@ public class AdminMessageListViewController extends ViewController {
     }
     
     @FXML
+    private void filterChatLogs() {
+        viewModel.filterChatLogs();
+    }
+    
+    @FXML
     private void back() {
         getViewHandler().openView(View.USERLIST);
     }

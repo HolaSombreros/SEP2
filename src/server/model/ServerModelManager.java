@@ -46,7 +46,6 @@ public class ServerModelManager implements ServerModel
         availableTimeIntervalList = new AvailableTimeIntervalList();
 
         doDummyStuff();
-
     }
 
     private void doDummyStuff() throws RemoteException {
@@ -741,6 +740,12 @@ public class ServerModelManager implements ServerModel
             patient = getPatient(patient.getCpr());
             message = message.trim();
             Message newMessage = managerFactory.getChatManager().addMessage(message, LocalDate.now(), LocalTime.now(), new UnreadStatus(), patient, administrator);
+//            if (administrator != null) {
+//                newMessage.read();
+//                managerFactory.getChatManager().readMessage(newMessage);
+//            }
+            
+            // do have this method in Chat class:   getUnreadMessages() : List<Message> and message.read();
             patient.getChat().add(newMessage);
             property.firePropertyChange("PatientMessage", patient, newMessage);
         }
@@ -749,7 +754,7 @@ public class ServerModelManager implements ServerModel
             throw new RemoteException(e.getMessage());
         }
     }
-
+    
     @Override
     public synchronized void close() {
         property.close();

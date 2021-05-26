@@ -5,13 +5,13 @@ import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import server.model.domain.chat.Message;
+import server.model.domain.chat.UnreadStatus;
 import server.model.domain.user.Administrator;
 import server.model.domain.user.Patient;
 import utility.observer.event.ObserverEvent;
@@ -59,17 +59,19 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         user.set((viewState.getUser()).getFirstName());
         resetInputs();
         loadChatList();
+//        if (viewState.getUser() instanceof Administrator) {
+//            Message lastMessage = ((Patient) viewState.getSelectedUser()).getChat().getLastMessage();
+//            if (lastMessage != null && lastMessage.getStatus() instanceof UnreadStatus && lastMessage.getAdministrator() != null) {
+//                model.readLastMessage((Patient) viewState.getSelectedUser());
+//            }
+//        }
     }
 
     private void addMessageBox(Message message) {
         updated.set(false);
         VBox newMessage = new VBox();
-        newMessage.setPadding(new Insets(10,15,5,10));
-        newMessage.setMaxHeight(Double.MAX_VALUE);
         newMessage.setPrefWidth(465);
         newMessage.setMinWidth(newMessage.getPrefWidth());
-        newMessage.setAlignment(Pos.CENTER_RIGHT);
-
         String sender;
         if (message.getAdministrator() == null) {
             sender = message.getPatient().getFirstName();
@@ -77,15 +79,32 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         else {
             sender = message.getAdministrator().getFirstName();
         }
-        
         Label username = new Label(sender);
         Label text = new Label(message.getMessage());
-        username.setFont(new Font(15));
+        username.setFont(new Font(12));
         username.setMaxWidth(newMessage.getPrefWidth());
-        text.setFont(new Font(15));
+        username.setStyle("-fx-font-weight: bold;");
+        text.setFont(new Font(14));
         text.setMaxWidth(newMessage.getPrefWidth());
+        text.setStyle("-fx-background-radius: 5px; -fx-padding: 3px 5px 3px 5px; -fx-text-fill: #f5f5f5;");
         text.setWrapText(true);
-        newMessage.getChildren().add(username);
+        if (message.getAdministrator() != null) {
+            username.setAlignment(Pos.CENTER_LEFT);
+            text.setAlignment(Pos.CENTER_LEFT);
+        }
+        else {
+            username.setAlignment(Pos.CENTER_RIGHT);
+            text.setAlignment(Pos.CENTER_RIGHT);
+        }
+        if ((viewState.getUser() instanceof Patient && message.getPatient().equals(viewState.getUser()) && message.getAdministrator() == null) || viewState.getUser().equals(message.getAdministrator())) {
+            text.setStyle("-fx-background-color: #498a49;" + text.getStyle());
+        }
+        else {
+            text.setStyle("-fx-background-color: #3b3d3b;" + text.getStyle());
+        }
+        if (messages.size() < 1 || !((Label) ((VBox) (messages.get(messages.size() - 1))).getChildren().get(0)).getText().equals(sender)) {
+            newMessage.getChildren().add(username);
+        }
         newMessage.getChildren().add(text);
         messages.add(newMessage);
         updated.set(true);

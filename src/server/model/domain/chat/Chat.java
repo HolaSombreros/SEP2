@@ -1,13 +1,10 @@
 package server.model.domain.chat;
 
-import server.model.domain.user.User;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Chat implements Serializable {
-
     private List<Message> messages;
 
     public Chat() {
@@ -33,6 +30,17 @@ public class Chat implements Serializable {
         }
         return messages.get(index);
     }
+    
+    public List<Message> getUnreadMessages() {
+        List<Message> list = new ArrayList<>();
+        for (Message message : messages) {
+            if (message.getStatus() instanceof UnreadStatus) {
+                list.add(message);
+            }
+        }
+        return list;
+    }
+    
     public boolean contains(Message message){
         for (Message m : messages) {
             if (m.equals(message)) {

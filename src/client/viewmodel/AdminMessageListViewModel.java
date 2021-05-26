@@ -8,11 +8,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import server.model.domain.chat.Message;
+import server.model.domain.chat.ReadStatus;
 import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 import server.model.domain.user.UserList;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
+
+import java.util.List;
 
 public class AdminMessageListViewModel implements AdminMessageListViewModelInterface, LocalListener<Object, Object> {
     private Model model;
@@ -25,11 +28,11 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
     
     public AdminMessageListViewModel(Model model, ViewState viewState) {
         this.model = model;
-        model.addListener(this, "PatientMessage", "NewPatient");
+        model.addListener(this, "PatientMessage", "NewPatient", "ReadMessage");
         this.viewState = viewState;
         tableData = FXCollections.observableArrayList();
         selectedChat = new SimpleObjectProperty<>(null);
-        showReadMessages = new SimpleBooleanProperty(true);
+        showReadMessages = new SimpleBooleanProperty(false);
         error = new SimpleStringProperty("");
         errorFill = new SimpleObjectProperty<>(Color.RED);
         
@@ -41,13 +44,26 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
         UserList patientList = model.getPatients();
         for (User user : patientList.getUsers()) {
             Patient patient = (Patient) user;
-            tableData.add(new MessageTableDataViewModel(patient));
+            List<Message> messages = patient.getChat().getUnreadMessages();
+            if (!showReadMessages.get()) {
+                if (messages.size() > 0) {
+                    tableData.add(new MessageTableDataViewModel(patient));
+                }
+            }
+            else {
+                tableData.add(new MessageTableDataViewModel(patient));
+            }
         }
     }
     
     @Override
     public boolean enterChat() {
         if (selectedChat.get() != null) {
+            if (viewState.getUser().getCpr().equals(selectedChat.get().getCprProperty().get())) {
+                error.set("You cannot open your own chat log");
+                errorFill.set(Color.RED);
+                return false;
+            }
             viewState.setSelectedUser(model.getPatients().getUserByCpr(selectedChat.get().getCprProperty().get()));
             return true;
         }
@@ -88,6 +104,12 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
         selectedChat.set(null);
         error.set("");
         errorFill.set(Color.RED);
+        loadFromModel();
+    }
+    
+    @Override
+    public void filterChatLogs() {
+        loadFromModel();
     }
     
     private void add(Patient patient) {
@@ -114,6 +136,7 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
                     add(patient);
                     break;
                 case "PatientMessage":
+                case "ReadMessage":
                     Message message = (Message) event.getValue2();
                     edit(message.getPatient());
                     break;
