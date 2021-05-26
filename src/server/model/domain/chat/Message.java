@@ -2,15 +2,12 @@ package server.model.domain.chat;
 
 import server.model.domain.user.Administrator;
 import server.model.domain.user.Patient;
-import server.model.domain.user.User;
-import server.model.validator.MessageValidator;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Message implements Serializable {
-
     private int id;
     private String message;
     private LocalDate date;
@@ -18,20 +15,8 @@ public class Message implements Serializable {
     private MessageStatus status;
     private Patient patient;
     private Administrator administrator;
-    private User sender;
-
-    public Message(int id, String message, LocalDate date, LocalTime time, MessageStatus status, Patient patient, Administrator administrator, User sender) {
-        this.id = id;
-        this.message = message;
-        this.date = date;
-        this.time = time;
-        this.status = status;
-        this.patient = patient;
-        this.administrator = administrator;
-        this.sender = sender;
-    }
     
-    public Message(int id, String message, Patient patient, Administrator administrator, User sender) {
+    public Message(int id, String message, Patient patient, Administrator administrator) {
         this.id = id;
         this.message = message;
         date = LocalDate.now();
@@ -39,7 +24,6 @@ public class Message implements Serializable {
         status = new UnreadStatus();
         this.patient = patient;
         this.administrator = administrator;
-        this.sender = sender;
     }
 
     public int getId() {
@@ -69,25 +53,24 @@ public class Message implements Serializable {
     public Administrator getAdministrator() {
         return administrator;
     }
-
-    public User getSender() {
-        return sender;
-    }
-
+    
     public void setStatus(MessageStatus status) {
         this.status = status;
     }
 
+    @Override
     public boolean equals(Object obj){
         if(!(obj instanceof Message))
             return false;
         Message other = (Message) obj;
         // TODO - if admin is null this will scream :<
         return other.id == id && other.message.equals(message) && other.date.equals(date) && other.time.equals(time) && other.administrator.equals(administrator)
-                && other.patient.equals(patient) && other.sender.equals(sender);
+                && other.patient.equals(patient);
     }
-
-    public String toString(){
-        return id + ". " + message + " sent by: " + sender.getCpr() + " at: " + time.toString() + ", " + date.toString() + " status: " + status.toString();
+    
+    @Override
+    public String toString() {
+        return "Message{" + "id=" + id + ", message='" + message + '\'' + ", date=" + date + ", time=" + time + ", status=" + status + ", patient=" + patient + ", administrator=" + administrator
+            + '}';
     }
 }

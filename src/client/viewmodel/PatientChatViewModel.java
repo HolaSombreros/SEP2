@@ -67,7 +67,15 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         newMessage.setMinWidth(newMessage.getPrefWidth());
         newMessage.setAlignment(Pos.CENTER_RIGHT);
 
-        Label username = new Label(message.getSender().getFirstName());
+        String sender;
+        if (message.getAdministrator() == null) {
+            sender = message.getPatient().getFirstName();
+        }
+        else {
+            sender = message.getAdministrator().getFirstName();
+        }
+        
+        Label username = new Label(sender);
         Label text = new Label(message.getMessage());
         username.setFont(new Font(15));
         username.setMaxWidth(newMessage.getPrefWidth());
