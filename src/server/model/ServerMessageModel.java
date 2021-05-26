@@ -5,6 +5,6 @@ import utility.observer.subject.LocalSubject;
 
 import java.rmi.RemoteException;
 
-public interface MessageModel extends LocalSubject<Object, Object> {
+public interface ServerMessageModel extends LocalSubject<Object, Object> {
     void sendMessage(User user, String message) throws RemoteException;
 }

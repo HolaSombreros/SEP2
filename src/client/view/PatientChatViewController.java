@@ -3,6 +3,7 @@ package client.view;
 import client.viewmodel.PatientChatViewModelInterface;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -32,6 +33,7 @@ public class PatientChatViewController extends ViewController {
             if(newVal) updateChat(viewModel.getMessages());
         });
         reset();
+        viewModel.loadChatList();
     }
 
     private void updateChat(ObservableList<Node> content) {
@@ -42,9 +44,9 @@ public class PatientChatViewController extends ViewController {
     public void reset() {
         viewModel.reset();
     }
-   /* @FXML private void onEnter(Event event){
+    @FXML private void onEnter(Event event){
         sendMessage();
-    }*/
+    }
 
     @FXML
     private void sendMessage(){
