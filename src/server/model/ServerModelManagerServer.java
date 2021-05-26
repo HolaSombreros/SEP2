@@ -752,7 +752,7 @@ public class ServerModelManagerServer implements ServerModelServer
         try {
             Patient patient = userList.getPatient(user.getCpr());
             // check if user is admin, if not set admin to null, otherwise, send admin to user
-            Message newMessage = managerFactory.getChatManager().addMessage(message, LocalDate.now(), LocalTime.now(), new UnreadStatus(), patient, null, user);
+            Message newMessage = managerFactory.getChatManager().addMessage(message, LocalDate.now(), LocalTime.now(), new UnreadStatus(), patient, null);
             patient.getChat().add(newMessage);
             property.firePropertyChange("PatientMessage", patient, newMessage);
         }
