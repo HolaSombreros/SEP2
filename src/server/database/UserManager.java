@@ -143,7 +143,7 @@ public class UserManager {
     public UserList getAllUsers() throws SQLException {
         UserList users = new UserList();
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM user_view JOIN message;");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM user_view;");
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 String cpr = rs.getString("cpr");
@@ -185,7 +185,7 @@ public class UserManager {
                 }
                 else {
                     // TODO - do stuff
-                    users.add(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, status, chat));
+                    users.add(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, status));
                 }
             }
             return users;
