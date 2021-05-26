@@ -72,6 +72,9 @@ public class ServerModelManager implements ServerModel {
     {
         try {
             userList = managerFactory.getUserManager().getAllUsers();
+            for(User user : userList.getUsers())
+                if(user instanceof Patient)
+                    ((Patient) user).setChat(managerFactory.getChatManager().getMessageByPatient((Patient)user));
         }
         catch (SQLException e) {
             e.printStackTrace();

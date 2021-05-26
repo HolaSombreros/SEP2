@@ -48,11 +48,14 @@ public class ChatManager {
             ResultSet result = statement.executeQuery();
             while(result.next()){
                 int id = result.getInt("message_id");
-                String message = result.getString("message");
+                String message = result.getString("text");
                 LocalTime time = result.getTime("time").toLocalTime();
                 LocalDate date = result.getDate("date").toLocalDate();
                 Patient patient = userManager.getPatient(result.getString("patient_cpr"));
-                Administrator admin = userManager.getAdministrator(result.getString("administrator_cpr"));
+                String admin_cpr = result.getString("administrator_cpr");
+                Administrator admin = null;
+                if(admin_cpr != null)
+                    admin = userManager.getAdministrator(admin_cpr);
                 MessageStatus status = null;
                 switch (result.getString("status")){
                     case "Read":
@@ -63,6 +66,36 @@ public class ChatManager {
                         break;
                 }
                 list.add(new Message(id, message, date, time, status, patient, admin, sender));
+            }
+            return list;
+        }
+    }
+
+    public Chat getMessageByPatient(Patient patient) throws SQLException{
+        try(Connection connection = DatabaseManager.getInstance().getConnection()){
+            Chat list = new Chat();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM message WHERE sent_by = ?");
+            statement.setString(1, patient.getCpr());
+            ResultSet result = statement.executeQuery();
+            while(result.next()){
+                int id = result.getInt("message_id");
+                String message = result.getString("text");
+                LocalTime time = result.getTime("time").toLocalTime();
+                LocalDate date = result.getDate("date").toLocalDate();
+                String admin_cpr = result.getString("administrator_cpr");
+                Administrator admin = null;
+                if(admin_cpr != null)
+                    admin = userManager.getAdministrator(admin_cpr);
+                MessageStatus status = null;
+                switch (result.getString("status")){
+                    case "Read":
+                        status = new ReadStatus();
+                        break;
+                    case "Unread":
+                        status = new UnreadStatus();
+                        break;
+                }
+                list.add(new Message(id, message, date, time, status, patient, admin, patient));
             }
             return list;
         }
