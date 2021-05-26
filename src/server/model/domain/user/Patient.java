@@ -15,7 +15,6 @@ public class Patient extends User {
     
     public Patient(String cpr, String password, String firstName, String lastName, Address address, String phone, String email, VaccineStatus validForVaccine) {
         this(cpr, password, firstName, null, lastName, address, phone, email, validForVaccine);
-        chat = new Chat();
     }
     
     public VaccineStatus getVaccineStatus() {
