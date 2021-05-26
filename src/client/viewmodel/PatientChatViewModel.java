@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import server.model.domain.chat.Chat;
 import server.model.domain.chat.Message;
 import server.model.domain.user.Administrator;
 import server.model.domain.user.Patient;
@@ -35,7 +36,18 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         this.user =  new SimpleStringProperty();
         this.textArea = new SimpleStringProperty();
         this.messages = FXCollections.observableArrayList();
-        model.addListener(this,"patientMessage");
+        model.addListener(this,"PatientMessage");
+    }
+    public void loadChatList() {
+        if(viewState.getUser() instanceof Patient) {
+            Chat chat = ((Patient) viewState.getUser()).getChat();
+            for(Message message : chat.getMessages()) {
+                addMessageBox(message);
+            }
+        }
+        else {
+
+        }
     }
 
     public void reset(){
@@ -46,26 +58,35 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
 
     private void addMessageBox(Message message) {
         updated.set(false);
-        HBox newMessage = new HBox();
+        VBox newMessage = new VBox();
         newMessage.setPadding(new Insets(10,15,5,10));
+        newMessage.setMaxHeight(Double.MAX_VALUE);
+        newMessage.setPrefWidth(465);
+        newMessage.setMinWidth(newMessage.getPrefWidth());
         newMessage.setAlignment(Pos.CENTER_RIGHT);
-        newMessage.setPrefHeight(Region.USE_COMPUTED_SIZE);
-        newMessage.setPrefWidth(Region.USE_COMPUTED_SIZE);
-        //newMessage.setBackground(new Background(new BackgroundFill(Color.AQUAMARINE, CornerRadii.EMPTY, Insets.EMPTY)));
-        Label sendMessage = new Label(message.getSender().getFirstName() + ": " + message.getMessage());
-        sendMessage.setFont(new Font(15));
-        sendMessage.setMaxWidth(newMessage.getPrefWidth());
-        sendMessage.setWrapText(true);
-        newMessage.getChildren().add(sendMessage);
+
+        Label username = new Label(message.getSender().getFirstName());
+        Label text = new Label(message.getMessage());
+        username.setFont(new Font(15));
+        username.setMaxWidth(newMessage.getPrefWidth());
+        text.setFont(new Font(15));
+        text.setMaxWidth(newMessage.getPrefWidth());
+        text.setWrapText(true);
+        newMessage.getChildren().add(username);
+        newMessage.getChildren().add(text);
         messages.add(newMessage);
         updated.set(true);
     }
 
     @Override
     public void sendMessage() {
-        if(textArea.get() != null && !textArea.get().trim().isEmpty())
+        try{
             model.sendMessage((Patient)viewState.getUser(),textArea.get());
-        reset();
+            reset();
+        }
+        catch (Exception e) {
+                errorLabel.set(e.getMessage());
+        }
     }
 
     @Override

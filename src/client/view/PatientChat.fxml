@@ -35,9 +35,9 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="403.0" prefWidth="879.0">
          <children>
-            <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" prefHeight="400.0" prefWidth="500.0">
+            <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" prefHeight="400.0" prefWidth="500.0">
                <content>
-                  <VBox fx:id="chatRoom" prefHeight="380.0" prefWidth="480.0" />
+                  <VBox fx:id="chatRoom" maxHeight="1.7976931348623157E308" prefHeight="380.0" prefWidth="480.0" />
                </content>
             </ScrollPane>
          </children>
@@ -55,7 +55,7 @@
                      </font>
                   </Button>
                   <HBox prefHeight="29.0" prefWidth="48.0" />
-                  <TextField fx:id="textField" prefHeight="25.0" prefWidth="432.0" />
+                  <TextField fx:id="textField" onAction="#onEnter" prefHeight="25.0" prefWidth="432.0" />
                   <Button fx:id="sendMessage" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#sendMessage" prefHeight="29.0" prefWidth="72.0" text="Send">
                      <font>
                         <Font size="13.0" />

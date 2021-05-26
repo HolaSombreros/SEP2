@@ -8,6 +8,7 @@ import javafx.scene.Node;
 public interface PatientChatViewModelInterface {
     void reset();
     void sendMessage();
+    void loadChatList();
     StringProperty getErrorLabelProperty();
     StringProperty getUserProperty();
     StringProperty getTextAreaProperty();

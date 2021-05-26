@@ -3,7 +3,6 @@ package server.model;
 import server.database.*;
 import server.model.domain.appointment.*;
 import server.model.domain.chat.Message;
-import server.model.domain.chat.MessageStatus;
 import server.model.domain.chat.UnreadStatus;
 import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQ;
@@ -21,7 +20,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class ServerModelManager implements ServerModel {
+public class ServerModelManagerServer implements ServerModelServer
+{
     private UserList userList;
     private UserList onlineList;
     private FAQList faqList;
@@ -34,7 +34,7 @@ public class ServerModelManager implements ServerModel {
     private ManagerFactory managerFactory;
     private PropertyChangeAction<Object, Object> property;
 
-    public ServerModelManager() throws RemoteException
+    public ServerModelManagerServer() throws RemoteException
     {
         property = new PropertyChangeProxy<>(this);
         onlineList = new UserList();
@@ -750,13 +750,11 @@ public class ServerModelManager implements ServerModel {
     public synchronized void sendMessage(User user, String message) throws RemoteException {
 
         try {
-            if(user != null || !message.trim().isEmpty()) {
-                Patient patient = userList.getPatient(user.getCpr());
-                // check if user is admin, if not set admin to null, otherwise, send admin to user
-                Message newMessage = managerFactory.getChatManager().addMessage(message, LocalDate.now(), LocalTime.now(), new UnreadStatus(), patient, null, user);
-                patient.getChat().add(newMessage);
-                property.firePropertyChange("PatientMessage", patient, newMessage);
-            }
+            Patient patient = userList.getPatient(user.getCpr());
+            // check if user is admin, if not set admin to null, otherwise, send admin to user
+            Message newMessage = managerFactory.getChatManager().addMessage(message, LocalDate.now(), LocalTime.now(), new UnreadStatus(), patient, null, user);
+            patient.getChat().add(newMessage);
+            property.firePropertyChange("PatientMessage", patient, newMessage);
         }
         catch (SQLException e) {
             e.printStackTrace();
