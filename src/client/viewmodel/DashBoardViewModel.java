@@ -57,8 +57,8 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     @Override
     public void reset()
     {
-        username.set(((User)viewState.getUser()).getFirstName());
-        AppointmentList appointmentList = model.getAppointmentsByUser((Patient)viewState.getUser());
+        username.set((viewState.getUser()).getFirstName());
+        AppointmentList appointmentList = model.getAppointmentsByUser(viewState.getUser());
         Patient patient = (Patient) viewState.getUser();
         accessVisibility.set(false);
         vaccinationLabel.set(patient.getVaccineStatus().toString());
@@ -86,11 +86,10 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
             nextAppointment.set("You do not have any upcoming appointments");
         }
     }
-
     
     @Override
     public void logout() {
-        model.logout((User)viewState.getUser());
+        model.logout(viewState.getUser());
         viewState.removeUser();
     }
     
@@ -104,7 +103,7 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     
     @Override
     public void enterChat() {
-        viewState.setSelectedUser(((Patient) viewState.getUser()));
+        viewState.setSelectedUser(viewState.getUser());
     }
     
     @Override

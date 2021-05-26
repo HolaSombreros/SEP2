@@ -44,7 +44,7 @@ public class AppointmentList implements Serializable {
     }
     
     public Appointment get(int index) {
-        if (index < 0 || index > size()) {
+        if (index < 0 || index >= size()) {
             throw new IllegalArgumentException("Please specify a valid index");
         }
         return appointments.get(index);

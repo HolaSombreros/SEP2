@@ -2,6 +2,7 @@ package client.viewmodel;
 
 import client.model.Model;
 import client.model.UserModel;
+import client.view.View;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import server.model.domain.user.Staff;
@@ -14,7 +15,7 @@ public class LoginViewModel implements LoginViewModelInterface {
     private UserModel userModel;
     private ViewState viewState;
 
-    public LoginViewModel(UserModel userModel,ViewState viewState) {
+    public LoginViewModel(UserModel userModel, ViewState viewState) {
         this.userModel = userModel;
         this.viewState = viewState;
         cprProperty = new SimpleStringProperty("");

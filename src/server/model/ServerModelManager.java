@@ -738,6 +738,7 @@ public class ServerModelManager implements ServerModel
     public synchronized void sendMessage(Patient patient, String message, Administrator administrator) throws RemoteException {
         try {
             MessageValidator.validateMessage(message, patient);
+            patient = getPatient(patient.getCpr());
             message = message.trim();
             Message newMessage = managerFactory.getChatManager().addMessage(message, LocalDate.now(), LocalTime.now(), new UnreadStatus(), patient, administrator);
             patient.getChat().add(newMessage);

@@ -22,14 +22,14 @@ import java.util.Optional;
 
 public class FAQViewModel implements FAQViewModelInterface, LocalListener<Object, Object> {
     private FAQModel faqModel;
-    private ViewState<User> viewState;
+    private ViewState viewState;
     private ObservableList<VBox> content;
     private BooleanProperty adminProperty;
     private StringProperty errorLabel;
     private BooleanProperty updated;
     private TitledPane selectedBox;
 
-    public FAQViewModel(FAQModel faqModel, ViewState<User> viewState) {
+    public FAQViewModel(FAQModel faqModel, ViewState viewState) {
         this.faqModel = faqModel;
         this.viewState = viewState;
         this.selectedBox = null;

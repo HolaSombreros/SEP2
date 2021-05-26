@@ -1,6 +1,5 @@
 package client.viewmodel;
 
-import client.model.Model;
 import client.model.UserModel;
 import javafx.beans.property.*;
 import javafx.scene.control.Alert;

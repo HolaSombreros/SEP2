@@ -6,7 +6,6 @@ import javafx.beans.property.StringProperty;
 import server.model.domain.user.User;
 
 public class LoginChoiceViewModel implements LoginChoiceViewModelInterface {
-    
     private StringProperty roleProperty;
     private Model model;
     private ViewState viewState;

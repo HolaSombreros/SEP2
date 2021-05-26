@@ -1,11 +1,10 @@
 package client.viewmodel;
 
-import server.model.domain.chat.Chat;
 import server.model.domain.faq.FAQ;
 import server.model.domain.user.User;
 
-public class ViewState<T> {
-    private T user;
+public class ViewState {
+    private User user;
     private User selectedUser;
     private int selectedAppointment;
     private FAQ selectedFAQ;
@@ -29,11 +28,11 @@ public class ViewState<T> {
         selectedAppointment = -1;
     }
     
-    public T getUser() {
+    public User getUser() {
         return user;
     }
     
-    public void setUser(T user) {
+    public void setUser(User user) {
         this.user = user;
     }
     

@@ -136,11 +136,11 @@ public abstract class User implements Serializable {
             email.equals(user.email);
     }
     
-    @Override
-    public String toString() {
-        if (middleName == null)
-            return cpr + " " + password + " " + firstName + " " + lastName + " " + address.toString() + " " + phone + " " + email;
-        else
-            return cpr + " " + password + " " + firstName + " " + middleName + " " + lastName + " " + address.toString() + " " + phone + " " + email;
-    }
+//    @Override
+//    public String toString() {
+//        if (middleName == null)
+//            return cpr + " " + password + " " + firstName + " " + lastName + " " + address.toString() + " " + phone + " " + email;
+//        else
+//            return cpr + " " + password + " " + firstName + " " + middleName + " " + lastName + " " + address.toString() + " " + phone + " " + email;
+//    }
 }

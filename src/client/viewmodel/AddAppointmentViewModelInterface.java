@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public interface AddAppointmentViewModelInterface {
     void loadTimeIntervals();
     void reset();
-    void createAppointment();
+    boolean createAppointment();
     
     ObjectProperty<LocalDate> getDateProperty();
     ObservableList<Type> getAllTypes();

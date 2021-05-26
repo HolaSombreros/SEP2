@@ -22,10 +22,10 @@ public class ViewModelFactory {
     private AdminMessageListViewModelInterface adminMessageListViewModel;
     private PatientChatViewModelInterface patientChatViewModel;
 
-    private ViewState<User> viewState;
+    private ViewState viewState;
     
     public ViewModelFactory(Model model) {
-        this.viewState = new ViewState<>();
+        this.viewState = new ViewState();
         registerViewModel = new RegisterViewModel(model);
         loginViewModel = new LoginViewModel(model, viewState);
         loginChoiceViewModel = new LoginChoiceViewModel(model, viewState);
@@ -45,7 +45,7 @@ public class ViewModelFactory {
         patientChatViewModel = new PatientChatViewModel(model, viewState);
     }
     
-    public ViewState<User> getViewState() {
+    public ViewState getViewState() {
         return viewState;
     }
     

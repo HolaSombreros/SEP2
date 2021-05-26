@@ -1,6 +1,6 @@
 package client.viewmodel;
 
-import client.model.MessageModel;
+import client.model.Model;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -11,7 +11,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
-import server.model.domain.chat.Chat;
 import server.model.domain.chat.Message;
 import server.model.domain.user.Administrator;
 import server.model.domain.user.Patient;
@@ -26,9 +25,9 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
     private ObservableList<Node> messages;
     private BooleanProperty updated;
     private ViewState viewState;
-    private MessageModel model;
+    private Model model;
 
-    public PatientChatViewModel(MessageModel model, ViewState viewState) {
+    public PatientChatViewModel(Model model, ViewState viewState) {
         this.model =  model;
         this.viewState =  viewState;
         this.errorLabel = new SimpleStringProperty();
@@ -41,7 +40,7 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
     
     public void loadChatList() {
         messages.clear();
-        for (Message message : (((Patient) viewState.getSelectedUser()).getChat().getMessages())) {
+        for (Message message : model.getPatient(viewState.getSelectedUser().getCpr()).getChat().getMessages()) {
             addMessageBox(message);
         }
     }
@@ -57,7 +56,7 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
     }
     
     public void reset(){
-        user.set(viewState.getSelectedUser().getFirstName());
+        user.set((viewState.getUser()).getFirstName());
         resetInputs();
         loadChatList();
     }
@@ -104,8 +103,7 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
             if (viewState.getUser() instanceof Administrator) {
                 administrator = ((Administrator) viewState.getUser());
             }
-            
-            model.sendMessage(((Patient) viewState.getSelectedUser()), textArea.get(), administrator);
+            model.sendMessage((Patient) viewState.getSelectedUser(), textArea.get(), administrator);
             resetInputs();
         }
         catch (Exception e) {
@@ -146,7 +144,7 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
     public void propertyChange(ObserverEvent<Object, Object> observerEvent)
     {
         Platform.runLater(() -> {
-            if(viewState.getUser().equals(observerEvent.getValue1()) || viewState.getUser() instanceof Administrator)
+            if(viewState.getSelectedUser().equals(observerEvent.getValue1()) || viewState.getUser() instanceof Administrator)
                 addMessageBox((Message) observerEvent.getValue2());
         });
     }

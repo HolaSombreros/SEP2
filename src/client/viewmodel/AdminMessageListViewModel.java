@@ -16,14 +16,14 @@ import utility.observer.listener.LocalListener;
 
 public class AdminMessageListViewModel implements AdminMessageListViewModelInterface, LocalListener<Object, Object> {
     private Model model;
-    private ViewState<User> viewState;
+    private ViewState viewState;
     private ObservableList<MessageTableDataViewModel> tableData;
     private ObjectProperty<MessageTableDataViewModel> selectedChat;
     private BooleanProperty showReadMessages;
     private StringProperty error;
     private ObjectProperty<Paint> errorFill;
     
-    public AdminMessageListViewModel(Model model, ViewState<User> viewState) {
+    public AdminMessageListViewModel(Model model, ViewState viewState) {
         this.model = model;
         model.addListener(this, "PatientMessage", "NewPatient");
         this.viewState = viewState;

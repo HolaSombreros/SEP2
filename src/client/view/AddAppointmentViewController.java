@@ -39,7 +39,9 @@ public class AddAppointmentViewController extends ViewController {
     
     @FXML
     private void createAppointment() {
-        viewModel.createAppointment();
+        if (viewModel.createAppointment()) {
+            getViewHandler().openView(View.APPOINTMENTLIST);
+        }
     }
     
     @FXML

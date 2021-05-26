@@ -74,10 +74,6 @@ public class AddAppointmentViewModel implements AddAppointmentViewModelInterface
     @Override
     public void reset() {
         error.set("");
-        resetInputs();
-    }
-    
-    private void resetInputs() {
         loadTypes();
         date.set(null);
         timeIntervals.clear();
@@ -120,16 +116,16 @@ public class AddAppointmentViewModel implements AddAppointmentViewModelInterface
     }
     
     @Override
-    public void createAppointment() {
+    public boolean createAppointment() {
         try {
             appointmentModel.addAppointment((date.get()), timeInterval.get(), type.get(), (Patient)viewState.getUser());
-            errorFill.set(Color.GREEN);
-            error.set("Appointment booked for " + date.get().toString() + " (" + timeInterval.get() + ")");
-            resetInputs();
+            return true;
         }
         catch (Exception e) {
+            e.printStackTrace();
             errorFill.set(Color.RED);
             error.set(e.getMessage());
+            return false;
         }
     }
 }

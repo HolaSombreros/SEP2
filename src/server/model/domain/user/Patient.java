@@ -42,8 +42,8 @@ public class Patient extends User {
         return super.equals(obj) && vaccineStatus.equals(patient.vaccineStatus);
     }
     
-    @Override
-    public String toString() {
-        return super.toString() + " | Vaccine Status: " + vaccineStatus.toString();
-    }
+//    @Override
+//    public String toString() {
+//        return super.toString() + " | Vaccine Status: " + vaccineStatus.toString();
+//    }
 }
