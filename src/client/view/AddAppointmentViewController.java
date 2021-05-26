@@ -35,6 +35,7 @@ public class AddAppointmentViewController extends ViewController {
     @Override
     public void reset() {
         viewModel.reset();
+        viewModel.disableDays(datePicker);
     }
     
     @FXML

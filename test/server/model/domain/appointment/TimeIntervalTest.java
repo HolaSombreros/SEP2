@@ -42,7 +42,7 @@ class TimeIntervalTest {
     @Test
     void setToBeforeFrom() {
         assertThrows(IllegalArgumentException.class, () -> {
-            interval.set(LocalTime.of(8, 0), LocalTime.of(9, 0), 1);
+            interval.set(LocalTime.of(9, 0), LocalTime.of(8, 0), 1);
         });
     }
 
