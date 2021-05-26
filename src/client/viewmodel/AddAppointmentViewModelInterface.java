@@ -3,6 +3,7 @@ package client.viewmodel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
+import javafx.scene.control.DatePicker;
 import javafx.scene.paint.Paint;
 import server.model.domain.appointment.TimeInterval;
 import server.model.domain.appointment.Type;
@@ -13,6 +14,7 @@ public interface AddAppointmentViewModelInterface {
     void loadTimeIntervals();
     void reset();
     boolean createAppointment();
+    void disableDays(DatePicker datePicker);
     
     ObjectProperty<LocalDate> getDateProperty();
     ObservableList<Type> getAllTypes();
