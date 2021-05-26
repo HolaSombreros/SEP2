@@ -226,6 +226,8 @@ public class ServerModelManager implements ServerModel
                         list.add(user);
                 }
         }
+        if (list.getUsers().size() == 0)
+            throw new IllegalStateException("There is no nurse available");
         return (Nurse) list.getUsers().get(0);
     }
 
