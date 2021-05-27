@@ -60,6 +60,7 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<Object
             vBox.getChildren().add(accordion);
 
             for (FAQ faq : faqList.getQuestions()) {
+                System.out.println(faq);
                 if (faq.getCategory().equals(category)) {
                     TitledPane titledPane = new TitledPane();
                     titledPane.expandedProperty().addListener((obs, oldVal, newVal) -> {
