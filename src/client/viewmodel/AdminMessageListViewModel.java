@@ -129,6 +129,7 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
                 break;
             }
         }
+        loadFromModel();
     }
 
     @Override

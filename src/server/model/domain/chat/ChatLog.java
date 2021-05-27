@@ -27,7 +27,7 @@ public class ChatLog implements Serializable {
     }
 
     public Message get(int index) {
-        if (index < 0 || index > size()) {
+        if (index < 0 || index >= size()) {
             throw new IllegalArgumentException("Please specify a valid index");
         }
         return messages.get(index);
@@ -37,16 +37,6 @@ public class ChatLog implements Serializable {
         List<Message> list = new ArrayList<>();
         for (Message message : messages) {
             if (message.getStatus() instanceof UnreadStatus) {
-                list.add(message);
-            }
-        }
-        return list;
-    }
-
-    public List<Message> getReadMessages() {
-        List<Message> list = new ArrayList<>();
-        for (Message message : messages) {
-            if (message.getStatus() instanceof ReadStatus) {
                 list.add(message);
             }
         }

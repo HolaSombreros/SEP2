@@ -59,7 +59,7 @@ public class Message implements Serializable {
     }
 
     public void read() {
-        getStatus().read(this);
+        status.read(this);
     }
 
     @Override

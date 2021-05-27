@@ -16,6 +16,8 @@ import server.model.domain.user.Patient;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
 
+import java.time.format.DateTimeFormatter;
+
 public class PatientChatViewModel implements PatientChatViewModelInterface, LocalListener<Object, Object>
 {
     private StringProperty errorLabel;
@@ -91,10 +93,12 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         text.setWrapText(true);
         if (message.getAdministrator() != null) {
             username.setAlignment(Pos.CENTER_LEFT);
+            username.setText(username.getText() + " - " + message.getDate().toString() + " " + message.getTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
             text.setAlignment(Pos.CENTER_LEFT);
         }
         else {
             username.setAlignment(Pos.CENTER_RIGHT);
+            username.setText(message.getTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + " - " + message.getDate().toString() + " - " + username.getText());
             text.setAlignment(Pos.CENTER_RIGHT);
         }
         if ((viewState.getUser() instanceof Patient && message.getPatient().equals(viewState.getUser()) && message.getAdministrator() == null) || viewState.getUser().equals(message.getAdministrator())) {
