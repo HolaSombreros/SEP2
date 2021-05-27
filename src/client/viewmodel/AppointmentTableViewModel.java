@@ -16,7 +16,7 @@ public class AppointmentTableViewModel {
     private StringProperty cprProperty;
     private StringProperty fullNameProperty;
     private StringProperty resultProperty;
-    
+
     public AppointmentTableViewModel(Appointment appointment) {
         dateProperty = new SimpleStringProperty(appointment.getDate().toString());
         timeProperty = new SimpleStringProperty(appointment.getTimeInterval().toString());
@@ -30,35 +30,35 @@ public class AppointmentTableViewModel {
         else
             resultProperty = new SimpleStringProperty("-");
     }
-    
+
     public StringProperty getDateProperty() {
         return dateProperty;
     }
-    
+
     public StringProperty getTimeProperty() {
         return timeProperty;
     }
-    
+
     public StringProperty getTypeProperty() {
         return typeProperty;
     }
-    
+
     public StringProperty getStatusProperty() {
         return statusProperty;
     }
-    
+
     public IntegerProperty getIdProperty() {
         return idProperty;
     }
-    
+
     public StringProperty getCprProperty() {
         return cprProperty;
     }
-    
+
     public StringProperty getFullNameProperty() {
         return fullNameProperty;
     }
-    
+
     public StringProperty getResultProperty() {
         return resultProperty;
     }

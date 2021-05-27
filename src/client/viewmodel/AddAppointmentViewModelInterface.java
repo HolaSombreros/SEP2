@@ -12,15 +12,24 @@ import java.time.LocalDate;
 
 public interface AddAppointmentViewModelInterface {
     void loadTimeIntervals();
+
     void reset();
+
     boolean createAppointment();
+
     void disableDays(DatePicker datePicker);
-    
+
     ObjectProperty<LocalDate> getDateProperty();
+
     ObservableList<Type> getAllTypes();
+
     ObjectProperty<Type> getTypeProperty();
+
     ObservableList<TimeInterval> getAvailableTimeIntervals();
+
     ObjectProperty<TimeInterval> getTimeIntervalProperty();
+
     StringProperty getErrorProperty();
+
     ObjectProperty<Paint> getErrorFillProperty();
 }

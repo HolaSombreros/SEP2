@@ -9,8 +9,8 @@ public class TimeInterval implements Serializable {
     private LocalTime from;
     private LocalTime to;
     private int id;
-    
-    public TimeInterval(int id,LocalTime from, LocalTime to) {
+
+    public TimeInterval(int id, LocalTime from, LocalTime to) {
         set(from, to, id);
     }
 
@@ -28,11 +28,11 @@ public class TimeInterval implements Serializable {
     public LocalTime getFrom() {
         return from;
     }
-    
+
     public LocalTime getTo() {
         return to;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof TimeInterval)) {
@@ -40,10 +40,10 @@ public class TimeInterval implements Serializable {
         }
         TimeInterval timeInterval = (TimeInterval) obj;
         return from.equals(timeInterval.from) &&
-            to.equals(timeInterval.to) && id == timeInterval.id;
+                to.equals(timeInterval.to) && id == timeInterval.id;
     }
 
-    public String toString(){
+    public String toString() {
         return from.toString() + " - " + to.toString();
     }
 }

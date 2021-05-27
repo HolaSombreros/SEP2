@@ -7,11 +7,11 @@ import java.util.List;
 
 public class AvailableTimeIntervalList {
     private List<AvailableTimeInterval> availableTimeIntervals;
-    
+
     public AvailableTimeIntervalList() {
         availableTimeIntervals = new ArrayList<>();
     }
-    
+
     public void add(AvailableTimeInterval availableTimeInterval) {
         if (getByAvailableTimeInterval(availableTimeInterval) == null)
             availableTimeIntervals.add(availableTimeInterval);
@@ -50,7 +50,7 @@ public class AvailableTimeIntervalList {
                 return interval;
         return null;
     }
-    
+
     @Override
     public String toString() {
         String str = "List: ";

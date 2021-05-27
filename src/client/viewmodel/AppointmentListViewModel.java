@@ -21,32 +21,32 @@ public class AppointmentListViewModel implements AppointmentListViewModelInterfa
     private ViewState viewState;
     private AppointmentModel appointmentModel;
     private StringProperty errorProperty;
-    
+
     public AppointmentListViewModel(AppointmentModel appointmentModel, ViewState viewState) {
-        this.appointmentModel= appointmentModel;
+        this.appointmentModel = appointmentModel;
         this.viewState = viewState;
         this.appointments = FXCollections.observableArrayList();
         this.errorProperty = new SimpleStringProperty();
         this.selectedAppointment = new SimpleObjectProperty<>();
         appointmentModel.addListener(this, "NewAppointment");
     }
-    
+
     public ObservableList<AppointmentTableViewModel> getAppointments() {
         return appointments;
     }
-    
+
     @Override
     public void reset() {
         viewState.removeSelectedAppointment();
         errorProperty.set("");
         updateList();
     }
-    
+
     @Override
     public StringProperty getErrorProperty() {
         return errorProperty;
     }
-    
+
     private void updateList() {
         appointments.clear();
         AppointmentList appointmentList = appointmentModel.getAppointmentsByUser(viewState.getUser());
@@ -54,19 +54,18 @@ public class AppointmentListViewModel implements AppointmentListViewModelInterfa
             appointments.add(new AppointmentTableViewModel(appointment));
         }
     }
-    
+
     @Override
     public void setSelectedAppointment(AppointmentTableViewModel selectedAppointment) {
         this.selectedAppointment.set(selectedAppointment);
     }
-    
+
     @Override
     public boolean seeDetails() {
         if (selectedAppointment.get() != null) {
             viewState.setSelectedAppointment(selectedAppointment.get().getIdProperty().get());
             return true;
-        }
-        else {
+        } else {
             viewState.removeSelectedAppointment();
             errorProperty.set("Please select an appointment first");
             return false;

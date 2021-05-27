@@ -1,6 +1,6 @@
 package server.model.domain.chat;
 
-public class UnreadStatus extends MessageStatus{
+public class UnreadStatus extends MessageStatus {
 
     @Override
     public void read(Message message) {

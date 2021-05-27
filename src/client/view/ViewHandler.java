@@ -9,18 +9,18 @@ public class ViewHandler extends ViewCreator {
     private Stage stage;
     private Scene scene;
     private ViewModelFactory viewModelFactory;
-    
+
     public ViewHandler(ViewModelFactory viewModelFactory) {
         super();
         this.viewModelFactory = viewModelFactory;
     }
-    
+
     public void start(Stage stage) {
         this.stage = stage;
         scene = new Scene(new Region());
         openView(View.LOGIN);
     }
-    
+
     public void openView(View view) {
         ViewController viewController = getViewController(view);
         Region root = viewController.getRoot();
@@ -37,7 +37,7 @@ public class ViewHandler extends ViewCreator {
         stage.centerOnScreen();
         stage.show();
     }
-    
+
     @Override
     protected void initViewController(ViewController controller, Region root) {
         controller.init(this, viewModelFactory, root);

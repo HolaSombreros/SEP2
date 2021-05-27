@@ -15,31 +15,31 @@ public class AppointmentValidator {
         validatePatient(patient);
         validateNurse(nurse);
     }
-    
+
     public static void validateDate(LocalDate date) {
         if (date == null) {
             throw new IllegalArgumentException("Please specify a date");
         }
     }
-    
+
     public static void validateTimeInterval(TimeInterval timeInterval) {
         if (timeInterval == null) {
             throw new IllegalArgumentException("Please specify a time interval");
         }
     }
-    
+
     public static void validateType(Type type) {
         if (type == null) {
             throw new IllegalArgumentException("Please specify the type of appointment");
         }
     }
-    
+
     public static void validatePatient(Patient patient) {
         if (patient == null) {
             throw new IllegalArgumentException("Please specify a patient");
         }
     }
-    
+
     public static void validateNurse(Nurse nurse) {
         if (nurse == null) {
             throw new IllegalArgumentException("Please specify a nurse");

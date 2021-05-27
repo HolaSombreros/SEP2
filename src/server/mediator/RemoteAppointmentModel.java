@@ -9,16 +9,24 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.time.LocalDate;
 
-public interface RemoteAppointmentModel extends Remote
-{
+public interface RemoteAppointmentModel extends Remote {
     Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) throws RemoteException;
+
     AppointmentList getAppointmentsByUser(User patient) throws RemoteException;
+
     AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType) throws RemoteException;
+
     TimeIntervalList getAvailableTimeIntervals(LocalDate date) throws RemoteException;
+
     Appointment getAppointmentById(int id) throws RemoteException;
+
     TimeIntervalList getTimeIntervalList() throws RemoteException;
+
     void cancelAppointment(int id) throws RemoteException;
+
     void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) throws RemoteException;
-    void changeResult(int id,Result result) throws RemoteException;
+
+    void changeResult(int id, Result result) throws RemoteException;
+
     AppointmentList getUpcomingAppointments(Patient patient) throws RemoteException;
 }

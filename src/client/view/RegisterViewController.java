@@ -10,24 +10,36 @@ import util.IntStringConverter;
 
 public class RegisterViewController extends ViewController {
     private RegisterViewModelInterface viewModel;
-    
-    @FXML private TextField firstNameInputField;
-    @FXML private TextField middleNameInputField;
-    @FXML private TextField lastNameInputField;
-    @FXML private TextField cprInputField;
-    @FXML private TextField passwordInputField;
-    @FXML private TextField streetInputField;
-    @FXML private TextField numberInputField;
-    @FXML private TextField zipCodeInputField;
-    @FXML private TextField cityInputField;
-    @FXML private TextField phoneInputField;
-    @FXML private TextField emailInputField;
-    @FXML private Label errorLabel;
-    
+
+    @FXML
+    private TextField firstNameInputField;
+    @FXML
+    private TextField middleNameInputField;
+    @FXML
+    private TextField lastNameInputField;
+    @FXML
+    private TextField cprInputField;
+    @FXML
+    private TextField passwordInputField;
+    @FXML
+    private TextField streetInputField;
+    @FXML
+    private TextField numberInputField;
+    @FXML
+    private TextField zipCodeInputField;
+    @FXML
+    private TextField cityInputField;
+    @FXML
+    private TextField phoneInputField;
+    @FXML
+    private TextField emailInputField;
+    @FXML
+    private Label errorLabel;
+
     public RegisterViewController() {
-    
+
     }
-    
+
     @Override
     protected void init() {
         viewModel = getViewModelFactory().getRegisterViewModel();
@@ -44,57 +56,47 @@ public class RegisterViewController extends ViewController {
         emailInputField.textProperty().bindBidirectional(viewModel.getEmailProperty());
         errorLabel.textProperty().bind(viewModel.getErrorProperty());
     }
-    
+
     @Override
     public void reset() {
         viewModel.reset();
     }
-    
+
     @FXML
     private void register() {
         if (viewModel.register()) {
             login();
         }
     }
-    
+
     @FXML
     private void login() {
         getViewHandler().openView(View.LOGIN);
     }
-    
+
     @FXML
     private void onEnter(Event event) {
         if (event.getSource() == firstNameInputField) {
             middleNameInputField.requestFocus();
-        }
-        else if (event.getSource() == middleNameInputField) {
+        } else if (event.getSource() == middleNameInputField) {
             lastNameInputField.requestFocus();
-        }
-        else if (event.getSource() == lastNameInputField) {
+        } else if (event.getSource() == lastNameInputField) {
             cprInputField.requestFocus();
-        }
-        else if (event.getSource() == cprInputField) {
+        } else if (event.getSource() == cprInputField) {
             passwordInputField.requestFocus();
-        }
-        else if (event.getSource() == passwordInputField) {
+        } else if (event.getSource() == passwordInputField) {
             streetInputField.requestFocus();
-        }
-        else if (event.getSource() == streetInputField) {
+        } else if (event.getSource() == streetInputField) {
             numberInputField.requestFocus();
-        }
-        else if (event.getSource() == numberInputField) {
+        } else if (event.getSource() == numberInputField) {
             zipCodeInputField.requestFocus();
-        }
-        else if (event.getSource() == zipCodeInputField) {
+        } else if (event.getSource() == zipCodeInputField) {
             cityInputField.requestFocus();
-        }
-        else if (event.getSource() == cityInputField) {
+        } else if (event.getSource() == cityInputField) {
             phoneInputField.requestFocus();
-        }
-        else if (event.getSource() == phoneInputField) {
+        } else if (event.getSource() == phoneInputField) {
             emailInputField.requestFocus();
-        }
-        else if (event.getSource() == emailInputField) {
+        } else if (event.getSource() == emailInputField) {
             register();
         }
     }

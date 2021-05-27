@@ -23,7 +23,7 @@ public class NurseDashBoardViewModel implements NurseDashBoardViewModelInterface
     private Model model;
     private ViewState viewState;
     private ObservableClock observableClock;
-    
+
     private StringProperty username;
     private StringProperty role;
     private StringProperty time;
@@ -36,11 +36,11 @@ public class NurseDashBoardViewModel implements NurseDashBoardViewModelInterface
     private StringProperty filterType;
     private ObservableList<AppointmentTableViewModel> appointmentTable;
     private ObjectProperty<AppointmentTableViewModel> selectedAppointment;
-    
+
     public NurseDashBoardViewModel(Model model, ViewState viewState) {
         this.model = model;
         this.viewState = viewState;
-        
+
         username = new SimpleStringProperty();
         role = new SimpleStringProperty();
         time = new SimpleStringProperty();
@@ -51,59 +51,58 @@ public class NurseDashBoardViewModel implements NurseDashBoardViewModelInterface
         errorFill = new SimpleObjectProperty<>(Color.RED);
         filterButtonText = new SimpleStringProperty("Show test appointments");
         filterType = new SimpleStringProperty("all");
-        
+
         appointmentTable = FXCollections.observableArrayList();
         selectedAppointment = new SimpleObjectProperty<>();
-        
+
         observableClock = new ObservableClock();
         observableClock.addListener(this, "ObservableClock");
         Thread timer = new Thread(observableClock);
         timer.setDaemon(true);
         timer.start();
     }
-    
+
     private void loadFromModel() {
         appointmentTable.clear();
-        for (Appointment appointment : model.getAppointmentsByUser((Nurse)viewState.getUser()).getAppointments()) {
+        for (Appointment appointment : model.getAppointmentsByUser((Nurse) viewState.getUser()).getAppointments()) {
             appointmentTable.add(new AppointmentTableViewModel(appointment));
         }
     }
-    
+
     @Override
     public void reset() {
         searchBar.set("");
         error.set("");
-        username.set(((User)viewState.getUser()).getFirstName());
+        username.set(((User) viewState.getUser()).getFirstName());
         if (viewState.getUser() instanceof Staff) {
             role.set("Logged in as: " + viewState.getUser().getClass().getSimpleName());
         }
         loadFromModel();
     }
-    
+
     @Override
     public boolean updateViewState() {
         if (selectedAppointment.get() != null) {
             viewState.setSelectedAppointment(selectedAppointment.get().getIdProperty().get());
             return true;
-        }
-        else {
+        } else {
             errorFill.set(Color.RED);
             error.set("Please select an appointment");
             return false;
         }
     }
-    
+
     @Override
     public void logout() {
-        model.logout((User)viewState.getUser());
+        model.logout((User) viewState.getUser());
         viewState.removeUser();
     }
-    
+
     @Override
     public void setSelectedAppointment(AppointmentTableViewModel appointmentTableViewModel) {
         selectedAppointment.set(appointmentTableViewModel);
     }
-    
+
     @Override
     public void filterAppointments() {
         appointmentTable.clear();
@@ -113,7 +112,7 @@ public class NurseDashBoardViewModel implements NurseDashBoardViewModelInterface
             appointmentTable.add(new AppointmentTableViewModel(appointment));
         }
     }
-    
+
     @Override
     public void toggleTypeButton() {
         switch (filterType.get()) {
@@ -131,57 +130,57 @@ public class NurseDashBoardViewModel implements NurseDashBoardViewModelInterface
                 break;
         }
     }
-    
+
     @Override
     public StringProperty getUsernameProperty() {
         return username;
     }
-    
+
     @Override
     public StringProperty getRoleProperty() {
         return role;
     }
-    
+
     @Override
     public StringProperty getTimeProperty() {
         return time;
     }
-    
+
     @Override
     public StringProperty getDateProperty() {
         return date;
     }
-    
+
     @Override
     public StringProperty getSearchBarProperty() {
         return searchBar;
     }
-    
+
     @Override
     public BooleanProperty showFinishedAppointmentsProperty() {
         return showFinishedAppointments;
     }
-    
+
     @Override
     public StringProperty getErrorProperty() {
         return error;
     }
-    
+
     @Override
     public ObjectProperty<Paint> getErrorFillProperty() {
         return errorFill;
     }
-    
+
     @Override
     public StringProperty getFilterButtonTextProperty() {
         return filterButtonText;
     }
-    
+
     @Override
     public ObservableList<AppointmentTableViewModel> getAppointments() {
         return appointmentTable;
     }
-    
+
     @Override
     public void propertyChange(ObserverEvent<String, String> event) {
         Platform.runLater(() -> {

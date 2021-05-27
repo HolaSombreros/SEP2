@@ -11,13 +11,13 @@ public class DatabaseManager {
     public static String PASSWORD = "admin";
     private static DatabaseManager instance;
     private static Object lock = new Object();
-    
+
     private DatabaseManager(String url, String username, String password) {
         this.password = password;
         this.url = url;
         this.username = username;
     }
-    
+
     private DatabaseManager() {
         this(URL, USERNAME, PASSWORD);
     }
@@ -31,7 +31,7 @@ public class DatabaseManager {
         }
         return instance;
     }
-    
+
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, username, password);
     }

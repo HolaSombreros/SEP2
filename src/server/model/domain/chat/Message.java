@@ -15,7 +15,7 @@ public class Message implements Serializable {
     private MessageStatus status;
     private Patient patient;
     private Administrator administrator;
-    
+
     public Message(int id, String message, LocalDate date, LocalTime time, MessageStatus status, Patient patient, Administrator administrator) {
         this.id = id;
         this.message = message;
@@ -53,18 +53,18 @@ public class Message implements Serializable {
     public Administrator getAdministrator() {
         return administrator;
     }
-    
+
     public void setStatus(MessageStatus status) {
         this.status = status;
     }
-    
+
     public void read() {
         getStatus().read(this);
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(!(obj instanceof Message))
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Message))
             return false;
         Message other = (Message) obj;
         if ((administrator == null && other.administrator != null) || administrator != null && other.administrator == null) {
@@ -75,10 +75,10 @@ public class Message implements Serializable {
         }
         return other.id == id && other.message.equals(message) && other.date.equals(date) && other.time.equals(time) && other.status.equals(status) && other.patient.equals(patient);
     }
-    
+
     @Override
     public String toString() {
         return "Message{" + "id=" + id + ", message='" + message + '\'' + ", date=" + date + ", time=" + time + ", status=" + status + ", patient=" + patient + ", administrator=" + administrator
-            + '}';
+                + '}';
     }
 }

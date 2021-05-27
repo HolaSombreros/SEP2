@@ -7,14 +7,20 @@ import javafx.collections.ObservableList;
 import server.model.domain.appointment.Type;
 import server.model.domain.faq.Category;
 
-public interface AddFAQViewModelInterface
-{
-  void reset();
-  boolean addEditFAQ();
-  void back();
-  ObservableList<Category> getAllCategories();
-  ObjectProperty<Category> getCategoryProperty();
-  StringProperty getQuestionProperty();
-  StringProperty getAnswerProperty();
-  StringProperty getErrorProperty();
+public interface AddFAQViewModelInterface {
+    void reset();
+
+    boolean addEditFAQ();
+
+    void back();
+
+    ObservableList<Category> getAllCategories();
+
+    ObjectProperty<Category> getCategoryProperty();
+
+    StringProperty getQuestionProperty();
+
+    StringProperty getAnswerProperty();
+
+    StringProperty getErrorProperty();
 }

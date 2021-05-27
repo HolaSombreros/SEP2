@@ -9,22 +9,22 @@ public class FAQ implements Serializable {
     private String question;
     private String answer;
     private Category category;
-    
+
     public FAQ(int id, String question, String answer, Category category) {
         this.id = id;
         this.question = question;
         this.answer = answer;
         this.category = category;
     }
-    
+
     public int getId() {
         return id;
     }
-    
+
     public String getQuestion() {
         return question;
     }
-    
+
     public String getAnswer() {
         return answer;
     }
@@ -33,7 +33,7 @@ public class FAQ implements Serializable {
         return category;
     }
 
-    public void setQuestion(String question)  {
+    public void setQuestion(String question) {
         this.question = question;
     }
 
@@ -53,7 +53,7 @@ public class FAQ implements Serializable {
         FAQ faq = (FAQ) obj;
         return id == faq.id && question.equals(faq.question) && answer.equals(faq.answer) && category.equals(faq.category);
     }
-    
+
     @Override
     public String toString() {
         return String.format("[%s] (#%d) %s  -  %s", category.toString(), id, question, answer);

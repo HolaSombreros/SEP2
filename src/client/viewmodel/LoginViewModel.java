@@ -22,44 +22,42 @@ public class LoginViewModel implements LoginViewModelInterface {
         passwordProperty = new SimpleStringProperty("");
         errorProperty = new SimpleStringProperty("");
     }
-    
+
     @Override
-    public void reset(){
+    public void reset() {
         errorProperty.setValue("");
         cprProperty.setValue("");
         passwordProperty.setValue("");
     }
-    
+
     @Override
-    public int login(){
+    public int login() {
         try {
             User loggedIn = userModel.login(cprProperty.get(), passwordProperty.get());
             viewState.setUser(loggedIn);
             if (loggedIn instanceof Staff) {
                 // Account is a Admin / Nurse
                 return 2;
-            }
-            else {
+            } else {
                 // Account is only a Patient
                 return 1;
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             errorProperty.set(e.getMessage());
             return 0;
         }
     }
-    
+
     @Override
     public StringProperty getCprProperty() {
         return cprProperty;
     }
-    
+
     @Override
     public StringProperty getPasswordProperty() {
         return passwordProperty;
     }
-    
+
     @Override
     public StringProperty getErrorProperty() {
         return errorProperty;

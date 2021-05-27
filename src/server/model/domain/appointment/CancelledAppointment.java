@@ -5,7 +5,7 @@ public class CancelledAppointment extends Status {
     public boolean equals(Object obj) {
         return obj instanceof CancelledAppointment;
     }
-    
+
     @Override
     public String toString() {
         return "Cancelled";

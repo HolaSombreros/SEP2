@@ -15,46 +15,43 @@ public class ViewState {
         selectedUser = null;
         selectedFAQ = null;
     }
-    
+
     public int getSelectedAppointment() {
         return selectedAppointment;
     }
-    
+
     public void setSelectedAppointment(int appointment) {
         this.selectedAppointment = appointment;
     }
-    
+
     public void removeSelectedAppointment() {
         selectedAppointment = -1;
     }
-    
+
     public User getUser() {
         return user;
     }
-    
+
     public void setUser(User user) {
         this.user = user;
     }
-    
+
     public void removeUser() {
         user = null;
     }
 
-    public User getSelectedUser()
-    {
+    public User getSelectedUser() {
         return selectedUser;
     }
 
-    public void setSelectedUser(User user)
-    {
+    public void setSelectedUser(User user) {
         this.selectedUser = user;
     }
 
-    public void removeSelectedUser()
-    {
+    public void removeSelectedUser() {
         selectedUser = null;
     }
-    
+
     public FAQ getSelectedFAQ() {
         return selectedFAQ;
     }

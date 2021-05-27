@@ -9,13 +9,14 @@ public class Address implements Serializable {
     private String number;
     private int zipcode;
     private String city;
-    
+
     public Address(String street, String number, int zipcode, String city) {
         setStreet(street);
         setNumber(number);
         setZipcode(zipcode);
         setCity(city);
     }
+
     public String getStreet() {
         return street;
     }
@@ -33,7 +34,7 @@ public class Address implements Serializable {
         AddressValidator.setNumber(number);
         this.number = number;
     }
-    
+
     public int getZipcode() {
         return zipcode;
     }
@@ -42,29 +43,29 @@ public class Address implements Serializable {
         AddressValidator.setZipcode(zipcode);
         this.zipcode = zipcode;
     }
-    
+
     public String getCity() {
         return city;
     }
-    
+
     public void setCity(String city) {
-       AddressValidator.setCity(city);
+        AddressValidator.setCity(city);
         this.city = city;
     }
-    
+
     public Address copy() {
         return new Address(street, number, zipcode, city);
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Address))
             return false;
-        
+
         Address other = (Address) obj;
         return street.equals(other.street) && city.equals(other.city) && number.equals(other.number) && zipcode == other.zipcode;
     }
-    
+
     @Override
     public String toString() {
         return getZipcode() + " - " + getCity() + ": " + getStreet() + " " + getNumber();

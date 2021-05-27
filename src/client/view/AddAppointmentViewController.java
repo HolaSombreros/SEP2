@@ -10,14 +10,19 @@ import server.model.domain.appointment.Type;
 
 public class AddAppointmentViewController extends ViewController {
     private AddAppointmentViewModelInterface viewModel;
-    
-    @FXML private DatePicker datePicker;
-    @FXML private ChoiceBox<TimeInterval> timeIntervalChoiceBox;
-    @FXML private ChoiceBox<Type> typeChoiceBox;
-    @FXML private Label errorLabel;
-    
-    public AddAppointmentViewController() {}
-    
+
+    @FXML
+    private DatePicker datePicker;
+    @FXML
+    private ChoiceBox<TimeInterval> timeIntervalChoiceBox;
+    @FXML
+    private ChoiceBox<Type> typeChoiceBox;
+    @FXML
+    private Label errorLabel;
+
+    public AddAppointmentViewController() {
+    }
+
     @Override
     protected void init() {
         viewModel = getViewModelFactory().getAddAppointmentViewModel();
@@ -31,20 +36,20 @@ public class AddAppointmentViewController extends ViewController {
         errorLabel.textFillProperty().bind(viewModel.getErrorFillProperty());
         reset();
     }
-    
+
     @Override
     public void reset() {
         viewModel.reset();
         viewModel.disableDays(datePicker);
     }
-    
+
     @FXML
     private void createAppointment() {
         if (viewModel.createAppointment()) {
             getViewHandler().openView(View.APPOINTMENTLIST);
         }
     }
-    
+
     @FXML
     private void cancel() {
         getViewHandler().openView(View.APPOINTMENTLIST);

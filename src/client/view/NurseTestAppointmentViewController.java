@@ -10,17 +10,25 @@ import javafx.scene.control.Label;
 
 public class NurseTestAppointmentViewController extends ViewController {
 
-   @FXML private Label patientNameLabel;
-   @FXML private Label patientCprLabel;
-   @FXML private Label statusLabel;
-   @FXML private ChoiceBox<String> resultChoiceBox;
-   @FXML private Label dateLabel;
-   @FXML private Label timeIntervalLabel;
-   @FXML private Label errorLabel;
-   @FXML private Button saveChangesButton;
+    @FXML
+    private Label patientNameLabel;
+    @FXML
+    private Label patientCprLabel;
+    @FXML
+    private Label statusLabel;
+    @FXML
+    private ChoiceBox<String> resultChoiceBox;
+    @FXML
+    private Label dateLabel;
+    @FXML
+    private Label timeIntervalLabel;
+    @FXML
+    private Label errorLabel;
+    @FXML
+    private Button saveChangesButton;
 
 
-   private NurseTestAppointmentViewModelInterface viewModel;
+    private NurseTestAppointmentViewModelInterface viewModel;
 
 
     public NurseTestAppointmentViewController() {
@@ -49,11 +57,13 @@ public class NurseTestAppointmentViewController extends ViewController {
     }
 
 
-    @FXML private void saveChangesAppointment() {
+    @FXML
+    private void saveChangesAppointment() {
         viewModel.saveChanges();
     }
 
-    @FXML private void goBack() {
+    @FXML
+    private void goBack() {
         viewModel.back();
         getViewHandler().openView(View.NURSEDASHBOARD);
     }
