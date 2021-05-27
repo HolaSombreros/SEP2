@@ -1,6 +1,7 @@
 package client.viewmodel;
 
 import client.model.AppointmentModel;
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,11 +17,14 @@ import server.model.domain.user.ApprovedStatus;
 import server.model.domain.user.Patient;
 import server.model.domain.appointment.TimeInterval;
 import server.model.domain.appointment.Type;
+import utility.observer.event.ObserverEvent;
+import utility.observer.listener.LocalListener;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
-public class AddAppointmentViewModel implements AddAppointmentViewModelInterface {
+public class AddAppointmentViewModel implements AddAppointmentViewModelInterface
+{
     private AppointmentModel appointmentModel;
     private ViewState viewState;
     private ObjectProperty<LocalDate> date;

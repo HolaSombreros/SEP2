@@ -1,6 +1,7 @@
 package client.viewmodel;
 
 import client.model.AppointmentModel;
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,8 +11,11 @@ import javafx.collections.ObservableList;
 import server.model.domain.appointment.Appointment;
 import server.model.domain.appointment.AppointmentList;
 import server.model.domain.user.Patient;
+import utility.observer.event.ObserverEvent;
+import utility.observer.listener.LocalListener;
 
-public class AppointmentListViewModel implements AppointmentListViewModelInterface {
+public class AppointmentListViewModel implements AppointmentListViewModelInterface, LocalListener<Object, Object>
+{
     private ObservableList<AppointmentTableViewModel> appointments;
     private ObjectProperty<AppointmentTableViewModel> selectedAppointment;
     private ViewState viewState;
@@ -24,6 +28,7 @@ public class AppointmentListViewModel implements AppointmentListViewModelInterfa
         this.appointments = FXCollections.observableArrayList();
         this.errorProperty = new SimpleStringProperty();
         this.selectedAppointment = new SimpleObjectProperty<>();
+        appointmentModel.addListener(this, "NewAppointment");
     }
     
     public ObservableList<AppointmentTableViewModel> getAppointments() {
@@ -34,7 +39,6 @@ public class AppointmentListViewModel implements AppointmentListViewModelInterfa
     public void reset() {
         viewState.removeSelectedAppointment();
         errorProperty.set("");
-        appointments.clear();
         updateList();
     }
     
@@ -67,5 +71,10 @@ public class AppointmentListViewModel implements AppointmentListViewModelInterfa
             errorProperty.set("Please select an appointment first");
             return false;
         }
+    }
+
+    @Override
+    public void propertyChange(ObserverEvent<Object, Object> observerEvent) {
+        Platform.runLater(this::updateList);
     }
 }

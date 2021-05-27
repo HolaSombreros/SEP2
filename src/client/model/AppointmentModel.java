@@ -8,7 +8,7 @@ import utility.observer.subject.LocalSubject;
 import java.rmi.RemoteException;
 import java.time.LocalDate;
 
-public interface AppointmentModel
+public interface AppointmentModel extends LocalSubject<Object, Object>
 {
     void addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient);
     AppointmentList getAppointmentsByUser(User patient);
