@@ -12,50 +12,50 @@ import java.util.List;
 
 public class AppointmentList implements Serializable {
     private List<Appointment> appointments;
-
+    
     public AppointmentList() {
         appointments = new ArrayList<>();
     }
-
+    
     public List<Appointment> getAppointments() {
         return appointments;
     }
-
+    
     public void add(Appointment appointment) {
-        if (appointment != null)
+        if(appointment != null)
             appointments.add(appointment);
         else
             throw new IllegalArgumentException("Cannot be null");
     }
-
+    
     public void remove(int index) {
         if (index >= size() || index < 0) {
             throw new IllegalArgumentException("Index out of bounds");
         }
         appointments.remove(index);
     }
-
+    
     public void remove(Appointment appointment) {
         appointments.remove(appointment);
     }
-
+    
     public void addAll(List<Appointment> appointments) {
         this.appointments.addAll(appointments);
     }
-
+    
     public Appointment get(int index) {
         if (index < 0 || index >= size()) {
             throw new IllegalArgumentException("Please specify a valid index");
         }
         return appointments.get(index);
     }
-
+    
     public int size() {
         return appointments.size();
     }
 
     public AppointmentList getAppointmentsByUser(User user) {
-        if (user == null)
+        if(user == null)
             throw new IllegalArgumentException("User cannot be null");
         AppointmentList list = new AppointmentList();
         for (Appointment appointment : appointments) {
@@ -67,7 +67,8 @@ public class AppointmentList implements Serializable {
         return list;
     }
 
-    public AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType) {
+    public AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType)
+    {
         AppointmentList filteredList = new AppointmentList();
 
         if (criteria != null && !criteria.isEmpty()) {
@@ -77,7 +78,8 @@ public class AppointmentList implements Serializable {
                     filteredList.add(appointment);
                 }
             }
-        } else {
+        }
+        else {
             filteredList.addAll(appointments);
         }
 
@@ -132,7 +134,7 @@ public class AppointmentList implements Serializable {
         return false;
     }
 
-    public boolean contains(Appointment appointment) {
+    public boolean contains(Appointment appointment){
         for (Appointment a : appointments) {
             if (a.equals(appointment)) {
                 return true;
@@ -140,16 +142,17 @@ public class AppointmentList implements Serializable {
         }
         return false;
     }
-
+    
     public AppointmentList getUpcomingAppointments(Patient patient) {
         AppointmentList list = getAppointmentsByUser(patient);
         list = filterAppointmentsByStatus(list, false);
+        list = removeCancelledAppointments(list);
         if (list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
                 for (int j = 1; j < list.size(); j++) {
                     Appointment app1 = list.get(j - 1);
                     Appointment app2 = list.get(j);
-
+                    
                     // one is before the other
                     if (app2.getDate().isBefore(app1.getDate())) {
                         list.set(j - 1, app2);
@@ -167,7 +170,17 @@ public class AppointmentList implements Serializable {
         }
         return list;
     }
-
+    
+    private AppointmentList removeCancelledAppointments(AppointmentList list) {
+        for (int i = list.getAppointments().size() - 1; i >= 0; i--) {
+            Appointment appointment = list.get(i);
+            if (appointment.getStatus() instanceof CancelledAppointment) {
+                list.remove(i);
+            }
+        }
+        return list;
+    }
+    
     public void set(int index, Appointment appointment) {
         if (index < 0 || index >= size()) {
             throw new IndexOutOfBoundsException("Index out of bounds");
@@ -176,14 +189,14 @@ public class AppointmentList implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof AppointmentList))
+    public boolean equals(Object obj){
+        if(!(obj instanceof AppointmentList))
             return false;
-
+        
         AppointmentList other = (AppointmentList) obj;
         if (other.size() != size())
             return false;
-
+        
         for (int i = 0; i < size(); i++) {
             if (!appointments.get(i).equals(other.appointments.get(i))) {
                 return false;
@@ -191,7 +204,7 @@ public class AppointmentList implements Serializable {
         }
         return true;
     }
-
+    
     @Override
     public String toString() {
         String str = "";
