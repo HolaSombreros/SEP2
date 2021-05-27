@@ -126,7 +126,7 @@ public class Client implements Model, RemoteListener<Object, Object> {
     public void addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) {
         try {
             Appointment appointment = server.addAppointment(date, timeInterval, type, patient);
-        //     faqProperty.firePropertyChange("NewAppointment", appointment.getPatient(), appointment);
+            property.firePropertyChange("NewAppointment", appointment.getPatient(), appointment);
         }
         catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
@@ -205,16 +205,6 @@ public class Client implements Model, RemoteListener<Object, Object> {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
-/*
-    @Override
-    public void removeUser(User user) {
-        try {
-            server.removeUser(user);
-        }
-        catch (RemoteException e) {
-            throw new IllegalStateException(getExceptionMessage(e), e);
-        }
-    }*/
 
     @Override public UserList getPatients()
     {
