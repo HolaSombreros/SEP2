@@ -19,6 +19,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDate;
+import java.util.List;
 
 import server.mediator.RemoteModel;
 
@@ -360,6 +361,36 @@ public class Client implements Model, RemoteListener<Object, Object> {
         }
         catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e),e);
+        }
+    }
+    
+    @Override
+    public List<Message> getUnreadMessages(Patient patient) {
+        try {
+            return server.getUnreadMessages(patient);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
+        }
+    }
+    
+    @Override
+    public boolean isPatientChatBeingViewed(String cpr) {
+        try {
+            return server.isPatientChatBeingViewed(cpr);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
+        }
+    }
+    
+    @Override
+    public void lockChat(String cpr, boolean locked) {
+        try {
+            server.lockChat(cpr, locked);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
     

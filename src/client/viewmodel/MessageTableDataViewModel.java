@@ -3,6 +3,8 @@ package client.viewmodel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import server.model.domain.chat.Message;
+import server.model.domain.chat.ReadStatus;
+import server.model.domain.chat.UnreadStatus;
 import server.model.domain.user.Patient;
 
 public class MessageTableDataViewModel {
@@ -17,7 +19,12 @@ public class MessageTableDataViewModel {
         if (patient.getChat().size() > 0) {
             Message lastMessage = patient.getChat().get(patient.getChat().size() - 1);
             date = new SimpleStringProperty(lastMessage.getDate().toString());
-            status = new SimpleStringProperty(lastMessage.getStatus().toString());
+            if (lastMessage.getAdministrator() == null) {
+                status = new SimpleStringProperty(lastMessage.getStatus().toString());
+            }
+            else {
+                status = new SimpleStringProperty(new ReadStatus().toString());
+            }
         }
         else {
             date = new SimpleStringProperty("N/A");

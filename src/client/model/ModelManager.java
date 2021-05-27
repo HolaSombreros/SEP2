@@ -14,6 +14,7 @@ import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class ModelManager implements Model, LocalListener<Object, Object> {
     private PropertyChangeAction<Object, Object> property;
@@ -175,6 +176,21 @@ public class ModelManager implements Model, LocalListener<Object, Object> {
     @Override
     public void sendMessage(Patient patient, String message, Administrator administrator) {
         client.sendMessage(patient, message, administrator);
+    }
+    
+    @Override
+    public List<Message> getUnreadMessages(Patient patient) {
+        return client.getUnreadMessages(patient);
+    }
+    
+    @Override
+    public boolean isPatientChatBeingViewed(String cpr) {
+        return client.isPatientChatBeingViewed(cpr);
+    }
+    
+    @Override
+    public void lockChat(String cpr, boolean locked) {
+        client.lockChat(cpr, locked);
     }
     
     @Override
