@@ -2,6 +2,7 @@ package server.mediator;
 
 import server.model.*;
 import server.model.domain.appointment.*;
+import server.model.domain.chat.Message;
 import server.model.domain.faq.Category;
 import server.model.domain.faq.FAQ;
 import server.model.domain.faq.FAQList;
@@ -19,6 +20,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDate;
+import java.util.List;
 
 public class RemoteModelManager implements RemoteModel, LocalListener<Object, Object> {
     private ServerModel serverModel;
@@ -184,6 +186,21 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
     @Override
     public void sendMessage(Patient patient, String message, Administrator administrator) throws RemoteException {
         serverModel.sendMessage(patient, message, administrator);
+    }
+    
+    @Override
+    public List<Message> getUnreadMessages(Patient patient) throws RemoteException {
+        return serverModel.getUnreadMessages(patient);
+    }
+    
+    @Override
+    public boolean isPatientChatBeingViewed(String cpr) throws RemoteException {
+        return serverModel.isPatientChatBeingViewed(cpr);
+    }
+    
+    @Override
+    public void lockChat(String cpr, boolean locked) throws RemoteException {
+        serverModel.lockChat(cpr, locked);
     }
     
     private void startRegistry() throws RemoteException {

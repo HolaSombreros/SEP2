@@ -2,6 +2,7 @@ package server.model;
 
 import server.database.*;
 import server.model.domain.appointment.*;
+import server.model.domain.chat.Chat;
 import server.model.domain.chat.Message;
 import server.model.domain.chat.UnreadStatus;
 import server.model.domain.faq.Category;
@@ -21,6 +22,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ServerModelManager implements ServerModel
 {
@@ -757,12 +759,26 @@ public class ServerModelManager implements ServerModel
             patient = getPatient(patient.getCpr());
             message = message.trim();
             Message newMessage = managerFactory.getChatManager().addMessage(message, LocalDate.now(), LocalTime.now(), new UnreadStatus(), patient, administrator);
-//            if (administrator != null) {
-//                newMessage.read();
-//                managerFactory.getChatManager().readMessage(newMessage);
-//            }
             
-            // do have this method in Chat class:   getUnreadMessages() : List<Message> and message.read();
+            if (administrator != null) {
+                // Admin replied so mark all unread patient messages as read - keep messages from admin unread until the patient sends a reply
+                for (Message m : patient.getChat().getUnreadMessages()) {
+                    if (m.getAdministrator() == null) {
+                        m.read();
+                        managerFactory.getChatManager().readMessage(m);
+                    }
+                }
+            }
+            else {
+                // Patient replied so mark all unread admin messages as read - keep messages from patient unread until an admin sends a reply
+                for (Message m : patient.getChat().getUnreadMessages()) {
+                    if (m.getAdministrator() != null) {
+                        m.read();
+                        managerFactory.getChatManager().readMessage(m);
+                    }
+                }
+            }
+            
             patient.getChat().add(newMessage);
             property.firePropertyChange("PatientMessage", patient, newMessage);
         }
@@ -770,6 +786,22 @@ public class ServerModelManager implements ServerModel
             e.printStackTrace();
             throw new RemoteException(e.getMessage());
         }
+    }
+    
+    @Override
+    public List<Message> getUnreadMessages(Patient patient) {
+        return patient.getChat().getUnreadMessages();
+    }
+    
+    @Override
+    public boolean isPatientChatBeingViewed(String cpr) {
+        return userList.getPatient(cpr).getChat().isChatLocked();
+    }
+    
+    @Override
+    public void lockChat(String cpr, boolean locked) {
+        Chat chat = userList.getPatient(cpr).getChat();
+        chat.setLocked(locked);
     }
     
     @Override

@@ -8,7 +8,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import server.model.domain.chat.Message;
-import server.model.domain.chat.ReadStatus;
 import server.model.domain.user.Patient;
 import server.model.domain.user.User;
 import server.model.domain.user.UserList;
@@ -46,7 +45,7 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
             Patient patient = (Patient) user;
             List<Message> messages = patient.getChat().getUnreadMessages();
             if (!showReadMessages.get()) {
-                if (messages.size() > 0) {
+                if (messages.size() > 0 && messages.get(messages.size() - 1).getAdministrator() == null) {
                     tableData.add(new MessageTableDataViewModel(patient));
                 }
             }
@@ -64,6 +63,13 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
                 errorFill.set(Color.RED);
                 return false;
             }
+            // Is the selected chat locked and occupied by another admin right now?
+            if (model.isPatientChatBeingViewed(selectedChat.get().getCprProperty().get())) {
+                error.set("Another Administrator is currently viewing this chat log");
+                errorFill.set(Color.RED);
+                return false;
+            }
+            model.lockChat(selectedChat.get().getCprProperty().get(), true);
             viewState.setSelectedUser(model.getPatients().getUserByCpr(selectedChat.get().getCprProperty().get()));
             return true;
         }

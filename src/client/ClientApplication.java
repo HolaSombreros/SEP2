@@ -6,6 +6,7 @@ import client.view.ViewHandler;
 import client.viewmodel.ViewModelFactory;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import server.model.domain.user.Administrator;
 import server.model.domain.user.User;
 
 public class ClientApplication extends Application {
@@ -22,10 +23,14 @@ public class ClientApplication extends Application {
     
     @Override
     public void stop() {
-        User user = (User)viewModelFactory.getViewState().getUser();
+        User user = viewModelFactory.getViewState().getUser();
         // if the user is logged in, log him out
         if (user != null) {
             model.logout(user);
+            User selected = viewModelFactory.getViewState().getSelectedUser();
+            if (user instanceof Administrator && selected != null) {
+                model.lockChat(selected.getCpr(), false);
+            }
         }
         model.close();
     }
