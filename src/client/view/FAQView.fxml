@@ -58,7 +58,6 @@
       </Label>
       <HBox alignment="CENTER" maxWidth="500.0" spacing="25.0">
          <children>
-            <Button minWidth="90.0" mnemonicParsing="false" onAction="#chat" text="Enter Chat" />
             <Button fx:id="addEditFAQ" minWidth="90.0" mnemonicParsing="false" onAction="#addEditFAQ" text="Add/Edit FAQ">
                <HBox.margin>
                   <Insets />

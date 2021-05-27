@@ -47,11 +47,6 @@ public class FAQViewController extends ViewController {
         viewModel.reset();
     }
     
-    @FXML
-    private void chat() {
-        getViewHandler().openView(View.ADMINMESSAGELIST);
-    }
-    
     @FXML private void removeButton(){
         viewModel.remove();
     }
