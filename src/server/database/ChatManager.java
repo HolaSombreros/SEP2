@@ -69,5 +69,11 @@ public class ChatManager {
         }
     }
 
-
+    public void readMessage(Message message) throws SQLException {
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("UPDATE message SET status = ? WHERE message_id = ?;");
+            statement.setString(1, new ReadStatus().toString());
+            statement.setInt(2, message.getId());
+        }
+    }
 }

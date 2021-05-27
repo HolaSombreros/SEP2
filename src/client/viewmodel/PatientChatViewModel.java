@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import server.model.domain.chat.Message;
-import server.model.domain.chat.UnreadStatus;
 import server.model.domain.user.Administrator;
 import server.model.domain.user.Patient;
 import utility.observer.event.ObserverEvent;
@@ -47,6 +46,7 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
     
     @Override
     public void exitChat() {
+        model.lockChat(viewState.getSelectedUser().getCpr(), false);
         viewState.removeSelectedUser();
     }
     
@@ -59,12 +59,11 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         user.set((viewState.getUser()).getFirstName());
         resetInputs();
         loadChatList();
-//        if (viewState.getUser() instanceof Administrator) {
-//            Message lastMessage = ((Patient) viewState.getSelectedUser()).getChat().getLastMessage();
-//            if (lastMessage != null && lastMessage.getStatus() instanceof UnreadStatus && lastMessage.getAdministrator() != null) {
-//                model.readLastMessage((Patient) viewState.getSelectedUser());
-//            }
-//        }
+        
+        // Is the actor an admin? Then lock the chat through the model
+        if (viewState.getUser() instanceof Administrator) {
+        
+        }
     }
 
     private void addMessageBox(Message message) {
@@ -102,9 +101,7 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         else {
             text.setStyle("-fx-background-color: #E9967A;" + text.getStyle());
         }
-        if (messages.size() < 1 || !((Label) ((VBox) (messages.get(messages.size() - 1))).getChildren().get(0)).getText().equals(sender)) {
-            newMessage.getChildren().add(username);
-        }
+        newMessage.getChildren().add(username);
         newMessage.getChildren().add(text);
         messages.add(newMessage);
         updated.set(true);

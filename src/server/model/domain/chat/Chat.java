@@ -6,9 +6,11 @@ import java.util.List;
 
 public class Chat implements Serializable {
     private List<Message> messages;
+    private boolean locked;
 
     public Chat() {
         messages = new ArrayList<>();
+        locked = false;
     }
 
     public void add(Message message){
@@ -58,6 +60,14 @@ public class Chat implements Serializable {
             }
         }
         return false;
+    }
+    
+    public boolean isChatLocked() {
+        return locked;
+    }
+    
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 
     @Override

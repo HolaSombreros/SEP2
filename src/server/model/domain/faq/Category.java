@@ -3,15 +3,16 @@ package server.model.domain.faq;
 import java.io.Serializable;
 
 public enum Category implements Serializable {
-    GENERAL("General questions"),
-    PASSPORT("How can I obtain my passport for the COVID-vaccination?");
-
+    TEST("Test"),
+    GENERAL("General"),
+    VACCINE("Vaccine");
+    
     private String title;
-
+    
     private Category(String title) {
         this.title = title;
     }
-
+    
     public static Category fromString(String value) {
         for (Category option : Category.values()) {
             if (option.title.equalsIgnoreCase(value)) {
@@ -20,7 +21,7 @@ public enum Category implements Serializable {
         }
         return null;
     }
-
+    
     @Override
     public String toString() {
         return title;
