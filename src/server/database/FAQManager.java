@@ -17,14 +17,24 @@ public class FAQManager {
             statement.setString(2, answer);
             statement.setString(3, category.toString());
             statement.setString(4, creator.getCpr());
-            statement.executeUpdate();
-            ResultSet keys = statement.getGeneratedKeys();
-            if (keys.next()) {
-                return new FAQ(keys.getInt("faq_id"), question, answer, category);
+            if(!isFAQ(question, answer)) {
+                statement.executeUpdate();
+                ResultSet keys = statement.getGeneratedKeys();
+                if (keys.next())
+                    return new FAQ(keys.getInt("faq_id"), question, answer, category);
+                 else
+                    throw new SQLException("No keys were generated");
             }
-            else {
-                throw new SQLException("No keys were generated");
-            }
+        }
+        return null;
+    }
+    public boolean isFAQ(String question, String answer) throws SQLException {
+        try(Connection connection = DatabaseManager.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM faq WHERE question = ? AND answer = ?");
+            statement.setString(1, question);
+            statement.setString(2, answer);
+            ResultSet set = statement.executeQuery();
+            return set.next();
         }
     }
 
