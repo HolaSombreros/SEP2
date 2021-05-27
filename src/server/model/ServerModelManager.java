@@ -12,6 +12,7 @@ import server.model.validator.AppointmentValidator;
 import server.model.validator.FAQValidator;
 import server.model.validator.MessageValidator;
 import utility.observer.listener.GeneralListener;
+import utility.observer.listener.LocalListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
 
@@ -62,7 +63,7 @@ public class ServerModelManager implements ServerModel
         loadAppointments();
 
         loadFAQs();
-        addDummyFAQS();
+       // addDummyFAQS();
 
 //        PLEASE PUT THIS AFTER LOADING THE SCHEDULES AND APPOINTMENTS IF YOU WANNA MOVE IT
         loadAvailableTimeIntervals();
@@ -156,7 +157,6 @@ public class ServerModelManager implements ServerModel
                 "Older adults\n" +
                 "People of all ages with certain underlying medical conditions\n" +
                 "Pregnant and recently pregnant people are also at increased risk for severe illness from COVID-19.", Category.GENERAL,(Administrator)userList.getAdminList().getUsers().get(0));
-
     }
 
     private void loadFAQs() throws RemoteException
