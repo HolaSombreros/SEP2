@@ -562,6 +562,7 @@ public class ServerModelManager implements ServerModel
     public synchronized void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) throws RemoteException {
         try {
             Appointment appointment = appointmentList.getAppointmentById(id);
+            AppointmentValidator.validateRescheduleAppointment(date, timeInterval);
             if (appointment.getStatus() instanceof UpcomingAppointment) {
                 if (!availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(date,timeInterval)).isAvailable())
                     throw new IllegalStateException("The selected time is no longer available");
@@ -612,6 +613,7 @@ public class ServerModelManager implements ServerModel
     @Override
     public synchronized void changeResult(int id, Result result) throws RemoteException {
         try {
+            AppointmentValidator.validateChangedResult(result);
             TestAppointment appointment = (TestAppointment) appointmentList.getAppointmentById(id);
             appointment.setResult(result);
             managerFactory.getAppointmentManager().changeResult(appointment);
@@ -621,11 +623,10 @@ public class ServerModelManager implements ServerModel
             e.printStackTrace();
             throw new RemoteException(e.getMessage());
         }
-
     }
     
     @Override
-    public AppointmentList getUpcomingAppointments(Patient patient) {
+    public synchronized AppointmentList getUpcomingAppointments(Patient patient) {
         return appointmentList.getUpcomingAppointments(patient);
     }
     
@@ -789,17 +790,17 @@ public class ServerModelManager implements ServerModel
     }
     
     @Override
-    public List<Message> getUnreadMessages(Patient patient) {
+    public synchronized List<Message> getUnreadMessages(Patient patient) {
         return patient.getChatLog().getUnreadMessages();
     }
     
     @Override
-    public boolean isPatientChatBeingViewed(String cpr) {
+    public synchronized boolean isPatientChatBeingViewed(String cpr) {
         return userList.getPatient(cpr).getChatLog().isChatLocked();
     }
     
     @Override
-    public void lockChat(String cpr, boolean locked) {
+    public synchronized void lockChat(String cpr, boolean locked) {
         ChatLog chatLog = userList.getPatient(cpr).getChatLog();
         chatLog.setLocked(locked);
     }

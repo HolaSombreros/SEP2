@@ -49,7 +49,6 @@ public abstract class Appointment implements Serializable {
     }
 
     public void setDate(LocalDate date) {
-        AppointmentValidator.validateDate(date);
         this.date = date;
     }
 
@@ -58,7 +57,6 @@ public abstract class Appointment implements Serializable {
     }
 
     public void setTimeInterval(TimeInterval timeInterval) {
-        AppointmentValidator.validateTimeInterval(timeInterval);
         this.timeInterval = timeInterval;
     }
 
@@ -79,7 +77,6 @@ public abstract class Appointment implements Serializable {
     }
 
     public void setPatient(Patient patient) {
-        AppointmentValidator.validatePatient(patient);
         this.patient = patient;
     }
 
@@ -88,7 +85,6 @@ public abstract class Appointment implements Serializable {
     }
 
     public void setNurse(Nurse nurse) {
-        AppointmentValidator.validateNurse(nurse);
         this.nurse = nurse;
     }
 
@@ -98,7 +94,6 @@ public abstract class Appointment implements Serializable {
     }
 
     public void reschedule(LocalDate date, TimeInterval timeInterval, Nurse nurse) {
-        //TODO: DOUBLE CHECK IT
         setDate(date);
         setTimeInterval(timeInterval);
         setNurse(nurse);

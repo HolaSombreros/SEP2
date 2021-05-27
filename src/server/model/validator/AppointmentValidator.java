@@ -1,5 +1,6 @@
 package server.model.validator;
 
+import server.model.domain.appointment.Result;
 import server.model.domain.appointment.TimeInterval;
 import server.model.domain.appointment.Type;
 import server.model.domain.user.Nurse;
@@ -43,6 +44,17 @@ public class AppointmentValidator {
     public static void validateNurse(Nurse nurse) {
         if (nurse == null) {
             throw new IllegalArgumentException("Please specify a nurse");
+        }
+    }
+    
+    public static void validateRescheduleAppointment(LocalDate date, TimeInterval timeInterval) {
+        validateDate(date);
+        validateTimeInterval(timeInterval);
+    }
+    
+    public static void validateChangedResult(Result result) {
+        if (result == null) {
+            throw new IllegalArgumentException("Please specify the result");
         }
     }
 }

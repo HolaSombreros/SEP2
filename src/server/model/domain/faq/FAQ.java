@@ -1,7 +1,5 @@
 package server.model.domain.faq;
 
-import server.model.validator.FAQValidator;
-
 import java.io.Serializable;
 
 public class FAQ implements Serializable {

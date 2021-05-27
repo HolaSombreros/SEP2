@@ -129,7 +129,6 @@ public abstract class User implements Serializable {
         }
 
         return cpr.equals(user.cpr) &&
-<<<<<<< HEAD
             password.equals(user.password) &&
             firstName.equals(user.firstName) &&
             lastName.equals(user.lastName) &&
@@ -145,21 +144,4 @@ public abstract class User implements Serializable {
         else
             return cpr + " " + password + " " + firstName + " " + middleName + " " + lastName + " " + address.toString() + " " + phone + " " + email;
     }
-=======
-                password.equals(user.password) &&
-                firstName.equals(user.firstName) &&
-                lastName.equals(user.lastName) &&
-                address.equals(user.address) &&
-                phone.equals(user.phone) &&
-                email.equals(user.email);
-    }
-
-//    @Override
-//    public String toString() {
-//        if (middleName == null)
-//            return cpr + " " + password + " " + firstName + " " + lastName + " " + address.toString() + " " + phone + " " + email;
-//        else
-//            return cpr + " " + password + " " + firstName + " " + middleName + " " + lastName + " " + address.toString() + " " + phone + " " + email;
-//    }
->>>>>>> fd72e1b089a1f57d38ec0804c40164e05a5855f5
 }
