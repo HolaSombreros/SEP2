@@ -8,20 +8,12 @@ import javafx.scene.control.Label;
 public class DashboardViewController extends ViewController {
     private DashBoardViewModelInterface viewModel;
 
-    @FXML
-    private Label usernameLabel;
-    @FXML
-    private Label accessLabel;
-    @FXML
-    private Label timeLabel;
-    @FXML
-    private Label dateLabel;
-    @FXML
-    private Label vaccinationLabel;
-    @FXML
-    private Button applyButton;
-    @FXML
-    private Label nextAppointmentLabel;
+    @FXML private Label usernameLabel;
+    @FXML private Label timeLabel;
+    @FXML private Label dateLabel;
+    @FXML private Label vaccinationLabel;
+    @FXML private Button applyButton;
+    @FXML private Label nextAppointmentLabel;
 
     public DashboardViewController() {
         // empty - called by FXMLLoader
@@ -31,8 +23,6 @@ public class DashboardViewController extends ViewController {
     protected void init() {
         viewModel = getViewModelFactory().getDashBoardViewModel();
         usernameLabel.textProperty().bind(viewModel.getUsernameProperty());
-        accessLabel.textProperty().bind(viewModel.getAccessProperty());
-        accessLabel.visibleProperty().bind(viewModel.getAccessVisibilityProperty());
         timeLabel.textProperty().bind(viewModel.getTimeProperty());
         dateLabel.textProperty().bind(viewModel.getDateProperty());
         vaccinationLabel.textProperty().bind(viewModel.getVaccinationLabelProperty());

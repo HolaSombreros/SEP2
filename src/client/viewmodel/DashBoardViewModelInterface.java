@@ -14,10 +14,6 @@ public interface DashBoardViewModelInterface {
 
     StringProperty getUsernameProperty();
 
-    StringProperty getAccessProperty();
-
-    BooleanProperty getAccessVisibilityProperty();
-
     StringProperty getTimeProperty();
 
     StringProperty getDateProperty();

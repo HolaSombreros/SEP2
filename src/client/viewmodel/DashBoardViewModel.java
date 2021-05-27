@@ -25,8 +25,6 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     private ViewState viewState;
     private ObservableClock observableClock;
     private StringProperty username;
-    private StringProperty access;
-    private BooleanProperty accessVisibility;
     private StringProperty time;
     private StringProperty date;
     private StringProperty vaccinationLabel;
@@ -43,8 +41,6 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
         timer.start();
 
         this.username = new SimpleStringProperty();
-        this.access = new SimpleStringProperty();
-        this.accessVisibility = new SimpleBooleanProperty();
         this.time = new SimpleStringProperty();
         this.date = new SimpleStringProperty();
         this.vaccinationLabel = new SimpleStringProperty();
@@ -56,7 +52,6 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     public void reset() {
         username.set((viewState.getUser()).getFirstName());
         Patient patient = (Patient) viewState.getUser();
-        accessVisibility.set(false);
         vaccinationLabel.set(patient.getVaccineStatus().toString());
         disableButton.set(patient.getVaccineStatus() instanceof PendingStatus || patient.getVaccineStatus() instanceof ApprovedStatus);
 
@@ -98,16 +93,6 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     @Override
     public StringProperty getUsernameProperty() {
         return username;
-    }
-
-    @Override
-    public StringProperty getAccessProperty() {
-        return access;
-    }
-
-    @Override
-    public BooleanProperty getAccessVisibilityProperty() {
-        return accessVisibility;
     }
 
     @Override
