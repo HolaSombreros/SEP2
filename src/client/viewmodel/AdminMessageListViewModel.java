@@ -43,7 +43,7 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
         UserList patientList = model.getPatients();
         for (User user : patientList.getUsers()) {
             Patient patient = (Patient) user;
-            List<Message> messages = patient.getChat().getUnreadMessages();
+            List<Message> messages = patient.getChatLog().getUnreadMessages();
             if (!showReadMessages.get()) {
                 if (messages.size() > 0 && messages.get(messages.size() - 1).getAdministrator() == null) {
                     tableData.add(new MessageTableDataViewModel(patient));

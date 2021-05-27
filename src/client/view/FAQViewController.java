@@ -1,16 +1,11 @@
 package client.view;
 
 import client.viewmodel.FAQViewModelInterface;
-import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
-import server.model.domain.faq.Category;
-import server.model.domain.faq.FAQ;
 
 public class FAQViewController extends ViewController {
     private FAQViewModelInterface viewModel;

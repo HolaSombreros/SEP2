@@ -45,7 +45,7 @@ public class PatientChatViewController extends ViewController {
         viewModel.reset();
     }
     
-    @FXML private void onEnter(Event event){
+    @FXML private void onEnter(){
         sendMessage();
     }
 

@@ -37,9 +37,10 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         model.addListener(this,"PatientMessage");
     }
     
+    @Override
     public void loadChatList() {
         messages.clear();
-        for (Message message : model.getPatient(viewState.getSelectedUser().getCpr()).getChat().getMessages()) {
+        for (Message message : model.getPatient(viewState.getSelectedUser().getCpr()).getChatLog().getMessages()) {
             addMessageBox(message);
         }
     }
@@ -55,6 +56,7 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         return viewState.getUser() instanceof Administrator;
     }
     
+    @Override
     public void reset(){
         user.set((viewState.getUser()).getFirstName());
         resetInputs();

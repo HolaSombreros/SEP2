@@ -2,7 +2,7 @@ package server.model;
 
 import server.database.*;
 import server.model.domain.appointment.*;
-import server.model.domain.chat.Chat;
+import server.model.domain.chat.ChatLog;
 import server.model.domain.chat.Message;
 import server.model.domain.chat.UnreadStatus;
 import server.model.domain.faq.Category;
@@ -76,7 +76,7 @@ public class ServerModelManager implements ServerModel
             userList = managerFactory.getUserManager().getAllUsers();
             for(User user : userList.getUsers())
                 if(user instanceof Patient)
-                    ((Patient) user).setChat(managerFactory.getChatManager().getMessageByPatient((Patient)user));
+                    ((Patient) user).setChatLog(managerFactory.getChatManager().getMessageByPatient((Patient)user));
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -762,7 +762,7 @@ public class ServerModelManager implements ServerModel
             
             if (administrator != null) {
                 // Admin replied so mark all unread patient messages as read - keep messages from admin unread until the patient sends a reply
-                for (Message m : patient.getChat().getUnreadMessages()) {
+                for (Message m : patient.getChatLog().getUnreadMessages()) {
                     if (m.getAdministrator() == null) {
                         m.read();
                         managerFactory.getChatManager().readMessage(m);
@@ -771,7 +771,7 @@ public class ServerModelManager implements ServerModel
             }
             else {
                 // Patient replied so mark all unread admin messages as read - keep messages from patient unread until an admin sends a reply
-                for (Message m : patient.getChat().getUnreadMessages()) {
+                for (Message m : patient.getChatLog().getUnreadMessages()) {
                     if (m.getAdministrator() != null) {
                         m.read();
                         managerFactory.getChatManager().readMessage(m);
@@ -779,7 +779,7 @@ public class ServerModelManager implements ServerModel
                 }
             }
             
-            patient.getChat().add(newMessage);
+            patient.getChatLog().add(newMessage);
             property.firePropertyChange("PatientMessage", patient, newMessage);
         }
         catch (SQLException e) {
@@ -790,18 +790,18 @@ public class ServerModelManager implements ServerModel
     
     @Override
     public List<Message> getUnreadMessages(Patient patient) {
-        return patient.getChat().getUnreadMessages();
+        return patient.getChatLog().getUnreadMessages();
     }
     
     @Override
     public boolean isPatientChatBeingViewed(String cpr) {
-        return userList.getPatient(cpr).getChat().isChatLocked();
+        return userList.getPatient(cpr).getChatLog().isChatLocked();
     }
     
     @Override
     public void lockChat(String cpr, boolean locked) {
-        Chat chat = userList.getPatient(cpr).getChat();
-        chat.setLocked(locked);
+        ChatLog chatLog = userList.getPatient(cpr).getChatLog();
+        chatLog.setLocked(locked);
     }
     
     @Override

@@ -1,16 +1,16 @@
 package server.model.domain.user;
 
-import server.model.domain.chat.Chat;
+import server.model.domain.chat.ChatLog;
 
 public class Patient extends User {
     private VaccineStatus vaccineStatus;
-    private Chat chat;
+    private ChatLog chatLog;
     
     // TODO - PASS CHAT IN CONSTRUCTORS
     public Patient(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email, VaccineStatus validForVaccine) {
         super(cpr, password, firstName, middleName, lastName, address, phone, email);
         setVaccineStatus(validForVaccine);
-        chat = new Chat();
+        chatLog = new ChatLog();
     }
     
     public Patient(String cpr, String password, String firstName, String lastName, Address address, String phone, String email, VaccineStatus validForVaccine) {
@@ -25,12 +25,12 @@ public class Patient extends User {
         this.vaccineStatus = vaccineStatus;
     }
     
-    public Chat getChat() {
-        return chat;
+    public ChatLog getChatLog() {
+        return chatLog;
     }
     
-    public void setChat(Chat chat) {
-        this.chat = chat;
+    public void setChatLog(ChatLog chatLog) {
+        this.chatLog = chatLog;
     }
     
     @Override
@@ -42,8 +42,8 @@ public class Patient extends User {
         return super.equals(obj) && vaccineStatus.equals(patient.vaccineStatus);
     }
     
-//    @Override
-//    public String toString() {
-//        return super.toString() + " | Vaccine Status: " + vaccineStatus.toString();
-//    }
+    @Override
+    public String toString() {
+        return super.toString() + " | Vaccine Status: " + vaccineStatus.toString();
+    }
 }

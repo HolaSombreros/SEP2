@@ -3,7 +3,6 @@ package server.database;
 import server.model.domain.chat.*;
 import server.model.domain.user.Administrator;
 import server.model.domain.user.Patient;
-import server.model.domain.user.User;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -39,9 +38,9 @@ public class ChatManager {
         }
     }
 
-    public Chat getMessageByPatient(Patient patient) throws SQLException{
+    public ChatLog getMessageByPatient(Patient patient) throws SQLException{
         try(Connection connection = DatabaseManager.getInstance().getConnection()){
-            Chat list = new Chat();
+            ChatLog list = new ChatLog();
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM message WHERE patient_cpr = ?");
             statement.setString(1, patient.getCpr());
             ResultSet result = statement.executeQuery();

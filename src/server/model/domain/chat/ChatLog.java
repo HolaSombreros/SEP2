@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Chat implements Serializable {
+public class ChatLog implements Serializable {
     private List<Message> messages;
     private boolean locked;
 
-    public Chat() {
+    public ChatLog() {
         messages = new ArrayList<>();
         locked = false;
     }
@@ -43,15 +43,6 @@ public class Chat implements Serializable {
         return list;
     }
     
-    public boolean contains(Message message){
-        for (Message m : messages) {
-            if (m.equals(message)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
     public boolean isChatLocked() {
         return locked;
     }
@@ -62,10 +53,10 @@ public class Chat implements Serializable {
 
     @Override
     public boolean equals(Object obj){
-        if(!(obj instanceof Chat))
+        if(!(obj instanceof ChatLog))
             return false;
 
-        Chat other = (Chat) obj;
+        ChatLog other = (ChatLog) obj;
         if (other.size() != size())
             return false;
 
