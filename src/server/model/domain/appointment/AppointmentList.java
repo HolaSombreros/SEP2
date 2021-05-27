@@ -146,6 +146,7 @@ public class AppointmentList implements Serializable {
     public AppointmentList getUpcomingAppointments(Patient patient) {
         AppointmentList list = getAppointmentsByUser(patient);
         list = filterAppointmentsByStatus(list, false);
+        list = removeCancelledAppointments(list);
         if (list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
                 for (int j = 1; j < list.size(); j++) {
@@ -165,6 +166,16 @@ public class AppointmentList implements Serializable {
                         }
                     }
                 }
+            }
+        }
+        return list;
+    }
+    
+    private AppointmentList removeCancelledAppointments(AppointmentList list) {
+        for (int i = list.getAppointments().size() - 1; i >= 0; i--) {
+            Appointment appointment = list.get(i);
+            if (appointment.getStatus() instanceof CancelledAppointment) {
+                list.remove(i);
             }
         }
         return list;

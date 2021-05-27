@@ -58,17 +58,10 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     public void reset()
     {
         username.set((viewState.getUser()).getFirstName());
-        AppointmentList appointmentList = model.getAppointmentsByUser(viewState.getUser());
         Patient patient = (Patient) viewState.getUser();
         accessVisibility.set(false);
         vaccinationLabel.set(patient.getVaccineStatus().toString());
         disableButton.set(patient.getVaccineStatus() instanceof PendingStatus || patient.getVaccineStatus() instanceof ApprovedStatus);
-
-        AppointmentList list = new AppointmentList();
-        for (Appointment appointment : appointmentList.getAppointments()) {
-            if (appointment.getStatus() instanceof UpcomingAppointment)
-                list.add(appointment);
-        }
 
         AppointmentList appointments = model.getUpcomingAppointments((Patient) viewState.getUser());
         if (appointments.size() > 0) {
