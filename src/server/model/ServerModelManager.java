@@ -62,9 +62,9 @@ public class ServerModelManager implements ServerModel
 
         loadSchedules();
         loadAppointments();
-        
-      // addDummyFAQS();
+
         loadFAQs();
+        addDummyFAQS();
 
 //        PLEASE PUT THIS AFTER LOADING THE SCHEDULES AND APPOINTMENTS IF YOU WANNA MOVE IT
         loadAvailableTimeIntervals();
@@ -141,9 +141,24 @@ public class ServerModelManager implements ServerModel
     }
 
     private void addDummyFAQS() throws RemoteException {
-        addFAQ("Deez", "Nuts", Category.GENERAL,  (Administrator) userList.getAdminList().getUsers().get(0));
-        addFAQ("Yo", "Whaddup", Category.GENERAL,  (Administrator) userList.getAdminList().getAdminList().getUsers().get(1));
-        addFAQ("What is the Corona passport?", "It's some...thing. I don't even know now what even happens if this label is super duper long. I would assume it goes to the next line but I need to make sure that this is in fact what actually happens", Category.PASSPORT, (Administrator) userList.getAdminList().getUsers().get(0));
+        addFAQ("Can I book a test appointment for the same day?", "Yes, but you cannot book 2 appointments for the same time in the same day", Category.GENERAL,(Administrator)userList.getAdminList().getUsers().get(0));
+        addFAQ("Am I allowed to get vaccinated if I currently have Covid-19?", "No, the vaccine takes place only if you are currently tested negative for Covid-19", Category.VACCINE, (Administrator)userList.getAdminList().getUsers().get(0));
+        addFAQ("When will I receive the test result?", "It takes approximately 48 hours to provide a result. If you do not get the result in this time, you are encouraged to make another test appointment", Category.TEST, (Administrator)userList.getAdminList().getUsers().get(0));
+        addFAQ("Why can't I register another account with the same CPR?", "Every person must have a single account with unique data", Category. GENERAL, (Administrator)userList.getAdminList().getUsers().get(0));
+        addFAQ("How many times should I get vaccinated?", "Depends on the type of vaccine, if it is Pfizer there are 2 doses, Jonson&Jonson needs one dose", Category.VACCINE, (Administrator)userList.getAdminList().getUsers().get(0));
+        addFAQ("When should I get tested for Covid-19", "In general, people with symptoms are getting tested, people who have taken part in activities that put them at higher risk for COVID-19 because they cannot physically distance as needed to avoid exposure such as travel, attending large social or mass gatherings, or being in crowded or poorly-ventilated indoor settings, people who have been asked or referred to get tested by their healthcare provider, or state, tribal, localexternal icon, or territorial health department", Category.TEST,(Administrator)userList.getAdminList().getUsers().get(0));
+        addFAQ("What does my test mean?", "Positive = You are infected with Coronavirus, Negative = You are not infected with Coronavirus, Inconclusive = The test does not provide any certainty whether it is positive or negative",Category.TEST, (Administrator)userList.getAdminList().getUsers().get(0));
+        addFAQ("What are the symptoms and complications that Covid-19 can cause?", "People with COVID-19 have reported a wide range of symptoms – from mild symptoms to severe illness. Symptoms may appear 2-14 days after exposure to the virus. If you have fever, cough, or other symptoms, you might have COVID-19", Category.GENERAL,(Administrator)userList.getAdminList().getUsers().get(0));
+        addFAQ("Is it possible to have flu and Covid-19 at the same time? ","Yes. It is possible to test positive for flu (as well as other respiratory infections) and COVID-19 at the same time. Because some of the symptoms of flu and COVID-19 are similar, it may be hard to tell the difference between them based on symptoms alone. Testing may be needed to help confirm a diagnosis. The best way to prevent seasonal flu is to get vaccinated every year. Flu vaccines will not prevent COVID-19, but they will reduce your chances of getting flu", Category.GENERAL, (Administrator)userList.getAdminList().getUsers().get(0));
+        addFAQ("If I am pregnant, can I get a Covid-19 vaccine?", "Yes, if you are pregnant, you can receive a COVID-19 vaccine. You might want to have a conversation with your healthcare provider to help you decide whether to get vaccinated. ", Category.VACCINE,(Administrator)userList.getAdminList().getUsers().get(0));
+        addFAQ("What  is considered to be a close contact with someone who has the virus?", "For COVID-19, a close contact is anyone who was within 6 feet of an infected person for a total of 15 minutes or more over a 24-hour period (for example, three individual 5-minute exposures for a total of 15 minutes). An infected person can spread COVID-19 starting from 2 days before they have any symptoms (or, if they are asymptomatic, 2 days before their specimen that tested positive was collected), until they meet the criteria for discontinuing home isolation.", Category.GENERAL,(Administrator)userList.getAdminList().getUsers().get(0));
+        addFAQ("Can I get Covid-19 from my pets or other animals?", "Based on the available information to date, the risk of animals spreading COVID-19 to people is considered to be low.", Category.GENERAL,(Administrator)userList.getAdminList().getUsers().get(0));
+        addFAQ("Who is at increased risk for developing severe illness from Covid-19?", "People at increased risk include:\n" +
+                "\n" +
+                "Older adults\n" +
+                "People of all ages with certain underlying medical conditions\n" +
+                "Pregnant and recently pregnant people are also at increased risk for severe illness from COVID-19.", Category.GENERAL,(Administrator)userList.getAdminList().getUsers().get(0));
+
     }
 
     private void loadFAQs() throws RemoteException
