@@ -6,36 +6,36 @@ import java.util.List;
 
 public class FAQList implements Serializable {
     private List<FAQ> questions;
-    
+
     public FAQList() {
         questions = new ArrayList<>();
     }
-    
+
     public List<FAQ> getQuestions() {
         return questions;
     }
-    
+
     public void add(FAQ faq) {
         questions.add(faq);
     }
-    
+
     public void remove(FAQ faq) {
         questions.remove(faq);
     }
-    
+
     public int size() {
         return questions.size();
     }
 
     public FAQ getFAQ(String question, String answer) {
-        for(FAQ faq : questions) {
-            if(faq.getQuestion().equals(question) && faq.getAnswer().equals(answer)) {
+        for (FAQ faq : questions) {
+            if (faq.getQuestion().equals(question) && faq.getAnswer().equals(answer)) {
                 return faq;
             }
         }
         return null;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof FAQList)) {
@@ -52,7 +52,7 @@ public class FAQList implements Serializable {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         String str = "Questions: " + size();

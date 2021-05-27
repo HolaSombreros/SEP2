@@ -33,15 +33,15 @@ public class Shift implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(!(obj instanceof Shift))
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Shift))
             return false;
         Shift shift = (Shift) obj;
         return shift.id == id && shift.timeTo.equals(timeTo) && shift.timeFrom.equals(timeFrom);
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return id + " : " + timeFrom.toString() + " : " + timeTo.toString();
     }
 

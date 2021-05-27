@@ -37,16 +37,16 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<Object
         content = FXCollections.observableArrayList();
         adminProperty = new SimpleBooleanProperty();
         updated = new SimpleBooleanProperty(false);
-        faqModel.addListener(this,"FAQ", "FAQRemove");
+        faqModel.addListener(this, "FAQ", "FAQRemove");
         loadFromModel();
     }
-    
+
     private void loadFromModel() {
         content.clear();
         FAQList faqList = faqModel.getFAQList();
         generateContent(faqList);
     }
-    
+
     private void generateContent(FAQList faqList) {
         updated.set(false);
         for (Category category : Category.values()) {
@@ -57,12 +57,12 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<Object
             vBox.getChildren().add(header);
             Accordion accordion = new Accordion();
             vBox.getChildren().add(accordion);
-        
+
             for (FAQ faq : faqList.getQuestions()) {
                 if (faq.getCategory().equals(category)) {
                     TitledPane titledPane = new TitledPane();
-                    titledPane.expandedProperty().addListener((obs, oldVal,newVal) -> {
-                        if(newVal)
+                    titledPane.expandedProperty().addListener((obs, oldVal, newVal) -> {
+                        if (newVal)
                             setSelectedBox(titledPane);
                         else
                             setSelectedBox(null);
@@ -92,19 +92,18 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<Object
 
     @Override
     public void remove() {
-        if(selectedBox != null) {
-            if(confirmation())
+        if (selectedBox != null) {
+            if (confirmation())
                 faqModel.removeFAQ(selectedBox.getText(), ((Label) ((VBox) selectedBox.getContent()).getChildren().get(0)).getText());
             errorLabel.set("");
             selectedBox = null;
-        }
-        else
+        } else
             errorLabel.set("Please select a FAQ first");
     }
 
     @Override
     public void setSelectedBox(TitledPane box) {
-       selectedBox = box;
+        selectedBox = box;
     }
 
     @Override
@@ -114,8 +113,9 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<Object
         selectedBox = null;
     }
 
-    @Override public void addEditFAQ() {
-        if(selectedBox != null)
+    @Override
+    public void addEditFAQ() {
+        if (selectedBox != null)
             viewState.setSelectedFAQ(faqModel.getFAQList().getFAQ(selectedBox.getText(), ((Label) ((VBox) selectedBox.getContent()).getChildren().get(0)).getText()));
     }
 
@@ -124,7 +124,8 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<Object
         return content;
     }
 
-    @Override public BooleanProperty isAdminProperty() {
+    @Override
+    public BooleanProperty isAdminProperty() {
         return adminProperty;
     }
 
@@ -132,12 +133,12 @@ public class FAQViewModel implements FAQViewModelInterface, LocalListener<Object
     public StringProperty errorLabelProperty() {
         return errorLabel;
     }
-    
+
     @Override
     public BooleanProperty getUpdatedProperty() {
         return updated;
     }
-    
+
     // TODO - add just the one new FAQ that was added instead of loading the entire thing from scratch
     @Override
     public void propertyChange(ObserverEvent<Object, Object> event) {

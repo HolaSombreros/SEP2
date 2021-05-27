@@ -23,7 +23,7 @@ import java.time.LocalDate;
 public class RemoteModelManager implements RemoteModel, LocalListener<Object, Object> {
     private ServerModel serverModel;
     private PropertyChangeAction<Object, Object> property;
-    
+
     public RemoteModelManager(ServerModel serverModel) throws RemoteException, MalformedURLException {
         this.serverModel = serverModel;
         property = new PropertyChangeProxy<>(this, true);
@@ -31,37 +31,35 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
         startRegistry();
         startServer();
     }
-    
+
     @Override
     public User login(String cpr, String password) throws RemoteException {
         return serverModel.login(cpr, password);
     }
-    
+
     @Override
     public void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city)
-        throws RemoteException {
+            throws RemoteException {
         serverModel.register(cpr, password, firstName, middleName, lastName, phone, email, street, number, zip, city);
     }
 
     @Override
-    public UserList getUserList()
-    {
+    public UserList getUserList() {
         return serverModel.getUserList();
     }
-    
+
     @Override
     public Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) throws RemoteException {
         return serverModel.addAppointment(date, timeInterval, type, patient);
     }
-    
+
     @Override
     public AppointmentList getAppointmentsByUser(User patient) throws RemoteException {
         return serverModel.getAppointmentsByUser(patient);
     }
 
     @Override
-    public AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType) throws RemoteException
-    {
+    public AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType) throws RemoteException {
         return serverModel.filterAppointmentsByNameAndCpr(criteria, showFinished, appointmentType);
     }
 
@@ -69,21 +67,19 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
     public TimeIntervalList getAvailableTimeIntervals(LocalDate date) throws RemoteException {
         return serverModel.getAvailableTimeIntervals(date);
     }
-    
+
     @Override
     public Appointment getAppointmentById(int id) throws RemoteException {
         return serverModel.getAppointmentById(id);
     }
 
     @Override
-    public void cancelAppointment(int id) throws RemoteException
-    {
+    public void cancelAppointment(int id) throws RemoteException {
         serverModel.cancelAppointment(id);
     }
 
     @Override
-    public void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) throws RemoteException
-    {
+    public void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) throws RemoteException {
         serverModel.rescheduleAppointment(id, date, timeInterval);
     }
 
@@ -93,29 +89,27 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
     }
 
     @Override
-    public UserList getUsersByCprAndName(String criteria, String typeOfList) throws RemoteException
-    {
+    public UserList getUsersByCprAndName(String criteria, String typeOfList) throws RemoteException {
         return serverModel.getUsersByCprAndName(criteria, typeOfList);
     }
 
-    @Override public UserList getPatients() throws RemoteException
-    {
-       return serverModel.getPatientList();
+    @Override
+    public UserList getPatients() throws RemoteException {
+        return serverModel.getPatientList();
     }
 
-    @Override public UserList getNurses() throws RemoteException
-    {
+    @Override
+    public UserList getNurses() throws RemoteException {
         return serverModel.getNurseList();
     }
 
-    @Override public UserList getAdministrators() throws RemoteException
-    {
+    @Override
+    public UserList getAdministrators() throws RemoteException {
         return serverModel.getAdministratorList();
     }
 
     @Override
-    public User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws RemoteException
-    {
+    public User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws RemoteException {
         return serverModel.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
     }
 
@@ -123,14 +117,14 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
     public VaccineStatus applyForVaccination(Patient patient) throws RemoteException {
         return serverModel.applyForVaccination(patient);
     }
-    
+
     @Override
     public Patient getPatient(String cpr) throws RemoteException {
         return serverModel.getPatient(cpr);
     }
 
-    @Override public void editSchedule(Nurse nurse, LocalDate dateFrom, int shiftId) throws RemoteException
-    {
+    @Override
+    public void editSchedule(Nurse nurse, LocalDate dateFrom, int shiftId) throws RemoteException {
         serverModel.editSchedule(nurse, dateFrom, shiftId);
     }
 
@@ -140,20 +134,22 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
     }
 
     @Override
-    public void changeResult(int id,Result result) throws RemoteException {
-        serverModel.changeResult(id,result);
+    public void changeResult(int id, Result result) throws RemoteException {
+        serverModel.changeResult(id, result);
     }
-    
+
     @Override
     public AppointmentList getUpcomingAppointments(Patient patient) throws RemoteException {
         return serverModel.getUpcomingAppointments(patient);
     }
-    
-    @Override public void addFAQ(String question, String answer, Category category, Administrator creator) throws RemoteException {
+
+    @Override
+    public void addFAQ(String question, String answer, Category category, Administrator creator) throws RemoteException {
         serverModel.addFAQ(question, answer, category, creator);
     }
 
-    @Override public void editFAQ(FAQ faq, String question, String answer, Category category) throws RemoteException {
+    @Override
+    public void editFAQ(FAQ faq, String question, String answer, Category category) throws RemoteException {
         serverModel.editFAQ(faq, question, answer, category);
     }
 
@@ -163,8 +159,7 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
     }
 
     @Override
-    public void removeFAQ(String question, String answer) throws RemoteException
-    {
+    public void removeFAQ(String question, String answer) throws RemoteException {
         serverModel.removeFAQ(question, answer);
     }
 
@@ -173,11 +168,13 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
         return serverModel.updateVaccineStatus(patient);
     }
 
-    @Override public void setRole(User user, String role) throws RemoteException {
-        serverModel.setRole(user,role);
+    @Override
+    public void setRole(User user, String role) throws RemoteException {
+        serverModel.setRole(user, role);
     }
 
-    @Override public void removeRole(User user) throws RemoteException {
+    @Override
+    public void removeRole(User user) throws RemoteException {
         serverModel.RemoveRole(user);
     }
 
@@ -185,43 +182,41 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
     public void sendMessage(Patient patient, String message, Administrator administrator) throws RemoteException {
         serverModel.sendMessage(patient, message, administrator);
     }
-    
+
     private void startRegistry() throws RemoteException {
         try {
             LocateRegistry.createRegistry(1099);
             System.out.println("Registry started...");
-        }
-        catch (ExportException e) {
+        } catch (ExportException e) {
             System.out.println("Registry already started - " + e.getMessage());
         }
     }
-    
+
     private void startServer() throws RemoteException, MalformedURLException {
         UnicastRemoteObject.exportObject(this, 0);
         Naming.rebind("AppointmentSystem", this);
         System.out.println("Server started...");
     }
-    
+
     public void close() {
         property.close();
         try {
             UnicastRemoteObject.unexportObject(this, true);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // Do nothing
         }
     }
-    
+
     @Override
     public void propertyChange(ObserverEvent<Object, Object> event) {
         property.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
     }
-    
+
     @Override
     public boolean addListener(GeneralListener<Object, Object> listener, String... propertyNames) throws RemoteException {
         return property.addListener(listener, propertyNames);
     }
-    
+
     @Override
     public boolean removeListener(GeneralListener<Object, Object> listener, String... propertyNames) throws RemoteException {
         return property.removeListener(listener, propertyNames);

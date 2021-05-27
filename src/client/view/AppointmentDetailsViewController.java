@@ -7,29 +7,35 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import server.model.domain.appointment.TimeInterval;
 
-public class AppointmentDetailsViewController extends ViewController
-{
-    @FXML private Label type;
-    @FXML private Label status;
-    @FXML private DatePicker date;
-    @FXML private ChoiceBox<TimeInterval> timeInterval;
-    @FXML private Label result;
-    @FXML private Label errorLabel;
-    @FXML private Label resultLabel;
+public class AppointmentDetailsViewController extends ViewController {
+    @FXML
+    private Label type;
+    @FXML
+    private Label status;
+    @FXML
+    private DatePicker date;
+    @FXML
+    private ChoiceBox<TimeInterval> timeInterval;
+    @FXML
+    private Label result;
+    @FXML
+    private Label errorLabel;
+    @FXML
+    private Label resultLabel;
 
     private AppointmentDetailsViewModelInterface viewModel;
 
-    public AppointmentDetailsViewController(){}
+    public AppointmentDetailsViewController() {
+    }
 
 
     @Override
-    protected void init()
-    {
+    protected void init() {
         viewModel = getViewModelFactory().getAppointmentDetailsViewModel();
         type.textProperty().bind(viewModel.getTypeProperty());
         status.textProperty().bind(viewModel.statusProperty());
         date.valueProperty().addListener((obs, oldVal, newVal) -> {
-          viewModel.loadTimeIntervals();
+            viewModel.loadTimeIntervals();
         });
         date.valueProperty().bindBidirectional(viewModel.dateProperty());
         timeInterval.valueProperty().bindBidirectional(viewModel.getTimeInterval());
@@ -41,17 +47,22 @@ public class AppointmentDetailsViewController extends ViewController
     }
 
     @Override
-    public void reset()
-    {
+    public void reset() {
         viewModel.reset();
     }
-    @FXML private void cancelAppointment(){
+
+    @FXML
+    private void cancelAppointment() {
         viewModel.cancelAppointment();
     }
-    @FXML private void rescheduleAppointment(){
+
+    @FXML
+    private void rescheduleAppointment() {
         viewModel.rescheduleAppointment();
     }
-    @FXML private void goBack(){
-            getViewHandler().openView(View.APPOINTMENTLIST);
+
+    @FXML
+    private void goBack() {
+        getViewHandler().openView(View.APPOINTMENTLIST);
     }
 }

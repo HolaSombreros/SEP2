@@ -40,6 +40,16 @@ public class Chat implements Serializable {
         }
         return list;
     }
+
+    public List<Message> getReadMessages() {
+        List<Message> list = new ArrayList<>();
+        for (Message message : messages) {
+            if (message.getStatus() instanceof ReadStatus) {
+                list.add(message);
+            }
+        }
+        return list;
+    }
     
     public boolean contains(Message message){
         for (Message m : messages) {

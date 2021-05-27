@@ -9,8 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AdministratorManager {
-    public AdministratorManager() {}
-    
+    public AdministratorManager() {
+    }
+
     public void addAdministrator(Administrator administrator) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             if (!isAdmin(administrator)) {
@@ -19,11 +20,10 @@ public class AdministratorManager {
                 insertStatement.setString(2, administrator.getEmployeeId());
                 insertStatement.setBoolean(3, true);
                 insertStatement.executeUpdate();
-            }
-            else updateAccess(administrator, true);
+            } else updateAccess(administrator, true);
         }
     }
-    
+
     public void removeAdministrator(Administrator administrator) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM administrator WHERE cpr = ?");
@@ -40,6 +40,7 @@ public class AdministratorManager {
             return resultSet.next();
         }
     }
+
     public boolean hasAccess(Administrator administrator) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT has_access FROM administrator WHERE cpr = ?;");
@@ -48,6 +49,7 @@ public class AdministratorManager {
             return resultSet.first();
         }
     }
+
     public void updateAccess(Administrator administrator, boolean access) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("UPDATE administrator SET has_access = ? WHERE cpr = ?;");

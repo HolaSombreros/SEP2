@@ -17,8 +17,7 @@ import server.model.domain.user.Patient;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
 
-public class PatientChatViewModel implements PatientChatViewModelInterface, LocalListener<Object, Object>
-{
+public class PatientChatViewModel implements PatientChatViewModelInterface, LocalListener<Object, Object> {
     private StringProperty errorLabel;
     private StringProperty user;
     private StringProperty textArea;
@@ -28,34 +27,34 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
     private Model model;
 
     public PatientChatViewModel(Model model, ViewState viewState) {
-        this.model =  model;
-        this.viewState =  viewState;
+        this.model = model;
+        this.viewState = viewState;
         this.errorLabel = new SimpleStringProperty();
         this.updated = new SimpleBooleanProperty(false);
-        this.user =  new SimpleStringProperty();
+        this.user = new SimpleStringProperty();
         this.textArea = new SimpleStringProperty();
         this.messages = FXCollections.observableArrayList();
-        model.addListener(this,"PatientMessage");
+        model.addListener(this, "PatientMessage");
     }
-    
+
     public void loadChatList() {
         messages.clear();
         for (Message message : model.getPatient(viewState.getSelectedUser().getCpr()).getChat().getMessages()) {
             addMessageBox(message);
         }
     }
-    
+
     @Override
     public void exitChat() {
         viewState.removeSelectedUser();
     }
-    
+
     @Override
     public boolean isAdmin() {
         return viewState.getUser() instanceof Administrator;
     }
-    
-    public void reset(){
+
+    public void reset() {
         user.set((viewState.getUser()).getFirstName());
         resetInputs();
         loadChatList();
@@ -75,8 +74,7 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         String sender;
         if (message.getAdministrator() == null) {
             sender = message.getPatient().getFirstName();
-        }
-        else {
+        } else {
             sender = message.getAdministrator().getFirstName();
         }
         Label username = new Label(sender);
@@ -91,15 +89,13 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         if (message.getAdministrator() != null) {
             username.setAlignment(Pos.CENTER_LEFT);
             text.setAlignment(Pos.CENTER_LEFT);
-        }
-        else {
+        } else {
             username.setAlignment(Pos.CENTER_RIGHT);
             text.setAlignment(Pos.CENTER_RIGHT);
         }
         if ((viewState.getUser() instanceof Patient && message.getPatient().equals(viewState.getUser()) && message.getAdministrator() == null) || viewState.getUser().equals(message.getAdministrator())) {
             text.setStyle("-fx-background-color: #498a49;" + text.getStyle());
-        }
-        else {
+        } else {
             text.setStyle("-fx-background-color: #3b3d3b;" + text.getStyle());
         }
         if (messages.size() < 1 || !((Label) ((VBox) (messages.get(messages.size() - 1))).getChildren().get(0)).getText().equals(sender)) {
@@ -109,7 +105,7 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         messages.add(newMessage);
         updated.set(true);
     }
-    
+
     private void resetInputs() {
         errorLabel.set("");
         textArea.set("");
@@ -117,40 +113,35 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
 
     @Override
     public void sendMessage() {
-        try{
+        try {
             Administrator administrator = null;
             if (viewState.getUser() instanceof Administrator) {
                 administrator = ((Administrator) viewState.getUser());
             }
             model.sendMessage((Patient) viewState.getSelectedUser(), textArea.get(), administrator);
             resetInputs();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             errorLabel.set(e.getMessage());
         }
     }
 
     @Override
-    public StringProperty getErrorLabelProperty()
-    {
+    public StringProperty getErrorLabelProperty() {
         return errorLabel;
     }
 
     @Override
-    public StringProperty getUserProperty()
-    {
+    public StringProperty getUserProperty() {
         return user;
     }
 
     @Override
-    public StringProperty getTextAreaProperty()
-    {
+    public StringProperty getTextAreaProperty() {
         return textArea;
     }
 
     @Override
-    public BooleanProperty getUpdatedProperty()
-    {
+    public BooleanProperty getUpdatedProperty() {
         return updated;
     }
 
@@ -160,10 +151,9 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
     }
 
     @Override
-    public void propertyChange(ObserverEvent<Object, Object> observerEvent)
-    {
+    public void propertyChange(ObserverEvent<Object, Object> observerEvent) {
         Platform.runLater(() -> {
-            if(viewState.getSelectedUser().equals(observerEvent.getValue1()) || viewState.getUser() instanceof Administrator)
+            if (viewState.getSelectedUser().equals(observerEvent.getValue1()) || viewState.getUser() instanceof Administrator)
                 addMessageBox((Message) observerEvent.getValue2());
         });
     }

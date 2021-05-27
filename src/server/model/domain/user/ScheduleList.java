@@ -15,43 +15,43 @@ public class ScheduleList implements Serializable {
         return schedules;
     }
 
-    public void add(Schedule schedule){
+    public void add(Schedule schedule) {
         schedules.add(schedule);
     }
 
-    public boolean contains(Schedule schedule){
+    public boolean contains(Schedule schedule) {
         return schedules.contains(schedule);
     }
 
-    public void remove(Schedule schedule){
+    public void remove(Schedule schedule) {
         schedules.remove(schedule);
     }
 
-    public Schedule getById(int id){
-        for(Schedule schedule: schedules)
-            if(schedule.getId() == id)
+    public Schedule getById(int id) {
+        for (Schedule schedule : schedules)
+            if (schedule.getId() == id)
                 return schedule;
         return null;
     }
-    
+
     @Override
-    public boolean equals(Object obj){
-        if(!(obj instanceof ScheduleList))
+    public boolean equals(Object obj) {
+        if (!(obj instanceof ScheduleList))
             return false;
         ScheduleList other = (ScheduleList) obj;
-        if(other.schedules.size() != schedules.size())
+        if (other.schedules.size() != schedules.size())
             return false;
-        for(int i =0; i < schedules.size();i++){
-            if(!schedules.get(i).equals(other.schedules.get(i)))
+        for (int i = 0; i < schedules.size(); i++) {
+            if (!schedules.get(i).equals(other.schedules.get(i)))
                 return false;
         }
         return true;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String all = "";
-        for(Schedule schedule : schedules){
+        for (Schedule schedule : schedules) {
             all += schedule.toString() + " \n";
         }
         return all;

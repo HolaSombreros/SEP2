@@ -13,133 +13,133 @@ import server.model.domain.user.UserList;
 
 import java.util.List;
 
-public class UserListViewModel implements UserListViewModelInterface
-{
-  private ObservableList<UserTableViewModel> users;
-  private ObjectProperty<UserTableViewModel> selectedUser;
-  private StringProperty searchBar;
-  private ViewState viewState;
-  private Model model;
-  private StringProperty roleProperty;
-  private StringProperty errorProperty;
+public class UserListViewModel implements UserListViewModelInterface {
+    private ObservableList<UserTableViewModel> users;
+    private ObjectProperty<UserTableViewModel> selectedUser;
+    private StringProperty searchBar;
+    private ViewState viewState;
+    private Model model;
+    private StringProperty roleProperty;
+    private StringProperty errorProperty;
 
-  public UserListViewModel(Model model, ViewState viewState) {
-    this.model = model;
-    this.viewState = viewState;
-    this.users = FXCollections.observableArrayList();
-    this.errorProperty = new SimpleStringProperty();
-    this.roleProperty = new SimpleStringProperty();
-    this.selectedUser = new SimpleObjectProperty<>();
-    this.searchBar = new SimpleStringProperty();
-  }
-
-  @Override public void reset() {
-    viewState.removeSelectedUser();
-    errorProperty.set("");
-    users.clear();
-    updateList("patients");
-  }
-
-  private void updateList(String role) {
-    users.clear();
-    UserList userList = new UserList();
-    switch (role)
-    {
-      case "patients":
-        userList = model.getPatients();
-        roleProperty.set("Patient List");
-        break;
-      case "nurses":
-        userList = model.getNurses();
-        roleProperty.set("Nurse List");
-        break;
-      case "admins":
-        userList = model.getAdministrators();
-        roleProperty.set("Administrator List");
-        break;
+    public UserListViewModel(Model model, ViewState viewState) {
+        this.model = model;
+        this.viewState = viewState;
+        this.users = FXCollections.observableArrayList();
+        this.errorProperty = new SimpleStringProperty();
+        this.roleProperty = new SimpleStringProperty();
+        this.selectedUser = new SimpleObjectProperty<>();
+        this.searchBar = new SimpleStringProperty();
     }
-    for (User user : userList.getUsers())
-      users.add(new UserTableViewModel(user));
-  }
 
-
-  @Override public void logout() {
-    model.logout((User)viewState.getUser());
-    viewState.removeUser();
-  }
-
-  @Override public boolean seeDetails() {
-    if (selectedUser.get() != null) {
-      switch (roleProperty.get()) {
-        case "Patient List":
-          viewState.setSelectedUser(model.getPatients().getUserByCpr(selectedUser.get().getCprProperty().get()));
-          return true;
-        case "Nurse List":
-          viewState.setSelectedUser(model.getNurses().getUserByCpr(selectedUser.get().getCprProperty().get()));
-          return true;
-        case "Administrator List":
-          viewState.setSelectedUser(model.getAdministrators().getUserByCpr(selectedUser.get().getCprProperty().get()));
-          return true;
-      }
+    @Override
+    public void reset() {
+        viewState.removeSelectedUser();
+        errorProperty.set("");
+        users.clear();
+        updateList("patients");
     }
-    else {
-      viewState.removeSelectedUser();
-      errorProperty.set("Please select a user");
+
+    private void updateList(String role) {
+        users.clear();
+        UserList userList = new UserList();
+        switch (role) {
+            case "patients":
+                userList = model.getPatients();
+                roleProperty.set("Patient List");
+                break;
+            case "nurses":
+                userList = model.getNurses();
+                roleProperty.set("Nurse List");
+                break;
+            case "admins":
+                userList = model.getAdministrators();
+                roleProperty.set("Administrator List");
+                break;
+        }
+        for (User user : userList.getUsers())
+            users.add(new UserTableViewModel(user));
     }
-    return false;
-  }
 
-  //TODO: filter by role also
-  @Override
-  public void filterUsers() {
-    try{
-      users.clear();
-      String criteria = searchBar.get();
-      UserList filteredUsers = model.getUsersByCprAndName(criteria,roleProperty.get());
-      for(User user: filteredUsers.getUsers())
-        users.add(new UserTableViewModel(user));
+
+    @Override
+    public void logout() {
+        model.logout((User) viewState.getUser());
+        viewState.removeUser();
     }
-    catch (Exception e) {
-      errorProperty.set(e.getMessage());
+
+    @Override
+    public boolean seeDetails() {
+        if (selectedUser.get() != null) {
+            switch (roleProperty.get()) {
+                case "Patient List":
+                    viewState.setSelectedUser(model.getPatients().getUserByCpr(selectedUser.get().getCprProperty().get()));
+                    return true;
+                case "Nurse List":
+                    viewState.setSelectedUser(model.getNurses().getUserByCpr(selectedUser.get().getCprProperty().get()));
+                    return true;
+                case "Administrator List":
+                    viewState.setSelectedUser(model.getAdministrators().getUserByCpr(selectedUser.get().getCprProperty().get()));
+                    return true;
+            }
+        } else {
+            viewState.removeSelectedUser();
+            errorProperty.set("Please select a user");
+        }
+        return false;
     }
-  }
 
-  @Override public void setSelectedUser(UserTableViewModel selectedUser)
-  {
-    this.selectedUser.set(selectedUser);
-  }
+    //TODO: filter by role also
+    @Override
+    public void filterUsers() {
+        try {
+            users.clear();
+            String criteria = searchBar.get();
+            UserList filteredUsers = model.getUsersByCprAndName(criteria, roleProperty.get());
+            for (User user : filteredUsers.getUsers())
+                users.add(new UserTableViewModel(user));
+        } catch (Exception e) {
+            errorProperty.set(e.getMessage());
+        }
+    }
 
-  @Override public ObservableList<UserTableViewModel> getUsers()
-  {
-    return users;
-  }
+    @Override
+    public void setSelectedUser(UserTableViewModel selectedUser) {
+        this.selectedUser.set(selectedUser);
+    }
 
-  @Override public StringProperty getRoleProperty()
-  {
-    return roleProperty;
-  }
+    @Override
+    public ObservableList<UserTableViewModel> getUsers() {
+        return users;
+    }
 
-  @Override public StringProperty getErrorProperty()
-  {
-    return errorProperty;
-  }
+    @Override
+    public StringProperty getRoleProperty() {
+        return roleProperty;
+    }
 
-  @Override public void seePatients()
-  {
-    updateList("patients");
-  }
+    @Override
+    public StringProperty getErrorProperty() {
+        return errorProperty;
+    }
 
-  @Override public void seeNurses()
-  {
-    updateList("nurses");
-  }
+    @Override
+    public void seePatients() {
+        updateList("patients");
+    }
 
-  @Override public void seeAdmins()
-  {
-    updateList("admins");
-  }
+    @Override
+    public void seeNurses() {
+        updateList("nurses");
+    }
 
-  @Override public StringProperty getSearchBarProperty() {
-    return searchBar;
-  }
+    @Override
+    public void seeAdmins() {
+        updateList("admins");
+    }
+
+    @Override
+    public StringProperty getSearchBarProperty() {
+        return searchBar;
+    }
 }

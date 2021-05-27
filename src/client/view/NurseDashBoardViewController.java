@@ -7,23 +7,38 @@ import javafx.scene.control.*;
 
 public class NurseDashBoardViewController extends ViewController {
     private NurseDashBoardViewModelInterface viewModel;
-    @FXML private Label usernameLabel;
-    @FXML private Label roleLabel;
-    @FXML private Label timeLabel;
-    @FXML private Label dateLabel;
-    @FXML private TextField searchBar;
-    @FXML private CheckBox showFinishedAppointments;
-    @FXML private Label errorLabel;
-    @FXML private Button filterButton;
-    
-    @FXML private TableView<AppointmentTableViewModel> appointmentTable;
-    @FXML private TableColumn<AppointmentTableViewModel, String> cprColumn;
-    @FXML private TableColumn<AppointmentTableViewModel, String> nameColumn;
-    @FXML private TableColumn<AppointmentTableViewModel, String> dateColumn;
-    @FXML private TableColumn<AppointmentTableViewModel, String> timeColumn;
-    @FXML private TableColumn<AppointmentTableViewModel, String> typeColumn;
-    @FXML private TableColumn<AppointmentTableViewModel, String> resultColumn;
-    
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private Label roleLabel;
+    @FXML
+    private Label timeLabel;
+    @FXML
+    private Label dateLabel;
+    @FXML
+    private TextField searchBar;
+    @FXML
+    private CheckBox showFinishedAppointments;
+    @FXML
+    private Label errorLabel;
+    @FXML
+    private Button filterButton;
+
+    @FXML
+    private TableView<AppointmentTableViewModel> appointmentTable;
+    @FXML
+    private TableColumn<AppointmentTableViewModel, String> cprColumn;
+    @FXML
+    private TableColumn<AppointmentTableViewModel, String> nameColumn;
+    @FXML
+    private TableColumn<AppointmentTableViewModel, String> dateColumn;
+    @FXML
+    private TableColumn<AppointmentTableViewModel, String> timeColumn;
+    @FXML
+    private TableColumn<AppointmentTableViewModel, String> typeColumn;
+    @FXML
+    private TableColumn<AppointmentTableViewModel, String> resultColumn;
+
     @Override
     protected void init() {
         viewModel = getViewModelFactory().getNurseDashBoardViewModel();
@@ -36,7 +51,7 @@ public class NurseDashBoardViewController extends ViewController {
         errorLabel.textProperty().bind(viewModel.getErrorProperty());
         errorLabel.textFillProperty().bind(viewModel.getErrorFillProperty());
         filterButton.textProperty().bind(viewModel.getFilterButtonTextProperty());
-        
+
         appointmentTable.setItems(viewModel.getAppointments());
         cprColumn.setCellValueFactory(data -> data.getValue().getCprProperty());
         nameColumn.setCellValueFactory(data -> data.getValue().getFullNameProperty());
@@ -44,12 +59,12 @@ public class NurseDashBoardViewController extends ViewController {
         timeColumn.setCellValueFactory(data -> data.getValue().getTimeProperty());
         typeColumn.setCellValueFactory(data -> data.getValue().getTypeProperty());
         resultColumn.setCellValueFactory(data -> data.getValue().getResultProperty());
-        
+
         appointmentTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> viewModel.setSelectedAppointment(newVal));
-        
+
         reset();
     }
-    
+
     @Override
     public void reset() {
         viewModel.reset();
@@ -60,29 +75,30 @@ public class NurseDashBoardViewController extends ViewController {
     private void toggleFinishedAppointments() {
         viewModel.filterAppointments();
     }
-    
+
     @FXML
     private void filterTableButton() {
         viewModel.toggleTypeButton();
         viewModel.filterAppointments();
     }
-    
+
     @FXML
     private void personalData() {
         getViewHandler().openView(View.PERSONALDATA);
     }
-    
+
     @FXML
     private void details() {
         if (viewModel.updateViewState()) {
             getViewHandler().openView(View.NURSETEST);
         }
     }
-    
-    @FXML private void handleKeyReleased() {
+
+    @FXML
+    private void handleKeyReleased() {
         viewModel.filterAppointments();
     }
-    
+
     @FXML
     private void logout() {
         viewModel.logout();

@@ -10,7 +10,7 @@ public class MessageTableDataViewModel {
     private StringProperty name;
     private StringProperty date;
     private StringProperty status;
-    
+
     public MessageTableDataViewModel(Patient patient) {
         cpr = new SimpleStringProperty(patient.getCpr());
         name = new SimpleStringProperty(patient.getFullName());
@@ -18,25 +18,24 @@ public class MessageTableDataViewModel {
             Message lastMessage = patient.getChat().get(patient.getChat().size() - 1);
             date = new SimpleStringProperty(lastMessage.getDate().toString());
             status = new SimpleStringProperty(lastMessage.getStatus().toString());
-        }
-        else {
+        } else {
             date = new SimpleStringProperty("N/A");
             status = new SimpleStringProperty("N/A");
         }
     }
-    
+
     public StringProperty getCprProperty() {
         return cpr;
     }
-    
+
     public StringProperty getNameProperty() {
         return name;
     }
-    
+
     public StringProperty getDateProperty() {
         return date;
     }
-    
+
     public StringProperty getStatusProperty() {
         return status;
     }

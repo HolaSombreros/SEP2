@@ -7,52 +7,52 @@ import java.util.List;
 
 public class TimeIntervalList implements Serializable {
     private List<TimeInterval> timeIntervals;
-    
+
     public TimeIntervalList() {
         timeIntervals = new ArrayList<>();
     }
-    
+
     public List<TimeInterval> getTimeIntervals() {
         return timeIntervals;
     }
-    
+
     public void add(TimeInterval timeInterval) {
         timeIntervals.add(timeInterval);
     }
-    
+
     public boolean contains(TimeInterval timeInterval) {
         return timeIntervals.contains(timeInterval);
     }
-    
+
     public void remove(TimeInterval timeInterval) {
         timeIntervals.remove(timeInterval);
     }
 
-    public TimeInterval get(LocalTime timeFrom, LocalTime timeTo){
-        for(TimeInterval timeInterval: timeIntervals)
+    public TimeInterval get(LocalTime timeFrom, LocalTime timeTo) {
+        for (TimeInterval timeInterval : timeIntervals)
             if (timeInterval.getFrom().equals(timeFrom) && timeInterval.getTo().equals(timeTo))
                 return timeInterval;
         return null;
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(!(obj instanceof TimeIntervalList))
+    public boolean equals(Object obj) {
+        if (!(obj instanceof TimeIntervalList))
             return false;
         TimeIntervalList other = (TimeIntervalList) obj;
-        if(other.timeIntervals.size() != timeIntervals.size())
+        if (other.timeIntervals.size() != timeIntervals.size())
             return false;
-        for(int i =0; i < timeIntervals.size();i++){
-            if(!timeIntervals.get(i).equals(other.timeIntervals.get(i)))
+        for (int i = 0; i < timeIntervals.size(); i++) {
+            if (!timeIntervals.get(i).equals(other.timeIntervals.get(i)))
                 return false;
         }
         return true;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String all = "";
-        for(TimeInterval timeInterval : timeIntervals){
+        for (TimeInterval timeInterval : timeIntervals) {
             all += timeInterval.toString() + " \n";
         }
         return all;

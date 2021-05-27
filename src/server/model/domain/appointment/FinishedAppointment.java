@@ -8,12 +8,12 @@ public class FinishedAppointment extends Status {
             ((TestAppointment) appointment).setResult(result);
         }
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         return obj instanceof FinishedAppointment;
     }
-    
+
     @Override
     public String toString() {
         return "Finished";

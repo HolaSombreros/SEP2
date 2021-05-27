@@ -5,7 +5,7 @@ public class ApprovedStatus extends VaccineStatus {
     public boolean equals(Object obj) {
         return obj instanceof ApprovedStatus;
     }
-    
+
     @Override
     public String toString() {
         return "Approved";

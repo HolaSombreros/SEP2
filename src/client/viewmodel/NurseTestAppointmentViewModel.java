@@ -70,43 +70,41 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
             status.set(appointment.getStatus().toString());
             patientName.set(appointment.getPatient().getFullName());
             patientCpr.set(appointment.getPatient().getCpr());
-            if(!status.get().equals("Finished")){
+            if (!status.get().equals("Finished")) {
                 choiceBox.set(true);
                 changeButton.set(true);
-            }
-            else {
+            } else {
                 choiceBox.set(false);
                 changeButton.set(false);
             }
-        }
-        else
+        } else
             result.set("");
     }
 
-    private void changeResult(){
+    private void changeResult() {
         TestAppointment appointment = (TestAppointment) appointmentModel.getAppointmentById(viewState.getSelectedAppointment());
-        appointmentModel.changeResult(appointment.getId(),Result.fromString(result.get()));
+        appointmentModel.changeResult(appointment.getId(), Result.fromString(result.get()));
 
     }
-    private boolean confirmation(){
+
+    private boolean confirmation() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("Are you sure you want to edit the result? \n\n" +
-                        "Result: " + result.get());
+                "Result: " + result.get());
         Optional<ButtonType> resultButton = alert.showAndWait();
         return resultButton.isPresent() && resultButton.get() == ButtonType.OK;
     }
 
-    public void back(){
+    public void back() {
         viewState.removeSelectedAppointment();
     }
 
     @Override
     public void saveChanges() {
-        if(confirmation()) {
+        if (confirmation()) {
             changeResult();
             errorProperty.set("Result changed successfully!");
-        }
-        else
+        } else
             errorProperty.set("No changes were saved");
     }
 

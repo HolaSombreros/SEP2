@@ -9,17 +9,27 @@ import java.time.LocalDate;
 
 public interface AppointmentDetailsViewModelInterface {
     void reset();
+
     void cancelAppointment();
+
     void rescheduleAppointment();
+
     void loadTimeIntervals();
-    
+
     StringProperty getTypeProperty();
+
     ObjectProperty<LocalDate> dateProperty();
+
     StringProperty statusProperty();
+
     StringProperty errorLabelProperty();
+
     ObservableList<TimeInterval> getListOfTimeIntervals();
+
     ObjectProperty<TimeInterval> getTimeInterval();
+
     StringProperty resultProperty();
+
     StringProperty resultLabelProperty();
 
 }

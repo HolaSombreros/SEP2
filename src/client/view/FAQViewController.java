@@ -14,13 +14,18 @@ import server.model.domain.faq.FAQ;
 
 public class FAQViewController extends ViewController {
     private FAQViewModelInterface viewModel;
-    
-    @FXML private VBox dynamicVBox;
-    @FXML private Button addEditFAQ;
-    @FXML private Button removeButton;
-    @FXML private Label errorLabel;
 
-    public FAQViewController() { }
+    @FXML
+    private VBox dynamicVBox;
+    @FXML
+    private Button addEditFAQ;
+    @FXML
+    private Button removeButton;
+    @FXML
+    private Label errorLabel;
+
+    public FAQViewController() {
+    }
 
     @Override
     protected void init() {
@@ -34,25 +39,26 @@ public class FAQViewController extends ViewController {
                 updateContent(viewModel.getFAQContent());
             }
         });
-    
+
         reset();
     }
-    
+
     private void updateContent(ObservableList<VBox> content) {
         dynamicVBox.getChildren().setAll(content);
     }
-    
+
     @Override
     public void reset() {
         viewModel.reset();
     }
-    
+
     @FXML
     private void chat() {
         getViewHandler().openView(View.ADMINMESSAGELIST);
     }
-    
-    @FXML private void removeButton(){
+
+    @FXML
+    private void removeButton() {
         viewModel.remove();
     }
 
@@ -61,7 +67,7 @@ public class FAQViewController extends ViewController {
         viewModel.addEditFAQ();
         getViewHandler().openView(View.ADDEDITFAQ);
     }
-    
+
     @FXML
     private void back() {
         if (viewModel.isAdminProperty().get())

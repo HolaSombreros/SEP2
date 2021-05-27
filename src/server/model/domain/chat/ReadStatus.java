@@ -1,6 +1,6 @@
 package server.model.domain.chat;
 
-public class ReadStatus extends MessageStatus{
+public class ReadStatus extends MessageStatus {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof ReadStatus;

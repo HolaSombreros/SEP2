@@ -20,8 +20,7 @@ import java.time.format.DateTimeFormatter;
 
 import static java.time.temporal.ChronoUnit.*;
 
-public class DashBoardViewModel implements DashBoardViewModelInterface, LocalListener<String, String>
-{
+public class DashBoardViewModel implements DashBoardViewModelInterface, LocalListener<String, String> {
     private Model model;
     private ViewState viewState;
     private ObservableClock observableClock;
@@ -34,8 +33,7 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     private BooleanProperty disableButton;
     private StringProperty nextAppointment;
 
-    public DashBoardViewModel(Model model, ViewState viewState)
-    {
+    public DashBoardViewModel(Model model, ViewState viewState) {
         this.model = model;
         this.viewState = viewState;
         observableClock = new ObservableClock();
@@ -55,8 +53,7 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     }
 
     @Override
-    public void reset()
-    {
+    public void reset() {
         username.set((viewState.getUser()).getFirstName());
         AppointmentList appointmentList = model.getAppointmentsByUser(viewState.getUser());
         Patient patient = (Patient) viewState.getUser();
@@ -81,18 +78,17 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
                 if (daysBetween > 1)
                     nextAppointment.set(nextAppointment.get() + "s");
             }
-        }
-        else {
+        } else {
             nextAppointment.set("You do not have any upcoming appointments");
         }
     }
-    
+
     @Override
     public void logout() {
         model.logout(viewState.getUser());
         viewState.removeUser();
     }
-    
+
     @Override
     public void applyForVaccination() {
         Patient patient = (Patient) viewState.getUser();
@@ -100,52 +96,52 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
         vaccinationLabel.set(patient.getVaccineStatus().toString());
         disableButton.set(true);
     }
-    
+
     @Override
     public void enterChat() {
         viewState.setSelectedUser(viewState.getUser());
     }
-    
+
     @Override
     public StringProperty getUsernameProperty() {
         return username;
     }
-    
+
     @Override
     public StringProperty getAccessProperty() {
         return access;
     }
-    
+
     @Override
     public BooleanProperty getAccessVisibilityProperty() {
         return accessVisibility;
     }
-    
+
     @Override
     public StringProperty getTimeProperty() {
         return time;
     }
-    
+
     @Override
     public StringProperty getDateProperty() {
         return date;
     }
-    
+
     @Override
     public StringProperty getVaccinationLabelProperty() {
         return vaccinationLabel;
     }
-    
+
     @Override
     public StringProperty getNextAppointmentProperty() {
         return nextAppointment;
     }
-    
+
     @Override
     public BooleanProperty getDisableButtonProperty() {
         return disableButton;
     }
-    
+
     @Override
     public void propertyChange(ObserverEvent<String, String> event) {
         Platform.runLater(() -> {

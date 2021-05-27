@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public abstract class MessageStatus implements Serializable {
 
-    public void read(Message message){
+    public void read(Message message) {
 
     }
 

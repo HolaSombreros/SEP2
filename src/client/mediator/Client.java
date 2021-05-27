@@ -26,45 +26,42 @@ public class Client implements Model, RemoteListener<Object, Object> {
     public static final String HOST = "localhost";
     private RemoteModel server;
     private PropertyChangeAction<Object, Object> property;
-    
+
     public Client(String host) throws RemoteException, NotBoundException, MalformedURLException {
         server = (RemoteModel) Naming.lookup("rmi://" + host + ":1099/AppointmentSystem");
         UnicastRemoteObject.exportObject(this, 0);
         server.addListener(this);
         property = new PropertyChangeProxy<>(this, true);
     }
-    
+
     public Client() throws RemoteException, NotBoundException, MalformedURLException {
         this(HOST);
     }
 
     @Override
-    public void changeResult(int id,Result result) {
-        try{
-            server.changeResult(id,result);
-        }
-        catch (RemoteException e){
-            throw new IllegalStateException(getExceptionMessage(e),e);
+    public void changeResult(int id, Result result) {
+        try {
+            server.changeResult(id, result);
+        } catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
-    
+
     @Override
     public AppointmentList getUpcomingAppointments(Patient patient) {
         try {
             return server.getUpcomingAppointments(patient);
-        }
-        catch (RemoteException e) {
+        } catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
-    
+
     @Override
     public Patient getPatient(String cpr) {
-        try{
+        try {
             return server.getPatient(cpr);
-        }
-        catch (RemoteException e){
-            throw new IllegalStateException(getExceptionMessage(e),e);
+        } catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
@@ -72,53 +69,45 @@ public class Client implements Model, RemoteListener<Object, Object> {
     public void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip, String city) {
         try {
             server.register(cpr, password, firstName, middleName, lastName, phone, email, street, number, zip, city);
-        }
-        catch (RemoteException e) {
+        } catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
-    
+
     @Override
     public User login(String cpr, String password) {
         try {
             return server.login(cpr, password);
-        }
-        catch (RemoteException e) {
+        } catch (RemoteException e) {
             e.printStackTrace();
-        return null;}
+            return null;
+        }
     }
 
     @Override
-    public UserList getUsersByCprAndName(String criteria, String typeOfList)
-    {
+    public UserList getUsersByCprAndName(String criteria, String typeOfList) {
         try {
             return server.getUsersByCprAndName(criteria, typeOfList);
-        }
-        catch (RemoteException e) {
+        } catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
     @Override
-    public UserList getUserList()
-    {
+    public UserList getUserList() {
         try {
             return server.getUserList();
-        }
-        catch (RemoteException e)
-        {
-            throw new IllegalStateException(getExceptionMessage(e),e);
+        } catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
     @Override
     public TimeIntervalList getTimeIntervalList() {
-        try{
+        try {
             return server.getTimeIntervalList();
-        }
-        catch (RemoteException e)
-        {
-            throw new IllegalStateException(getExceptionMessage(e),e);
+        } catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
@@ -126,73 +115,63 @@ public class Client implements Model, RemoteListener<Object, Object> {
     public void addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) {
         try {
             Appointment appointment = server.addAppointment(date, timeInterval, type, patient);
-        //     faqProperty.firePropertyChange("NewAppointment", appointment.getPatient(), appointment);
-        }
-        catch (RemoteException e) {
+            //     faqProperty.firePropertyChange("NewAppointment", appointment.getPatient(), appointment);
+        } catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
-    
+
     @Override
     public AppointmentList getAppointmentsByUser(User patient) {
         try {
             return server.getAppointmentsByUser(patient);
-        }
-        catch (RemoteException e) {
+        } catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
-    
+
     @Override
     public TimeIntervalList getAvailableTimeIntervals(LocalDate date) {
         try {
             return server.getAvailableTimeIntervals(date);
-        }
-        catch (RemoteException e) {
+        } catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
-    
+
     @Override
     public Appointment getAppointmentById(int id) {
         try {
             return server.getAppointmentById(id);
-        }
-        catch (RemoteException e) {
+        } catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
     @Override
-    public AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType)
-    {
+    public AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType) {
         try {
             return server.filterAppointmentsByNameAndCpr(criteria, showFinished, appointmentType);
-        }
-        catch (RemoteException e) {
+        } catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
     @Override
-    public void cancelAppointment(int id)
-    {
+    public void cancelAppointment(int id) {
         try {
             server.cancelAppointment(id);
-        }
-        catch (RemoteException e){
-            throw new IllegalStateException(getExceptionMessage(e),e);
+        } catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
     @Override
-    public void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval)
-    {
+    public void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) {
         try {
             server.rescheduleAppointment(id, date, timeInterval);
-        }
-        catch (RemoteException e) {
-           throw new IllegalStateException(getExceptionMessage(e), e);
+        } catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
@@ -200,8 +179,7 @@ public class Client implements Model, RemoteListener<Object, Object> {
     public void logout(User user) {
         try {
             server.logout(user);
-        }
-        catch (RemoteException e) {
+        } catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
@@ -216,43 +194,38 @@ public class Client implements Model, RemoteListener<Object, Object> {
         }
     }*/
 
-    @Override public UserList getPatients()
-    {
+    @Override
+    public UserList getPatients() {
         try {
             return server.getPatients();
-        }
-        catch (RemoteException e) {
-            throw new IllegalStateException(getExceptionMessage(e), e);
-        }
-    }
-
-    @Override public UserList getNurses()
-    {
-        try {
-            return server.getNurses();
-        }
-        catch (RemoteException e) {
-            throw new IllegalStateException(getExceptionMessage(e), e);
-        }
-    }
-
-    @Override public UserList getAdministrators()
-    {
-        try {
-            return server.getAdministrators();
-        }
-        catch (RemoteException e) {
+        } catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
     @Override
-    public User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip)
-    {
-        try{
-            return server.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
+    public UserList getNurses() {
+        try {
+            return server.getNurses();
+        } catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
-        catch (RemoteException e){
+    }
+
+    @Override
+    public UserList getAdministrators() {
+        try {
+            return server.getAdministrators();
+        } catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
+        }
+    }
+
+    @Override
+    public User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) {
+        try {
+            return server.editUserInformation(user, password, firstName, middleName, lastName, phone, email, street, number, zip);
+        } catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
@@ -261,63 +234,62 @@ public class Client implements Model, RemoteListener<Object, Object> {
     public VaccineStatus applyForVaccination(Patient patient) {
         try {
             return server.applyForVaccination(patient);
-        }
-        catch (RemoteException e) {
+        } catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
+
     @Override
     public VaccineStatus updateVaccineStatus(Patient patient) {
         try {
             return server.updateVaccineStatus(patient);
-        }
-        catch (RemoteException e){
-            throw new IllegalStateException(getExceptionMessage(e),e);
+        } catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
-    @Override public void setRole(User user, String role) {
+    @Override
+    public void setRole(User user, String role) {
         try {
-            server.setRole(user,role);
-        }
-        catch (RemoteException e) {
-            throw new IllegalStateException(getExceptionMessage(e),e);
+            server.setRole(user, role);
+        } catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
-    @Override public void removeRole(User user) {
+    @Override
+    public void removeRole(User user) {
         try {
             server.removeRole(user);
-        }
-        catch (RemoteException e) {
-            throw new IllegalStateException(getExceptionMessage(e),e);
+        } catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
-    @Override public void editSchedule(Nurse nurse, LocalDate dateFrom, int shiftId) {
+    @Override
+    public void editSchedule(Nurse nurse, LocalDate dateFrom, int shiftId) {
         try {
             server.editSchedule(nurse, dateFrom, shiftId);
-        }
-        catch (RemoteException e) {
-            throw new IllegalStateException(getExceptionMessage(e),e);
+        } catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
-    @Override public void addFAQ(String question, String answer, Category category, Administrator creator) {
+    @Override
+    public void addFAQ(String question, String answer, Category category, Administrator creator) {
         try {
             server.addFAQ(question, answer, category, creator);
-        }
-        catch (RemoteException e) {
-            throw new IllegalStateException(getExceptionMessage(e),e);
+        } catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
-    @Override public void editFAQ(FAQ faq, String question, String answer, Category category) {
+    @Override
+    public void editFAQ(FAQ faq, String question, String answer, Category category) {
         try {
             server.editFAQ(faq, question, answer, category);
-        }
-        catch (RemoteException e) {
-            throw new IllegalStateException(getExceptionMessage(e),e);
+        } catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
@@ -325,19 +297,16 @@ public class Client implements Model, RemoteListener<Object, Object> {
     public FAQList getFAQList() {
         try {
             return server.getFAQList();
-        }
-        catch (RemoteException e) {
+        } catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
 
     @Override
-    public void removeFAQ(String question, String answer)
-    {
+    public void removeFAQ(String question, String answer) {
         try {
             server.removeFAQ(question, answer);
-        }
-        catch (RemoteException e) {
+        } catch (RemoteException e) {
             throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
@@ -347,8 +316,7 @@ public class Client implements Model, RemoteListener<Object, Object> {
         try {
             UnicastRemoteObject.unexportObject(this, true);
             property.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new IllegalStateException("Cannot unexport object RMI", e);
         }
     }
@@ -357,12 +325,11 @@ public class Client implements Model, RemoteListener<Object, Object> {
     public void sendMessage(Patient patient, String message, Administrator administrator) {
         try {
             server.sendMessage(patient, message, administrator);
-        }
-        catch (RemoteException e) {
-            throw new IllegalStateException(getExceptionMessage(e),e);
+        } catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e), e);
         }
     }
-    
+
     private String getExceptionMessage(Exception e) {
         String message = e.getMessage();
         if (message != null) {
@@ -371,15 +338,18 @@ public class Client implements Model, RemoteListener<Object, Object> {
         return message;
     }
 
-    @Override public void propertyChange(ObserverEvent<Object, Object> event) throws RemoteException {
+    @Override
+    public void propertyChange(ObserverEvent<Object, Object> event) throws RemoteException {
         property.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
     }
 
-    @Override public boolean addListener(GeneralListener<Object, Object> listener, String... propertyNames) {
+    @Override
+    public boolean addListener(GeneralListener<Object, Object> listener, String... propertyNames) {
         return property.addListener(listener, propertyNames);
     }
 
-    @Override public boolean removeListener(GeneralListener<Object, Object> listener, String... propertyNames) {
+    @Override
+    public boolean removeListener(GeneralListener<Object, Object> listener, String... propertyNames) {
         return property.removeListener(listener, propertyNames);
     }
 

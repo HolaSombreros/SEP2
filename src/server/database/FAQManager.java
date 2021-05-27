@@ -8,8 +8,9 @@ import server.model.domain.user.Administrator;
 import java.sql.*;
 
 public class FAQManager {
-    public FAQManager() {}
-    
+    public FAQManager() {
+    }
+
     public FAQ addFAQ(String question, String answer, Category category, Administrator creator) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO faq (question, answer, category, created_by) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
@@ -21,8 +22,7 @@ public class FAQManager {
             ResultSet keys = statement.getGeneratedKeys();
             if (keys.next()) {
                 return new FAQ(keys.getInt("faq_id"), question, answer, category);
-            }
-            else {
+            } else {
                 throw new SQLException("No keys were generated");
             }
         }
@@ -30,24 +30,24 @@ public class FAQManager {
 
     public void updateFAQ(FAQ faq, String question, String answer, Category category) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-               PreparedStatement statement = connection.prepareStatement("UPDATE faq SET question = ?, answer = ?, category = ? WHERE faq_id = ?;");
-               statement.setString(1, question);
-               statement.setString(2, answer);
-               statement.setString(3, category.toString());
-               statement.setInt(4, faq.getId());
-               statement.executeUpdate();
+            PreparedStatement statement = connection.prepareStatement("UPDATE faq SET question = ?, answer = ?, category = ? WHERE faq_id = ?;");
+            statement.setString(1, question);
+            statement.setString(2, answer);
+            statement.setString(3, category.toString());
+            statement.setInt(4, faq.getId());
+            statement.executeUpdate();
         }
     }
 
     public void removeFAQ(String question, String answer) throws SQLException {
-        try(Connection connection = DatabaseManager.getInstance().getConnection()) {
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM faq WHERE question = ? AND answer = ?");
             statement.setString(1, question);
             statement.setString(2, answer);
             statement.executeUpdate();
         }
     }
-    
+
     public FAQList getAllFAQs() throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM faq ORDER BY category;");

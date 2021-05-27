@@ -25,7 +25,7 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
     private BooleanProperty showReadMessages;
     private StringProperty error;
     private ObjectProperty<Paint> errorFill;
-    
+
     public AdminMessageListViewModel(Model model, ViewState viewState) {
         this.model = model;
         model.addListener(this, "PatientMessage", "NewPatient", "ReadMessage");
@@ -35,10 +35,10 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
         showReadMessages = new SimpleBooleanProperty(false);
         error = new SimpleStringProperty("");
         errorFill = new SimpleObjectProperty<>(Color.RED);
-        
+
         loadFromModel();
     }
-    
+
     private void loadFromModel() {
         tableData.clear();
         UserList patientList = model.getPatients();
@@ -49,13 +49,12 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
                 if (messages.size() > 0) {
                     tableData.add(new MessageTableDataViewModel(patient));
                 }
-            }
-            else {
+            } else {
                 tableData.add(new MessageTableDataViewModel(patient));
             }
         }
     }
-    
+
     @Override
     public boolean enterChat() {
         if (selectedChat.get() != null) {
@@ -66,39 +65,38 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
             }
             viewState.setSelectedUser(model.getPatients().getUserByCpr(selectedChat.get().getCprProperty().get()));
             return true;
-        }
-        else {
+        } else {
             error.set("Please select the chat you want to open");
             errorFill.set(Color.RED);
             return false;
         }
     }
-    
+
     @Override
     public ObservableList<MessageTableDataViewModel> getTableData() {
         return tableData;
     }
-    
+
     @Override
     public BooleanProperty showReadMessagesProperty() {
         return showReadMessages;
     }
-    
+
     @Override
     public void setSelectedChat(MessageTableDataViewModel chat) {
         selectedChat.set(chat);
     }
-    
+
     @Override
     public StringProperty getErrorProperty() {
         return error;
     }
-    
+
     @Override
     public ObjectProperty<Paint> getErrorFillProperty() {
         return errorFill;
     }
-    
+
     @Override
     public void reset() {
         selectedChat.set(null);
@@ -106,16 +104,16 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
         errorFill.set(Color.RED);
         loadFromModel();
     }
-    
+
     @Override
     public void filterChatLogs() {
         loadFromModel();
     }
-    
+
     private void add(Patient patient) {
         tableData.add(new MessageTableDataViewModel(patient));
     }
-    
+
     private void edit(Patient patient) {
         for (int i = 0; i < tableData.size(); i++) {
             MessageTableDataViewModel data = tableData.get(i);
@@ -126,7 +124,7 @@ public class AdminMessageListViewModel implements AdminMessageListViewModelInter
             }
         }
     }
-    
+
     @Override
     public void propertyChange(ObserverEvent<Object, Object> event) {
         Platform.runLater(() -> {

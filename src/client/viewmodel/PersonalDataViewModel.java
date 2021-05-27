@@ -5,10 +5,10 @@ import javafx.beans.property.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import server.model.domain.user.*;
+
 import java.util.Optional;
 
-public class PersonalDataViewModel implements PersonalDataViewModelInterface
-{
+public class PersonalDataViewModel implements PersonalDataViewModelInterface {
     private StringProperty firstName;
     private StringProperty middleName;
     private StringProperty lastName;
@@ -31,7 +31,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     private UserModel userModel;
     private ViewState viewState;
 
-    public PersonalDataViewModel(UserModel userModel, ViewState viewState){
+    public PersonalDataViewModel(UserModel userModel, ViewState viewState) {
         this.userModel = userModel;
         this.viewState = viewState;
         this.firstName = new SimpleStringProperty();
@@ -53,13 +53,15 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         this.vaccineLabelVisibility = new SimpleBooleanProperty(true);
         this.title = new SimpleStringProperty("My Personal Data");
     }
+
     @Override
     public void reset() {
         errorLabel.set("");
         loadInformation();
     }
-    private void loadInformation(){
-        if(viewState.getUser() != null && viewState.getUser() instanceof Administrator){
+
+    private void loadInformation() {
+        if (viewState.getUser() != null && viewState.getUser() instanceof Administrator) {
             title.set("Patient");
             password.set(viewState.getSelectedUser().getPassword());
             firstName.set(viewState.getSelectedUser().getFirstName());
@@ -72,25 +74,22 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
             email.set(viewState.getSelectedUser().getEmail());
             street.set(viewState.getSelectedUser().getAddress().getStreet());
             changeRole.set(true);
-            vaccineStatus.set(((Patient)viewState.getSelectedUser()).getVaccineStatus().toString());
-            if(((Administrator)viewState.getUser()).getCpr().equals(viewState.getSelectedUser().getCpr())){
+            vaccineStatus.set(((Patient) viewState.getSelectedUser()).getVaccineStatus().toString());
+            if (((Administrator) viewState.getUser()).getCpr().equals(viewState.getSelectedUser().getCpr())) {
                 approveButton.set(true);
                 declineButton.set(true);
                 removeButton.set(true);
                 errorLabel.set("Cannot approve vaccine for self");
-            }
-            else if(!vaccineStatus.get().equals("Pending")){
+            } else if (!vaccineStatus.get().equals("Pending")) {
                 approveButton.set(true);
                 declineButton.set(true);
-            }
-            else{
+            } else {
                 approveButton.set(false);
                 declineButton.set(false);
                 removeButton.set(false);
             }
-        }
-        else if(viewState.getUser() != null && viewState.getUser() instanceof Nurse) {
-            User user = (Nurse)viewState.getUser();
+        } else if (viewState.getUser() != null && viewState.getUser() instanceof Nurse) {
+            User user = (Nurse) viewState.getUser();
             password.set(user.getPassword());
             firstName.set(user.getFirstName());
             middleName.set(user.getMiddleName());
@@ -102,9 +101,8 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
             email.set(user.getEmail());
             street.set(user.getAddress().getStreet());
             vaccineLabelVisibility.set(false);
-        }
-        else {
-            User user = (User)viewState.getUser();
+        } else {
+            User user = (User) viewState.getUser();
             password.set(user.getPassword());
             firstName.set(user.getFirstName());
             middleName.set(user.getMiddleName());
@@ -115,7 +113,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
             zipCode.set(user.getAddress().getZipcode());
             email.set(user.getEmail());
             street.set(user.getAddress().getStreet());
-            vaccineStatus.set(((Patient)viewState.getUser()).getVaccineStatus().toString());
+            vaccineStatus.set(((Patient) viewState.getUser()).getVaccineStatus().toString());
             changeRole.set(false);
         }
     }
@@ -123,23 +121,20 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     @Override
     public void editDetails() {
         errorLabel.set("");
-        if(confirmEditingType(1)){
-           try{
-               if( viewState.getUser() instanceof Administrator) {
-                   User user = userModel.editUserInformation(viewState.getSelectedUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(),number.get(), zipCode.get());
-                   viewState.setSelectedUser(user);
-               }
-               else {
-                   User user = userModel.editUserInformation((User) viewState.getUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(),number.get(), zipCode.get());
-                   viewState.setUser(user);
-               }
-               errorLabel.set("Changes were saved");
-           }
-           catch (Exception e){
-               errorLabel.set(e.getMessage());
-           }
-        }
-        else
+        if (confirmEditingType(1)) {
+            try {
+                if (viewState.getUser() instanceof Administrator) {
+                    User user = userModel.editUserInformation(viewState.getSelectedUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(), number.get(), zipCode.get());
+                    viewState.setSelectedUser(user);
+                } else {
+                    User user = userModel.editUserInformation((User) viewState.getUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(), number.get(), zipCode.get());
+                    viewState.setUser(user);
+                }
+                errorLabel.set("Changes were saved");
+            } catch (Exception e) {
+                errorLabel.set(e.getMessage());
+            }
+        } else
             reset();
     }
 
@@ -158,8 +153,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
                 "Phone Number: " + phoneNumber.get() + "\n" +
                 "Street: " + street.get() + "\n" +
                 "Number: " + number.get() + "\n";
-        switch (criteria)
-        {
+        switch (criteria) {
             case 1:
                 if ((viewState.getUser() instanceof Administrator)) {
                     String addForAdmin = "Vaccine Status: " + ((Patient) viewState.getSelectedUser()).getVaccineStatus().toString() + "\n";
@@ -167,14 +161,13 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
                         alert.setHeaderText(adminHeader + secondHeader + middleHeader + thirdPart + addForAdmin);
                     else
                         alert.setHeaderText(adminHeader + secondHeader + thirdPart + addForAdmin);
-                }
-                else {
+                } else {
                     if (middleName.get() != null)
                         alert.setHeaderText(userHeader + secondHeader + middleHeader + thirdPart);
                     else
                         alert.setHeaderText(userHeader + secondHeader + thirdPart);
                 }
-            break;
+                break;
             case 2:
                 if ((viewState.getUser() instanceof Administrator)) {
                     if (middleName.get() != null)
@@ -182,7 +175,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
                     else
                         alert.setHeaderText(removeUser + secondHeader + thirdPart);
                 }
-            break;
+                break;
         }
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
@@ -194,70 +187,62 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
     }
 
     @Override
-    public StringProperty getFirstNameProperty()
-    {
+    public StringProperty getFirstNameProperty() {
         return firstName;
     }
 
     @Override
-    public StringProperty getMiddleNameProperty()
-    {
+    public StringProperty getMiddleNameProperty() {
         return middleName;
     }
 
     @Override
-    public StringProperty getLastNameProperty()
-    {
+    public StringProperty getLastNameProperty() {
         return lastName;
     }
 
     @Override
-    public StringProperty getStreetProperty()
-    {
+    public StringProperty getStreetProperty() {
         return street;
     }
 
     @Override
-    public StringProperty getNumberProperty()
-    {
+    public StringProperty getNumberProperty() {
         return number;
     }
 
     @Override
-    public StringProperty getCprProperty()
-    {
+    public StringProperty getCprProperty() {
         return cpr;
     }
 
     @Override
-    public StringProperty getEmailProperty()
-    {
+    public StringProperty getEmailProperty() {
         return email;
     }
 
     @Override
-    public StringProperty getPhoneNumberProperty()
-    {
+    public StringProperty getPhoneNumberProperty() {
         return phoneNumber;
     }
 
     @Override
-    public StringProperty getErrorLabelProperty()
-    {
+    public StringProperty getErrorLabelProperty() {
         return errorLabel;
     }
+
     @Override
-    public StringProperty getPasswordProperty(){
+    public StringProperty getPasswordProperty() {
         return password;
     }
+
     @Override
-    public IntegerProperty getZipCodeProperty(){
+    public IntegerProperty getZipCodeProperty() {
         return zipCode;
     }
 
     @Override
-    public StringProperty getVaccineStatusProperty()
-    {
+    public StringProperty getVaccineStatusProperty() {
         return vaccineStatus;
     }
 
@@ -269,20 +254,18 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         return declineButton;
     }
 
-    @Override public BooleanProperty changeRoleProperty()
-    {
+    @Override
+    public BooleanProperty changeRoleProperty() {
         return changeRole;
     }
 
     @Override
-    public BooleanProperty removeButtonProperty()
-    {
+    public BooleanProperty removeButtonProperty() {
         return removeButton;
     }
 
     @Override
-    public BooleanProperty vaccineLabelVisibilityProperty()
-    {
+    public BooleanProperty vaccineLabelVisibilityProperty() {
         return vaccineLabelVisibility;
     }
 
@@ -290,48 +273,46 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface
         return title;
     }
 
-    @Override public void back()
-    {
+    @Override
+    public void back() {
         viewState.removeSelectedUser();
     }
 
-    public boolean isAdmin(){
-        return  viewState.getUser() instanceof Administrator;
+    public boolean isAdmin() {
+        return viewState.getUser() instanceof Administrator;
     }
 
     @Override
     public void approve() {
         ((Patient) viewState.getSelectedUser()).getVaccineStatus().approve((Patient) viewState.getSelectedUser());
-        if(confirmEditingType(1)) {
+        if (confirmEditingType(1)) {
             userModel.updateVaccineStatus(((Patient) viewState.getSelectedUser()));
             vaccineStatus.set(((Patient) viewState.getSelectedUser()).getVaccineStatus().toString());
             approveButton.set(true);
             declineButton.set(true);
             errorLabel.set("Patient was " + ((Patient) viewState.getSelectedUser()).getVaccineStatus().toString() + " for vaccination");
-        }
-        else
+        } else
             ((Patient) viewState.getSelectedUser()).setVaccineStatus(new PendingStatus());
     }
 
     @Override
     public void decline() {
         ((Patient) viewState.getSelectedUser()).getVaccineStatus().decline((Patient) viewState.getSelectedUser());
-        if(confirmEditingType(1)){
+        if (confirmEditingType(1)) {
             userModel.updateVaccineStatus(((Patient) viewState.getSelectedUser()));
             vaccineStatus.set(((Patient) viewState.getSelectedUser()).getVaccineStatus().toString());
             approveButton.set(true);
             declineButton.set(true);
             errorLabel.set("Patient was " + ((Patient) viewState.getSelectedUser()).getVaccineStatus().toString() + " for vaccination");
-        }
-        else
+        } else
             ((Patient) viewState.getSelectedUser()).getVaccineStatus().apply((Patient) viewState.getSelectedUser());
     }
 
-    @Override public boolean changeRole() {
+    @Override
+    public boolean changeRole() {
         if (userModel.getNurses().getUserByCpr(viewState.getSelectedUser().getCpr()) != null || userModel.getAdministrators().getUserByCpr(viewState.getSelectedUser().getCpr()) != null) {
             errorLabel.set("The User already has a role");
             return false;
-        }
-        else return true;
+        } else return true;
     }
 }
