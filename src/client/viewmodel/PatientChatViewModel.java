@@ -86,7 +86,7 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
         username.setStyle("-fx-font-weight: bold;");
         text.setFont(new Font(14));
         text.setMaxWidth(newMessage.getPrefWidth());
-        text.setStyle("-fx-background-radius: 5px; -fx-padding: 3px 5px 3px 5px; -fx-text-fill: #f5f5f5;");
+        text.setStyle("-fx-background-radius: 5px; -fx-padding: 3px 5px 3px 5px; -fx-text-fill: #000000;");
         text.setWrapText(true);
         if (message.getAdministrator() != null) {
             username.setAlignment(Pos.CENTER_LEFT);
@@ -97,10 +97,10 @@ public class PatientChatViewModel implements PatientChatViewModelInterface, Loca
             text.setAlignment(Pos.CENTER_RIGHT);
         }
         if ((viewState.getUser() instanceof Patient && message.getPatient().equals(viewState.getUser()) && message.getAdministrator() == null) || viewState.getUser().equals(message.getAdministrator())) {
-            text.setStyle("-fx-background-color: #498a49;" + text.getStyle());
+            text.setStyle("-fx-background-color: #BC8F8F;" + text.getStyle());
         }
         else {
-            text.setStyle("-fx-background-color: #3b3d3b;" + text.getStyle());
+            text.setStyle("-fx-background-color: #E9967A;" + text.getStyle());
         }
         if (messages.size() < 1 || !((Label) ((VBox) (messages.get(messages.size() - 1))).getChildren().get(0)).getText().equals(sender)) {
             newMessage.getChildren().add(username);
