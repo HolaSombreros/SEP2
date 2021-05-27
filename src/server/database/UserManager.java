@@ -60,8 +60,7 @@ public class UserManager {
                 String phone = resultSet.getString("phone");
                 String email = resultSet.getString("email");
                 return new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email, patientManager.getVaccineStatus(cpr));
-            }
-            else {
+            } else {
                 throw new IllegalStateException("User not in database");
             }
         }
@@ -97,14 +96,14 @@ public class UserManager {
         }
     }
 
-    public void addNurse(Nurse nurse) throws SQLException{
-        if(!isUser(nurse.getCpr()))
+    public void addNurse(Nurse nurse) throws SQLException {
+        if (!isUser(nurse.getCpr()))
             addPerson(nurse);
         nurseManager.addNurse(nurse);
     }
 
-    public void addAdministrator(Administrator administrator) throws SQLException{
-        if(!isUser(administrator.getCpr()))
+    public void addAdministrator(Administrator administrator) throws SQLException {
+        if (!isUser(administrator.getCpr()))
             addPerson(administrator);
         administratorManager.addAdministrator(administrator);
     }
@@ -112,7 +111,7 @@ public class UserManager {
     public void updateUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("UPDATE person Set password = ?, firstname = ?,middlename = ?, lastname = ?, phone = ?, email = ?, street = ?, number = ?, zip_code = ? WHERE cpr = ?");
-            statement.setString(1,password);
+            statement.setString(1, password);
             statement.setString(2, firstName);
             statement.setString(3, middleName);
             statement.setString(4, lastName);
@@ -122,21 +121,21 @@ public class UserManager {
             statement.setString(8, number);
             statement.setInt(9, zip);
             statement.setString(10, user.getCpr());
-            if(!addressManager.isAddress(street,number, zip))
-                addressManager.addAddress(new Address(street,number,zip,addressManager.getCity(zip)));
+            if (!addressManager.isAddress(street, number, zip))
+                addressManager.addAddress(new Address(street, number, zip, addressManager.getCity(zip)));
             statement.executeUpdate();
             //TODO: zipcode and city
         }
     }
+
     public void removeUser(User user) throws SQLException {
-        if(user != null) {
+        if (user != null) {
             try (Connection connection = DatabaseManager.getInstance().getConnection()) {
                 PreparedStatement statement = connection.prepareStatement("DELETE FROM person WHERE cpr = ?;");
                 statement.setString(1, user.getCpr());
                 statement.executeUpdate();
             }
-        }
-        else
+        } else
             throw new IllegalArgumentException("You cannot remove a null user");
     }
 
@@ -162,28 +161,26 @@ public class UserManager {
                 String nurse_id = rs.getString("nurse_id");
                 String admin_id = rs.getString("admin_id");
                 VaccineStatus status = null;
-                if(vaccine != null)
-                switch (vaccine){
-                    case "Not Applied":
-                        status = new NotAppliedStatus();
-                        break;
-                    case "Approved":
-                        status = new ApprovedStatus();
-                        break;
-                    case "Not Approved":
-                        status = new NotApprovedStatus();
-                        break;
-                    case "Pending":
-                        status = new PendingStatus();
-                        break;
-                }
+                if (vaccine != null)
+                    switch (vaccine) {
+                        case "Not Applied":
+                            status = new NotAppliedStatus();
+                            break;
+                        case "Approved":
+                            status = new ApprovedStatus();
+                            break;
+                        case "Not Approved":
+                            status = new NotApprovedStatus();
+                            break;
+                        case "Pending":
+                            status = new PendingStatus();
+                            break;
+                    }
                 if (nurse_id != null) {
                     users.add(new Nurse(cpr, password, firstName, middleName, lastName, address, phone, email, nurse_id));
-                }
-                else if (admin_id != null) {
+                } else if (admin_id != null) {
                     users.add(new Administrator(cpr, password, firstName, middleName, lastName, address, phone, email, admin_id));
-                }
-                else {
+                } else {
                     // TODO - do stuff
                     users.add(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, status));
                 }
@@ -191,11 +188,11 @@ public class UserManager {
             return users;
         }
     }
-    
-    public boolean isUser(String cpr) throws SQLException{
-        try(Connection connection = DatabaseManager.getInstance().getConnection()) {
+
+    public boolean isUser(String cpr) throws SQLException {
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM person WHERE cpr = ?");
-            statement.setString(1,cpr);
+            statement.setString(1, cpr);
             ResultSet resultSet = statement.executeQuery();
             return resultSet.next();
         }

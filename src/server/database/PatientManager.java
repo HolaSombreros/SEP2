@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class PatientManager {
     public PatientManager() {
     }
-    
+
     public void addPatient(User patient) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO patient VALUES (?,?)");
@@ -19,13 +19,13 @@ public class PatientManager {
             insertStatement.executeUpdate();
         }
     }
-    
+
     public VaccineStatus getVaccineStatus(String cpr) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM patient WHERE cpr=?");
             statement.setString(1, cpr);
             ResultSet resultSet = statement.executeQuery();
-            
+
             if (resultSet.next()) {
                 String vaccineStatus = resultSet.getString("vaccine_status");
                 VaccineStatus status = null;
@@ -48,7 +48,7 @@ public class PatientManager {
             throw new IllegalStateException("User not in database");
         }
     }
-    
+
     public void setVaccineStatus(String cpr, VaccineStatus status) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("UPDATE patient set vaccine_status = ? WHERE cpr = ?");
@@ -57,7 +57,7 @@ public class PatientManager {
             statement.executeUpdate();
         }
     }
-    
+
     public boolean isPatient(String cpr) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM patient WHERE cpr = ?");
@@ -68,14 +68,13 @@ public class PatientManager {
     }
 
     public void removePatient(Patient patient) throws SQLException {
-        if(patient != null) {
+        if (patient != null) {
             try (Connection connection = DatabaseManager.getInstance().getConnection()) {
                 PreparedStatement statement = connection.prepareStatement("DELETE FROM patient WHERE cpr = ?;");
                 statement.setString(1, patient.getCpr());
                 statement.executeUpdate();
             }
-        }
-        else
+        } else
             throw new IllegalArgumentException("You cannot remove a null patient");
     }
 }

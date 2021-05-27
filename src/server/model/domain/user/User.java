@@ -13,7 +13,7 @@ public abstract class User implements Serializable {
     private Address address;
     private String phone;
     private String email;
-    
+
     public User(String cpr, String password, String firstName, String middleName, String lastName, Address address, String phone, String email) {
         setCpr(cpr);
         setPassword(password);
@@ -24,7 +24,7 @@ public abstract class User implements Serializable {
         setPhone(phone);
         setEmail(email);
     }
-    
+
     public String getCpr() {
         return cpr;
     }
@@ -36,7 +36,7 @@ public abstract class User implements Serializable {
         }
         this.cpr = cpr;
     }
-    
+
     public String getPassword() {
         return password;
     }
@@ -45,63 +45,64 @@ public abstract class User implements Serializable {
         UserValidator.setPassword(password);
         this.password = password;
     }
-    
+
     public String getFirstName() {
         return firstName;
     }
-    
+
     public void setFirstName(String firstName) {
-       UserValidator.setFirstName(firstName);
+        UserValidator.setFirstName(firstName);
         this.firstName = firstName;
     }
-    
+
     public String getMiddleName() {
         return middleName;
     }
-    
+
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
-    
+
     public String getLastName() {
         return lastName;
     }
-    
+
     public void setLastName(String lastName) {
         UserValidator.setLastName(lastName);
         this.lastName = lastName;
     }
-    
+
     public String getFullName() {
         return middleName == null ? firstName + " " + lastName : firstName + " " + middleName + " " + lastName;
     }
-    
+
     public Address getAddress() {
         return address.copy();
     }
-    
+
     public void setAddress(Address address) {
         this.address = address.copy();
     }
-    
+
     public String getPhone() {
         return phone;
     }
-    
+
     public void setPhone(String phone) {
         UserValidator.setPhone(phone);
         this.phone = phone;
     }
-    
+
     public String getEmail() {
         return email;
     }
-    
+
     public void setEmail(String email) {
         UserValidator.setEmail(email);
         this.email = email;
     }
-    public void editUserInformation(String password, String firstName, String middleName, String lastName, Address address, String phone, String email){
+
+    public void editUserInformation(String password, String firstName, String middleName, String lastName, Address address, String phone, String email) {
         setPassword(password);
         setFirstName(firstName);
         setMiddleName(middleName);
@@ -110,7 +111,7 @@ public abstract class User implements Serializable {
         setPhone(phone);
         setEmail(email);
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof User)) {
@@ -128,6 +129,7 @@ public abstract class User implements Serializable {
         }
 
         return cpr.equals(user.cpr) &&
+<<<<<<< HEAD
             password.equals(user.password) &&
             firstName.equals(user.firstName) &&
             lastName.equals(user.lastName) &&
@@ -143,4 +145,21 @@ public abstract class User implements Serializable {
         else
             return cpr + " " + password + " " + firstName + " " + middleName + " " + lastName + " " + address.toString() + " " + phone + " " + email;
     }
+=======
+                password.equals(user.password) &&
+                firstName.equals(user.firstName) &&
+                lastName.equals(user.lastName) &&
+                address.equals(user.address) &&
+                phone.equals(user.phone) &&
+                email.equals(user.email);
+    }
+
+//    @Override
+//    public String toString() {
+//        if (middleName == null)
+//            return cpr + " " + password + " " + firstName + " " + lastName + " " + address.toString() + " " + phone + " " + email;
+//        else
+//            return cpr + " " + password + " " + firstName + " " + middleName + " " + lastName + " " + address.toString() + " " + phone + " " + email;
+//    }
+>>>>>>> fd72e1b089a1f57d38ec0804c40164e05a5855f5
 }

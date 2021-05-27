@@ -2,8 +2,7 @@ package server.model.domain.appointment;
 
 import java.io.Serializable;
 
-public enum Type implements Serializable
-{
+public enum Type implements Serializable {
     TEST("Test"),
     VACCINE("Vaccine");
 

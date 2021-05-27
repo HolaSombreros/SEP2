@@ -1,7 +1,7 @@
 package server.model.validator;
 
 public class AddressValidator {
-    
+
     /**
      * Throws exception if the street is null or empty
      *
@@ -11,7 +11,7 @@ public class AddressValidator {
         if (street == null || street.isEmpty())
             throw new IllegalArgumentException("Please enter the street name");
     }
-    
+
     /**
      * Throws exception if the number is null or empty
      *
@@ -21,7 +21,7 @@ public class AddressValidator {
         if (number == null || number.isEmpty())
             throw new IllegalArgumentException("Please enter the number of your address");
     }
-    
+
     /**
      * Throws exception if the zipcode is invalid
      *
@@ -31,7 +31,7 @@ public class AddressValidator {
         if (zipcode < 1000 || zipcode > 9999)
             throw new IllegalArgumentException("Invalid zipcode");
     }
-    
+
     /**
      * Throws exception if the city is null or empty
      *

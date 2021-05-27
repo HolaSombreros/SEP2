@@ -20,7 +20,7 @@ public class RegisterViewModel implements RegisterViewModelInterface {
     private StringProperty phone;
     private StringProperty email;
     private StringProperty error;
-    
+
     public RegisterViewModel(Model model) {
         this.model = model;
         firstName = new SimpleStringProperty();
@@ -36,7 +36,7 @@ public class RegisterViewModel implements RegisterViewModelInterface {
         email = new SimpleStringProperty();
         error = new SimpleStringProperty();
     }
-    
+
     @Override
     public void reset() {
         firstName.set("");
@@ -52,75 +52,74 @@ public class RegisterViewModel implements RegisterViewModelInterface {
         email.set("");
         error.set("");
     }
-    
+
     @Override
     public StringProperty getFirstNameProperty() {
         return firstName;
     }
-    
+
     @Override
     public StringProperty getMiddleNameProperty() {
         return middleName;
     }
-    
+
     @Override
     public StringProperty getLastNameProperty() {
         return lastName;
     }
-    
+
     @Override
     public StringProperty getCPRProperty() {
         return cpr;
     }
-    
+
     @Override
     public StringProperty getPasswordProperty() {
         return password;
     }
-    
+
     @Override
     public StringProperty getStreetProperty() {
         return street;
     }
-    
+
     @Override
     public StringProperty getNumberProperty() {
         return number;
     }
-    
+
     @Override
     public IntegerProperty getZipCodeProperty() {
         return zipCode;
     }
-    
+
     @Override
     public StringProperty getCityProperty() {
         return city;
     }
-    
+
     @Override
     public StringProperty getPhoneProperty() {
         return phone;
     }
-    
+
     @Override
     public StringProperty getEmailProperty() {
         return email;
     }
-    
+
     @Override
     public StringProperty getErrorProperty() {
         return error;
     }
-    
+
     @Override
     public boolean register() {
         try {
             model.register(cpr.get(), password.get(), firstName.get(), middleName.get(), lastName.get(), phone.get(), email.get(), street.get(), number.get(), zipCode.get(), city.get());
             error.set("");
             return true;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             error.set(e.getMessage());
             return false;
         }

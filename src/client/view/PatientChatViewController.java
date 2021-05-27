@@ -10,14 +10,18 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 
-
 public class PatientChatViewController extends ViewController {
 
-    @FXML private TextField textField;
-    @FXML private Label errorLabel;
-    @FXML private ScrollPane scrollPane;
-    @FXML private VBox chatRoom;
-    @FXML private Label user;
+    @FXML
+    private TextField textField;
+    @FXML
+    private Label errorLabel;
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private VBox chatRoom;
+    @FXML
+    private Label user;
 
     private PatientChatViewModelInterface viewModel;
 
@@ -30,7 +34,7 @@ public class PatientChatViewController extends ViewController {
         scrollPane.vvalueProperty().bind(chatRoom.heightProperty());
         Bindings.bindContentBidirectional(viewModel.getMessages(), chatRoom.getChildren());
         viewModel.getUpdatedProperty().addListener((obs, oldVal, newVal) -> {
-            if(newVal) updateChat(viewModel.getMessages());
+            if (newVal) updateChat(viewModel.getMessages());
         });
         reset();
         viewModel.loadChatList();
@@ -50,17 +54,16 @@ public class PatientChatViewController extends ViewController {
     }
 
     @FXML
-    private void sendMessage(){
+    private void sendMessage() {
         viewModel.sendMessage();
     }
 
     @FXML
-    private void backButton(){
+    private void backButton() {
         viewModel.exitChat();
         if (viewModel.isAdmin()) {
             getViewHandler().openView(View.ADMINMESSAGELIST);
-        }
-        else {
+        } else {
             getViewHandler().openView(View.DASHBOARD);
         }
     }

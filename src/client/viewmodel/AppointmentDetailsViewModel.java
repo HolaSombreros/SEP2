@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.paint.Color;
 import server.model.domain.appointment.*;
+
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -23,10 +24,10 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
     private ObjectProperty<TimeInterval> timeInterval;
     private StringProperty result;
     private StringProperty resultLabel;
-    
+
     private AppointmentModel appointmentModel;
     private ViewState viewState;
-    
+
     public AppointmentDetailsViewModel(AppointmentModel appointmentModel, ViewState viewState) {
         this.appointmentModel = appointmentModel;
         this.viewState = viewState;
@@ -39,7 +40,7 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
         errorLabel = new SimpleStringProperty();
         resultLabel = new SimpleStringProperty("Result");
     }
-    
+
     @Override
     public void reset() {
         listOfTimeIntervals.clear();
@@ -49,26 +50,24 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
     }
 
     @Override
-    public void loadTimeIntervals(){
+    public void loadTimeIntervals() {
         listOfTimeIntervals.clear();
-        if(date.get() != null){
+        if (date.get() != null) {
             listOfTimeIntervals.addAll(appointmentModel.getAvailableTimeIntervals(date.get()).getTimeIntervals());
             // TODO - revisit this
-            if(listOfTimeIntervals.size() > 0){
+            if (listOfTimeIntervals.size() > 0) {
                 timeInterval.set(listOfTimeIntervals.get(0));
                 errorLabel.set("");
-            }
-            else{
+            } else {
                 timeInterval.set(null);
                 errorLabel.set("No time intervals available this day");
             }
         }
     }
-    
+
     private void loadAppointmentDetails() {
         Appointment appointment = appointmentModel.getAppointmentById(viewState.getSelectedAppointment());
-        if(appointment != null)
-        {
+        if (appointment != null) {
             date.set(LocalDate.of(appointment.getDate().getYear(), appointment.getDate().getMonth(), appointment.getDate().getDayOfMonth()));
             timeInterval.set(appointment.getTimeInterval());
             type.set(appointment.getType().toString());
@@ -76,18 +75,17 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
             if (appointment instanceof TestAppointment) {
                 TestAppointment testAppointment = (TestAppointment) appointment;
                 result.set(testAppointment.getResult().toString());
-            }
-            else {
+            } else {
                 resultLabel.set("");
                 result.set("");
             }
         }
     }
-    private boolean typeOfConfirmation(int number){
+
+    private boolean typeOfConfirmation(int number) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         Optional<ButtonType> result = null;
-        switch (number)
-        {
+        switch (number) {
             case 1:
                 alert.setTitle("Confirm cancelling the appointment");
                 alert.setHeaderText("Are you sure you want to cancel this appointment? \n\n" +
@@ -114,82 +112,77 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
     public StringProperty getTypeProperty() {
         return type;
     }
-    
+
     @Override
     public ObjectProperty<LocalDate> dateProperty() {
         return date;
     }
-    
+
     @Override
     public StringProperty statusProperty() {
         return status;
     }
-    
+
     @Override
     public StringProperty errorLabelProperty() {
         return errorLabel;
     }
-    
+
     @Override
     public ObservableList<TimeInterval> getListOfTimeIntervals() {
         return listOfTimeIntervals;
     }
-    
+
     @Override
     public ObjectProperty<TimeInterval> getTimeInterval() {
         return timeInterval;
     }
-    
+
     @Override
     public StringProperty resultProperty() {
         return result;
     }
-    
+
     @Override
     public StringProperty resultLabelProperty() {
         return resultLabel;
     }
-    
+
     @Override
     public void cancelAppointment() {
         Appointment appointment = appointmentModel.getAppointmentById(viewState.getSelectedAppointment());
-        if((appointment.getStatus() instanceof UpcomingAppointment)) {
+        if ((appointment.getStatus() instanceof UpcomingAppointment)) {
             if (typeOfConfirmation(1)) {
                 appointmentModel.cancelAppointment(viewState.getSelectedAppointment());
                 errorLabel.set("Appointment has been cancelled");
                 loadAppointmentDetails();
             }
-        }
-        else {
-            try{
+        } else {
+            try {
                 appointmentModel.cancelAppointment(appointment.getId());
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 errorLabel.set(e.getMessage());
             }
         }
     }
-    
+
     @Override
     public void rescheduleAppointment() {
         Appointment appointment = appointmentModel.getAppointmentById(viewState.getSelectedAppointment());
-        if((appointment.getStatus() instanceof UpcomingAppointment)){
-            if(typeOfConfirmation(2)) {
-                try{
+        if ((appointment.getStatus() instanceof UpcomingAppointment)) {
+            if (typeOfConfirmation(2)) {
+                try {
                     appointmentModel.rescheduleAppointment(appointment.getId(), date.get(), timeInterval.get());
                     errorLabel.set("Appointment has been rescheduled");
                     loadAppointmentDetails();
-                }
-                catch (IllegalStateException e){
+                } catch (IllegalStateException e) {
                     errorLabel.set(e.getMessage());
                 }
             }
-        }
-        else{
-            try{
+        } else {
+            try {
                 appointmentModel.rescheduleAppointment(appointment.getId(), date.get(), timeInterval.get());
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 errorLabel.set(e.getMessage());
             }
         }

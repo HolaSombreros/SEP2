@@ -43,7 +43,7 @@ public class Schedule implements Serializable {
     public int getId() {
         return id;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Schedule)) {

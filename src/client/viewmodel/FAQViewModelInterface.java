@@ -11,11 +11,18 @@ import server.model.domain.faq.FAQ;
 
 public interface FAQViewModelInterface {
     void reset();
+
     void addEditFAQ();
+
     void remove();
+
     void setSelectedBox(TitledPane box);
+
     ObservableList<VBox> getFAQContent();
+
     BooleanProperty isAdminProperty();
+
     StringProperty errorLabelProperty();
+
     BooleanProperty getUpdatedProperty();
 }

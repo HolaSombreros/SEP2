@@ -10,9 +10,12 @@ import javafx.scene.control.Label;
 public class LoginViewController extends ViewController {
 
     private LoginViewModelInterface viewModel;
-    @FXML private JFXTextField usernameField;
-    @FXML private JFXPasswordField passwordField;
-    @FXML private Label errorLabel;
+    @FXML
+    private JFXTextField usernameField;
+    @FXML
+    private JFXPasswordField passwordField;
+    @FXML
+    private Label errorLabel;
 
 
     public LoginViewController() {
@@ -38,13 +41,14 @@ public class LoginViewController extends ViewController {
 
     @FXML
     private void onEnter(Event event) {
-        if(event.getSource() == usernameField){
+        if (event.getSource() == usernameField) {
             passwordField.requestFocus();
         }
-        if(event.getSource() == passwordField){
+        if (event.getSource() == passwordField) {
             login();
         }
     }
+
     public void login() {
         switch (viewModel.login()) {
             case 0:

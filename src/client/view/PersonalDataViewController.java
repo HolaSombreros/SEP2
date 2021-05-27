@@ -8,30 +8,47 @@ import javafx.scene.control.TextField;
 import util.IntStringConverter;
 
 
-public class PersonalDataViewController extends ViewController
-{
-    @FXML private TextField firstName;
-    @FXML private TextField middleName;
-    @FXML private TextField lastName;
-    @FXML private TextField cpr;
-    @FXML private TextField password;
-    @FXML private TextField email;
-    @FXML private TextField phoneNumber;
-    @FXML private TextField street;
-    @FXML private TextField zipCode;
-    @FXML private TextField number;
-    @FXML private Label errorLabel;
-    @FXML private Label vaccineStatus;
-    @FXML private Label vaccineLabel;
-    @FXML private Label titleLabel;
-    @FXML private Button approveButton;
-    @FXML private Button declineButton;
-    @FXML private Button changeRole;
+public class PersonalDataViewController extends ViewController {
+    @FXML
+    private TextField firstName;
+    @FXML
+    private TextField middleName;
+    @FXML
+    private TextField lastName;
+    @FXML
+    private TextField cpr;
+    @FXML
+    private TextField password;
+    @FXML
+    private TextField email;
+    @FXML
+    private TextField phoneNumber;
+    @FXML
+    private TextField street;
+    @FXML
+    private TextField zipCode;
+    @FXML
+    private TextField number;
+    @FXML
+    private Label errorLabel;
+    @FXML
+    private Label vaccineStatus;
+    @FXML
+    private Label vaccineLabel;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private Button approveButton;
+    @FXML
+    private Button declineButton;
+    @FXML
+    private Button changeRole;
 
 
     private PersonalDataViewModelInterface viewModel;
 
-    public PersonalDataViewController(){}
+    public PersonalDataViewController() {
+    }
 
     @Override
     protected void init() {
@@ -51,11 +68,10 @@ public class PersonalDataViewController extends ViewController
         vaccineLabel.visibleProperty().bind(viewModel.vaccineLabelVisibilityProperty());
         changeRole.visibleProperty().bind(viewModel.changeRoleProperty());
         titleLabel.textProperty().bind(viewModel.titleProperty());
-        if(viewModel.isAdmin()) {
+        if (viewModel.isAdmin()) {
             viewModel.approveButtonProperty().addListener((obs, oldVal, newVal) -> approveButton.setDisable(newVal));
             viewModel.declineButtonProperty().addListener((obs, oldVal, newVal) -> declineButton.setDisable(newVal));
-        }
-        else{
+        } else {
             approveButton.setVisible(false);
             declineButton.setVisible(false);
         }
@@ -67,33 +83,39 @@ public class PersonalDataViewController extends ViewController
         viewModel.reset();
     }
 
-    @FXML private void editDetails(){
+    @FXML
+    private void editDetails() {
         viewModel.editDetails();
     }
 
-    @FXML private void backButton(){
+    @FXML
+    private void backButton() {
         viewModel.back();
         if (viewModel.isLoggedInAsNurse())
             getViewHandler().openView(View.NURSEDASHBOARD);
-        else if(viewModel.isAdmin())
+        else if (viewModel.isAdmin())
             getViewHandler().openView(View.USERLIST);
-            else getViewHandler().openView(View.DASHBOARD);
-        }
+        else getViewHandler().openView(View.DASHBOARD);
+    }
 
-    @FXML private void approve() {
+    @FXML
+    private void approve() {
         viewModel.approve();
     }
 
-    @FXML private void decline() {
+    @FXML
+    private void decline() {
         viewModel.decline();
     }
 
-    @FXML private void changeRole() {
+    @FXML
+    private void changeRole() {
         if (viewModel.changeRole())
             getViewHandler().openView(View.SETROLE);
     }
 
-    @FXML private void removeUser() {
+    @FXML
+    private void removeUser() {
        /* if(viewModel.removeUser())
             getViewHandler().openView(View.USERLIST);*/
     }

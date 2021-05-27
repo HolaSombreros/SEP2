@@ -3,8 +3,8 @@ package server.database;
 public class ManagerFactory {
     private PatientManager patientManager;
     private NurseManager nurseManager;
-    private AppointmentManager appointmentManager ;
-    private AddressManager addressManager ;
+    private AppointmentManager appointmentManager;
+    private AddressManager addressManager;
     private AdministratorManager administratorManager;
     private UserManager userManager;
     private NurseScheduleManager nurseScheduleManager;
@@ -22,7 +22,7 @@ public class ManagerFactory {
         faqManager = new FAQManager();
         chatManager = new ChatManager(userManager);
     }
-    
+
     public PatientManager getPatientManager() {
         return patientManager;
     }
@@ -50,7 +50,7 @@ public class ManagerFactory {
     public NurseScheduleManager getNurseScheduleManager() {
         return nurseScheduleManager;
     }
-    
+
     public FAQManager getFAQManager() {
         return faqManager;
     }

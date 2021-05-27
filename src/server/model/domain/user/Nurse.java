@@ -13,7 +13,7 @@ public class Nurse extends Staff {
     public Nurse(String cpr, String password, String firstName, String lastName, Address address, String phone, String email, String employeeId) {
         this(cpr, password, firstName, null, lastName, address, phone, email, employeeId);
     }
-    
+
     public ScheduleList getScheduleList() {
         return scheduleList;
     }
@@ -26,29 +26,25 @@ public class Nurse extends Staff {
         scheduleList.add(schedule);
     }
 
-    public void removeSchedule(Schedule schedule)
-    {
+    public void removeSchedule(Schedule schedule) {
         boolean remove = false;
         for (Schedule schedule1 : scheduleList.getSchedules())
-            if (schedule1.getDateFrom().equals(schedule.getDateFrom()))
-            {
+            if (schedule1.getDateFrom().equals(schedule.getDateFrom())) {
                 schedule = schedule1;
                 remove = true;
             }
         if (remove)
-        scheduleList.remove(schedule);
+            scheduleList.remove(schedule);
     }
 
-    public Schedule getSchedule(LocalDate date)
-    {
+    public Schedule getSchedule(LocalDate date) {
         for (Schedule schedule : scheduleList.getSchedules())
             if (schedule.getDateFrom().equals(date))
                 return schedule;
         return null;
     }
 
-    public boolean worksThatWeek(LocalDate date)
-    {
+    public boolean worksThatWeek(LocalDate date) {
         for (Schedule s : scheduleList.getSchedules())
             if (s.getDateFrom().equals(date))
                 return true;
