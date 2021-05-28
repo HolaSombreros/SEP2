@@ -150,6 +150,14 @@ public class ModelManager implements Model, LocalListener<Object, Object> {
         client.removeRole(user);
     }
 
+    @Override public NotificationList getNotifications(Patient patient) {
+        return client.getNotifications(patient);
+    }
+
+    @Override public void disableNotification(Notification notification) {
+        client.disableNotification(notification);
+    }
+
     @Override
     public void logout(User user) {
         client.logout(user);

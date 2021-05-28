@@ -10,7 +10,6 @@ import server.model.domain.appointment.*;
 import server.model.domain.user.ApprovedStatus;
 import server.model.domain.user.Patient;
 import server.model.domain.user.PendingStatus;
-import server.model.domain.user.User;
 import util.ObservableClock;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
@@ -30,6 +29,8 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     private StringProperty vaccinationLabel;
     private BooleanProperty disableButton;
     private StringProperty nextAppointment;
+    private StringProperty notificationMessageProperty;
+    private BooleanProperty notificationVisibleProperty;
 
     public DashBoardViewModel(Model model, ViewState viewState) {
         this.model = model;
@@ -45,7 +46,9 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
         this.date = new SimpleStringProperty();
         this.vaccinationLabel = new SimpleStringProperty();
         this.disableButton = new SimpleBooleanProperty(false);
-        nextAppointment = new SimpleStringProperty();
+        this.nextAppointment = new SimpleStringProperty();
+        this.notificationMessageProperty = new SimpleStringProperty();
+        this.notificationVisibleProperty = new SimpleBooleanProperty();
     }
 
     @Override
@@ -54,6 +57,8 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
         Patient patient = (Patient) viewState.getUser();
         vaccinationLabel.set(patient.getVaccineStatus().toString());
         disableButton.set(patient.getVaccineStatus() instanceof PendingStatus || patient.getVaccineStatus() instanceof ApprovedStatus);
+        notificationVisibleProperty.set(false);
+        notificationMessageProperty.set("");
 
         AppointmentList appointments = model.getUpcomingAppointments((Patient) viewState.getUser());
         if (appointments.size() > 0) {
@@ -68,6 +73,10 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
             }
         } else {
             nextAppointment.set("You do not have any upcoming appointments");
+        }
+        if (model.getNotifications((Patient) viewState.getUser()).getNotifications().size() > 0) {
+            notificationVisibleProperty.set(true);
+            notificationMessageProperty.set(model.getNotifications((Patient) viewState.getUser()).getNotifications().get(0).getText());
         }
     }
 
@@ -88,6 +97,10 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     @Override
     public void enterChat() {
         viewState.setSelectedUser(viewState.getUser());
+    }
+
+    @Override public void bookAppointment() {
+        model.disableNotification(model.getNotifications((Patient) viewState.getUser()).getNotifications().get(0));
     }
 
     @Override
@@ -118,6 +131,14 @@ public class DashBoardViewModel implements DashBoardViewModelInterface, LocalLis
     @Override
     public BooleanProperty getDisableButtonProperty() {
         return disableButton;
+    }
+
+    @Override public StringProperty getNotificationMessageProperty() {
+        return notificationMessageProperty;
+    }
+
+    @Override public BooleanProperty getNotificationVisibleProperty() {
+        return notificationVisibleProperty;
     }
 
     @Override

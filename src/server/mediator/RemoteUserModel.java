@@ -37,4 +37,7 @@ public interface RemoteUserModel extends Remote {
 
     void removeRole(User user) throws RemoteException;
 
+    NotificationList getNotifications(Patient patient) throws RemoteException;
+
+    void disableNotification(Notification notification) throws RemoteException;
 }

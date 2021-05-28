@@ -35,4 +35,8 @@ public interface ServerUserModel {
     void setRole(User user, String role) throws RemoteException;
 
     void RemoveRole(User user) throws RemoteException;
+
+    NotificationList getNotifications(Patient patient);
+
+    void disableNotification(Notification notification);
 }

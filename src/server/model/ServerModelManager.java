@@ -33,6 +33,7 @@ public class ServerModelManager implements ServerModel
     private AvailableTimeIntervalList availableTimeIntervalList;
     private AppointmentList appointmentList;
 
+    private NotificationList notificationList;
     private ShiftList shiftList;
     private ScheduleList scheduleList;
     private ManagerFactory managerFactory;
@@ -47,6 +48,7 @@ public class ServerModelManager implements ServerModel
 
         appointmentList = new AppointmentList();
         availableTimeIntervalList = new AvailableTimeIntervalList();
+        notificationList = new NotificationList();
 
         doDummyStuff();
     }
@@ -67,6 +69,7 @@ public class ServerModelManager implements ServerModel
        // addDummyFAQS();
         loadFAQs();
 
+        loadNotifications();
 
 //        PLEASE PUT THIS AFTER LOADING THE SCHEDULES AND APPOINTMENTS IF YOU WANNA MOVE IT
         loadAvailableTimeIntervals();
@@ -162,10 +165,19 @@ public class ServerModelManager implements ServerModel
                 "Pregnant and recently pregnant people are also at increased risk for severe illness from COVID-19.", Category.GENERAL,(Administrator)userList.getAdminList().getUsers().get(0));
     }
 
-    private void loadFAQs() throws RemoteException
-    {
+    private void loadFAQs() throws RemoteException {
         try {
             faqList = managerFactory.getFAQManager().getAllFAQs();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new RemoteException(e.getMessage());
+        }
+    }
+
+    private void loadNotifications() throws RemoteException {
+        try {
+            notificationList = managerFactory.getNotificationManager().getAllUnSeenNotifications();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -460,8 +472,11 @@ public class ServerModelManager implements ServerModel
                 if (nurse.getSchedule(dateFrom).getShift().getId() != shiftId || shiftId == 0) {
                     for (int i = 0; i < 7; i++)
                         for (Appointment appointment : getNurseUpcomingAppointments(nurse).getAppointments())
-                            if (appointment.getDate().equals(dateFrom.plusDays(i)))
+                            if (appointment.getDate().equals(dateFrom.plusDays(i))) {
                                 cancelAppointment(appointment.getId());
+                                notificationList.add(managerFactory.getNotificationManager().addNotification("Your appointment on " + appointment.getDate().toString()
+                                    + " has been cancelled due to internal issues", false, appointment.getPatient()));
+                            }
                     managerFactory.getNurseScheduleManager().removeNurseSchedule(nurse, nurse.getSchedule(dateFrom));
                     removeAvailableTimeIntervals(nurse.getSchedule(dateFrom));
                     nurse.removeSchedule(nurse.getSchedule(dateFrom));
@@ -702,6 +717,22 @@ public class ServerModelManager implements ServerModel
                 break;
         }
         updateList();
+    }
+
+    @Override public NotificationList getNotifications(Patient patient)
+    {
+        return notificationList.getNotificationsByPatient(userList.getPatient(patient.getCpr()));
+    }
+
+    @Override public void disableNotification(Notification notification)
+    {
+        try {
+            managerFactory.getNotificationManager().updateSeenStatus(notification.getId());
+            notificationList.getById(notification.getId()).setSeen(true);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

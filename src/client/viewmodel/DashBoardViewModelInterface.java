@@ -15,6 +15,8 @@ public interface DashBoardViewModelInterface {
 
     void enterChat();
 
+    void bookAppointment();
+
     StringProperty getUsernameProperty();
 
     StringProperty getTimeProperty();
@@ -28,6 +30,5 @@ public interface DashBoardViewModelInterface {
     StringProperty getNextAppointmentProperty();
     
     StringProperty getNotificationMessageProperty();
-    BooleanProperty getNotificationMessageVisibleProperty();
-    BooleanProperty getNotificationButtonVisibleProperty();
+    BooleanProperty getNotificationVisibleProperty();
 }

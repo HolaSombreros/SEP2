@@ -33,8 +33,8 @@ public class DashboardViewController extends ViewController {
         viewModel.getDisableButtonProperty().addListener((obs, oldVal, newVal) -> applyButton.setDisable(newVal));
         nextAppointmentLabel.textProperty().bind(viewModel.getNextAppointmentProperty());
         notificationLabel.textProperty().bind(viewModel.getNotificationMessageProperty());
-        notificationLabel.visibleProperty().bind(viewModel.getNotificationMessageVisibleProperty());
-        notificationButton.visibleProperty().bind(viewModel.getNotificationButtonVisibleProperty());
+        notificationLabel.visibleProperty().bind(viewModel.getNotificationVisibleProperty());
+        notificationButton.visibleProperty().bind(viewModel.getNotificationVisibleProperty());
         
         reset();
     }
@@ -78,6 +78,7 @@ public class DashboardViewController extends ViewController {
     
     @FXML
     private void bookAppointment() {
+        viewModel.bookAppointment();
         getViewHandler().openView(View.ADDAPPOINTMENT);
     }
 }
