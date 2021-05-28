@@ -4,13 +4,13 @@ public class Notification {
 
     private int id;
     private String text;
-    private boolean status;
+    private boolean seen;
     private Patient patient;
 
-    public Notification(int id, String text, boolean status, Patient patient) {
+    public Notification(int id, String text, boolean seen, Patient patient) {
         this.id = id;
         this.text = text;
-        this.status = status;
+        this.seen = seen;
         this.patient = patient;
     }
 
@@ -22,8 +22,8 @@ public class Notification {
         return text;
     }
 
-    public boolean isStatus() {
-        return status;
+    public boolean isSeen() {
+        return seen;
     }
 
     public Patient getPatient() {
@@ -31,12 +31,12 @@ public class Notification {
     }
 
 
-    public Notification setStatus(boolean status) {
-        this.status = status;
+    public Notification setSeen(boolean seen) {
+        this.seen = seen;
         return this;
     }
 
     public String toString(){
-        return id + " : " + text + " " + (!status ?"Read" : "Unread") + patient.getCpr();
+        return id + " : " + text + " " + (!seen ?"Read" : "Unread") + patient.getCpr();
     }
 }

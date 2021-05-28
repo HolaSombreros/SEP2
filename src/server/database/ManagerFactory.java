@@ -10,6 +10,7 @@ public class ManagerFactory {
     private NurseScheduleManager nurseScheduleManager;
     private FAQManager faqManager;
     private ChatManager chatManager;
+    private NotificationManager notificationManager;
 
     public ManagerFactory() {
         patientManager = new PatientManager();
@@ -21,6 +22,7 @@ public class ManagerFactory {
         nurseScheduleManager = new NurseScheduleManager();
         faqManager = new FAQManager();
         chatManager = new ChatManager(userManager);
+        notificationManager = new NotificationManager(userManager);
     }
 
     public PatientManager getPatientManager() {
@@ -57,6 +59,10 @@ public class ManagerFactory {
 
     public ChatManager getChatManager() {
         return chatManager;
+    }
+
+    public NotificationManager getNotificationManager() {
+        return notificationManager;
     }
 
 }
