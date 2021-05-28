@@ -22,6 +22,7 @@ public class MyScheduleViewController extends ViewController {
         fromColumn.setCellValueFactory(data -> data.getValue().getFromProperty());
         toColumn.setCellValueFactory(data -> data.getValue().getToProperty());
         shiftColumn.setCellValueFactory(data -> data.getValue().getShiftProperty());
+        reset();
     }
     
     @Override
