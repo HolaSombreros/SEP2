@@ -716,6 +716,7 @@ public class ServerModelManager implements ServerModel
                 break;
         }
         updateList();
+        property.firePropertyChange("Disconnect",null, user);
     }
 
     @Override public NotificationList getNotifications(Patient patient)
