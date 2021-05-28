@@ -45,4 +45,13 @@ public class NotificationManager {
             return list;
         }
     }
+
+    public void updateSeenStatus(int id) throws SQLException{
+        try (Connection connection = DatabaseManager.getInstance().getConnection()){
+            PreparedStatement statement = connection.prepareStatement("UPDATE notification SET seen = ? WHERE id = ?");
+            statement.setBoolean(1,true);
+            statement.setInt(2,id);
+            statement.executeUpdate();
+        }
+    }
 }
