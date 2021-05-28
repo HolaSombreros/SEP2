@@ -285,6 +285,24 @@ public class Client implements Model, RemoteListener<Object, Object> {
         }
     }
 
+    @Override public NotificationList getNotifications(Patient patient) {
+        try {
+            return server.getNotifications(patient);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e),e);
+        }
+    }
+
+    @Override public void disableNotification(Notification notification) {
+        try {
+            server.disableNotification(notification);
+        }
+        catch (RemoteException e) {
+            throw new IllegalStateException(getExceptionMessage(e),e);
+        }
+    }
+
     @Override public void editSchedule(Nurse nurse, LocalDate dateFrom, int shiftId) {
         try {
             server.editSchedule(nurse, dateFrom, shiftId);

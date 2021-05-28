@@ -183,6 +183,14 @@ public class RemoteModelManager implements RemoteModel, LocalListener<Object, Ob
         serverModel.RemoveRole(user);
     }
 
+    @Override public NotificationList getNotifications(Patient patient) throws RemoteException {
+        return serverModel.getNotifications(patient);
+    }
+
+    @Override public void disableNotification(Notification notification) throws RemoteException {
+        serverModel.disableNotification(notification);
+    }
+
     @Override
     public void sendMessage(Patient patient, String message, Administrator administrator) throws RemoteException {
         serverModel.sendMessage(patient, message, administrator);

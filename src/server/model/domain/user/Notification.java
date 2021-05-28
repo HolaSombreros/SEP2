@@ -1,7 +1,8 @@
 package server.model.domain.user;
 
-public class Notification {
+import java.io.Serializable;
 
+public class Notification implements Serializable {
     private int id;
     private String text;
     private boolean seen;

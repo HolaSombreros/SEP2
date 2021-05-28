@@ -37,4 +37,7 @@ public interface UserModel {
 
     void removeRole(User user);
 
+    NotificationList getNotifications(Patient patient);
+
+    void disableNotification(Notification notification);
 }

@@ -1,10 +1,10 @@
 package server.model.domain.user;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationList {
-
+public class NotificationList implements Serializable {
     private List<Notification> notifications;
 
     public NotificationList() {
@@ -28,7 +28,7 @@ public class NotificationList {
     public NotificationList getNotificationsByPatient(Patient patient){
         NotificationList list = new NotificationList();
         for(Notification notification : notifications)
-            if(notification.getPatient().equals(patient))
+            if(notification.getPatient().equals(patient) && !notification.isSeen())
                 list.add(notification);
         return list;
     }
