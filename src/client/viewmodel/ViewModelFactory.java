@@ -1,7 +1,16 @@
 package client.viewmodel;
 
 import client.model.Model;
-import server.model.domain.user.User;
+import client.viewmodel.appointment.*;
+import client.viewmodel.chat.AdminMessageListViewModel;
+import client.viewmodel.chat.AdminMessageListViewModelInterface;
+import client.viewmodel.chat.PatientChatViewModel;
+import client.viewmodel.chat.PatientChatViewModelInterface;
+import client.viewmodel.faq.AddFAQViewModel;
+import client.viewmodel.faq.AddFAQViewModelInterface;
+import client.viewmodel.faq.FAQViewModel;
+import client.viewmodel.faq.FAQViewModelInterface;
+import client.viewmodel.user.*;
 
 public class ViewModelFactory {
     private RegisterViewModelInterface registerViewModel;
