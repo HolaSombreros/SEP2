@@ -64,8 +64,9 @@ public class ServerModelManager implements ServerModel
         loadSchedules();
         loadAppointments();
 
-        loadFAQs();
        // addDummyFAQS();
+        loadFAQs();
+
 
 //        PLEASE PUT THIS AFTER LOADING THE SCHEDULES AND APPOINTMENTS IF YOU WANNA MOVE IT
         loadAvailableTimeIntervals();
@@ -466,10 +467,11 @@ public class ServerModelManager implements ServerModel
                     nurse.removeSchedule(nurse.getSchedule(dateFrom));
                 }
             }
-            else if (shiftId != 0) {
+            if (shiftId != 0) {
                 Shift shift = getShiftList().getById(shiftId);
                 LocalDate dateTo = dateFrom.plusDays(6);
                 Schedule schedule = managerFactory.getNurseScheduleManager().addSchedule(dateFrom, dateTo, shift);
+                System.out.println(schedule);
                 nurse.addSchedule(schedule);
                 addAvailableTimeIntervals(schedule);
                 managerFactory.getNurseScheduleManager().addNurseSchedule(nurse, schedule);
