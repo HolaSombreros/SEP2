@@ -21,6 +21,11 @@
                         <Font size="14.0" />
                     </font>
                 </Button>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#schedule" text="My Schedule">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#details" text="View Appointment">
                <font>
                   <Font size="14.0" />

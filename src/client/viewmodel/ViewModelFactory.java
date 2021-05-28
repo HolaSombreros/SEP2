@@ -21,6 +21,7 @@ public class ViewModelFactory {
     private SetRoleViewModelInterface setRoleViewModel;
     private AdminMessageListViewModelInterface adminMessageListViewModel;
     private PatientChatViewModelInterface patientChatViewModel;
+    private MyScheduleViewModelInterface myScheduleViewModel;
 
     private ViewState viewState;
 
@@ -43,6 +44,7 @@ public class ViewModelFactory {
         setRoleViewModel = new SetRoleViewModel(model, viewState);
         adminMessageListViewModel = new AdminMessageListViewModel(model, viewState);
         patientChatViewModel = new PatientChatViewModel(model, viewState);
+        myScheduleViewModel = new MyScheduleViewModel(model, viewState);
     }
 
     public ViewState getViewState() {
@@ -115,5 +117,9 @@ public class ViewModelFactory {
 
     public PatientChatViewModelInterface getPatientChatViewModel() {
         return patientChatViewModel;
+    }
+    
+    public MyScheduleViewModelInterface getMyScheduleViewModel() {
+        return myScheduleViewModel;
     }
 }

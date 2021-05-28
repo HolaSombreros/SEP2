@@ -17,7 +17,8 @@ public enum View {
     ADDEDITFAQ("AddEditFAQView.fxml"),
     SETROLE("SetRoleView.fxml"),
     ADMINMESSAGELIST("AdminMessageListView.fxml"),
-    PATIENTCHAT("PatientChatView.fxml");
+    PATIENTCHAT("PatientChatView.fxml"),
+    MYSCHEDULE("MyScheduleView.fxml");
 
     private String fxmlFile;
 

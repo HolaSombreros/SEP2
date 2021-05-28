@@ -93,6 +93,11 @@ public class NurseDashBoardViewController extends ViewController {
             getViewHandler().openView(View.NURSETEST);
         }
     }
+    
+    @FXML
+    private void schedule() {
+        getViewHandler().openView(View.MYSCHEDULE);
+    }
 
     @FXML
     private void handleKeyReleased() {
