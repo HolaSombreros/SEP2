@@ -7,20 +7,20 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox alignment="CENTER" prefHeight="450.0" prefWidth="500.0" spacing="15.0" stylesheets="@../../util/style.css" userData="My Schedule" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.MyScheduleViewController">
+<VBox alignment="CENTER" prefHeight="480.0" prefWidth="500.0" spacing="15.0" stylesheets="@../../util/style.css" userData="My Schedule" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.MyScheduleViewController">
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
    <children>
       <Label styleClass="header" text="My Schedule" />
-      <TableView maxWidth="345.0" prefHeight="300.0" fx:id="table">
+      <TableView fx:id="table" maxWidth="345.0" prefHeight="300.0">
         <columns>
-          <TableColumn editable="false" minWidth="80.0" resizable="false" text="From" fx:id="fromColumn"/>
-          <TableColumn editable="false" minWidth="80.0" resizable="false" text="To" fx:id="toColumn"/>
-            <TableColumn editable="false" minWidth="160.0" prefWidth="160.0" resizable="false" text="Shift" fx:id="shiftColumn"/>
+          <TableColumn fx:id="fromColumn" editable="false" minWidth="80.0" resizable="false" text="From" />
+          <TableColumn fx:id="toColumn" editable="false" minWidth="80.0" resizable="false" text="To" />
+            <TableColumn fx:id="shiftColumn" editable="false" minWidth="160.0" prefWidth="160.0" resizable="false" text="Shift" />
         </columns>
       </TableView>
-      <Button minWidth="100.0" mnemonicParsing="false" text="Go Back" onAction="#back"/>
+      <Label styleClass="error" text="Error Label" fx:id="errorLabel"/>
+      <Button minWidth="100.0" mnemonicParsing="false" onAction="#back" text="Go Back" />
    </children>
 </VBox>

@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="450.0" prefWidth="450.0" spacing="20.0" stylesheets="@../../util/style.css" userData="Add New Appointment" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.AddAppointmentViewController">
+<VBox alignment="CENTER" prefHeight="450.0" prefWidth="450.0" spacing="20.0" stylesheets="@../../util/style.css" userData="Book New Appointment" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.AddAppointmentViewController">
     <children>
-        <Label styleClass="header" text="Add a new appointment">
+        <Label styleClass="header" text="Book a new appointment">
             <font>
                 <Font size="18.0" />
             </font>
@@ -53,7 +53,7 @@
                         <Font size="14.0" />
                     </font>
                 </Label>
-                <Button defaultButton="true" maxWidth="250.0" mnemonicParsing="false" onAction="#createAppointment" text="Create Appointment">
+                <Button defaultButton="true" maxWidth="250.0" mnemonicParsing="false" onAction="#createAppointment" text="Book Appointment">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
