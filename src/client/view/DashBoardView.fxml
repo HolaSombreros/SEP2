@@ -111,16 +111,16 @@
       </HBox>
    </bottom>
    <center>
-      <VBox alignment="CENTER" maxWidth="400.0" BorderPane.alignment="CENTER" fx:id="contentBox">
+      <VBox alignment="CENTER" maxWidth="400.0" BorderPane.alignment="CENTER">
          <children>
             <VBox spacing="10.0">
                <children>
-                  <Label text="Your appointment was cancelled yada yada yada asdkasjdklpasj doæiaj sdoapisjd poasjdp oasdjasp odjas d9paisjd apsoidja spoidjad" textFill="RED" wrapText="true">
+                  <Label text="Your appointment was cancelled yada yada yada asdkasjdklpasj doæiaj sdoapisjd poasjdp oasdjasp odjas d9paisjd apsoidja spoidjad" textFill="RED" wrapText="true" fx:id="notificationLabel">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Button mnemonicParsing="false" text="Book a new appointment" />
+                  <Button mnemonicParsing="false" text="Book a new appointment" fx:id="notificationButton" onAction="#bookAppointment"/>
                </children>
             </VBox>
          </children>

@@ -26,6 +26,8 @@ public interface DashBoardViewModelInterface {
     BooleanProperty getDisableButtonProperty();
 
     StringProperty getNextAppointmentProperty();
-    ObservableList<VBox> getNotifications();
-    BooleanProperty getUpdatedProperty();
+    
+    StringProperty getNotificationMessageProperty();
+    BooleanProperty getNotificationMessageVisibleProperty();
+    BooleanProperty getNotificationButtonVisibleProperty();
 }

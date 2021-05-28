@@ -16,7 +16,8 @@ public class DashboardViewController extends ViewController {
     @FXML private Label vaccinationLabel;
     @FXML private Button applyButton;
     @FXML private Label nextAppointmentLabel;
-    @FXML private VBox contentBox;
+    @FXML private Label notificationLabel;
+    @FXML private Button notificationButton;
 
     public DashboardViewController() {
         // empty - called by FXMLLoader
@@ -31,18 +32,11 @@ public class DashboardViewController extends ViewController {
         vaccinationLabel.textProperty().bind(viewModel.getVaccinationLabelProperty());
         viewModel.getDisableButtonProperty().addListener((obs, oldVal, newVal) -> applyButton.setDisable(newVal));
         nextAppointmentLabel.textProperty().bind(viewModel.getNextAppointmentProperty());
-        updateContent(viewModel.getNotifications());
-        viewModel.getUpdatedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal) {
-                updateContent(viewModel.getNotifications());
-            }
-        });
+        notificationLabel.textProperty().bind(viewModel.getNotificationMessageProperty());
+        notificationLabel.visibleProperty().bind(viewModel.getNotificationMessageVisibleProperty());
+        notificationButton.visibleProperty().bind(viewModel.getNotificationButtonVisibleProperty());
         
         reset();
-    }
-    
-    private void updateContent(ObservableList<VBox> content) {
-        contentBox.getChildren().setAll(content);
     }
 
     @Override
@@ -80,5 +74,10 @@ public class DashboardViewController extends ViewController {
     private void enterChat() {
         viewModel.enterChat();
         getViewHandler().openView(View.PATIENTCHAT);
+    }
+    
+    @FXML
+    private void bookAppointment() {
+        getViewHandler().openView(View.ADDAPPOINTMENT);
     }
 }
