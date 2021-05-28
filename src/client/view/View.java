@@ -1,24 +1,24 @@
 package client.view;
 
 public enum View {
-    REGISTER("RegisterView.fxml"),
-    LOGIN("LoginView.fxml"),
-    LOGINCHOICE("LoginChoiceView.fxml"),
-    APPOINTMENTLIST("AppointmentListView.fxml"),
-    ADDAPPOINTMENT("AddAppointmentView.fxml"),
-    APPOINTMENTDETAILS("AppointmentDetailsView.fxml"),
-    DASHBOARD("DashBoardView.fxml"),
-    USERLIST("UserListView.fxml"),
-    PERSONALDATA("PersonalDataView.fxml"),
-    STAFFDETAILS("StaffDetailsView.fxml"),
-    NURSEDASHBOARD("NurseDashBoardView.fxml"),
-    NURSETEST("NurseTestAppointmentView.fxml"),
-    FAQ("FAQView.fxml"),
-    ADDEDITFAQ("AddEditFAQView.fxml"),
-    SETROLE("SetRoleView.fxml"),
-    ADMINMESSAGELIST("AdminMessageListView.fxml"),
-    PATIENTCHAT("PatientChatView.fxml"),
-    MYSCHEDULE("MyScheduleView.fxml");
+    REGISTER("user/RegisterView.fxml"),
+    LOGIN("user/LoginView.fxml"),
+    LOGINCHOICE("user/LoginChoiceView.fxml"),
+    APPOINTMENTLIST("appointment/AppointmentListView.fxml"),
+    ADDAPPOINTMENT("appointment/AddAppointmentView.fxml"),
+    APPOINTMENTDETAILS("appointment/AppointmentDetailsView.fxml"),
+    DASHBOARD("user/DashBoardView.fxml"),
+    USERLIST("user/UserListView.fxml"),
+    PERSONALDATA("user/PersonalDataView.fxml"),
+    STAFFDETAILS("user/StaffDetailsView.fxml"),
+    NURSEDASHBOARD("user/NurseDashBoardView.fxml"),
+    NURSETEST("user/NurseTestAppointmentView.fxml"),
+    FAQ("faq/FAQView.fxml"),
+    ADDEDITFAQ("faq/AddEditFAQView.fxml"),
+    SETROLE("user/SetRoleView.fxml"),
+    ADMINMESSAGELIST("chat/AdminMessageListView.fxml"),
+    PATIENTCHAT("chat/PatientChatView.fxml"),
+    MYSCHEDULE("user/MyScheduleView.fxml");
 
     private String fxmlFile;
 
