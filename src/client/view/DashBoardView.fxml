@@ -22,17 +22,17 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="applyButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#applyForVaccination" prefHeight="30.0" prefWidth="173.0" text="Apply For Vaccination">
+            <Button fx:id="applyButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#applyForVaccination" text="Apply For Vaccination">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#viewFAQ" prefHeight="30.0" prefWidth="173.0" text="View FAQ">
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#enterChat" text="Enter Chat" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#viewFAQ" text="View FAQs">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#enterChat" prefHeight="30.0" prefWidth="198.0" text="Enter Chat" />
             <Label maxHeight="1.7976931348623157E308" text="Hidden label" visible="false" VBox.vgrow="ALWAYS" />
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#logout" text="Logout">
                <font>
@@ -111,6 +111,21 @@
       </HBox>
    </bottom>
    <center>
-      <VBox alignment="CENTER" BorderPane.alignment="CENTER" />
+      <VBox alignment="CENTER" maxWidth="400.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox spacing="10.0">
+               <children>
+                  <Label text="Your appointment was cancelled yada yada yada asdkasjdklpasj doæiaj sdoapisjd poasjdp oasdjasp odjas d9paisjd apsoidja spoidjad" textFill="RED" wrapText="true" fx:id="notificationLabel">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Button mnemonicParsing="false" text="Book a new appointment" fx:id="notificationButton" onAction="#bookAppointment"/>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding></VBox>
    </center>
 </BorderPane>

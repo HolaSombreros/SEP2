@@ -1,9 +1,11 @@
 package client.view;
 
 import client.viewmodel.DashBoardViewModelInterface;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 
 public class DashboardViewController extends ViewController {
     private DashBoardViewModelInterface viewModel;
@@ -14,6 +16,8 @@ public class DashboardViewController extends ViewController {
     @FXML private Label vaccinationLabel;
     @FXML private Button applyButton;
     @FXML private Label nextAppointmentLabel;
+    @FXML private Label notificationLabel;
+    @FXML private Button notificationButton;
 
     public DashboardViewController() {
         // empty - called by FXMLLoader
@@ -28,6 +32,10 @@ public class DashboardViewController extends ViewController {
         vaccinationLabel.textProperty().bind(viewModel.getVaccinationLabelProperty());
         viewModel.getDisableButtonProperty().addListener((obs, oldVal, newVal) -> applyButton.setDisable(newVal));
         nextAppointmentLabel.textProperty().bind(viewModel.getNextAppointmentProperty());
+        notificationLabel.textProperty().bind(viewModel.getNotificationMessageProperty());
+        notificationLabel.visibleProperty().bind(viewModel.getNotificationMessageVisibleProperty());
+        notificationButton.visibleProperty().bind(viewModel.getNotificationButtonVisibleProperty());
+        
         reset();
     }
 
@@ -66,5 +74,10 @@ public class DashboardViewController extends ViewController {
     private void enterChat() {
         viewModel.enterChat();
         getViewHandler().openView(View.PATIENTCHAT);
+    }
+    
+    @FXML
+    private void bookAppointment() {
+        getViewHandler().openView(View.ADDAPPOINTMENT);
     }
 }
