@@ -15,6 +15,7 @@ public class MyScheduleViewController extends ViewController {
     @FXML private TableColumn<ScheduleTableDataViewModel, String> toColumn;
     @FXML private TableColumn<ScheduleTableDataViewModel, String> shiftColumn;
     @FXML private Label errorLabel;
+
     
     @Override
     protected void init() {
