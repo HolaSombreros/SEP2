@@ -145,12 +145,24 @@ public class NurseScheduleManager {
 
     public void addNurseSchedule(Nurse nurse, Schedule schedule) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO nurse_schedule (nurse_cpr,schedule_id) VALUES(?,?);");
-            insertStatement.setString(1, nurse.getCpr());
-            insertStatement.setInt(2, schedule.getId());
-            //adds the schedule, only if it doesn't exist
-            addSchedule(schedule.getDateFrom(), schedule.getDateTo(), schedule.getShift());
-            insertStatement.executeUpdate();
+            if (!hasNurseSchedule(nurse, schedule)) {
+                PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO nurse_schedule (nurse_cpr,schedule_id) VALUES(?,?);");
+                insertStatement.setString(1, nurse.getCpr());
+                insertStatement.setInt(2, schedule.getId());
+                //adds the schedule, only if it doesn't exist
+                addSchedule(schedule.getDateFrom(), schedule.getDateTo(), schedule.getShift());
+                insertStatement.executeUpdate();
+            }
+        }
+    }
+
+    public boolean hasNurseSchedule(Nurse nurse, Schedule schedule) throws SQLException {
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM nurse_schedule WHERE nurse_cpr = ? AND schedule_id = ?;");
+            statement.setString(1, nurse.getCpr());
+            statement.setInt(2, schedule.getId());
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next();
         }
     }
 

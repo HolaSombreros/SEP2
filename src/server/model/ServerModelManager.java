@@ -486,7 +486,6 @@ public class ServerModelManager implements ServerModel
                 Shift shift = getShiftList().getById(shiftId);
                 LocalDate dateTo = dateFrom.plusDays(6);
                 Schedule schedule = managerFactory.getNurseScheduleManager().addSchedule(dateFrom, dateTo, shift);
-                System.out.println(schedule);
                 nurse.addSchedule(schedule);
                 addAvailableTimeIntervals(schedule);
                 managerFactory.getNurseScheduleManager().addNurseSchedule(nurse, schedule);
