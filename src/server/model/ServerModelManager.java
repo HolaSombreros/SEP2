@@ -13,7 +13,6 @@ import server.model.validator.AppointmentValidator;
 import server.model.validator.FAQValidator;
 import server.model.validator.MessageValidator;
 import utility.observer.listener.GeneralListener;
-import utility.observer.listener.LocalListener;
 import utility.observer.subject.PropertyChangeAction;
 import utility.observer.subject.PropertyChangeProxy;
 
@@ -177,7 +176,7 @@ public class ServerModelManager implements ServerModel
 
     private void loadNotifications() throws RemoteException {
         try {
-            notificationList = managerFactory.getNotificationManager().getAllUnSeenNotifications();
+            notificationList = managerFactory.getNotificationManager().getAllUnseenNotifications();
         }
         catch (SQLException e) {
             e.printStackTrace();
