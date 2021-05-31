@@ -30,7 +30,7 @@ public class NotificationManager {
         }
     }
 
-    public NotificationList getAllUnSeenNotifications() throws SQLException{
+    public NotificationList getAllUnseenNotifications() throws SQLException{
         try (Connection connection = DatabaseManager.getInstance().getConnection()){
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM notification WHERE seen = false");
             ResultSet resultSet = statement.executeQuery();

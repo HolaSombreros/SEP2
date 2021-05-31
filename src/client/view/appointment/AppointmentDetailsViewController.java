@@ -52,6 +52,7 @@ public class AppointmentDetailsViewController extends ViewController
     @Override
     public void reset() {
         viewModel.reset();
+        viewModel.disableDays(date);
     }
 
     @FXML

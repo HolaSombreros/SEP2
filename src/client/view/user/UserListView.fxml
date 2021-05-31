@@ -25,7 +25,7 @@
          <children>
             <VBox alignment="CENTER" prefHeight="334.0" prefWidth="211.0">
                <children>
-                  <Label text="Filter by role:">
+                  <Label text="Select by role:">
                      <VBox.margin>
                         <Insets bottom="50.0" />
                      </VBox.margin>

@@ -74,21 +74,6 @@ class UserListTest {
     }
     
     @Test
-    void getUsersByCprAndNameBoundary() {
-        // already done
-    }
-    
-    @Test
-    void getUsersByCprAndNameException() {
-        // nothing
-    }
-    
-    @Test
-    void removeByCprZero() {
-        // nothing
-    }
-    
-    @Test
     void removeByCprOne() {
         addOneUser();
         assertEquals(1, list.size());

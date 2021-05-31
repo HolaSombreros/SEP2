@@ -64,13 +64,6 @@ public class NurseDashBoardViewModel implements NurseDashBoardViewModelInterface
         timer.start();
     }
 
-    private void loadFromModel() {
-        appointmentTable.clear();
-        for (Appointment appointment : model.getAppointmentsByUser((Nurse) viewState.getUser()).getAppointments()) {
-            appointmentTable.add(new AppointmentTableViewModel(appointment));
-        }
-    }
-
     @Override
     public void reset() {
         searchBar.set("");
@@ -79,7 +72,7 @@ public class NurseDashBoardViewModel implements NurseDashBoardViewModelInterface
         if (viewState.getUser() instanceof Staff) {
             role.set("Logged in as: " + viewState.getUser().getClass().getSimpleName());
         }
-        loadFromModel();
+        filterAppointments();
     }
 
     @Override
