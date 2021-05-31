@@ -10,6 +10,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
+import javafx.util.Callback;
 import server.model.domain.appointment.*;
 
 import java.time.LocalDate;
@@ -106,6 +109,25 @@ public class AppointmentDetailsViewModel implements AppointmentDetailsViewModelI
                 break;
         }
         return result.isPresent() && result.get() == ButtonType.OK;
+    }
+
+    @Override
+    public void disableDays(DatePicker datePicker) {
+        Callback<DatePicker, DateCell> callB = new Callback<>() {
+            @Override
+            public DateCell call(final DatePicker param) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        LocalDate today = LocalDate.now();
+                        if (item.compareTo(today) < 0 || appointmentModel.getAvailableTimeIntervals(item).getTimeIntervals().size() == 0)
+                            setDisable(true);
+                    }
+                };
+            }
+        };
+        datePicker.setDayCellFactory(callB);
     }
 
     @Override
