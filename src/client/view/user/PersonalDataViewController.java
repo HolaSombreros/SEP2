@@ -117,11 +117,4 @@ public class PersonalDataViewController extends ViewController
             getViewHandler().openView(View.SETROLE);
     }
 
-    @FXML
-    private void removeUser() {
-       /* if(viewModel.removeUser())
-            getViewHandler().openView(View.USERLIST);*/
-    }
-
-
 }
