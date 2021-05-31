@@ -216,8 +216,10 @@ public class UserManager {
                     }
                 if (role.equals(Nurse.class.getSimpleName())) {
                     users.add(new Nurse(cpr, password, firstName, middleName, lastName, address, phone, email, employee_id));
+                    users.add(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, status));
                 } else if (role.equals(Administrator.class.getSimpleName())) {
                     users.add(new Administrator(cpr, password, firstName, middleName, lastName, address, phone, email, employee_id));
+                    users.add(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, status));
                 } else {
                     users.add(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, status));
                 }
