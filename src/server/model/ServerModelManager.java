@@ -56,10 +56,10 @@ public class ServerModelManager implements ServerModel
     private void doDummyStuff() throws RemoteException {
         addDummyUsers();
         loadUsers();
-        
+
         addShifts();
         loadShift();
-        
+
         addTimeIntervals();
         loadTimeIntervals();
 
@@ -322,14 +322,14 @@ public class ServerModelManager implements ServerModel
                 if (!managerFactory.getAddressManager().isAddress(address.getStreet(), address.getNumber(), address.getZipcode()))
                     managerFactory.getAddressManager().addAddress(address);
             for (User user : userList.getUsers())
-                if (user instanceof Patient && !managerFactory.getPatientManager().isPatient(((Patient)user).getCpr())) {
+                if (user instanceof Patient ) {
                     managerFactory.getUserManager().addPerson(user);
                 }
-                else if (user instanceof Nurse && !managerFactory.getNurseManager().isNurse((Nurse) user)) {
-                    managerFactory.getUserManager().addNurse((Nurse) user);
+                else if (user instanceof Nurse) {
+                    managerFactory.getUserManager().addPerson(user);
                 }
-                else if (user instanceof Administrator && !managerFactory.getAdministratorManager().isAdmin((Administrator) user)) {
-                    managerFactory.getUserManager().addAdministrator((Administrator) user);
+                else if (user instanceof Administrator ) {
+                    managerFactory.getUserManager().addPerson(user);
                 }
 
         }
@@ -452,7 +452,7 @@ public class ServerModelManager implements ServerModel
     {
         try {
             patient.getVaccineStatus().apply(patient);
-            managerFactory.getPatientManager().setVaccineStatus(patient.getCpr(), patient.getVaccineStatus());
+            managerFactory.getUserManager().setVaccineStatus(patient.getCpr(), patient.getVaccineStatus());
             updateList();
             return patient.getVaccineStatus();
         }
@@ -640,16 +640,16 @@ public class ServerModelManager implements ServerModel
             throw new RemoteException(e.getMessage());
         }
     }
-    
+
     @Override
     public synchronized AppointmentList getUpcomingAppointments(Patient patient) {
         return appointmentList.getUpcomingAppointments(patient);
     }
-    
+
     @Override
     public synchronized VaccineStatus updateVaccineStatus(Patient patient) throws RemoteException {
         try{
-            managerFactory.getPatientManager().setVaccineStatus(patient.getCpr(), patient.getVaccineStatus());
+            managerFactory.getUserManager().setVaccineStatus(patient.getCpr(), patient.getVaccineStatus());
             updateList();
             return patient.getVaccineStatus();
         }
@@ -665,7 +665,7 @@ public class ServerModelManager implements ServerModel
                 try {
                     Nurse nurse = new Nurse(user.getCpr(), user.getPassword(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getAddress(), user.getPhone(),
                     user.getEmail(), generateEmployeeId(user.getFirstName(), user.getMiddleName(), user.getLastName()));
-                    managerFactory.getNurseManager().addNurse(nurse);
+                    managerFactory.getUserManager().addNurse(nurse);
                 }
                 catch (SQLException e) {
                     e.printStackTrace();
@@ -676,7 +676,7 @@ public class ServerModelManager implements ServerModel
                 try {
                     Administrator administrator = new Administrator(user.getCpr(), user.getPassword(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getAddress(),
                     user.getPhone(), user.getEmail(), generateEmployeeId(user.getFirstName(), user.getMiddleName(), user.getLastName()));
-                    managerFactory.getAdministratorManager().addAdministrator(administrator);
+                    managerFactory.getUserManager().addAdministrator(administrator);
                 }
                 catch (SQLException e) {
                     e.printStackTrace();
@@ -695,7 +695,7 @@ public class ServerModelManager implements ServerModel
                 userList.getNurseList().remove(user);
                 loadAvailableTimeIntervals();
                 try {
-                    managerFactory.getNurseManager().updateAccess((Nurse) user, false);
+                    managerFactory.getUserManager().updateAccess((Nurse) user);
                     for(Schedule schedule: ((Nurse) user).getScheduleList().getSchedules())
                         editSchedule((Nurse)user,schedule.getDateFrom(), 0);
                 }
@@ -707,7 +707,7 @@ public class ServerModelManager implements ServerModel
             case "Administrator":
                 userList.remove(user);
                 try {
-                    managerFactory.getAdministratorManager().updateAccess((Administrator) user, false);
+                    managerFactory.getUserManager().updateAccess((Administrator) user);
                 }
                 catch (SQLException e) {
                     e.printStackTrace();
@@ -785,7 +785,7 @@ public class ServerModelManager implements ServerModel
     public synchronized FAQList getFAQList() {
         return faqList;
     }
-    
+
     @Override
     public synchronized void sendMessage(Patient patient, String message, Administrator administrator) throws RemoteException {
         try {
@@ -793,7 +793,7 @@ public class ServerModelManager implements ServerModel
             patient = getPatient(patient.getCpr());
             message = message.trim();
             Message newMessage = managerFactory.getChatManager().addMessage(message, LocalDate.now(), LocalTime.now(), new UnreadStatus(), patient, administrator);
-            
+
             if (administrator != null) {
                 // Admin replied so mark all unread patient messages as read - keep messages from admin unread until the patient sends a reply
                 for (Message m : patient.getChatLog().getUnreadMessages()) {
@@ -812,7 +812,7 @@ public class ServerModelManager implements ServerModel
                     }
                 }
             }
-            
+
             patient.getChatLog().add(newMessage);
             property.firePropertyChange("PatientMessage", patient, newMessage);
         }
@@ -821,23 +821,23 @@ public class ServerModelManager implements ServerModel
             throw new RemoteException(e.getMessage());
         }
     }
-    
+
     @Override
     public synchronized List<Message> getUnreadMessages(Patient patient) {
         return patient.getChatLog().getUnreadMessages();
     }
-    
+
     @Override
     public synchronized boolean isPatientChatBeingViewed(String cpr) {
         return userList.getPatient(cpr).getChatLog().isChatLocked();
     }
-    
+
     @Override
     public synchronized void lockChat(String cpr, boolean locked) {
         ChatLog chatLog = userList.getPatient(cpr).getChatLog();
         chatLog.setLocked(locked);
     }
-    
+
     @Override
     public synchronized void close() {
         property.close();

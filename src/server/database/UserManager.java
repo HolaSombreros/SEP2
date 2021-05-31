@@ -9,20 +9,15 @@ import java.sql.SQLException;
 
 public class UserManager {
     private AddressManager addressManager;
-    private PatientManager patientManager;
-    private NurseManager nurseManager;
-    private AdministratorManager administratorManager;
 
-    public UserManager(AddressManager addressManager, PatientManager patientManager, NurseManager nurseManager, AdministratorManager administratorManager) {
+
+    public UserManager(AddressManager addressManager) {
         this.addressManager = addressManager;
-        this.patientManager = patientManager;
-        this.nurseManager = nurseManager;
-        this.administratorManager = administratorManager;
     }
 
     public void addPerson(User user) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO person VALUES (?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO person VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
             insertStatement.setString(1, user.getCpr());
             insertStatement.setString(2, user.getPassword());
             insertStatement.setString(3, user.getFirstName());
@@ -35,8 +30,19 @@ public class UserManager {
             insertStatement.setInt(10, user.getAddress().getZipcode());
             if (!addressManager.isAddress(user.getAddress().getStreet(), user.getAddress().getNumber(), user.getAddress().getZipcode()))
                 addressManager.addAddress(user.getAddress());
-            insertStatement.executeUpdate();
-            patientManager.addPatient(user);
+            insertStatement.setString(11, new NotAppliedStatus().toString());
+            if (user instanceof Staff)
+                insertStatement.setString(12, ((Staff) user).getEmployeeId());
+            else
+                insertStatement.setString(12, null);
+            if (user instanceof Nurse)
+                insertStatement.setString(13, Nurse.class.getSimpleName());
+            else if (user instanceof Administrator)
+                insertStatement.setString(13, Administrator.class.getSimpleName());
+            else
+                insertStatement.setString(13, Patient.class.getSimpleName());
+            if(!isUser(user.getCpr()))
+                insertStatement.executeUpdate();
         }
     }
 
@@ -59,7 +65,23 @@ public class UserManager {
                 Address address = new Address(street, number, zipcode, city);
                 String phone = resultSet.getString("phone");
                 String email = resultSet.getString("email");
-                return new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email, patientManager.getVaccineStatus(cpr));
+                String vaccineStatus = resultSet.getString("vaccine_status");
+                VaccineStatus status = null;
+                switch (vaccineStatus) {
+                    case "Not Applied":
+                        status = new NotAppliedStatus();
+                        break;
+                    case "Approved":
+                        status = new ApprovedStatus();
+                        break;
+                    case "Not Approved":
+                        status = new NotApprovedStatus();
+                        break;
+                    case "Pending":
+                        status = new PendingStatus();
+                        break;
+                }
+                return new Patient(cprResult, password, firstName, middleName, lastName, address, phone, email, status);
             } else {
                 throw new IllegalStateException("User not in database");
             }
@@ -68,14 +90,24 @@ public class UserManager {
 
     public Nurse getNurse(String cpr) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM nurse WHERE cpr=?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM person JOIN city USING(zip_code) WHERE cpr = ? AND role = ?");
             statement.setString(1, cpr);
+            statement.setString(2, Nurse.class.getSimpleName());
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String employeeId = resultSet.getString("employee_id");
-                User user = getPatient(cpr);
-                return new Nurse(user.getCpr(), user.getPassword(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getAddress(), user.getPhone(),
-                        user.getEmail(), employeeId);
+                String password = resultSet.getString("password");
+                String firstName = resultSet.getString("firstName");
+                String lastName = resultSet.getString("lastName");
+                String middleName = resultSet.getString("middleName");
+                String street = resultSet.getString("street");
+                String number = resultSet.getString("number");
+                int zipcode = resultSet.getInt("zip_code");
+                String city = resultSet.getString("city");
+                Address address = new Address(street, number, zipcode, city);
+                String phone = resultSet.getString("phone");
+                String email = resultSet.getString("email");
+                return new Nurse(cpr, password, firstName, middleName, lastName, address, phone, email, employeeId);
             } else
                 throw new IllegalArgumentException("No existing registered nurse with this CPR");
         }
@@ -83,29 +115,47 @@ public class UserManager {
 
     public Administrator getAdministrator(String cpr) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM administrator WHERE cpr=?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM person JOIN city USING(zip_code)WHERE cpr = ? AND role = ?");
             statement.setString(1, cpr);
+            statement.setString(2, Administrator.class.getSimpleName());
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String employeeId = resultSet.getString("employee_id");
-                User user = getPatient(cpr);
-                return new Administrator(user.getCpr(), user.getPassword(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getAddress(), user.getPhone(),
-                        user.getEmail(), employeeId);
+                String password = resultSet.getString("password");
+                String firstName = resultSet.getString("firstName");
+                String lastName = resultSet.getString("lastName");
+                String middleName = resultSet.getString("middleName");
+                String street = resultSet.getString("street");
+                String number = resultSet.getString("number");
+                int zipcode = resultSet.getInt("zip_code");
+                String city = resultSet.getString("city");
+                Address address = new Address(street, number, zipcode, city);
+                String phone = resultSet.getString("phone");
+                String email = resultSet.getString("email");
+                return new Administrator(cpr, password, firstName, middleName, lastName, address, phone, email, employeeId);
             } else
                 throw new IllegalArgumentException("No existing registered administrator with this CPR");
         }
     }
 
     public void addNurse(Nurse nurse) throws SQLException {
-        if (!isUser(nurse.getCpr()))
-            addPerson(nurse);
-        nurseManager.addNurse(nurse);
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("UPDATE person set role = ?, employee_id = ? WHERE cpr = ?");
+            statement.setString(1, Nurse.class.getSimpleName());
+            statement.setString(2, nurse.getEmployeeId());
+            statement.setString(3, nurse.getCpr());
+            statement.executeUpdate();
+        }
     }
 
     public void addAdministrator(Administrator administrator) throws SQLException {
-        if (!isUser(administrator.getCpr()))
-            addPerson(administrator);
-        administratorManager.addAdministrator(administrator);
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("UPDATE person set role = ?, employee_id = ? WHERE cpr = ?");
+            statement.setString(1, Administrator.class.getSimpleName());
+            statement.setString(2, administrator.getEmployeeId());
+            statement.setString(3, administrator.getCpr());
+            statement.executeUpdate();
+        }
     }
 
     public void updateUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws SQLException {
@@ -124,25 +174,13 @@ public class UserManager {
             if (!addressManager.isAddress(street, number, zip))
                 addressManager.addAddress(new Address(street, number, zip, addressManager.getCity(zip)));
             statement.executeUpdate();
-            //TODO: zipcode and city
         }
-    }
-
-    public void removeUser(User user) throws SQLException {
-        if (user != null) {
-            try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-                PreparedStatement statement = connection.prepareStatement("DELETE FROM person WHERE cpr = ?;");
-                statement.setString(1, user.getCpr());
-                statement.executeUpdate();
-            }
-        } else
-            throw new IllegalArgumentException("You cannot remove a null user");
     }
 
     public UserList getAllUsers() throws SQLException {
         UserList users = new UserList();
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM user_view;");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM person JOIN city USING(zip_code);");
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 String cpr = rs.getString("cpr");
@@ -153,13 +191,13 @@ public class UserManager {
                 String street = rs.getString("street");
                 String number = rs.getString("number");
                 int zipcode = rs.getInt("zip_code");
-                String city = addressManager.getCity(zipcode);
+                String city = rs.getString("city");
                 Address address = new Address(street, number, zipcode, city);
                 String phone = rs.getString("phone");
                 String email = rs.getString("email");
                 String vaccine = rs.getString("vaccine_status");
-                String nurse_id = rs.getString("nurse_id");
-                String admin_id = rs.getString("admin_id");
+                String employee_id = rs.getString("employee_id");
+                String role = rs.getString("role");
                 VaccineStatus status = null;
                 if (vaccine != null)
                     switch (vaccine) {
@@ -176,12 +214,11 @@ public class UserManager {
                             status = new PendingStatus();
                             break;
                     }
-                if (nurse_id != null) {
-                    users.add(new Nurse(cpr, password, firstName, middleName, lastName, address, phone, email, nurse_id));
-                } else if (admin_id != null) {
-                    users.add(new Administrator(cpr, password, firstName, middleName, lastName, address, phone, email, admin_id));
+                if (role.equals(Nurse.class.getSimpleName())) {
+                    users.add(new Nurse(cpr, password, firstName, middleName, lastName, address, phone, email, employee_id));
+                } else if (role.equals(Administrator.class.getSimpleName())) {
+                    users.add(new Administrator(cpr, password, firstName, middleName, lastName, address, phone, email, employee_id));
                 } else {
-                    // TODO - do stuff
                     users.add(new Patient(cpr, password, firstName, middleName, lastName, address, phone, email, status));
                 }
             }
@@ -197,4 +234,43 @@ public class UserManager {
             return resultSet.next();
         }
     }
+
+    public void updateAccess(Staff user) throws SQLException{
+        try (Connection connection = DatabaseManager.getInstance().getConnection()){
+            PreparedStatement statement = connection.prepareStatement("UPDATE person SET role = ? WHERE cpr = ?");
+            statement.setString(1,Patient.class.getSimpleName());
+            statement.setString(2, user.getCpr());
+            statement.executeUpdate();
+        }
+    }
+
+    public boolean isNurse(String cpr) throws SQLException{
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM person WHERE cpr = ? AND role = ? ");
+            statement.setString(1, cpr);
+            statement.setString(2,Nurse.class.getSimpleName());
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next();
+        }
+    }
+
+    public boolean isAdmin(String cpr) throws SQLException{
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM person WHERE cpr = ? AND role = ? ");
+            statement.setString(1, cpr);
+            statement.setString(2,Administrator.class.getSimpleName());
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next();
+        }
+    }
+
+    public void setVaccineStatus(String cpr, VaccineStatus status) throws SQLException {
+        try (Connection connection = DatabaseManager.getInstance().getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("UPDATE person set vaccine_status = ? WHERE cpr = ?");
+            statement.setString(1, status.toString());
+            statement.setString(2, cpr);
+            statement.executeUpdate();
+        }
+    }
+
 }
