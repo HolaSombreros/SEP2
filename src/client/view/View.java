@@ -12,7 +12,7 @@ public enum View {
     PERSONALDATA("user/PersonalDataView.fxml"),
     STAFFDETAILS("user/StaffDetailsView.fxml"),
     NURSEDASHBOARD("user/NurseDashBoardView.fxml"),
-    NURSETEST("user/NurseTestAppointmentView.fxml"),
+    NURSETEST("appointment/NurseTestAppointmentView.fxml"),
     FAQ("faq/FAQView.fxml"),
     ADDEDITFAQ("faq/AddEditFAQView.fxml"),
     SETROLE("user/SetRoleView.fxml"),
