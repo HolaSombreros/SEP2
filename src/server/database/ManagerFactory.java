@@ -1,11 +1,8 @@
 package server.database;
 
 public class ManagerFactory {
-    private PatientManager patientManager;
-    private NurseManager nurseManager;
     private AppointmentManager appointmentManager;
     private AddressManager addressManager;
-    private AdministratorManager administratorManager;
     private UserManager userManager;
     private NurseScheduleManager nurseScheduleManager;
     private FAQManager faqManager;
@@ -13,11 +10,8 @@ public class ManagerFactory {
     private NotificationManager notificationManager;
 
     public ManagerFactory() {
-        patientManager = new PatientManager();
-        administratorManager = new AdministratorManager();
-        nurseManager = new NurseManager();
         addressManager = new AddressManager();
-        userManager = new UserManager(addressManager, patientManager, nurseManager, administratorManager);
+        userManager = new UserManager(addressManager);
         appointmentManager = new AppointmentManager(userManager);
         nurseScheduleManager = new NurseScheduleManager();
         faqManager = new FAQManager();
@@ -25,13 +19,6 @@ public class ManagerFactory {
         notificationManager = new NotificationManager(userManager);
     }
 
-    public PatientManager getPatientManager() {
-        return patientManager;
-    }
-
-    public NurseManager getNurseManager() {
-        return nurseManager;
-    }
 
     public AppointmentManager getAppointmentManager() {
         return appointmentManager;
@@ -39,10 +26,6 @@ public class ManagerFactory {
 
     public AddressManager getAddressManager() {
         return addressManager;
-    }
-
-    public AdministratorManager getAdministratorManager() {
-        return administratorManager;
     }
 
     public UserManager getUserManager() {

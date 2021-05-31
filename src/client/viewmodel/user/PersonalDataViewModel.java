@@ -128,8 +128,10 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface {
                     User user = userModel.editUserInformation(viewState.getSelectedUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(), number.get(), zipCode.get());
                     viewState.setSelectedUser(user);
                 } else {
-                    User user = userModel.editUserInformation((User) viewState.getUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(), number.get(), zipCode.get());
-                    viewState.setUser(user);
+                    User user = userModel.editUserInformation( viewState.getUser(), password.get(), firstName.get(), middleName.get(), lastName.get(), phoneNumber.get(), email.get(), street.get(), number.get(), zipCode.get());
+                    if (viewState.getUser() instanceof Patient)
+                        viewState.setUser(userModel.getPatient(user.getCpr()));
+                    else viewState.setUser(userModel.getNurses().getUserByCpr(user.getCpr()));
                 }
                 errorLabel.set("Changes were saved");
             } catch (Exception e) {
