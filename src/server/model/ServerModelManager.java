@@ -783,8 +783,9 @@ public class ServerModelManager implements ServerModel
                 userList.getNurseList().remove(nurse);
                 try {
                     managerFactory.getUserManager().updateAccess(nurse);
-                    for(Schedule schedule: nurse.getScheduleList().getSchedules())
-                        editSchedule(nurse, schedule.getDateFrom(), 0);
+                    for(int i = nurse.getScheduleList().getSchedules().size() - 1; i >= 0; i--) {
+                        editSchedule(nurse, nurse.getScheduleList().getSchedules().get(i).getDateFrom(), 0);
+                    }
                     loadAvailableTimeIntervals();
                 }
                 catch (SQLException e) {

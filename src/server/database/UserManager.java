@@ -90,9 +90,9 @@ public class UserManager {
 
     public Nurse getNurse(String cpr) throws SQLException {
         try (Connection connection = DatabaseManager.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM person JOIN city USING(zip_code) WHERE cpr = ? AND role = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM person JOIN city USING(zip_code) WHERE cpr = ?");
             statement.setString(1, cpr);
-            statement.setString(2, Nurse.class.getSimpleName());
+//            statement.setString(2, Nurse.class.getSimpleName());    AND role = ?
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String employeeId = resultSet.getString("employee_id");
