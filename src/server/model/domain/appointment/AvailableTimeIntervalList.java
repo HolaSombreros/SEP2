@@ -27,7 +27,12 @@ public class AvailableTimeIntervalList {
     public List<AvailableTimeInterval> getIntervals() {
         return availableTimeIntervals;
     }
-
+    
+    /**
+     * Method to get a list of available time intervals of a given date.
+     * @param date The date to check for.
+     * @return A list of available time intervals.
+     */
     public TimeIntervalList getByDate(LocalDate date) {
         TimeIntervalList intervals = new TimeIntervalList();
         if (date.isBefore(LocalDate.now()))

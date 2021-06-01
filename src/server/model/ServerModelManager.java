@@ -54,19 +54,19 @@ public class ServerModelManager implements ServerModel
     }
 
     private void doDummyStuff() throws RemoteException {
-        addDummyUsers();
+//        addDummyUsers();
         loadUsers();
 
-        addShifts();
+//        addShifts();
         loadShift();
 
-        addTimeIntervals();
+//        addTimeIntervals();
         loadTimeIntervals();
 
         loadSchedules();
         loadAppointments();
 
-        addDummyFAQS();
+//        addDummyFAQS();
         loadFAQs();
 
         loadNotifications();
@@ -164,7 +164,11 @@ public class ServerModelManager implements ServerModel
                 "People of all ages with certain underlying medical conditions\n" +
                 "Pregnant and recently pregnant people are also at increased risk for severe illness from COVID-19.", Category.GENERAL,(Administrator)userList.getAdminList().getUsers().get(0));
     }
-
+    
+    /**
+     * Method to load all frequently asked questions from the database and put them into the local model.
+     * @throws RemoteException Throws a remote exception if any errors occur in the database.
+     */
     private void loadFAQs() throws RemoteException {
         try {
             faqList = managerFactory.getFAQManager().getAllFAQs();
@@ -174,7 +178,11 @@ public class ServerModelManager implements ServerModel
             throw new RemoteException(e.getMessage());
         }
     }
-
+    
+    /**
+     * Method to load all notifications from the database and put them into the local model.
+     * @throws RemoteException Throws a remote exception if any errors occur in the database.
+     */
     private void loadNotifications() throws RemoteException {
         try {
             notificationList = managerFactory.getNotificationManager().getAllUnseenNotifications();
@@ -184,8 +192,12 @@ public class ServerModelManager implements ServerModel
             throw new RemoteException(e.getMessage());
         }
     }
-
-    private void loadSchedules(){
+    
+    /**
+     * Method to load all schedules from the database and put them into the local model.
+     * @throws RemoteException Throws a remote exception if any errors occur in the database.
+     */
+    private void loadSchedules() throws RemoteException {
         try {
             shiftList = managerFactory.getNurseScheduleManager().getAllShifts();
             scheduleList = managerFactory.getNurseScheduleManager().getAllSchedules();
@@ -197,9 +209,10 @@ public class ServerModelManager implements ServerModel
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
     }
-
+    
     private void addAvailableTimeIntervals(Schedule schedule) {
         int hourFrom = schedule.getShift().getTimeFrom().getHour();
         int hourTo = hourFrom + 6;
@@ -225,14 +238,19 @@ public class ServerModelManager implements ServerModel
                 }
         }
     }
-
+    
     private void loadAvailableTimeIntervals() {
         for (AvailableTimeInterval interval : availableTimeIntervalList.getIntervals())
             for (Appointment appointment : appointmentList.getAppointments())
                 if (interval.has(appointment))
                     interval.increaseAmount();
     }
-
+    
+    /**
+     * Method to get the list of upcoming appointments of a given nurse.
+     * @param nurse The nurse whose upcoming appointments are returned.
+     * @return The list of the given nurse's upcoming appointments.
+     */
     private AppointmentList getNurseUpcomingAppointments(Nurse nurse) {
         AppointmentList list = new AppointmentList();
         for (Appointment appointment : appointmentList.getAppointments())
@@ -240,7 +258,13 @@ public class ServerModelManager implements ServerModel
                 list.add(appointment);
         return list;
     }
-
+    
+    /**
+     * Method to get the next available working nurse. Prioritises less busy nurses over others.
+     * @param date The date to check for.
+     * @param timeInterval The time interval to check for.
+     * @return The next available nurse on the given date and time.
+     */
     private Nurse getWorkingNurse(LocalDate date, TimeInterval timeInterval) {
         UserList list = new UserList();
         for (User user : userList.getNurseList().getUsers()) {
@@ -267,7 +291,14 @@ public class ServerModelManager implements ServerModel
                 counter++;
         return counter;
     }
-
+    
+    /**
+     * Method to automatically generate an employee id based on the person's name and a random number between 100 and 999.
+     * @param firstName The person's first name.
+     * @param middleName The person's middle name, if any.
+     * @param lastName The person's last name.
+     * @return The randomly generated employee id.
+     */
     private String generateEmployeeId(String firstName, String middleName, String lastName) {
         final int MAX = 999;
         final int MIN = 100;
@@ -338,7 +369,13 @@ public class ServerModelManager implements ServerModel
             throw new RemoteException(e.getMessage());
         }
     }
-
+    
+    /**
+     * Method to log a user in to the system. Throws exceptions if the user is already logged in, the CPR is not registered or the CPR/password combination does not match.
+     * @param cpr The CPR the user is trying to log in with.
+     * @param password The password the user is trying to log in with.
+     * @return The user object that has the given CPR.
+     */
     @Override
     public synchronized User login(String cpr, String password) {
         User user = userList.getUserByCpr(cpr);
@@ -360,8 +397,7 @@ public class ServerModelManager implements ServerModel
             throw new IllegalArgumentException("That CPR is not registered in the system");
         }
     }
-
-
+    
     @Override
     public synchronized void register(String cpr, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip,
         String city) throws RemoteException
@@ -385,6 +421,7 @@ public class ServerModelManager implements ServerModel
             throw new IllegalStateException("That CPR is already registered in the system");
         }
     }
+    
     private void updateList() throws RemoteException
     {
         try {
@@ -428,7 +465,22 @@ public class ServerModelManager implements ServerModel
     public synchronized ScheduleList getScheduleList() {
         return scheduleList;
     }
-
+    
+    /**
+     * Method to modify a user's personal data.
+     * @param user The user whose data will be changed.
+     * @param password The user's new password.
+     * @param firstName The user's new first name.
+     * @param middleName The user's new middle name, if any.
+     * @param lastName The user's new last name.
+     * @param phone The user's new phone.
+     * @param email The user's new email.
+     * @param street The user's new street address.
+     * @param number The user's new street number.
+     * @param zip The user's new zip code.
+     * @return The modified user object.
+     * @throws RemoteException Throws a remote exception if any errors occur in the database.
+     */
     @Override
     public synchronized User editUserInformation(User user, String password, String firstName, String middleName, String lastName, String phone, String email, String street, String number, int zip) throws RemoteException
     {
@@ -462,7 +514,14 @@ public class ServerModelManager implements ServerModel
 
         }
     }
-
+    
+    /**
+     * Method to modify a nurse's schedule.
+     * @param nurse The nurse whose schedule is to be modified.
+     * @param dateFrom The new date from which the nurse will be working on.
+     * @param shiftId The new shift identifier that nurse's new schedule will use.
+     * @throws RemoteException Throws a remote exception if any errors occur in the database.
+     */
     @Override
     public synchronized void editSchedule(Nurse nurse, LocalDate dateFrom, int shiftId) throws RemoteException
     {
@@ -497,34 +556,35 @@ public class ServerModelManager implements ServerModel
             throw new RemoteException(e.getMessage());
         }
     }
-
+    
     @Override
     public synchronized Appointment addAppointment(LocalDate date, TimeInterval timeInterval, Type type, Patient patient) throws RemoteException
     {
         Appointment appointment = null;
         try {
+            // Get an available nurse of the given date and time interval.
             Nurse nurse = getWorkingNurse(date, timeInterval);
 
-            // Validate the appointment data - although makes more sense to do this in appointment actor, but we can't because the database generates its id
+            // Validate the appointment data - although makes more sense to do this in appointment actor, but we can't because the database generates its id.
             AppointmentValidator.validateNewAppointment(date, timeInterval, type, patient, nurse);
 
-            // Check if there is an appointment already at that time
+            // Check if there is an appointment already at that time.
             if (appointmentList.hasAppointment(patient, date, timeInterval))
                 throw new IllegalStateException("You already have an appointment at the selected time");
 
-            // Generate appointment from database
+            // Generate appointment from database.
             appointment = managerFactory.getAppointmentManager().addAppointment(date, timeInterval, type, patient, nurse);
 
-            // Check if the time is still available
+            // Check if the time is still available.
             AvailableTimeInterval availableTimeInterval = availableTimeIntervalList.getByAvailableTimeInterval(new AvailableTimeInterval(date, timeInterval));
             if (availableTimeInterval == null || !availableTimeInterval.isAvailable()) {
                 throw new IllegalStateException("The selected time is no longer available");
             }
 
-            // Add appointment to local system cache
+            // Add appointment to local system cache.
             appointmentList.add(appointment);
 
-            // Update the AvailableTimeIntervalList
+            // Update the AvailableTimeIntervalList.
             availableTimeInterval.increaseAmount();
         }
         catch (SQLException e) {
@@ -554,7 +614,12 @@ public class ServerModelManager implements ServerModel
     public synchronized TimeIntervalList getAvailableTimeIntervals(LocalDate date) {
         return availableTimeIntervalList.getByDate(date);
     }
-
+    
+    /**
+     * Method to cancel an appointment based on a given appointment id.
+     * @param id The id of the appointment that is to be cancelled.
+     * @throws RemoteException Throws a remote exception if any errors occur in the database.
+     */
     @Override
     public synchronized void cancelAppointment(int id) throws RemoteException {
         Appointment appointment = appointmentList.getAppointmentById(id);
@@ -573,7 +638,14 @@ public class ServerModelManager implements ServerModel
             throw new RemoteException(e.getMessage());
         }
     }
-
+    
+    /**
+     * Method to reschedule an appointment.
+     * @param id The id of the appointment that is to be rescheduled.
+     * @param date The new date of the appointment.
+     * @param timeInterval The new time interval of the appointment.
+     * @throws RemoteException Throws a remote exception if any errors occur in the database.
+     */
     @Override
     public synchronized void rescheduleAppointment(int id, LocalDate date, TimeInterval timeInterval) throws RemoteException {
         try {
@@ -607,7 +679,13 @@ public class ServerModelManager implements ServerModel
             throw new IllegalStateException("That user is not logged in");
         }
     }
-
+    
+    /**
+     * Method to get a list of users based on a given search criteria and type of list.
+     * @param criteria The string value of the search criteria - filters by both user's CPR and full name.
+     * @param typeOfList The type of list of users to return. ('Patient List', 'Administrator List', 'Nurse List').
+     * @return The list of users based on the given criteria and type.
+     */
     @Override
     public synchronized UserList getUsersByCprAndName(String criteria, String typeOfList) {
         switch(typeOfList) {
@@ -645,7 +723,7 @@ public class ServerModelManager implements ServerModel
     public synchronized AppointmentList getUpcomingAppointments(Patient patient) {
         return appointmentList.getUpcomingAppointments(patient);
     }
-
+    
     @Override
     public synchronized VaccineStatus updateVaccineStatus(Patient patient) throws RemoteException {
         try{
@@ -658,7 +736,13 @@ public class ServerModelManager implements ServerModel
             throw new RemoteException(e.getMessage());
         }
     }
-
+    
+    /**
+     * Method to set a given user's role.
+     * @param user The user whose role is to be changed.
+     * @param role The string representation of the role the user is to be changed to. ('Nurse', 'Administrator').
+     * @throws RemoteException Throws a remote exception if any errors occur in the database.
+     */
     @Override public synchronized void setRole(User user, String role) throws RemoteException {
         switch (role) {
             case "Nurse":
@@ -686,7 +770,12 @@ public class ServerModelManager implements ServerModel
         }
         updateList();
     }
-
+    
+    /**
+     * Method to remove the role of a given user.
+     * @param user The user whose role is to be removed.
+     * @throws RemoteException Throws a remote exception if any errors occur in the database.
+     */
     @Override public synchronized void RemoveRole(User user) throws RemoteException {
         switch (user.getClass().getSimpleName()) {
             case "Nurse":
@@ -734,7 +823,15 @@ public class ServerModelManager implements ServerModel
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Method to create and add a new frequently asked question to the system.
+     * @param question The actual question of the FAQ.
+     * @param answer The answer to the given question.
+     * @param category The category the FAQ belongs to.
+     * @param creator The administrator who is creating the FAQ.
+     * @throws RemoteException Throws a remote exception if any errors occur in the database.
+     */
     @Override
     public synchronized void addFAQ(String question, String answer, Category category, Administrator creator) throws RemoteException {
         try {
@@ -748,7 +845,15 @@ public class ServerModelManager implements ServerModel
             throw new RemoteException(e.getMessage());
         }
     }
-
+    
+    /**
+     * Method to modify a given FAQ.
+     * @param faq The FAQ that is to be modified.
+     * @param question The new and updated question.
+     * @param answer The new answer to the given question.
+     * @param category The new category the FAQ belongs to.
+     * @throws RemoteException Throws a remote exception if any errors occur in the database.
+     */
     @Override
     public synchronized void editFAQ(FAQ faq, String question, String answer, Category category) throws RemoteException {
         try {
@@ -785,7 +890,14 @@ public class ServerModelManager implements ServerModel
     public synchronized FAQList getFAQList() {
         return faqList;
     }
-
+    
+    /**
+     * Method to add a given message to a patient's chat log.
+     * @param patient The patient whose chat log the message is to be added to.
+     * @param message The string representation of the message that was sent.
+     * @param administrator The administrator that sent the message. If 'null', the patient sent the message.
+     * @throws RemoteException Throws a remote exception if any errors occur in the database.
+     */
     @Override
     public synchronized void sendMessage(Patient patient, String message, Administrator administrator) throws RemoteException {
         try {
@@ -843,7 +955,8 @@ public class ServerModelManager implements ServerModel
         property.close();
     }
 
-    @Override public boolean addListener(GeneralListener<Object, Object> listener, String... propertyNames) {
+    @Override
+    public boolean addListener(GeneralListener<Object, Object> listener, String... propertyNames) {
         return property.addListener(listener,propertyNames);
     }
 

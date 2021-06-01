@@ -53,7 +53,12 @@ public class AppointmentList implements Serializable {
     public int size() {
         return appointments.size();
     }
-
+    
+    /**
+     * Method to get all appointments of a user. The method will include appointments where the user is a patient and where the user is a nurse.
+     * @param user The given user's appointments.
+     * @return The list of appointments for the given user.
+     */
     public AppointmentList getAppointmentsByUser(User user) {
         if(user == null)
             throw new IllegalArgumentException("User cannot be null");
@@ -66,7 +71,14 @@ public class AppointmentList implements Serializable {
         }
         return list;
     }
-
+    
+    /**
+     * Method to filter a list of appointments based a patient's name and cpr, as well as the status of the appointment (finished or not) and the type of appointment (test, vaccine, all)
+     * @param criteria String representation of the search criteria - in this case the patient's name and cpr.
+     * @param showFinished Boolean value representing whether or not to include finished appointments.
+     * @param appointmentType String value representing the appointment type. ('test', 'vaccine', or 'all')
+     * @return The list of appointments filtered by the given search criteria.
+     */
     public AppointmentList filterAppointmentsByNameAndCpr(String criteria, boolean showFinished, String appointmentType)
     {
         AppointmentList filteredList = new AppointmentList();
@@ -143,6 +155,11 @@ public class AppointmentList implements Serializable {
         return false;
     }
     
+    /**
+     * Method to get a patient's upcoming appointments.
+     * @param patient The patient whose upcoming appointments to retrieve.
+     * @return A list of upcoming appointments of the given patient.
+     */
     public AppointmentList getUpcomingAppointments(Patient patient) {
         AppointmentList list = getAppointmentsByUser(patient);
         list = filterAppointmentsByStatus(list, false);
@@ -171,6 +188,11 @@ public class AppointmentList implements Serializable {
         return list;
     }
     
+    /**
+     * Method to remove all cancelled appointments from a given list of appointments.
+     * @param list The list of appointments to remove from.
+     * @return The updated list - now without appointments that have been cancelled.
+     */
     private AppointmentList removeCancelledAppointments(AppointmentList list) {
         for (int i = list.getAppointments().size() - 1; i >= 0; i--) {
             Appointment appointment = list.get(i);

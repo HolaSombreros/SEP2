@@ -37,7 +37,12 @@ public class UserList implements Serializable {
         }
         return null;
     }
-
+    
+    /**
+     * Method to get a list of users based on a search criteria of users' CPRs and full names.
+     * @param criteria The string value of the search criteria - filters by CPR and full name. Case insensitive.
+     * @return The list of users based on the given search criteria.
+     */
     public UserList getUsersByCprAndName(String criteria) {
         UserList userList = new UserList();
         if (criteria == null || criteria.isEmpty()) {
@@ -75,21 +80,35 @@ public class UserList implements Serializable {
         }
         return false;
     }
-
+    
+    /**
+     * Method to get the Nurse representation of a user based on a CPR number.
+     * @param cpr The CPR number to look for.
+     * @return The Nurse object based on the given CPR.
+     */
     public Nurse getNurse(String cpr) {
         for (User user : users)
             if (user instanceof Nurse && user.getCpr().equals(cpr))
                 return (Nurse) user;
         return null;
     }
-
+    
+    /**
+     * Method to get the Patient representation of a user based on a CPR number.
+     * @param cpr The CPR number to look for.
+     * @return The Patient object based on the given CPR.
+     */
     public Patient getPatient(String cpr) {
         for (User user : users)
             if (user instanceof Patient && user.getCpr().equals(cpr))
                 return (Patient) user;
         return null;
     }
-
+    
+    /**
+     * Method to get all administrators within the system.
+     * @return The list of administrators in the system.
+     */
     public UserList getAdminList() {
         UserList list = new UserList();
         for (User admin : users)
@@ -97,7 +116,11 @@ public class UserList implements Serializable {
                 list.add(admin);
         return list;
     }
-
+    
+    /**
+     * Method to get all nurses within the system.
+     * @return The list of nurses in the system.
+     */
     public UserList getNurseList() {
         UserList list = new UserList();
         for (User nurse : users)
@@ -105,7 +128,11 @@ public class UserList implements Serializable {
                 list.add(nurse);
         return list;
     }
-
+    
+    /**
+     * Method to get all patients within the system.
+     * @return The list of patients in the system.
+     */
     public UserList getPatientList() {
         UserList list = new UserList();
         for (User patient : users)
