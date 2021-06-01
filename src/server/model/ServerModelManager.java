@@ -274,7 +274,7 @@ public class ServerModelManager implements ServerModel
                     if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 0)
                         return (Nurse) user;
                     else if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 1)
-                        list.add(0, user);
+                        list.getUsers().add(0,user);
                     else if (getNumberOfAppointmentsForNurse(date, timeInterval, (Nurse) user) == 2)
                         list.add(user);
                 }
