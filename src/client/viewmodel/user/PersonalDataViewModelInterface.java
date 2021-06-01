@@ -35,9 +35,9 @@ public interface PersonalDataViewModelInterface {
 
     BooleanProperty changeRoleProperty();
 
-    BooleanProperty removeButtonProperty();
-
     BooleanProperty vaccineLabelVisibilityProperty();
+
+    BooleanProperty vaccineStatusVisibilityProperty();
 
     StringProperty titleProperty();
 
