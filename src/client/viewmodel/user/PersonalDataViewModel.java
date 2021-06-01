@@ -52,12 +52,13 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface {
         this.changeRole = new SimpleBooleanProperty(isAdmin());
         this.removeButton = new SimpleBooleanProperty(false);
         this.vaccineLabelVisibility = new SimpleBooleanProperty(true);
-        this.title = new SimpleStringProperty("My Personal Data");
+        this.title = new SimpleStringProperty();
     }
 
     @Override
     public void reset() {
         errorLabel.set("");
+        title.set("");
         loadInformation();
     }
 
@@ -81,16 +82,21 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface {
                 declineButton.set(true);
                 removeButton.set(true);
                 errorLabel.set("Cannot approve vaccine for self");
-            } else if (!vaccineStatus.get().equals("Pending")) {
+                vaccineLabelVisibility.set(true);
+            }
+            else if (!vaccineStatus.get().equals("Pending")) {
                 approveButton.set(true);
                 declineButton.set(true);
-            } else {
+            }
+            else {
                 approveButton.set(false);
                 declineButton.set(false);
                 removeButton.set(false);
             }
-        } else if (viewState.getUser() != null && viewState.getUser() instanceof Nurse) {
-            User user = (Nurse) viewState.getUser();
+        }
+        else if (viewState.getUser() != null && viewState.getUser() instanceof Nurse) {
+            title.set("My personal data");
+            User user = viewState.getUser();
             password.set(user.getPassword());
             firstName.set(user.getFirstName());
             middleName.set(user.getMiddleName());
@@ -102,8 +108,10 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface {
             email.set(user.getEmail());
             street.set(user.getAddress().getStreet());
             vaccineLabelVisibility.set(false);
-        } else {
-            User user = (User) viewState.getUser();
+        }
+        else {
+            title.set("My personal data");
+            User user = viewState.getUser();
             password.set(user.getPassword());
             firstName.set(user.getFirstName());
             middleName.set(user.getMiddleName());
@@ -114,6 +122,7 @@ public class PersonalDataViewModel implements PersonalDataViewModelInterface {
             zipCode.set(user.getAddress().getZipcode());
             email.set(user.getEmail());
             street.set(user.getAddress().getStreet());
+            vaccineLabelVisibility.set(true);
             vaccineStatus.set(((Patient) viewState.getUser()).getVaccineStatus().toString());
             changeRole.set(false);
         }

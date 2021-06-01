@@ -26,9 +26,9 @@ public class FAQManager {
                     else
                         throw new SQLException("No keys were generated");
                 }
-                return null;
             }
         }
+        return null;
     }
     
     public boolean isFAQ(String question, String answer) throws SQLException {
