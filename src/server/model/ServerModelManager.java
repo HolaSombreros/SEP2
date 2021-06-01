@@ -44,6 +44,7 @@ public class ServerModelManager implements ServerModel
         onlineList = new UserList();
         userList = new UserList();
         managerFactory = new ManagerFactory();
+        faqList = new FAQList();
 
         appointmentList = new AppointmentList();
         availableTimeIntervalList = new AvailableTimeIntervalList();
@@ -65,7 +66,7 @@ public class ServerModelManager implements ServerModel
         loadSchedules();
         loadAppointments();
 
-       // addDummyFAQS();
+        addDummyFAQS();
         loadFAQs();
 
         loadNotifications();
