@@ -779,14 +779,13 @@ public class ServerModelManager implements ServerModel
     @Override public synchronized void RemoveRole(User user) throws RemoteException {
         switch (user.getClass().getSimpleName()) {
             case "Nurse":
-                for (Appointment appointment : getNurseUpcomingAppointments(userList.getNurse(user.getCpr())).getAppointments())
-                    cancelAppointment(appointment.getId());
-                userList.getNurseList().remove(user);
-                loadAvailableTimeIntervals();
+                Nurse nurse = userList.getNurse(user.getCpr());
+                userList.getNurseList().remove(nurse);
                 try {
-                    managerFactory.getUserManager().updateAccess((Nurse) user);
-                    for(Schedule schedule: ((Nurse) user).getScheduleList().getSchedules())
-                        editSchedule((Nurse)user,schedule.getDateFrom(), 0);
+                    managerFactory.getUserManager().updateAccess(nurse);
+                    for(Schedule schedule: nurse.getScheduleList().getSchedules())
+                        editSchedule(nurse, schedule.getDateFrom(), 0);
+                    loadAvailableTimeIntervals();
                 }
                 catch (SQLException e) {
                     e.printStackTrace();
