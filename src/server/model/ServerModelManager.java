@@ -50,28 +50,19 @@ public class ServerModelManager implements ServerModel
         availableTimeIntervalList = new AvailableTimeIntervalList();
         notificationList = new NotificationList();
 
-        doDummyStuff();
+        initialize();
     }
 
-    private void doDummyStuff() throws RemoteException {
-//        addDummyUsers();
+    private void initialize() throws RemoteException {
         loadUsers();
-
-//        addShifts();
+        addShifts();
         loadShift();
-
-//        addTimeIntervals();
+        addTimeIntervals();
         loadTimeIntervals();
-
         loadSchedules();
         loadAppointments();
-
-//        addDummyFAQS();
         loadFAQs();
-
         loadNotifications();
-
-//        PLEASE PUT THIS AFTER LOADING THE SCHEDULES AND APPOINTMENTS IF YOU WANNA MOVE IT
         loadAvailableTimeIntervals();
     }
 
@@ -409,8 +400,10 @@ public class ServerModelManager implements ServerModel
             property.firePropertyChange("NewPatient", user, null);
             try {
                 managerFactory.getUserManager().addPerson(user);
-                if (userList.size() == 0)
+                if (userList.size() == 1) {
                     setRole(user, "Administrator");
+                    addDummyFAQS();
+                }
             }
             catch (SQLException e) {
                 e.printStackTrace();
