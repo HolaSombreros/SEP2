@@ -1,13 +1,13 @@
 package client.viewmodel.user;
 
-import client.model.Model;
+import client.model.UserModel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class RegisterViewModel implements RegisterViewModelInterface {
-    private Model model;
+    private UserModel model;
     private StringProperty firstName;
     private StringProperty middleName;
     private StringProperty lastName;
@@ -21,7 +21,7 @@ public class RegisterViewModel implements RegisterViewModelInterface {
     private StringProperty email;
     private StringProperty error;
 
-    public RegisterViewModel(Model model) {
+    public RegisterViewModel(UserModel model) {
         this.model = model;
         firstName = new SimpleStringProperty();
         middleName = new SimpleStringProperty();

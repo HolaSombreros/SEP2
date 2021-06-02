@@ -1,6 +1,6 @@
 package client.viewmodel.user;
 
-import client.model.Model;
+import client.model.UserModel;
 import client.viewmodel.ViewState;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -16,11 +16,11 @@ public class UserListViewModel implements UserListViewModelInterface {
     private ObjectProperty<UserTableViewModel> selectedUser;
     private StringProperty searchBar;
     private ViewState viewState;
-    private Model model;
+    private UserModel model;
     private StringProperty roleProperty;
     private StringProperty errorProperty;
 
-    public UserListViewModel(Model model, ViewState viewState) {
+    public UserListViewModel(UserModel model, ViewState viewState) {
         this.model = model;
         this.viewState = viewState;
         this.users = FXCollections.observableArrayList();
@@ -87,7 +87,6 @@ public class UserListViewModel implements UserListViewModelInterface {
         return false;
     }
 
-    //TODO: filter by role also
     @Override
     public void filterUsers() {
         try {

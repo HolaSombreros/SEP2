@@ -1,6 +1,5 @@
 package client.viewmodel.user;
 
-import client.model.Model;
 import client.model.UserModel;
 import client.viewmodel.ViewState;
 import javafx.scene.control.Alert;
@@ -12,7 +11,7 @@ public class SetRoleViewModel implements SetRoleViewModelInterface {
     private UserModel userModel;
     private ViewState viewState;
 
-    public SetRoleViewModel(Model userModel, ViewState viewState) {
+    public SetRoleViewModel(UserModel userModel, ViewState viewState) {
         this.userModel = userModel;
         this.viewState = viewState;
     }
