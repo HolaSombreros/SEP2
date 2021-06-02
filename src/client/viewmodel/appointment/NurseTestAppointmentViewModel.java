@@ -7,8 +7,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import server.model.domain.appointment.Appointment;
 import server.model.domain.appointment.Result;
 import server.model.domain.appointment.TestAppointment;
+import server.model.domain.appointment.Type;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -50,7 +52,8 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
         errorProperty.set("");
         loadAppointmentDetails();
         loadResultTypes();
-        result.set(((TestAppointment) appointmentModel.getAppointmentById(viewState.getSelectedAppointment())).getResult().toString());
+        if (appointmentModel.getAppointmentById(viewState.getSelectedAppointment()).getType() == Type.TEST)
+            result.set(((TestAppointment) appointmentModel.getAppointmentById(viewState.getSelectedAppointment())).getResult().toString());
     }
 
     public void loadResultTypes() {
@@ -63,7 +66,7 @@ public class NurseTestAppointmentViewModel implements NurseTestAppointmentViewMo
 
 
     private void loadAppointmentDetails() {
-        TestAppointment appointment = (TestAppointment) appointmentModel.getAppointmentById(viewState.getSelectedAppointment());
+        Appointment appointment = appointmentModel.getAppointmentById(viewState.getSelectedAppointment());
         if (appointment != null) {
             date.set(LocalDate.of(appointment.getDate().getYear(), appointment.getDate().getMonth(), appointment.getDate().getDayOfMonth()).toString());
             timeInterval.set(appointment.getTimeInterval().toString());
